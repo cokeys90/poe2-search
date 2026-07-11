@@ -118,15 +118,17 @@ export default function App() {
     }));
   }
 
+  // 옵션 클릭 순환: 없음 → 포함 → 제외 → 제거(고정도 해제)
   function toggle(item) {
     const id = optId(item.text);
-    setSel((prev) => {
-      const next = { ...prev };
-      if (!next[id]) next[id] = { ...item, mode: "inc", min: "" };
-      else if (next[id].mode === "inc") next[id] = { ...next[id], mode: "exc" };
-      else delete next[id];
-      return next;
-    });
+    const cur = sel[id];
+    if (!cur) {
+      setSel((prev) => ({ ...prev, [id]: { ...item, mode: "inc", min: "" } }));
+    } else if (cur.mode === "inc") {
+      setSel((prev) => ({ ...prev, [id]: { ...prev[id], mode: "exc" } }));
+    } else {
+      removeSel(id); // 제거 + 고정 해제 (removeSel이 핀도 정리)
+    }
   }
   function setMin(id, v) {
     setSel((prev) => ({ ...prev, [id]: { ...prev[id], min: v } }));
