@@ -94,7 +94,8 @@
     margin: 0;
     background: rgb(var(--md-surface));
     color: rgb(var(--md-on-surface));
-    font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+    font-family: "Pretendard Variable", Pretendard, system-ui, -apple-system,
+      "Segoe UI", "Malgun Gothic", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   /* 다크: 상단에 살짝 푸르스름한 그라데이션 */
