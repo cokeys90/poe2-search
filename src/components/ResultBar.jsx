@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { hasNumeric, rangeHint } from "../lib/regex.js";
+import { IconStar } from "./icons.jsx";
 
 export default function ResultBar({
   pattern,
@@ -12,7 +14,25 @@ export default function ResultBar({
   onSetMin,
   pinnedOptions = {},
   onTogglePin,
+  onSaveFavorite,
+  defaultFavName = "",
+  canSave = false,
 }) {
+  const [naming, setNaming] = useState(false);
+  const [nameInput, setNameInput] = useState("");
+  const [savedFlash, setSavedFlash] = useState(false);
+
+  const startSave = () => {
+    setNameInput(defaultFavName);
+    setNaming(true);
+  };
+  const doSave = () => {
+    onSaveFavorite(nameInput);
+    setNaming(false);
+    setSavedFlash(true);
+    setTimeout(() => setSavedFlash(false), 1400);
+  };
+
   return (
     <div className="sticky top-3 z-20 my-6 rounded-md-l border border-outline-variant bg-surface-c-low p-5 shadow-lg">
       <div className="mb-3 flex items-center justify-between">
@@ -25,6 +45,15 @@ export default function ResultBar({
           >
             {len} / 250
           </span>
+          <button
+            onClick={startSave}
+            disabled={!canSave}
+            title="현재 조합을 즐겨찾기에 저장"
+            className="flex items-center gap-1 rounded-md-s px-3 py-1.5 text-label-l text-on-surface-variant transition hover:bg-surface-c-high disabled:opacity-40 disabled:hover:bg-transparent"
+          >
+            <IconStar width={16} />
+            {savedFlash ? "저장됨 ✓" : "저장"}
+          </button>
           <button
             onClick={onCopy}
             className="rounded-md-s bg-primary-container px-3 py-1.5 text-label-l text-on-primary-container transition hover:brightness-110"
@@ -39,6 +68,35 @@ export default function ResultBar({
           </button>
         </div>
       </div>
+
+      {/* 즐겨찾기 이름 입력 */}
+      {naming && (
+        <div className="mb-3 flex items-center gap-2">
+          <input
+            autoFocus
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") doSave();
+              if (e.key === "Escape") setNaming(false);
+            }}
+            placeholder="즐겨찾기 이름"
+            className="flex-1 rounded-md-s border border-outline bg-surface-c-lowest px-3 py-2 text-body-m text-on-surface outline-none focus:border-primary placeholder:text-on-surface-variant/60"
+          />
+          <button
+            onClick={doSave}
+            className="rounded-md-s bg-primary-container px-3 py-2 text-label-l text-on-primary-container transition hover:brightness-110"
+          >
+            저장
+          </button>
+          <button
+            onClick={() => setNaming(false)}
+            className="rounded-md-s px-3 py-2 text-label-l text-on-surface-variant transition hover:bg-surface-c-high"
+          >
+            취소
+          </button>
+        </div>
+      )}
 
       {/* 결과 코드 */}
       <div className="flex min-h-[104px] items-start break-all rounded-md-s border border-outline-variant bg-surface-c-lowest px-4 py-4 font-mono text-body-l leading-relaxed text-primary">

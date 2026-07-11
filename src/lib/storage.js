@@ -34,3 +34,27 @@ export function savePins(pins) {
     // 저장 실패(용량/사생활 모드)는 무시 — 앱 동작에 영향 없음
   }
 }
+
+// 즐겨찾기 — 이름 붙인 검색 조합 스냅샷 배열. 핀과 별도 키.
+const FAV_KEY = "poe2-search:favorites";
+const FAV_VERSION = 1;
+
+export function loadFavorites() {
+  try {
+    const raw = localStorage.getItem(FAV_KEY);
+    if (!raw) return [];
+    const data = JSON.parse(raw);
+    if (data.version !== FAV_VERSION || !Array.isArray(data.items)) return [];
+    return data.items;
+  } catch {
+    return [];
+  }
+}
+
+export function saveFavorites(items) {
+  try {
+    localStorage.setItem(FAV_KEY, JSON.stringify({ version: FAV_VERSION, items }));
+  } catch {
+    // 저장 실패는 무시
+  }
+}

@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { DATA } from "./data/options.js";
 import { piece, pricePiece, tierPiece } from "./lib/regex.js";
 import { optId, useOptionPool } from "./lib/options.js";
-import { loadPins, savePins } from "./lib/storage.js";
+import { loadPins, savePins, loadFavorites, saveFavorites } from "./lib/storage.js";
 import TabletTypeBar from "./components/TabletTypeBar.jsx";
 import OptionRow from "./components/OptionRow.jsx";
 import ResultBar from "./components/ResultBar.jsx";
@@ -14,6 +14,7 @@ import FarmingScene from "./components/FarmingScene.jsx";
 import NavRail from "./components/NavRail.jsx";
 import RightPanel from "./components/RightPanel.jsx";
 import ContactDialog from "./components/ContactDialog.jsx";
+import ConfirmDialog from "./components/ConfirmDialog.jsx";
 import { IconMenu, IconStar } from "./components/icons.jsx";
 import { useMediaQuery } from "./hooks/useMediaQuery.js";
 
@@ -44,6 +45,8 @@ export default function App() {
   const [navCollapsed, setNavCollapsed] = useState(false); // 넓은 화면 수동 접기
   const [rightOpen, setRightOpen] = useState(true); // 우측 즐겨찾기 패널
   const [contactOpen, setContactOpen] = useState(false);
+  const [favorites, setFavorites] = useState(loadFavorites); // 즐겨찾기
+  const [pendingLoad, setPendingLoad] = useState(null); // 덮어쓰기 확인 대기
 
   // 반응형: lg(1024) 미만 → 좌측 드로어, xl(1280) 미만 → 레일 강제 아이콘화
   const isMidUp = useMediaQuery("(min-width: 1024px)");
@@ -59,6 +62,11 @@ export default function App() {
   useEffect(() => {
     savePins(pins);
   }, [pins]);
+
+  // 즐겨찾기 변경 시 localStorage 저장
+  useEffect(() => {
+    saveFavorites(favorites);
+  }, [favorites]);
 
   // 핀된 값이 바뀌면 스냅샷 동기화 (핀 = 현재 값으로 항상 갱신되는 저장)
   useEffect(() => {
@@ -233,6 +241,57 @@ export default function App() {
     if (t === "waystone") setTier(pins.waystone.tier ?? "");
   }
 
+  // ── 즐겨찾기 ──
+  const selCount = selList.length;
+  const canSaveFav = len > 0;
+  const defaultFavName =
+    (tab === "tablet" ? `${tabletType} 서판` : "경로석") +
+    (selCount > 0 ? ` · ${selCount}옵션` : " · 필터");
+
+  function saveFavorite(name) {
+    const fav = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      name: (name || "").trim() || defaultFavName,
+      createdAt: Date.now(),
+      tab,
+      sel,
+      mode,
+      price,
+      corrupt,
+      pattern,
+    };
+    if (tab === "tablet") fav.tabletType = tabletType;
+    if (tab === "waystone") fav.tier = tier;
+    setFavorites((prev) => [fav, ...prev]);
+  }
+
+  function applyFavorite(fav) {
+    setTab(fav.tab);
+    if (fav.tab === "tablet") setTabletType(fav.tabletType || tabletType);
+    setSel({ ...fav.sel });
+    setMode(fav.mode ?? "or");
+    setPrice(fav.price ?? DEFAULT_PRICE);
+    setCorrupt(fav.corrupt ?? "any");
+    setTier(fav.tab === "waystone" ? fav.tier ?? "" : "");
+    setFilter("");
+    setPendingLoad(null);
+  }
+
+  function requestLoadFavorite(fav) {
+    if (selList.length > 0) setPendingLoad(fav); // 현재 선택 있으면 확인
+    else applyFavorite(fav);
+  }
+
+  function deleteFavorite(id) {
+    setFavorites((prev) => prev.filter((f) => f.id !== id));
+  }
+
+  function renameFavorite(id, name) {
+    const n = (name || "").trim();
+    if (!n) return;
+    setFavorites((prev) => prev.map((f) => (f.id === id ? { ...f, name: n } : f)));
+  }
+
   return (
     <div className="flex h-full">
       {/* 좌측 내비게이션 */}
@@ -297,6 +356,9 @@ export default function App() {
                 onSetMin={setMin}
                 pinnedOptions={pinnedOptions}
                 onTogglePin={togglePinOption}
+                onSaveFavorite={saveFavorite}
+                defaultFavName={defaultFavName}
+                canSave={canSaveFav}
               />
 
               {/* 가격 필터 (경로석·서판 공통) */}
@@ -402,7 +464,14 @@ export default function App() {
           </main>
 
           {/* 우측 즐겨찾기 (xl+, 토글 가능) */}
-          {rightOpen && <RightPanel />}
+          {rightOpen && (
+            <RightPanel
+              favorites={favorites}
+              onLoad={requestLoadFavorite}
+              onDelete={deleteFavorite}
+              onRename={renameFavorite}
+            />
+          )}
         </div>
       </div>
 
@@ -410,6 +479,16 @@ export default function App() {
       <ScrollFab scrollRef={mainRef} rightInset={rightPanelOpen ? 312 : 24} />
 
       {contactOpen && <ContactDialog onClose={() => setContactOpen(false)} />}
+
+      {pendingLoad && (
+        <ConfirmDialog
+          title="즐겨찾기 불러오기"
+          message="현재 선택을 덮어쓰고 불러올까요?"
+          confirmLabel="불러오기"
+          onConfirm={() => applyFavorite(pendingLoad)}
+          onCancel={() => setPendingLoad(null)}
+        />
+      )}
     </div>
   );
 }

@@ -19,3 +19,5 @@ export const IconStar = (p) => <Symbol name="star" {...p} />;
 export const IconMenu = (p) => <Symbol name="menu" {...p} />;
 export const IconChevronLeft = (p) => <Symbol name="chevron_left" {...p} />;
 export const IconClose = (p) => <Symbol name="close" {...p} />;
+export const IconEdit = (p) => <Symbol name="edit" {...p} />;
+export const IconTrash = (p) => <Symbol name="delete" {...p} />;
