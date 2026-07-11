@@ -5,7 +5,31 @@ const CORRUPT_OPTS = [
   ["no", "비타락만"],
 ];
 
-export default function ExtraFilters({ tab, tier, onTier, corrupt, onCorrupt }) {
+function PinBtn({ pinned, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      title={pinned ? "고정 해제" : "고정 (다음에도 유지)"}
+      className={`px-1 transition ${
+        pinned ? "text-gold-hi" : "text-mute/50 hover:text-gold"
+      }`}
+    >
+      📌
+    </button>
+  );
+}
+
+export default function ExtraFilters({
+  tab,
+  tier,
+  onTier,
+  corrupt,
+  onCorrupt,
+  tierPinned,
+  onTogglePinTier,
+  corruptPinned,
+  onTogglePinCorrupt,
+}) {
   return (
     <div className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl border border-edge bg-bg1 px-4 py-3">
       {/* 타락 (경로석·서판 공통) */}
@@ -24,6 +48,9 @@ export default function ExtraFilters({ tab, tier, onTier, corrupt, onCorrupt }) 
             </button>
           ))}
         </div>
+        {corrupt !== "any" && (
+          <PinBtn pinned={corruptPinned} onClick={onTogglePinCorrupt} />
+        )}
       </div>
 
       {/* 등급 (경로석 전용) */}
@@ -42,6 +69,7 @@ export default function ExtraFilters({ tab, tier, onTier, corrupt, onCorrupt }) 
               </option>
             ))}
           </select>
+          {tier !== "" && <PinBtn pinned={tierPinned} onClick={onTogglePinTier} />}
         </div>
       )}
     </div>

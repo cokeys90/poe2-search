@@ -5,7 +5,7 @@ export const CURRENCIES = [
   { key: "divine", label: "디바인" },
 ];
 
-export default function PriceFilter({ value, onChange }) {
+export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
   const { enabled, mode, min, max, currency } = value;
   const set = (patch) => onChange({ ...value, ...patch });
 
@@ -23,6 +23,18 @@ export default function PriceFilter({ value, onChange }) {
         />
         가격 제한
       </label>
+
+      {enabled && (
+        <button
+          onClick={onTogglePin}
+          title={pinned ? "고정 해제" : "고정 (다음에도 유지)"}
+          className={`px-1 transition ${
+            pinned ? "text-gold-hi" : "text-mute/50 hover:text-gold"
+          }`}
+        >
+          📌
+        </button>
+      )}
 
       {enabled && (
         <>

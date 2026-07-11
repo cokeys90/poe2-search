@@ -2,26 +2,32 @@ import { useState, useEffect, useMemo } from "react";
 import { DATA } from "./data/options.js";
 import { piece, pricePiece, tierPiece } from "./lib/regex.js";
 import { optId, useOptionPool } from "./lib/options.js";
+import { loadPins, savePins } from "./lib/storage.js";
 import TabletTypeBar from "./components/TabletTypeBar.jsx";
 import OptionRow from "./components/OptionRow.jsx";
 import ResultBar from "./components/ResultBar.jsx";
 import PriceFilter from "./components/PriceFilter.jsx";
 import ExtraFilters from "./components/ExtraFilters.jsx";
 
+const DEFAULT_PRICE = {
+  enabled: false,
+  mode: "exact",
+  min: "",
+  max: "",
+  currency: "chaos",
+};
+const INITIAL_TAB = "tablet";
+
 export default function App() {
-  const [tab, setTab] = useState("tablet");
+  const [pins, setPins] = useState(loadPins); // 고정된 설정 (localStorage)
+  const [tab, setTab] = useState(INITIAL_TAB);
   const [tabletType, setTabletType] = useState("탐험");
-  const [sel, setSel] = useState({});
+  // 초기값을 핀에서 복원
+  const [sel, setSel] = useState(() => ({ ...pins[INITIAL_TAB].options }));
   const [mode, setMode] = useState("or");
-  const [price, setPrice] = useState({
-    enabled: false,
-    mode: "exact",
-    min: "",
-    max: "",
-    currency: "chaos",
-  });
-  const [tier, setTier] = useState(""); // 경로석 등급 (""=무관)
-  const [corrupt, setCorrupt] = useState("any"); // any | yes | no
+  const [price, setPrice] = useState(() => pins.common.price ?? DEFAULT_PRICE);
+  const [tier, setTier] = useState(() => pins.waystone.tier ?? ""); // 경로석 등급 (""=무관)
+  const [corrupt, setCorrupt] = useState(() => pins.common.corrupt ?? "any"); // any | yes | no
   const [filter, setFilter] = useState("");
   const [showTrade, setShowTrade] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -32,6 +38,85 @@ export default function App() {
   }, []);
 
   const pool = useOptionPool(tab, tabletType);
+
+  // pins 변경 시 localStorage 저장
+  useEffect(() => {
+    savePins(pins);
+  }, [pins]);
+
+  // 핀된 값이 바뀌면 스냅샷 동기화 (핀 = 현재 값으로 항상 갱신되는 저장)
+  useEffect(() => {
+    setPins((p) =>
+      p.common.price != null && p.common.price !== price
+        ? { ...p, common: { ...p.common, price } }
+        : p
+    );
+  }, [price]);
+  useEffect(() => {
+    setPins((p) =>
+      p.common.corrupt != null && p.common.corrupt !== corrupt
+        ? { ...p, common: { ...p.common, corrupt } }
+        : p
+    );
+  }, [corrupt]);
+  useEffect(() => {
+    setPins((p) =>
+      p.waystone.tier != null && p.waystone.tier !== tier
+        ? { ...p, waystone: { ...p.waystone, tier } }
+        : p
+    );
+  }, [tier]);
+  // 핀된 옵션 스냅샷을 현재 탭의 sel 값으로 동기화
+  useEffect(() => {
+    setPins((p) => {
+      const cur = p[tab].options;
+      let changed = false;
+      const next = {};
+      for (const id in cur) {
+        if (sel[id]) {
+          next[id] = sel[id];
+          if (sel[id] !== cur[id]) changed = true;
+        } else {
+          next[id] = cur[id];
+        }
+      }
+      return changed ? { ...p, [tab]: { ...p[tab], options: next } } : p;
+    });
+  }, [sel, tab]);
+
+  // 핀 여부 (파생)
+  const pinnedOptions = pins[tab].options;
+  const pricePinned = pins.common.price != null;
+  const corruptPinned = pins.common.corrupt != null;
+  const tierPinned = pins.waystone.tier != null;
+
+  function togglePinOption(id) {
+    setPins((p) => {
+      const opts = { ...p[tab].options };
+      if (opts[id]) delete opts[id];
+      else if (sel[id]) opts[id] = sel[id];
+      else return p;
+      return { ...p, [tab]: { ...p[tab], options: opts } };
+    });
+  }
+  function togglePinPrice() {
+    setPins((p) => ({
+      ...p,
+      common: { ...p.common, price: p.common.price != null ? null : price },
+    }));
+  }
+  function togglePinCorrupt() {
+    setPins((p) => ({
+      ...p,
+      common: { ...p.common, corrupt: p.common.corrupt != null ? null : corrupt },
+    }));
+  }
+  function togglePinTier() {
+    setPins((p) => ({
+      ...p,
+      waystone: { ...p.waystone, tier: p.waystone.tier != null ? null : tier },
+    }));
+  }
 
   function toggle(item) {
     const id = optId(item.text);
@@ -61,6 +146,13 @@ export default function App() {
       delete n[id];
       return n;
     });
+    // 핀돼 있으면 핀도 해제
+    setPins((p) => {
+      if (!p[tab].options[id]) return p;
+      const opts = { ...p[tab].options };
+      delete opts[id];
+      return { ...p, [tab]: { ...p[tab], options: opts } };
+    });
   }
   function flipMode(id) {
     setSel((prev) => ({
@@ -68,8 +160,12 @@ export default function App() {
       [id]: { ...prev[id], mode: prev[id].mode === "inc" ? "exc" : "inc" },
     }));
   }
+  // 초기화: 핀된 것만 남기고 상황별 선택은 지움
   function clearAll() {
-    setSel({});
+    setSel({ ...pins[tab].options });
+    setPrice(pins.common.price ?? DEFAULT_PRICE);
+    setCorrupt(pins.common.corrupt ?? "any");
+    if (tab === "waystone") setTier(pins.waystone.tier ?? "");
   }
 
   // 패턴 생성 (게임 문법: 각 검색 세트를 " "로 감싸고 공백으로 구분)
@@ -114,8 +210,9 @@ export default function App() {
   }
   function switchTab(t) {
     setTab(t);
-    setSel({});
+    setSel({ ...pins[t].options }); // 새 탭의 핀된 옵션 복원
     setFilter("");
+    if (t === "waystone") setTier(pins.waystone.tier ?? "");
   }
 
   return (
@@ -166,10 +263,17 @@ export default function App() {
           onFlip={flipMode}
           onRemove={removeSel}
           onSetMin={setMin}
+          pinnedOptions={pinnedOptions}
+          onTogglePin={togglePinOption}
         />
 
         {/* 가격 필터 (경로석·서판 공통) */}
-        <PriceFilter value={price} onChange={setPrice} />
+        <PriceFilter
+          value={price}
+          onChange={setPrice}
+          pinned={pricePinned}
+          onTogglePin={togglePinPrice}
+        />
 
         {/* 등급(경로석)·타락 필터 */}
         <ExtraFilters
@@ -178,6 +282,10 @@ export default function App() {
           onTier={setTier}
           corrupt={corrupt}
           onCorrupt={setCorrupt}
+          tierPinned={tierPinned}
+          onTogglePinTier={togglePinTier}
+          corruptPinned={corruptPinned}
+          onTogglePinCorrupt={togglePinCorrupt}
         />
 
         {/* 포함 결합 모드 + 필터 */}

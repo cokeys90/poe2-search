@@ -10,6 +10,8 @@ export default function ResultBar({
   onFlip,
   onRemove,
   onSetMin,
+  pinnedOptions = {},
+  onTogglePin,
 }) {
   return (
     <div className="sticky top-3 z-20 my-6 rounded-xl border border-edge bg-bg1/95 p-[22px] shadow-[0_8px_30px_rgba(0,0,0,.5)] backdrop-blur">
@@ -86,6 +88,17 @@ export default function ResultBar({
                     className="w-16 rounded-md border border-edge bg-[#080603] px-1.5 py-0.5 text-center font-mono text-xs text-gold-hi placeholder:text-[#5a4e3a]"
                   />
                 )}
+                <button
+                  onClick={() => onTogglePin(id)}
+                  title={pinnedOptions[id] ? "고정 해제" : "고정 (다음에도 유지)"}
+                  className={`px-1 transition ${
+                    pinnedOptions[id]
+                      ? "text-gold-hi"
+                      : "text-mute/50 hover:text-gold"
+                  }`}
+                >
+                  📌
+                </button>
                 <button
                   onClick={() => onRemove(id)}
                   className="px-1 text-mute transition hover:text-copper"
