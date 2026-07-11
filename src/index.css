@@ -3,6 +3,53 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Material 3 다크 테마 — 금색(amber) 시드
+   * 값은 "R G B" 채널로 정의한다. Tailwind가 rgb(var(--x) / <alpha-value>)로
+   * 감싸므로 bg-primary/20 같은 opacity 수식어가 그대로 동작한다.
+   */
+  :root {
+    /* Primary — 금색 */
+    --md-primary: 232 195 107;
+    --md-on-primary: 63 46 0;
+    --md-primary-container: 90 69 0;
+    --md-on-primary-container: 255 223 158;
+
+    /* Secondary — 따뜻한 뉴트럴 골드 */
+    --md-secondary: 215 196 161;
+    --md-on-secondary: 58 47 21;
+    --md-secondary-container: 82 69 42;
+    --md-on-secondary-container: 244 224 187;
+
+    /* Tertiary — 청록 강조 (기존 rune) */
+    --md-tertiary: 127 216 198;
+    --md-on-tertiary: 0 56 47;
+    --md-tertiary-container: 0 80 70;
+    --md-on-tertiary-container: 155 245 225;
+
+    /* Error — 구리/적색 (기존 copper) */
+    --md-error: 255 180 168;
+    --md-on-error: 86 30 20;
+    --md-error-container: 115 52 42;
+    --md-on-error-container: 255 218 211;
+
+    /* Surface — 따뜻한 다크 뉴트럴 + 엘리베이션 컨테이너 */
+    --md-surface: 20 18 12;
+    --md-surface-dim: 20 18 12;
+    --md-surface-bright: 59 53 44;
+    --md-surface-container-lowest: 14 12 7;
+    --md-surface-container-low: 28 25 19;
+    --md-surface-container: 32 29 22;
+    --md-surface-container-high: 43 40 32;
+    --md-surface-container-highest: 54 50 42;
+    --md-on-surface: 235 225 208;
+    --md-on-surface-variant: 210 196 169;
+
+    /* Outline */
+    --md-outline: 155 143 120;
+    --md-outline-variant: 77 71 58;
+  }
+
   html,
   body,
   #root {
@@ -10,10 +57,8 @@
   }
   body {
     margin: 0;
-    background:
-      radial-gradient(1200px 600px at 50% -10%, #1a130a 0%, transparent 60%),
-      linear-gradient(180deg, #0a0705 0%, #0d0a06 100%);
-    color: theme("colors.ink");
+    background: rgb(var(--md-surface));
+    color: rgb(var(--md-on-surface));
     font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -27,10 +72,29 @@
     -moz-appearance: textfield;
     appearance: textfield;
   }
-}
 
-@layer utilities {
-  .text-shadow-gold {
-    text-shadow: 0 0 18px rgba(201, 162, 75, 0.25);
+  /* 스크롤바 — M3 톤 (Firefox) */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--md-outline-variant)) transparent;
+  }
+  /* 스크롤바 — M3 톤 (WebKit) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--md-outline-variant));
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--md-outline));
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
 }
