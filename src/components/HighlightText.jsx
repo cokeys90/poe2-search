@@ -5,7 +5,7 @@ export default function HighlightText({ text }) {
     <>
       {parts.map((p, i) =>
         /[0-9]/.test(p) ? (
-          <span key={i} className="text-gold-hi/90 font-mono text-[0.92em]">
+          <span key={i} className="text-primary/90 font-mono text-[0.92em]">
             {p}
           </span>
         ) : (

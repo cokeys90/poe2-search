@@ -1,8 +1,10 @@
+import Segmented from "./Segmented.jsx";
+
 // 등급(경로석 전용) · 타락(공통) 필터.
 const CORRUPT_OPTS = [
-  ["any", "무관"],
-  ["yes", "타락만"],
-  ["no", "비타락만"],
+  { value: "any", label: "무관" },
+  { value: "yes", label: "타락만" },
+  { value: "no", label: "비타락만" },
 ];
 
 function PinBtn({ pinned, onClick }) {
@@ -11,7 +13,7 @@ function PinBtn({ pinned, onClick }) {
       onClick={onClick}
       title={pinned ? "고정 해제" : "고정 (다음에도 유지)"}
       className={`px-1 transition ${
-        pinned ? "text-gold-hi" : "text-mute/50 hover:text-gold"
+        pinned ? "text-primary" : "text-on-surface-variant/50 hover:text-primary"
       }`}
     >
       📌
@@ -31,23 +33,11 @@ export default function ExtraFilters({
   onTogglePinCorrupt,
 }) {
   return (
-    <div className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl border border-edge bg-bg1 px-4 py-3">
+    <div className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-md-m border border-outline-variant bg-surface-c px-4 py-3">
       {/* 타락 (경로석·서판 공통) */}
       <div className="flex items-center gap-2">
-        <span className="text-sm font-semibold text-ink">타락</span>
-        <div className="flex gap-1 rounded-lg border border-edge bg-bg0 p-1">
-          {CORRUPT_OPTS.map(([v, label]) => (
-            <button
-              key={v}
-              onClick={() => onCorrupt(v)}
-              className={`rounded-md px-3 py-1 text-xs font-semibold transition ${
-                corrupt === v ? "bg-gold/20 text-gold-hi" : "text-mute hover:text-ink"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+        <span className="text-label-l text-on-surface">타락</span>
+        <Segmented value={corrupt} onChange={onCorrupt} options={CORRUPT_OPTS} />
         {corrupt !== "any" && (
           <PinBtn pinned={corruptPinned} onClick={onTogglePinCorrupt} />
         )}
@@ -56,11 +46,11 @@ export default function ExtraFilters({
       {/* 등급 (경로석 전용) */}
       {tab === "waystone" && (
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-ink">등급</span>
+          <span className="text-label-l text-on-surface">등급</span>
           <select
             value={tier}
             onChange={(e) => onTier(e.target.value)}
-            className="rounded-md border border-edge bg-bg0 px-2 py-1.5 text-sm text-ink outline-none transition focus:border-gold/60"
+            className="rounded-md-s border border-outline bg-surface-c-lowest px-2 py-1.5 text-body-m text-on-surface outline-none transition focus:border-primary"
           >
             <option value="">무관</option>
             {Array.from({ length: 16 }, (_, i) => 16 - i).map((t) => (

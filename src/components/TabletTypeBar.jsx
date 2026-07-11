@@ -2,7 +2,7 @@ import { TABLET_META, TABLET_TYPES } from "../data/options.js";
 
 export default function TabletTypeBar({ value, onChange }) {
   return (
-    <div className="flex flex-wrap gap-2.5 mb-2.5">
+    <div className="mb-2.5 flex flex-wrap gap-2">
       {TABLET_TYPES.map((t) => {
         const meta = TABLET_META[t];
         const active = value === t;
@@ -11,27 +11,18 @@ export default function TabletTypeBar({ value, onChange }) {
             key={t}
             onClick={() => onChange(t)}
             className={[
-              "inline-flex items-center gap-2 rounded-[10px] border px-5 py-2.5 text-sm font-semibold transition-all",
+              "inline-flex items-center gap-2 rounded-md-s border px-4 py-2 text-label-l transition-colors",
               active
-                ? "text-[#0a0705]"
-                : "border-edge bg-bg1 text-mute hover:text-ink hover:border-[#5f4a28]",
+                ? "text-surface"
+                : "border-outline-variant bg-surface-c text-on-surface-variant hover:bg-surface-c-high",
             ].join(" ")}
-            style={
-              active
-                ? {
-                    background: `linear-gradient(180deg, ${meta.color}, ${meta.color}cc)`,
-                    borderColor: meta.color,
-                    boxShadow: `0 0 20px ${meta.glow}`,
-                  }
-                : undefined
-            }
+            style={active ? { background: meta.color, borderColor: meta.color } : undefined}
           >
             <svg
-              className="type-ic"
               viewBox="0 0 24 24"
               width="17"
               height="17"
-              fill={active ? "#0a0705" : meta.color}
+              fill={active ? "rgb(var(--md-surface))" : meta.color}
             >
               <path d={meta.icon} />
             </svg>

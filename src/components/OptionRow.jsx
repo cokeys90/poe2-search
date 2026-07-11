@@ -1,7 +1,7 @@
 import HighlightText from "./HighlightText.jsx";
 import { hasNumeric, rangeHint } from "../lib/regex.js";
 
-export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, delay }) {
+export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin }) {
   const s = sel;
   const numeric = item.numeric || hasNumeric(item.text);
   const hint =
@@ -10,24 +10,16 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, de
       : rangeHint(item.text);
 
   const mode = s?.mode; // "inc" | "exc" | undefined
-  const borderCls =
+  const container =
     mode === "inc"
-      ? "border-rune shadow-[0_0_0_1px_rgba(74,155,142,.3),0_0_20px_rgba(74,155,142,.12)]"
+      ? "border-tertiary bg-tertiary-container/20"
       : mode === "exc"
-      ? "border-copper shadow-[0_0_0_1px_rgba(176,74,58,.3)]"
-      : "border-edge hover:border-[#5f4a28] hover:shadow-[0_4px_16px_rgba(0,0,0,.4)]";
-
-  const bodyBg =
-    mode === "inc"
-      ? "bg-gradient-to-b from-rune-bg to-[#0e1f1c]"
-      : mode === "exc"
-      ? "bg-gradient-to-b from-copper-bg to-[#1f0f0c]"
-      : "";
+      ? "border-error bg-error-container/20"
+      : "border-outline-variant bg-surface-c hover:bg-surface-c-high";
 
   return (
     <div
-      className={`flex items-stretch overflow-hidden rounded-[10px] border bg-gradient-to-b from-panel to-[#120d07] animate-optin ${borderCls}`}
-      style={{ animationDelay: delay + "ms" }}
+      className={`flex items-stretch overflow-hidden rounded-md-m border transition-colors ${container}`}
     >
       <input
         type="number"
@@ -38,21 +30,21 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, de
         onClick={(e) => e.stopPropagation()}
         onChange={(e) => onSetMin(item, e.target.value)}
         className={[
-          "w-[82px] shrink-0 border-0 border-r border-edge bg-[#0b0805] px-2 text-center font-mono text-[15px] text-gold-hi outline-none transition placeholder:text-[11px] placeholder:text-[#5a4e3a]",
-          "focus:bg-[#100b06] focus:shadow-[inset_0_0_0_1px_theme(colors.gold)]",
-          "disabled:cursor-not-allowed disabled:bg-[#0e0b08] disabled:text-[#3a3227] disabled:placeholder:text-[#332b20]",
-          mode === "inc" ? "bg-[#0c1614]" : "",
+          "w-[82px] shrink-0 border-0 border-r border-outline-variant bg-surface-c-lowest px-2 text-center font-mono text-body-l text-primary outline-none transition",
+          "placeholder:text-body-s placeholder:text-on-surface-variant/50",
+          "focus:bg-surface-c-low focus:shadow-[inset_0_0_0_2px_rgb(var(--md-primary))]",
+          "disabled:cursor-not-allowed disabled:text-on-surface-variant/30 disabled:placeholder:text-on-surface-variant/25",
         ].join(" ")}
       />
       <button
         onClick={() => onToggle(item)}
-        className={`flex min-w-0 flex-1 items-center gap-3 border-0 px-[18px] py-4 text-left text-[15px] text-ink ${bodyBg}`}
+        className="flex min-w-0 flex-1 items-center gap-3 px-4 py-3.5 text-left text-body-l text-on-surface"
       >
-        <span className="w-[22px] shrink-0 text-center font-bold">
+        <span className="w-5 shrink-0 text-center font-bold">
           {mode === "inc" ? (
-            <span className="text-rune">✓</span>
+            <span className="text-tertiary">✓</span>
           ) : mode === "exc" ? (
-            <span className="text-copper">✕</span>
+            <span className="text-error">✕</span>
           ) : (
             ""
           )}
@@ -61,11 +53,11 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, de
           <HighlightText text={item.text} />
         </span>
         {showTrade && item.trade && (
-          <span className="hidden shrink-0 whitespace-nowrap rounded border border-edge bg-bg1 px-2 py-0.5 font-mono text-[11px] text-mute md:inline">
+          <span className="hidden shrink-0 whitespace-nowrap rounded-md-xs bg-surface-c-high px-2 py-0.5 font-mono text-label-s text-on-surface-variant md:inline">
             {item.trade}
           </span>
         )}
-        <span className="shrink-0 whitespace-nowrap rounded-[5px] border border-edge bg-bg1 px-[7px] py-0.5 font-mono text-[12.5px] text-gold/75">
+        <span className="shrink-0 whitespace-nowrap rounded-md-xs bg-surface-c-high px-2 py-0.5 font-mono text-label-m text-primary">
           {item.frag}
         </span>
       </button>

@@ -1,3 +1,5 @@
+import Segmented from "./Segmented.jsx";
+
 // 가격 필터 (경로석·서판 공통). 상인 판매가를 정확히/범위로 제한하는 검색 세트 생성.
 export const CURRENCIES = [
   { key: "exalted", label: "엑절티드" },
@@ -5,21 +7,24 @@ export const CURRENCIES = [
   { key: "divine", label: "디바인" },
 ];
 
+const INPUT_CLS =
+  "w-20 rounded-md-s border border-outline bg-surface-c-lowest px-2 py-1.5 text-center font-mono text-body-m text-primary outline-none transition focus:border-primary placeholder:text-on-surface-variant/50";
+
+const SELECT_CLS =
+  "rounded-md-s border border-outline bg-surface-c-lowest px-2 py-1.5 text-body-m text-on-surface outline-none transition focus:border-primary";
+
 export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
   const { enabled, mode, min, max, currency } = value;
   const set = (patch) => onChange({ ...value, ...patch });
 
-  const inputCls =
-    "w-20 rounded-md border border-edge bg-bg0 px-2 py-1.5 text-center font-mono text-sm text-gold-hi outline-none transition focus:border-gold/60 placeholder:text-[#5a4e3a]";
-
   return (
-    <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl border border-edge bg-bg1 px-4 py-3">
-      <label className="flex cursor-pointer select-none items-center gap-2 text-sm font-semibold text-ink">
+    <div className="mb-4 flex flex-wrap items-center gap-3 rounded-md-m border border-outline-variant bg-surface-c px-4 py-3">
+      <label className="flex cursor-pointer select-none items-center gap-2 text-label-l text-on-surface">
         <input
           type="checkbox"
           checked={enabled}
           onChange={(e) => set({ enabled: e.target.checked })}
-          className="accent-gold"
+          className="accent-primary"
         />
         가격 제한
       </label>
@@ -29,7 +34,7 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
           onClick={onTogglePin}
           title={pinned ? "고정 해제" : "고정 (다음에도 유지)"}
           className={`px-1 transition ${
-            pinned ? "text-gold-hi" : "text-mute/50 hover:text-gold"
+            pinned ? "text-primary" : "text-on-surface-variant/50 hover:text-primary"
           }`}
         >
           📌
@@ -39,24 +44,14 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
       {enabled && (
         <>
           {/* 모드: 정확히 / 범위 */}
-          <div className="flex gap-1 rounded-lg border border-edge bg-bg0 p-1">
-            <button
-              onClick={() => set({ mode: "exact" })}
-              className={`rounded-md px-3 py-1 text-xs font-semibold transition ${
-                mode === "exact" ? "bg-gold/20 text-gold-hi" : "text-mute hover:text-ink"
-              }`}
-            >
-              정확히
-            </button>
-            <button
-              onClick={() => set({ mode: "range" })}
-              className={`rounded-md px-3 py-1 text-xs font-semibold transition ${
-                mode === "range" ? "bg-gold/20 text-gold-hi" : "text-mute hover:text-ink"
-              }`}
-            >
-              범위
-            </button>
-          </div>
+          <Segmented
+            value={mode}
+            onChange={(m) => set({ mode: m })}
+            options={[
+              { value: "exact", label: "정확히" },
+              { value: "range", label: "범위" },
+            ]}
+          />
 
           {/* 값 입력 */}
           <div className="flex items-center gap-1.5">
@@ -66,18 +61,18 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
               placeholder={mode === "range" ? "최소" : "값"}
               value={min}
               onChange={(e) => set({ min: e.target.value })}
-              className={inputCls}
+              className={INPUT_CLS}
             />
             {mode === "range" && (
               <>
-                <span className="text-mute">~</span>
+                <span className="text-on-surface-variant">~</span>
                 <input
                   type="number"
                   min="0"
                   placeholder="최대"
                   value={max}
                   onChange={(e) => set({ max: e.target.value })}
-                  className={inputCls}
+                  className={INPUT_CLS}
                 />
               </>
             )}
@@ -87,7 +82,7 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
           <select
             value={currency}
             onChange={(e) => set({ currency: e.target.value })}
-            className="rounded-md border border-edge bg-bg0 px-2 py-1.5 text-sm text-ink outline-none transition focus:border-gold/60"
+            className={SELECT_CLS}
           >
             {CURRENCIES.map((c) => (
               <option key={c.key} value={c.key}>

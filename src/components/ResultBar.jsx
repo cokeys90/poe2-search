@@ -14,28 +14,26 @@ export default function ResultBar({
   onTogglePin,
 }) {
   return (
-    <div className="sticky top-3 z-20 my-6 rounded-xl border border-edge bg-bg1/95 p-[22px] shadow-[0_8px_30px_rgba(0,0,0,.5)] backdrop-blur">
+    <div className="sticky top-3 z-20 my-6 rounded-md-l border border-outline-variant bg-surface-c-low p-5 shadow-lg">
       <div className="mb-3 flex items-center justify-between">
-        <span className="font-cinzel text-[15px] font-bold tracking-[2px] text-gold-hi">
-          검색어
-        </span>
+        <span className="text-title-s text-on-surface">검색어</span>
         <div className="flex items-center gap-2">
           <span
-            className={`font-mono text-xs ${
-              len > 250 ? "text-copper" : "text-mute"
+            className={`font-mono text-label-m ${
+              len > 250 ? "text-error" : "text-on-surface-variant"
             }`}
           >
             {len} / 250
           </span>
           <button
             onClick={onCopy}
-            className="rounded-md border border-gold/50 bg-gold/10 px-3 py-1 text-xs font-semibold text-gold-hi transition hover:bg-gold/20"
+            className="rounded-md-s bg-primary-container px-3 py-1.5 text-label-l text-on-primary-container transition hover:brightness-110"
           >
             {copied ? "복사됨 ✓" : "복사"}
           </button>
           <button
             onClick={onClear}
-            className="rounded-md border border-edge px-3 py-1 text-xs text-mute transition hover:text-ink"
+            className="rounded-md-s px-3 py-1.5 text-label-l text-on-surface-variant transition hover:bg-surface-c-high"
           >
             초기화
           </button>
@@ -43,8 +41,10 @@ export default function ResultBar({
       </div>
 
       {/* 결과 코드 */}
-      <div className="flex min-h-[104px] items-start break-all rounded-[10px] border border-edge bg-[#080603] px-5 py-[18px] font-mono text-[16px] leading-[1.75] text-gold-hi shadow-[inset_0_2px_12px_rgba(0,0,0,.6)]">
-        {pattern || <span className="text-mute/60">옵션을 선택하면 검색어가 생성됩니다</span>}
+      <div className="flex min-h-[104px] items-start break-all rounded-md-s border border-outline-variant bg-surface-c-lowest px-4 py-4 font-mono text-body-l leading-relaxed text-primary">
+        {pattern || (
+          <span className="text-on-surface-variant/60">옵션을 선택하면 검색어가 생성됩니다</span>
+        )}
       </div>
 
       {/* 선택 칩 */}
@@ -56,25 +56,26 @@ export default function ResultBar({
               s.rmin != null && s.rmax != null
                 ? s.rmin + "-" + s.rmax
                 : rangeHint(s.text);
+            const inc = s.mode === "inc";
             return (
               <div
                 key={id}
-                className={`flex items-center gap-1.5 rounded-full border py-1 pr-1.5 text-xs ${
-                  s.mode === "inc"
-                    ? "border-rune/50 bg-rune-bg pl-3"
-                    : "border-copper/50 bg-copper-bg pl-1"
+                className={`flex items-center gap-1.5 rounded-md-s border py-1 pl-2.5 pr-1.5 text-label-m ${
+                  inc
+                    ? "border-tertiary/40 bg-tertiary-container/30"
+                    : "border-error/40 bg-error-container/30 pl-1"
                 }`}
               >
-                {s.mode === "exc" && (
+                {!inc && (
                   <button
                     onClick={() => onFlip(id)}
                     title="제외 → 포함으로 전환"
-                    className="rounded-full bg-copper-bg px-2.5 py-0.5 text-[11px] font-bold text-[#e09b8b]"
+                    className="rounded-md-xs bg-error-container px-2 py-0.5 text-label-s font-bold text-on-error-container"
                   >
                     제외
                   </button>
                 )}
-                <span className="max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap font-mono text-gold">
+                <span className="max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap font-mono text-on-surface">
                   {s.frag}
                 </span>
                 {numeric && (
@@ -83,7 +84,7 @@ export default function ResultBar({
                     placeholder={hint || "≥"}
                     value={s.min || ""}
                     onChange={(e) => onSetMin(id, e.target.value)}
-                    className="w-16 rounded-md border border-edge bg-[#080603] px-1.5 py-0.5 text-center font-mono text-xs text-gold-hi placeholder:text-[#5a4e3a]"
+                    className="w-16 rounded-md-xs border border-outline bg-surface-c-lowest px-1.5 py-0.5 text-center font-mono text-label-m text-primary outline-none transition focus:border-primary placeholder:text-on-surface-variant/50"
                   />
                 )}
                 <button
@@ -91,8 +92,8 @@ export default function ResultBar({
                   title={pinnedOptions[id] ? "고정 해제" : "고정 (다음에도 유지)"}
                   className={`px-1 transition ${
                     pinnedOptions[id]
-                      ? "text-gold-hi"
-                      : "text-mute/50 hover:text-gold"
+                      ? "text-primary"
+                      : "text-on-surface-variant/50 hover:text-primary"
                   }`}
                 >
                   📌
@@ -100,7 +101,7 @@ export default function ResultBar({
                 <button
                   onClick={() => onRemove(id)}
                   title="목록에서 삭제"
-                  className="px-1.5 text-[11px] text-mute transition hover:text-copper"
+                  className="px-1.5 text-label-s text-on-surface-variant transition hover:text-error"
                 >
                   삭제
                 </button>
