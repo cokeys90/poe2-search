@@ -94,10 +94,10 @@ export default function NavRail({
       </nav>
 
       <div className="mt-auto flex flex-col gap-1">
-        {/* 정보 · 출처 (문의도 여기 GitHub Issues 링크로) */}
+        {/* 정보 · 문의 (문의는 GitHub Issues 링크로) */}
         <NavItem
           Icon={IconInfo}
-          label="정보"
+          label="정보·문의"
           active={false}
           collapsed={collapsed && !drawer}
           onClick={() => {
