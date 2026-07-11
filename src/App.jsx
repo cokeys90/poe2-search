@@ -10,6 +10,7 @@ import PriceFilter from "./components/PriceFilter.jsx";
 import ExtraFilters from "./components/ExtraFilters.jsx";
 import Segmented from "./components/Segmented.jsx";
 import ScrollFab from "./components/ScrollFab.jsx";
+import FarmingScene from "./components/FarmingScene.jsx";
 import NavRail from "./components/NavRail.jsx";
 import RightPanel from "./components/RightPanel.jsx";
 import ContactDialog from "./components/ContactDialog.jsx";
@@ -249,8 +250,8 @@ export default function App() {
 
       {/* 중앙 + 우측 */}
       <div className="flex min-w-0 flex-1 flex-col">
-        {/* 상단 바 (도트 애니 헤더는 추후) */}
-        <header className="flex items-center gap-3 border-b border-outline-variant bg-surface-c-low/70 px-4 py-3 backdrop-blur">
+        {/* 상단 바 — 도트 애니(파밍 가는 필멸자 + 디바인 줍줍) */}
+        <header className="flex h-16 items-center gap-3 border-b border-outline-variant bg-surface-c-low/70 px-4 backdrop-blur">
           {overlayNav && (
             <button
               onClick={() => setNavOpen(true)}
@@ -260,9 +261,12 @@ export default function App() {
               <IconMenu width={22} height={22} />
             </button>
           )}
-          <h1 className="font-cinzel text-title-l font-bold tracking-wide text-primary">
+          <h1 className="shrink-0 font-cinzel text-title-l font-bold tracking-wide text-primary">
             경로석·서판 검색기
           </h1>
+          <div className="relative hidden h-full flex-1 md:block">
+            <FarmingScene />
+          </div>
           {isWide && (
             <button
               onClick={() => setRightOpen((o) => !o)}
