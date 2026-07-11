@@ -1,4 +1,5 @@
 import Segmented from "./Segmented.jsx";
+import PinButton from "./PinButton.jsx";
 
 // 가격 필터 (경로석·서판 공통). 상인 판매가를 정확히/범위로 제한하는 검색 세트 생성.
 export const CURRENCIES = [
@@ -29,17 +30,7 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
         가격 제한
       </label>
 
-      {enabled && (
-        <button
-          onClick={onTogglePin}
-          title={pinned ? "고정 해제" : "고정 (다음에도 유지)"}
-          className={`px-1 transition ${
-            pinned ? "text-primary" : "text-on-surface-variant/50 hover:text-primary"
-          }`}
-        >
-          📌
-        </button>
-      )}
+      {enabled && <PinButton pinned={pinned} onClick={onTogglePin} />}
 
       {enabled && (
         <>

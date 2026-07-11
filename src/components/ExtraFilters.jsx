@@ -1,4 +1,5 @@
 import Segmented from "./Segmented.jsx";
+import PinButton from "./PinButton.jsx";
 
 // 등급(경로석 전용) · 타락(공통) 필터.
 const CORRUPT_OPTS = [
@@ -6,20 +7,6 @@ const CORRUPT_OPTS = [
   { value: "yes", label: "타락만" },
   { value: "no", label: "비타락만" },
 ];
-
-function PinBtn({ pinned, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      title={pinned ? "고정 해제" : "고정 (다음에도 유지)"}
-      className={`px-1 transition ${
-        pinned ? "text-primary" : "text-on-surface-variant/50 hover:text-primary"
-      }`}
-    >
-      📌
-    </button>
-  );
-}
 
 export default function ExtraFilters({
   tab,
@@ -39,7 +26,7 @@ export default function ExtraFilters({
         <span className="text-label-l text-on-surface">타락</span>
         <Segmented value={corrupt} onChange={onCorrupt} options={CORRUPT_OPTS} />
         {corrupt !== "any" && (
-          <PinBtn pinned={corruptPinned} onClick={onTogglePinCorrupt} />
+          <PinButton pinned={corruptPinned} onClick={onTogglePinCorrupt} />
         )}
       </div>
 
@@ -59,7 +46,7 @@ export default function ExtraFilters({
               </option>
             ))}
           </select>
-          {tier !== "" && <PinBtn pinned={tierPinned} onClick={onTogglePinTier} />}
+          {tier !== "" && <PinButton pinned={tierPinned} onClick={onTogglePinTier} />}
         </div>
       )}
     </div>

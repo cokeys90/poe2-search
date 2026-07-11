@@ -1,4 +1,5 @@
 import { hasNumeric, rangeHint } from "../lib/regex.js";
+import PinButton from "./PinButton.jsx";
 
 export default function ResultBar({
   pattern,
@@ -87,17 +88,7 @@ export default function ResultBar({
                     className="w-16 rounded-md-xs border border-outline bg-surface-c-lowest px-1.5 py-0.5 text-center font-mono text-label-m text-primary outline-none transition focus:border-primary placeholder:text-on-surface-variant/50"
                   />
                 )}
-                <button
-                  onClick={() => onTogglePin(id)}
-                  title={pinnedOptions[id] ? "고정 해제" : "고정 (다음에도 유지)"}
-                  className={`px-1 transition ${
-                    pinnedOptions[id]
-                      ? "text-primary"
-                      : "text-on-surface-variant/50 hover:text-primary"
-                  }`}
-                >
-                  📌
-                </button>
+                <PinButton pinned={pinnedOptions[id]} onClick={() => onTogglePin(id)} />
                 <button
                   onClick={() => onRemove(id)}
                   title="목록에서 삭제"
