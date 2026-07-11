@@ -2,6 +2,8 @@ import Modal from "./Modal.jsx";
 import { IconClose, IconInfo } from "./icons.jsx";
 
 // 출처·라이선스 안내 다이얼로그.
+const REPO_URL = "https://github.com/cokeys90/poe2-search";
+
 const SECTIONS = [
   {
     title: "게임 저작권",
@@ -54,6 +56,31 @@ export default function CreditsDialog({ onClose }) {
         </div>
 
         <div className="flex flex-col gap-5 overflow-y-auto px-6 py-5">
+          <section>
+            <h3 className="mb-2 text-title-s text-primary">소스 · 문의</h3>
+            <ul className="flex flex-col gap-1">
+              <li>
+                <a
+                  href={REPO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-body-m text-primary underline underline-offset-2 transition hover:brightness-110"
+                >
+                  GitHub 저장소
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`${REPO_URL}/issues`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-body-m text-primary underline underline-offset-2 transition hover:brightness-110"
+                >
+                  버그 제보 · 기능 제안 (GitHub Issues)
+                </a>
+              </li>
+            </ul>
+          </section>
           {SECTIONS.map((s) => (
             <section key={s.title}>
               <h3 className="mb-2 text-title-s text-primary">{s.title}</h3>
