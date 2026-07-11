@@ -59,23 +59,21 @@ export default function ResultBar({
             return (
               <div
                 key={id}
-                className={`flex items-center gap-1.5 rounded-full border py-1 pl-1 pr-1.5 text-xs ${
+                className={`flex items-center gap-1.5 rounded-full border py-1 pr-1.5 text-xs ${
                   s.mode === "inc"
-                    ? "border-rune/50 bg-rune-bg"
-                    : "border-copper/50 bg-copper-bg"
+                    ? "border-rune/50 bg-rune-bg pl-3"
+                    : "border-copper/50 bg-copper-bg pl-1"
                 }`}
               >
-                <button
-                  onClick={() => onFlip(id)}
-                  title="포함/제외 전환"
-                  className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
-                    s.mode === "inc"
-                      ? "bg-rune-bg text-[#7fd0c2]"
-                      : "bg-copper-bg text-[#e09b8b]"
-                  }`}
-                >
-                  {s.mode === "inc" ? "포함" : "제외"}
-                </button>
+                {s.mode === "exc" && (
+                  <button
+                    onClick={() => onFlip(id)}
+                    title="제외 → 포함으로 전환"
+                    className="rounded-full bg-copper-bg px-2.5 py-0.5 text-[11px] font-bold text-[#e09b8b]"
+                  >
+                    제외
+                  </button>
+                )}
                 <span className="max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap font-mono text-gold">
                   {s.frag}
                 </span>
@@ -101,9 +99,10 @@ export default function ResultBar({
                 </button>
                 <button
                   onClick={() => onRemove(id)}
-                  className="px-1 text-mute transition hover:text-copper"
+                  title="목록에서 삭제"
+                  className="px-1.5 text-[11px] text-mute transition hover:text-copper"
                 >
-                  ✕
+                  삭제
                 </button>
               </div>
             );
