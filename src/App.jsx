@@ -234,6 +234,9 @@ export default function App() {
   function switchTab(t) {
     setTab(t);
     setSel({ ...pins[t].options }); // 새 탭의 핀된 옵션 복원
+    // 서판/경로석은 독립 — 상황별 가격·타락 필터는 넘기지 않고 초기화(핀만 유지)
+    setPrice(pins.common.price ?? DEFAULT_PRICE);
+    setCorrupt(pins.common.corrupt ?? "any");
     setFilter("");
     if (t === "waystone") setTier(pins.waystone.tier ?? "");
   }
