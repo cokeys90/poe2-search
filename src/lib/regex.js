@@ -139,24 +139,23 @@ export function piece(frag, minInput, text, opts) {
   const v = parseInt(mn, 10);
   if (isNaN(v)) return t;
   const pct = opts.noPercent ? "" : "%";
-  // 명시적 범위(rmin~rmax): 예) 부활 횟수 0~6
+  // 명시적 범위(rmin~rmax): 부활 횟수 0~6 — 이산 카운트라 '정확히 N' 매칭.
+  // (0 이상은 전부라 범위로는 0을 못 고름. 게임 검색은 줄 단위라 그 줄의 N만 매칭됨.)
   if (opts.rmin != null && opts.rmax != null) {
-    if (v <= opts.rmin) return t;
-    const lo = Math.min(v, opts.rmax);
-    const rg = rangeRegex(lo, opts.rmax);
+    const val = Math.min(Math.max(v, opts.rmin), opts.rmax);
+    const rg = rangeRegex(val, val);
     if (rg) t = t + ".*" + rg + pct;
     return t;
   }
-  // 상한 없는 옵션: 입력값 ~ 999
+  // 상한 없는 옵션: 입력값 ~ 999 (N 이상)
   if (opts.openMax) {
     const rg = rangeRegex(v, 999);
     if (rg) t = t + ".*" + rg + pct;
     return t;
   }
-  // 옵션 원문에서 범위 파싱 (단위 %,개,마리,초 등)
+  // 옵션 원문 범위 (N 이상). 입력값을 넣었으면 최소값 이하여도 반영.
   const rr = text ? rangeMinMax(text) : null;
   if (rr) {
-    if (v <= rr.min) return t;
     const lo = Math.min(v, rr.max);
     const rg = rangeRegex(lo, rr.max);
     if (rg) t = t + ".*" + rg + (rr.unit || "");
