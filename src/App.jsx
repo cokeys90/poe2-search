@@ -397,10 +397,7 @@ export default function App() {
               <IconMenu width={22} height={22} />
             </button>
           )}
-          <h1 className="shrink-0 font-cinzel text-title-l font-bold tracking-wide text-primary">
-            경로석·서판 검색기
-          </h1>
-          <div className="relative hidden h-full flex-1 md:block">
+          <div className="relative h-full flex-1">
             <FarmingScene />
           </div>
           {isWide && (
