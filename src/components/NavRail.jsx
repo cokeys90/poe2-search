@@ -63,12 +63,7 @@ export default function NavRail({
     <div className="flex h-full flex-col gap-1 p-3">
       {/* 브랜드 */}
       <div className={`mb-2 flex items-center gap-2 px-2 py-2 ${collapsed && !drawer ? "justify-center" : ""}`}>
-        <IconWaystone width={24} height={24} className="text-primary" />
-        {(!collapsed || drawer) && (
-          <span className="font-cinzel text-title-m font-bold tracking-wide text-primary">
-            PoE2
-          </span>
-        )}
+        <img src="/favicon.png" width={26} height={26} alt="" className="shrink-0" />
         {drawer && (
           <button onClick={onClose} className="ml-auto rounded-full p-1 text-on-surface-variant hover:bg-surface-c-high">
             <IconClose width={20} height={20} />
