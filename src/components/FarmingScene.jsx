@@ -6,18 +6,9 @@ import { useState } from "react";
 
 // 실물 이미지 교체 지점: 각 항목에 img(경로/데이터URI) 추가하면 <img>로 렌더된다.
 const CURRENCIES = {
-  divine: {
-    bg: "radial-gradient(circle at 35% 30%, #fff4d6, #e8c36b 55%, #b78a3a)",
-    glow: "0 0 6px rgba(232,195,107,.55)",
-  },
-  hinekora: {
-    bg: "radial-gradient(circle at 35% 30%, #8fe6d6, #2a7a6d 55%, #0e2b27)",
-    glow: "0 0 7px rgba(127,216,198,.6)",
-  },
-  mirror: {
-    bg: "radial-gradient(circle at 35% 30%, #ffffff, #d3dbe6 50%, #8a97a8)",
-    glow: "0 0 11px rgba(220,230,245,.9)",
-  },
+  divine: { img: "/currency/divine.webp", glow: "0 0 6px rgba(232,195,107,.55)" },
+  hinekora: { img: "/currency/hinekora.webp", glow: "0 0 7px rgba(127,216,198,.6)" },
+  mirror: { img: "/currency/mirror.webp", glow: "0 0 12px rgba(220,230,245,.95)" },
 };
 
 function pickCurrency() {
@@ -32,7 +23,7 @@ function Orb({ slot }) {
     <span
       className={`fh-orb fh-orb${slot}`}
       onAnimationIteration={() => setCur(pickCurrency())}
-      style={c.img ? undefined : { background: c.bg, boxShadow: c.glow }}
+      style={{ boxShadow: c.glow, ...(c.img ? null : { background: c.bg }) }}
     >
       {c.img && <img className="fh-orb-img" src={c.img} alt="" />}
     </span>
@@ -60,7 +51,7 @@ const CSS = `
   position: absolute; bottom: 11px; width: 12px; height: 12px; border-radius: 9999px;
   display: inline-flex; align-items: center; justify-content: center;
 }
-.fh-orb-img { width: 150%; height: 150%; object-fit: contain; image-rendering: pixelated; }
+.fh-orb-img { width: 168%; height: 168%; object-fit: contain; }
 .fh-orb1 { left: 30%; animation: fh-orb1 9s linear infinite; }
 .fh-orb2 { left: 55%; animation: fh-orb2 9s linear infinite; }
 .fh-orb3 { left: 80%; animation: fh-orb3 9s linear infinite; }
