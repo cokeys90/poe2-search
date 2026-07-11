@@ -1,0 +1,102 @@
+import { hasNumeric, rangeHint } from "../lib/regex.js";
+
+export default function ResultBar({
+  pattern,
+  len,
+  copied,
+  onCopy,
+  onClear,
+  selList,
+  onFlip,
+  onRemove,
+  onSetMin,
+}) {
+  return (
+    <div className="sticky top-3 z-20 my-6 rounded-xl border border-edge bg-bg1/95 p-[22px] shadow-[0_8px_30px_rgba(0,0,0,.5)] backdrop-blur">
+      <div className="mb-3 flex items-center justify-between">
+        <span className="font-cinzel text-[15px] font-bold tracking-[2px] text-gold-hi">
+          검색어
+        </span>
+        <div className="flex items-center gap-2">
+          <span
+            className={`font-mono text-xs ${
+              len > 250 ? "text-copper" : "text-mute"
+            }`}
+          >
+            {len} / 250
+          </span>
+          <button
+            onClick={onCopy}
+            className="rounded-md border border-gold/50 bg-gold/10 px-3 py-1 text-xs font-semibold text-gold-hi transition hover:bg-gold/20"
+          >
+            {copied ? "복사됨 ✓" : "복사"}
+          </button>
+          <button
+            onClick={onClear}
+            className="rounded-md border border-edge px-3 py-1 text-xs text-mute transition hover:text-ink"
+          >
+            초기화
+          </button>
+        </div>
+      </div>
+
+      {/* 결과 코드 */}
+      <div className="flex min-h-[104px] items-start break-all rounded-[10px] border border-edge bg-[#080603] px-5 py-[18px] font-mono text-[16px] leading-[1.75] text-gold-hi shadow-[inset_0_2px_12px_rgba(0,0,0,.6)]">
+        {pattern || <span className="text-mute/60">옵션을 선택하면 검색어가 생성됩니다</span>}
+      </div>
+
+      {/* 선택 칩 */}
+      {selList.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {selList.map(([id, s]) => {
+            const numeric = hasNumeric(s.text) || s.numeric;
+            const hint =
+              s.rmin != null && s.rmax != null
+                ? s.rmin + "-" + s.rmax
+                : rangeHint(s.text);
+            return (
+              <div
+                key={id}
+                className={`flex items-center gap-1.5 rounded-full border py-1 pl-1 pr-1.5 text-xs ${
+                  s.mode === "inc"
+                    ? "border-rune/50 bg-rune-bg"
+                    : "border-copper/50 bg-copper-bg"
+                }`}
+              >
+                <button
+                  onClick={() => onFlip(id)}
+                  title="포함/제외 전환"
+                  className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                    s.mode === "inc"
+                      ? "bg-rune-bg text-[#7fd0c2]"
+                      : "bg-copper-bg text-[#e09b8b]"
+                  }`}
+                >
+                  {s.mode === "inc" ? "포함" : "제외"}
+                </button>
+                <span className="max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap font-mono text-gold">
+                  {s.frag}
+                </span>
+                {numeric && (
+                  <input
+                    type="number"
+                    placeholder={hint || "≥"}
+                    value={s.min || ""}
+                    onChange={(e) => onSetMin(id, e.target.value)}
+                    className="w-16 rounded-md border border-edge bg-[#080603] px-1.5 py-0.5 text-center font-mono text-xs text-gold-hi placeholder:text-[#5a4e3a]"
+                  />
+                )}
+                <button
+                  onClick={() => onRemove(id)}
+                  className="px-1 text-mute transition hover:text-copper"
+                >
+                  ✕
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
