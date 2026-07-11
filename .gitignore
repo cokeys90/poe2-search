@@ -14,6 +14,3 @@ CLAUDE.md
 # 개인 메모·데이터 (공개 안 함)
 memo/
 data/
-
-# 잘못 clone된 중첩 repo (원격은 여기 연결됨 — 정리 예정)
-/poe2-search/
