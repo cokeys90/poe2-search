@@ -19,7 +19,8 @@ export default function ScrollFab({ scrollRef, rightInset = 24 }) {
         const sel = key === "prefix" ? "[data-group*='접두']" : "[data-group*='접미']";
         const target = el.querySelector(sel);
         if (target) {
-          // sticky 검색어 바 높이만큼 보정해 그룹 제목이 바로 보이게
+          // sticky 검색어 바 높이 + 여유 간격만큼 보정해 그룹 제목이 바에 붙지 않게
+          const GAP = 32;
           const bar = el.querySelector(".sticky");
           const barH = bar ? bar.offsetHeight : 0;
           const top =
@@ -27,7 +28,7 @@ export default function ScrollFab({ scrollRef, rightInset = 24 }) {
             target.getBoundingClientRect().top -
             el.getBoundingClientRect().top -
             barH -
-            12;
+            GAP;
           el.scrollTo({ top: Math.max(0, top) });
         }
       }
