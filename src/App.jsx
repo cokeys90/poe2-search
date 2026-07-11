@@ -1,16 +1,24 @@
 import { useState, useEffect, useMemo } from "react";
 import { DATA } from "./data/options.js";
-import { piece } from "./lib/regex.js";
+import { piece, pricePiece } from "./lib/regex.js";
 import { optId, useOptionPool } from "./lib/options.js";
 import TabletTypeBar from "./components/TabletTypeBar.jsx";
 import OptionRow from "./components/OptionRow.jsx";
 import ResultBar from "./components/ResultBar.jsx";
+import PriceFilter from "./components/PriceFilter.jsx";
 
 export default function App() {
   const [tab, setTab] = useState("tablet");
   const [tabletType, setTabletType] = useState("탐험");
   const [sel, setSel] = useState({});
   const [mode, setMode] = useState("or");
+  const [price, setPrice] = useState({
+    enabled: false,
+    mode: "exact",
+    min: "",
+    max: "",
+    currency: "chaos",
+  });
   const [filter, setFilter] = useState("");
   const [showTrade, setShowTrade] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -81,8 +89,10 @@ export default function App() {
       else inc.forEach((p) => sets.push('"' + p + '"'));
     }
     exc.forEach((p) => sets.push('"!' + p + '"'));
+    const pp = pricePiece(price);
+    if (pp) sets.push('"' + pp + '"');
     return sets.join(" ");
-  }, [sel, mode]);
+  }, [sel, mode, price]);
 
   const selList = Object.entries(sel);
   const len = pattern.length;
@@ -147,6 +157,9 @@ export default function App() {
           onRemove={removeSel}
           onSetMin={setMin}
         />
+
+        {/* 가격 필터 (경로석·서판 공통) */}
+        <PriceFilter value={price} onChange={setPrice} />
 
         {/* 포함 결합 모드 + 필터 */}
         <div className="mb-4 flex flex-wrap items-center gap-3">

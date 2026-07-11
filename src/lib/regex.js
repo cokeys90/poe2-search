@@ -102,6 +102,24 @@ export function hasNumeric(text) {
   return parseRange(text) != null;
 }
 
+// 가격 검색 세트 생성 (경로석·서판 공통). 상인 판매가를 영어 화폐명으로 매칭.
+// 앞 공백으로 자릿수 경계 처리 → " 3 chaos"가 13·23 chaos를 잘못 잡지 않음.
+// price: {enabled, mode:"exact"|"range", min, max, currency}  → 반환: " 3 chaos" 등, 없으면 ""
+export function pricePiece(price) {
+  if (!price || !price.enabled || !price.currency) return "";
+  const lo = parseInt(String(price.min).trim(), 10);
+  if (isNaN(lo) || lo < 0) return "";
+  const cur = price.currency;
+  if (price.mode === "range") {
+    const hi = parseInt(String(price.max).trim(), 10);
+    if (isNaN(hi) || hi < lo) return "";
+    const rg = rangeRegex(lo, hi);
+    return rg ? " " + rg + " " + cur : "";
+  }
+  // 정확히 lo개
+  return " " + lo + " " + cur;
+}
+
 // 조각 + 최소값 → 검색 piece.
 // opts: {openMax, rmin, rmax, noPercent} — 옵션별 수치 처리 방식.
 export function piece(frag, minInput, text, opts) {
