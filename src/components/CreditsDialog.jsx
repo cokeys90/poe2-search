@@ -1,3 +1,4 @@
+import Modal from "./Modal.jsx";
 import { IconClose, IconInfo } from "./icons.jsx";
 
 // 출처·라이선스 안내 다이얼로그.
@@ -37,15 +38,11 @@ const SECTIONS = [
 
 export default function CreditsDialog({ onClose }) {
   return (
-    <div
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+    <Modal
+      onClose={onClose}
+      className="flex max-h-[80vh] w-full max-w-md flex-col rounded-md-l bg-surface-c-high shadow-2xl"
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="flex max-h-[80vh] w-full max-w-md flex-col rounded-md-l bg-surface-c-high shadow-2xl"
-      >
-        <div className="flex items-center gap-2 border-b border-outline-variant px-6 py-4">
+      <div className="flex items-center gap-2 border-b border-outline-variant px-6 py-4">
           <IconInfo width={22} className="text-primary" />
           <h2 className="text-title-l text-on-surface">정보 · 출처</h2>
           <button
@@ -70,7 +67,6 @@ export default function CreditsDialog({ onClose }) {
             </section>
           ))}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }
