@@ -42,7 +42,7 @@ export default function ResultBar({
       </div>
 
       {/* 결과 코드 */}
-      <div className="flex min-h-[104px] items-start break-all rounded-md-s border border-outline-variant bg-surface-c-lowest px-4 py-4 font-mono text-body-l leading-relaxed text-primary">
+      <div className="flex min-h-[104px] items-start break-all rounded-md-s border border-outline-variant bg-surface-c-lowest px-4 py-4 font-mono text-body-l leading-relaxed text-on-surface">
         {pattern || (
           <span className="text-on-surface-variant/60">옵션을 선택하면 검색어가 생성됩니다</span>
         )}
