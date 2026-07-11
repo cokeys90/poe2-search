@@ -23,3 +23,5 @@ export const IconEdit = (p) => <Symbol name="edit" {...p} />;
 export const IconTrash = (p) => <Symbol name="delete" {...p} />;
 export const IconAdd = (p) => <Symbol name="add" {...p} />;
 export const IconExpand = (p) => <Symbol name="expand_more" {...p} />;
+export const IconSave = (p) => <Symbol name="save" {...p} />;
+export const IconCheck = (p) => <Symbol name="check" {...p} />;

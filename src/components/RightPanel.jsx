@@ -7,17 +7,25 @@ import {
   IconTrash,
   IconAdd,
   IconExpand,
+  IconSave,
+  IconCheck,
 } from "./icons.jsx";
 
 /* ── 즐겨찾기 카드 (컴팩트, 드래그 가능) ── */
-function FavCard({ fav, autoEdit, dnd, onLoad, onRename, onDelete }) {
+function FavCard({ fav, autoEdit, dnd, onLoad, onRename, onDelete, onOverwrite }) {
   const [editing, setEditing] = useState(autoEdit);
   const [name, setName] = useState(fav.name);
+  const [flash, setFlash] = useState(false);
   const TabIcon = fav.tab === "waystone" ? IconWaystone : IconTablet;
 
   const commit = () => {
     onRename(fav.id, name);
     setEditing(false);
+  };
+  const overwrite = () => {
+    onOverwrite(fav.id);
+    setFlash(true);
+    setTimeout(() => setFlash(false), 1000);
   };
 
   if (editing) {
@@ -48,18 +56,31 @@ function FavCard({ fav, autoEdit, dnd, onLoad, onRename, onDelete }) {
       onDrop={(e) => dnd.onCardDrop(e, fav.id)}
       className={`group relative cursor-grab rounded-md-s border bg-surface-c transition-colors hover:bg-surface-c-high active:cursor-grabbing ${
         over ? "border-t-2 border-t-primary" : "border-outline-variant"
-      } ${dnd.dragId === fav.id ? "opacity-40" : ""}`}
+      } ${dnd.dragId === fav.id ? "opacity-40" : ""} ${flash ? "ring-2 ring-primary" : ""}`}
     >
       <button onClick={() => onLoad(fav)} className="flex w-full items-center gap-2 px-2.5 py-2 text-left">
         <TabIcon width={14} className="shrink-0 text-primary" />
         <span className="min-w-0 flex-1">
-          <span className="block truncate pr-11 text-label-l text-on-surface">{fav.name}</span>
+          <span className="block truncate pr-[4.25rem] text-label-l text-on-surface">{fav.name}</span>
           {fav.pattern && (
             <span className="block truncate font-mono text-label-s text-primary/70">{fav.pattern}</span>
           )}
         </span>
       </button>
-      <div className="absolute right-1.5 top-1.5 flex gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+      <div
+        className={`absolute right-1.5 top-1.5 flex gap-0.5 transition-opacity ${
+          flash ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        }`}
+      >
+        <button
+          onClick={overwrite}
+          title="현재 검색으로 덮어쓰기"
+          className={`rounded-full p-1 hover:bg-surface-c-highest ${
+            flash ? "text-primary" : "text-on-surface-variant hover:text-primary"
+          }`}
+        >
+          {flash ? <IconCheck width={15} /> : <IconSave width={15} />}
+        </button>
         <button
           onClick={() => setEditing(true)}
           title="이름 변경"
@@ -89,6 +110,7 @@ function GroupSection({
   onLoad,
   onRenameFav,
   onDeleteFav,
+  onOverwriteFav,
   onRenameGroup,
   onDeleteGroup,
 }) {
@@ -164,6 +186,7 @@ function GroupSection({
               onLoad={onLoad}
               onRename={onRenameFav}
               onDelete={onDeleteFav}
+              onOverwrite={onOverwriteFav}
             />
           ))}
           <button
@@ -187,6 +210,7 @@ export default function RightPanel({
   onLoad,
   onRenameFav,
   onDeleteFav,
+  onOverwriteFav,
   onCreateGroup,
   onRenameGroup,
   onDeleteGroup,
@@ -272,6 +296,7 @@ export default function RightPanel({
               onLoad={onLoad}
               onRenameFav={onRenameFav}
               onDeleteFav={onDeleteFav}
+              onOverwriteFav={onOverwriteFav}
               onRenameGroup={onRenameGroup}
               onDeleteGroup={onDeleteGroup}
             />

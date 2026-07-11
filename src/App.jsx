@@ -307,6 +307,19 @@ export default function App() {
     }));
   }
 
+  // 기존 즐겨찾기를 현재 검색 상태로 덮어쓰기 (id·이름 유지, 내용만 갱신)
+  function overwriteFav(favId) {
+    const snap = snapshot();
+    setFavData((prev) => ({
+      groups: prev.groups.map((g) => ({
+        ...g,
+        items: g.items.map((it) =>
+          it.id === favId ? { id: it.id, name: it.name, createdAt: it.createdAt, ...snap } : it
+        ),
+      })),
+    }));
+  }
+
   function moveFav(favId, toGroupId, beforeFavId) {
     setFavData((prev) => {
       let dragged = null;
@@ -534,6 +547,7 @@ export default function App() {
               onLoad={requestLoadFavorite}
               onRenameFav={renameFav}
               onDeleteFav={deleteFav}
+              onOverwriteFav={overwriteFav}
               onCreateGroup={createGroup}
               onRenameGroup={renameGroup}
               onDeleteGroup={requestDeleteGroup}
