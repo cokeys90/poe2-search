@@ -103,8 +103,9 @@ export function hasNumeric(text) {
 }
 
 // 가격 검색 세트 생성 (경로석·서판 공통). 상인 판매가를 영어 화폐명으로 매칭.
-// 앞 공백으로 자릿수 경계 처리 → " 3 chaos"가 13·23 chaos를 잘못 잡지 않음.
-// price: {enabled, mode:"exact"|"range", min, max, currency}  → 반환: " 3 chaos" 등, 없으면 ""
+// 단어 경계 \b로 자릿수 경계 처리 → "\b50 chaos"가 150 chaos를 잘못 잡지 않음.
+// (게임이 검색어 앞 공백은 잘라버려서 공백 경계는 안 통함 — \b 사용.)
+// price: {enabled, mode:"exact"|"range", min, max, currency}  → 반환: "\b3 chaos" 등, 없으면 ""
 export function pricePiece(price) {
   if (!price || !price.enabled || !price.currency) return "";
   const lo = parseInt(String(price.min).trim(), 10);
@@ -114,10 +115,18 @@ export function pricePiece(price) {
     const hi = parseInt(String(price.max).trim(), 10);
     if (isNaN(hi) || hi < lo) return "";
     const rg = rangeRegex(lo, hi);
-    return rg ? " " + rg + " " + cur : "";
+    return rg ? "\\b" + rg + " " + cur : "";
   }
   // 정확히 lo개
-  return " " + lo + " " + cur;
+  return "\\b" + lo + " " + cur;
+}
+
+// 경로석 등급 검색 세트. \bN등급 → "5등급"이 "15등급"에 오매칭되지 않게 단어 경계 사용.
+// tier: 숫자 또는 ""/null(무관)  → 반환: "\b15등급" 등, 없으면 ""
+export function tierPiece(tier) {
+  const t = parseInt(String(tier).trim(), 10);
+  if (isNaN(t) || t <= 0) return "";
+  return "\\b" + t + "등급";
 }
 
 // 조각 + 최소값 → 검색 piece.

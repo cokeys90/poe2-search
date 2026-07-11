@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
 import { DATA } from "./data/options.js";
-import { piece, pricePiece } from "./lib/regex.js";
+import { piece, pricePiece, tierPiece } from "./lib/regex.js";
 import { optId, useOptionPool } from "./lib/options.js";
 import TabletTypeBar from "./components/TabletTypeBar.jsx";
 import OptionRow from "./components/OptionRow.jsx";
 import ResultBar from "./components/ResultBar.jsx";
 import PriceFilter from "./components/PriceFilter.jsx";
+import ExtraFilters from "./components/ExtraFilters.jsx";
 
 export default function App() {
   const [tab, setTab] = useState("tablet");
@@ -19,6 +20,8 @@ export default function App() {
     max: "",
     currency: "chaos",
   });
+  const [tier, setTier] = useState(""); // 경로석 등급 (""=무관)
+  const [corrupt, setCorrupt] = useState("any"); // any | yes | no
   const [filter, setFilter] = useState("");
   const [showTrade, setShowTrade] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -89,10 +92,17 @@ export default function App() {
       else inc.forEach((p) => sets.push('"' + p + '"'));
     }
     exc.forEach((p) => sets.push('"!' + p + '"'));
+    // 등급 (경로석 전용) · 타락 · 가격 = 독립 검색 세트로 AND 결합
+    if (tab === "waystone") {
+      const tp = tierPiece(tier);
+      if (tp) sets.push('"' + tp + '"');
+    }
+    if (corrupt === "yes") sets.push('"타락"');
+    else if (corrupt === "no") sets.push('"!타락"');
     const pp = pricePiece(price);
     if (pp) sets.push('"' + pp + '"');
     return sets.join(" ");
-  }, [sel, mode, price]);
+  }, [sel, mode, price, tier, corrupt, tab]);
 
   const selList = Object.entries(sel);
   const len = pattern.length;
@@ -160,6 +170,15 @@ export default function App() {
 
         {/* 가격 필터 (경로석·서판 공통) */}
         <PriceFilter value={price} onChange={setPrice} />
+
+        {/* 등급(경로석)·타락 필터 */}
+        <ExtraFilters
+          tab={tab}
+          tier={tier}
+          onTier={setTier}
+          corrupt={corrupt}
+          onCorrupt={setCorrupt}
+        />
 
         {/* 포함 결합 모드 + 필터 */}
         <div className="mb-4 flex flex-wrap items-center gap-3">
