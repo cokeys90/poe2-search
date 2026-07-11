@@ -2,6 +2,7 @@ import {
   IconTablet,
   IconWaystone,
   IconMail,
+  IconInfo,
   IconChevronLeft,
   IconClose,
 } from "./icons.jsx";
@@ -51,6 +52,7 @@ export default function NavRail({
   tab,
   onTab,
   onContact,
+  onCredits,
   overlay = false,
   open = false,
   onClose,
@@ -94,6 +96,17 @@ export default function NavRail({
       </nav>
 
       <div className="mt-auto flex flex-col gap-1">
+        {/* 정보 · 출처 */}
+        <NavItem
+          Icon={IconInfo}
+          label="정보"
+          active={false}
+          collapsed={collapsed && !drawer}
+          onClick={() => {
+            onCredits?.();
+            if (drawer) onClose?.();
+          }}
+        />
         {/* 문의 */}
         <NavItem
           Icon={IconMail}

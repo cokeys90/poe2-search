@@ -15,6 +15,7 @@ import NavRail from "./components/NavRail.jsx";
 import RightPanel from "./components/RightPanel.jsx";
 import ContactDialog from "./components/ContactDialog.jsx";
 import ConfirmDialog from "./components/ConfirmDialog.jsx";
+import CreditsDialog from "./components/CreditsDialog.jsx";
 import { IconMenu, IconStar } from "./components/icons.jsx";
 import { useMediaQuery } from "./hooks/useMediaQuery.js";
 
@@ -45,6 +46,7 @@ export default function App() {
   const [navCollapsed, setNavCollapsed] = useState(false); // 넓은 화면 수동 접기
   const [rightOpen, setRightOpen] = useState(true); // 우측 즐겨찾기 패널
   const [contactOpen, setContactOpen] = useState(false);
+  const [creditsOpen, setCreditsOpen] = useState(false);
   const [favData, setFavData] = useState(loadFavorites); // 즐겨찾기 { groups:[{id,name,items}] }
   const [autoEditFavId, setAutoEditFavId] = useState(null); // 추가/생성 직후 인라인 편집
   const [autoEditGroupId, setAutoEditGroupId] = useState(null);
@@ -376,6 +378,7 @@ export default function App() {
         tab={tab}
         onTab={switchTab}
         onContact={() => setContactOpen(true)}
+        onCredits={() => setCreditsOpen(true)}
         overlay={overlayNav}
         open={navOpen}
         onClose={() => setNavOpen(false)}
@@ -558,6 +561,7 @@ export default function App() {
       <ScrollFab scrollRef={mainRef} rightInset={rightPanelOpen ? 312 : 24} />
 
       {contactOpen && <ContactDialog onClose={() => setContactOpen(false)} />}
+      {creditsOpen && <CreditsDialog onClose={() => setCreditsOpen(false)} />}
 
       {pendingLoad && (
         <ConfirmDialog

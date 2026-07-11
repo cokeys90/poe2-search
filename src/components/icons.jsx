@@ -25,3 +25,4 @@ export const IconAdd = (p) => <Symbol name="add" {...p} />;
 export const IconExpand = (p) => <Symbol name="expand_more" {...p} />;
 export const IconSave = (p) => <Symbol name="save" {...p} />;
 export const IconCheck = (p) => <Symbol name="check" {...p} />;
+export const IconInfo = (p) => <Symbol name="info" {...p} />;
