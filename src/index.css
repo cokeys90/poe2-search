@@ -4,50 +4,85 @@
 
 @layer base {
   /*
-   * Material 3 다크 테마 — 금색(amber) 시드
-   * 값은 "R G B" 채널로 정의한다. Tailwind가 rgb(var(--x) / <alpha-value>)로
-   * 감싸므로 bg-primary/20 같은 opacity 수식어가 그대로 동작한다.
+   * Discord 계열 라이트/다크 테마. 토큰 이름(--md-*)은 M3 역할 그대로 두고
+   * data-theme 속성으로 값만 교체한다. 값은 "R G B" 채널.
+   * 기본(속성 없음) = 다크. index.html의 inline script가 첫 페인트 전에 지정.
    */
-  :root {
-    /* Primary — 금색 */
-    --md-primary: 232 195 107;
-    --md-on-primary: 63 46 0;
-    --md-primary-container: 90 69 0;
-    --md-on-primary-container: 255 223 158;
+  :root,
+  :root[data-theme="dark"] {
+    /* 블러플 액센트 */
+    --md-primary: 88 101 242;
+    --md-on-primary: 255 255 255;
+    --md-primary-container: 57 63 107;
+    --md-on-primary-container: 219 223 255;
 
-    /* Secondary — 따뜻한 뉴트럴 골드 */
-    --md-secondary: 215 196 161;
-    --md-on-secondary: 58 47 21;
-    --md-secondary-container: 82 69 42;
-    --md-on-secondary-container: 244 224 187;
+    --md-secondary: 155 163 200;
+    --md-on-secondary: 24 26 40;
+    --md-secondary-container: 64 68 92;
+    --md-on-secondary-container: 226 228 240;
 
-    /* Tertiary — 청록 강조 (기존 rune) */
-    --md-tertiary: 127 216 198;
-    --md-on-tertiary: 0 56 47;
-    --md-tertiary-container: 0 80 70;
-    --md-on-tertiary-container: 155 245 225;
+    /* 포함(긍정) = 초록 */
+    --md-tertiary: 67 181 129;
+    --md-on-tertiary: 0 40 22;
+    --md-tertiary-container: 30 61 47;
+    --md-on-tertiary-container: 180 240 205;
 
-    /* Error — 구리/적색 (기존 copper) */
-    --md-error: 255 180 168;
-    --md-on-error: 86 30 20;
-    --md-error-container: 115 52 42;
-    --md-on-error-container: 255 218 211;
+    /* 제외(부정) = 빨강 */
+    --md-error: 240 71 71;
+    --md-on-error: 255 255 255;
+    --md-error-container: 74 32 34;
+    --md-on-error-container: 255 205 205;
 
-    /* Surface — 따뜻한 다크 뉴트럴 + 엘리베이션 컨테이너 */
-    --md-surface: 20 18 12;
-    --md-surface-dim: 20 18 12;
-    --md-surface-bright: 59 53 44;
-    --md-surface-container-lowest: 14 12 7;
-    --md-surface-container-low: 28 25 19;
-    --md-surface-container: 32 29 22;
-    --md-surface-container-high: 43 40 32;
-    --md-surface-container-highest: 54 50 42;
-    --md-on-surface: 235 225 208;
-    --md-on-surface-variant: 210 196 169;
+    /* 살짝 푸르스름한 다크 서페이스 */
+    --md-surface: 30 32 41;
+    --md-surface-dim: 24 26 33;
+    --md-surface-bright: 55 58 74;
+    --md-surface-container-lowest: 22 23 30;
+    --md-surface-container-low: 35 37 48;
+    --md-surface-container: 40 42 54;
+    --md-surface-container-high: 49 52 66;
+    --md-surface-container-highest: 58 61 77;
+    --md-on-surface: 230 232 239;
+    --md-on-surface-variant: 154 160 178;
 
-    /* Outline */
-    --md-outline: 155 143 120;
-    --md-outline-variant: 77 71 58;
+    --md-outline: 74 78 94;
+    --md-outline-variant: 51 54 68;
+  }
+
+  :root[data-theme="light"] {
+    --md-primary: 88 101 242;
+    --md-on-primary: 255 255 255;
+    --md-primary-container: 224 227 255;
+    --md-on-primary-container: 33 42 128;
+
+    --md-secondary: 90 96 130;
+    --md-on-secondary: 255 255 255;
+    --md-secondary-container: 224 227 255;
+    --md-on-secondary-container: 40 46 120;
+
+    --md-tertiary: 36 128 70;
+    --md-on-tertiary: 255 255 255;
+    --md-tertiary-container: 219 245 227;
+    --md-on-tertiary-container: 12 63 35;
+
+    --md-error: 218 55 60;
+    --md-on-error: 255 255 255;
+    --md-error-container: 253 224 224;
+    --md-on-error-container: 120 20 24;
+
+    --md-surface: 255 255 255;
+    --md-surface-dim: 241 242 245;
+    --md-surface-bright: 255 255 255;
+    --md-surface-container-lowest: 255 255 255;
+    --md-surface-container-low: 247 248 249;
+    --md-surface-container: 242 243 245;
+    --md-surface-container-high: 233 234 237;
+    --md-surface-container-highest: 224 225 229;
+    --md-on-surface: 30 31 34;
+    --md-on-surface-variant: 78 80 88;
+
+    --md-outline: 207 208 212;
+    --md-outline-variant: 227 229 232;
   }
 
   html,
@@ -62,6 +97,13 @@
     font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
+  /* 다크: 상단에 살짝 푸르스름한 그라데이션 */
+  :root[data-theme="dark"] body {
+    background:
+      radial-gradient(1100px 640px at 50% -12%, rgba(84, 92, 150, 0.25) 0%, transparent 60%),
+      rgb(var(--md-surface));
+  }
+
   /* number 스피너 제거 */
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
@@ -81,12 +123,12 @@
     user-select: none;
   }
 
-  /* 스크롤바 — M3 톤 (Firefox) */
+  /* 스크롤바 (Firefox) */
   * {
     scrollbar-width: thin;
     scrollbar-color: rgb(var(--md-outline-variant)) transparent;
   }
-  /* 스크롤바 — M3 톤 (WebKit) */
+  /* 스크롤바 (WebKit) */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;

@@ -15,9 +15,10 @@ import NavRail from "./components/NavRail.jsx";
 import RightPanel from "./components/RightPanel.jsx";
 import ConfirmDialog from "./components/ConfirmDialog.jsx";
 import CreditsDialog from "./components/CreditsDialog.jsx";
-import { IconMenu, IconStar } from "./components/icons.jsx";
+import { IconMenu, IconStar, IconLightMode, IconDarkMode } from "./components/icons.jsx";
 import { useMediaQuery } from "./hooks/useMediaQuery.js";
 import { useFavorites } from "./hooks/useFavorites.js";
+import { useTheme } from "./hooks/useTheme.js";
 
 const DEFAULT_PRICE = {
   enabled: false,
@@ -47,6 +48,7 @@ export default function App() {
   const [rightOpen, setRightOpen] = useState(true); // 우측 즐겨찾기 패널
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [pendingLoad, setPendingLoad] = useState(null); // 즐겨찾기 덮어쓰기 확인 대기
+  const { theme, toggle: toggleTheme } = useTheme();
 
   // 반응형: lg(1024) 미만 → 좌측 드로어, xl(1280) 미만 → 레일 강제 아이콘화
   const isMidUp = useMediaQuery("(min-width: 1024px)");
@@ -300,17 +302,26 @@ export default function App() {
           <div className="relative h-full flex-1">
             <FarmingScene />
           </div>
-          {isWide && (
+          <div className="flex items-center gap-1">
             <button
-              onClick={() => setRightOpen((o) => !o)}
-              title={rightOpen ? "즐겨찾기 숨기기" : "즐겨찾기 보기"}
-              className={`ml-auto rounded-full p-2 transition hover:bg-surface-c-high ${
-                rightOpen ? "text-primary" : "text-on-surface-variant"
-              }`}
+              onClick={toggleTheme}
+              title={theme === "dark" ? "라이트 모드로" : "다크 모드로"}
+              className="rounded-full p-2 text-on-surface-variant transition hover:bg-surface-c-high"
             >
-              <IconStar width={22} height={22} />
+              {theme === "dark" ? <IconLightMode width={22} /> : <IconDarkMode width={22} />}
             </button>
-          )}
+            {isWide && (
+              <button
+                onClick={() => setRightOpen((o) => !o)}
+                title={rightOpen ? "즐겨찾기 숨기기" : "즐겨찾기 보기"}
+                className={`rounded-full p-2 transition hover:bg-surface-c-high ${
+                  rightOpen ? "text-primary" : "text-on-surface-variant"
+                }`}
+              >
+                <IconStar width={22} height={22} />
+              </button>
+            )}
+          </div>
         </header>
 
         <div className="flex min-h-0 flex-1">
