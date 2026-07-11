@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { DATA } from "./data/options.js";
 import { piece, pricePiece, tierPiece } from "./lib/regex.js";
 import { optId, useOptionPool } from "./lib/options.js";
@@ -9,6 +9,7 @@ import ResultBar from "./components/ResultBar.jsx";
 import PriceFilter from "./components/PriceFilter.jsx";
 import ExtraFilters from "./components/ExtraFilters.jsx";
 import Segmented from "./components/Segmented.jsx";
+import ScrollFab from "./components/ScrollFab.jsx";
 import NavRail from "./components/NavRail.jsx";
 import RightPanel from "./components/RightPanel.jsx";
 import ContactDialog from "./components/ContactDialog.jsx";
@@ -48,6 +49,8 @@ export default function App() {
   const isWide = useMediaQuery("(min-width: 1280px)");
   const overlayNav = !isMidUp;
   const railCollapsed = isWide ? navCollapsed : true;
+  const rightPanelOpen = isWide && rightOpen;
+  const mainRef = useRef(null); // 중앙 스크롤 컨테이너 (FAB 점프용)
 
   const pool = useOptionPool(tab, tabletType);
 
@@ -275,15 +278,8 @@ export default function App() {
 
         <div className="flex min-h-0 flex-1">
           {/* 중앙 컨텐츠 (스크롤 영역) */}
-          <main className="min-w-0 flex-1 overflow-y-auto">
+          <main ref={mainRef} className="min-w-0 flex-1 overflow-y-auto">
             <div className="mx-auto max-w-[1080px] px-[clamp(18px,4vw,40px)] pb-16">
-              {/* 서판 종류 */}
-              {tab === "tablet" && (
-                <div className="mt-6">
-                  <TabletTypeBar value={tabletType} onChange={setTabletType} />
-                </div>
-              )}
-
               {/* 결과 바 */}
               <ResultBar
                 pattern={pattern}
@@ -319,6 +315,13 @@ export default function App() {
                 corruptPinned={corruptPinned}
                 onTogglePinCorrupt={togglePinCorrupt}
               />
+
+              {/* 서판 종류 (옵션 목록을 결정하는 입력 → 목록 바로 위에 배치) */}
+              {tab === "tablet" && (
+                <div className="mb-4">
+                  <TabletTypeBar value={tabletType} onChange={setTabletType} />
+                </div>
+              )}
 
               {/* 포함 결합 모드 + 필터 */}
               <div className="mb-4 flex flex-wrap items-center gap-3">
@@ -361,7 +364,7 @@ export default function App() {
                     : g.items;
                   if (!items.length) return null;
                   return (
-                    <div key={g.title} className="mb-8">
+                    <div key={g.title} data-group={g.title} className="mb-8">
                       <div className="mb-3.5 flex items-center gap-3 px-0.5">
                         <span className="font-cinzel text-label-l uppercase tracking-[2px] text-primary">
                           {g.title}
@@ -398,6 +401,9 @@ export default function App() {
           {rightOpen && <RightPanel />}
         </div>
       </div>
+
+      {/* 스크롤 점프 FAB (최상단/접두어/접미어) */}
+      <ScrollFab scrollRef={mainRef} rightInset={rightPanelOpen ? 312 : 24} />
 
       {contactOpen && <ContactDialog onClose={() => setContactOpen(false)} />}
     </div>
