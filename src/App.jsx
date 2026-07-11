@@ -45,8 +45,11 @@ export default function App() {
   const [navCollapsed, setNavCollapsed] = useState(false); // 넓은 화면 수동 접기
   const [rightOpen, setRightOpen] = useState(true); // 우측 즐겨찾기 패널
   const [contactOpen, setContactOpen] = useState(false);
-  const [favorites, setFavorites] = useState(loadFavorites); // 즐겨찾기
+  const [favData, setFavData] = useState(loadFavorites); // 즐겨찾기 { groups:[{id,name,items}] }
+  const [autoEditFavId, setAutoEditFavId] = useState(null); // 추가/생성 직후 인라인 편집
+  const [autoEditGroupId, setAutoEditGroupId] = useState(null);
   const [pendingLoad, setPendingLoad] = useState(null); // 덮어쓰기 확인 대기
+  const [pendingGroupDelete, setPendingGroupDelete] = useState(null); // 그룹 삭제 확인
 
   // 반응형: lg(1024) 미만 → 좌측 드로어, xl(1280) 미만 → 레일 강제 아이콘화
   const isMidUp = useMediaQuery("(min-width: 1024px)");
@@ -65,8 +68,8 @@ export default function App() {
 
   // 즐겨찾기 변경 시 localStorage 저장
   useEffect(() => {
-    saveFavorites(favorites);
-  }, [favorites]);
+    saveFavorites(favData);
+  }, [favData]);
 
   // 핀된 값이 바뀌면 스냅샷 동기화 (핀 = 현재 값으로 항상 갱신되는 저장)
   useEffect(() => {
@@ -242,27 +245,98 @@ export default function App() {
   }
 
   // ── 즐겨찾기 ──
+  const uid = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const selCount = selList.length;
-  const canSaveFav = len > 0;
   const defaultFavName =
     (tab === "tablet" ? `${tabletType} 서판` : "경로석") +
     (selCount > 0 ? ` · ${selCount}옵션` : " · 필터");
 
-  function saveFavorite(name) {
-    const fav = {
-      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-      name: (name || "").trim() || defaultFavName,
-      createdAt: Date.now(),
-      tab,
-      sel,
-      mode,
-      price,
-      corrupt,
-      pattern,
-    };
-    if (tab === "tablet") fav.tabletType = tabletType;
-    if (tab === "waystone") fav.tier = tier;
-    setFavorites((prev) => [fav, ...prev]);
+  function snapshot() {
+    const s = { tab, sel, mode, price, corrupt, pattern };
+    if (tab === "tablet") s.tabletType = tabletType;
+    if (tab === "waystone") s.tier = tier;
+    return s;
+  }
+
+  function addToGroup(groupId) {
+    const fav = { id: uid("f_"), name: defaultFavName, createdAt: Date.now(), ...snapshot() };
+    setFavData((prev) => ({
+      groups: prev.groups.map((g) =>
+        g.id === groupId ? { ...g, items: [...g.items, fav] } : g
+      ),
+    }));
+    setAutoEditFavId(fav.id); // 추가 후 바로 이름 변경
+  }
+
+  function createGroup() {
+    const g = { id: uid("g_"), name: "새 그룹", items: [] };
+    setFavData((prev) => ({ groups: [...prev.groups, g] }));
+    setAutoEditGroupId(g.id);
+  }
+
+  function renameGroup(id, name) {
+    const n = (name || "").trim();
+    setFavData((prev) => ({
+      groups: prev.groups.map((g) => (g.id === id ? { ...g, name: n || g.name } : g)),
+    }));
+    setAutoEditGroupId(null);
+  }
+
+  function requestDeleteGroup(group) {
+    if (group.items.length > 0) setPendingGroupDelete(group);
+    else deleteGroup(group.id);
+  }
+  function deleteGroup(id) {
+    setFavData((prev) => ({ groups: prev.groups.filter((g) => g.id !== id) }));
+    setPendingGroupDelete(null);
+  }
+
+  function renameFav(favId, name) {
+    const n = (name || "").trim();
+    setFavData((prev) => ({
+      groups: prev.groups.map((g) => ({
+        ...g,
+        items: g.items.map((it) => (it.id === favId ? { ...it, name: n || it.name } : it)),
+      })),
+    }));
+    setAutoEditFavId(null);
+  }
+  function deleteFav(favId) {
+    setFavData((prev) => ({
+      groups: prev.groups.map((g) => ({ ...g, items: g.items.filter((it) => it.id !== favId) })),
+    }));
+  }
+
+  function moveFav(favId, toGroupId, beforeFavId) {
+    setFavData((prev) => {
+      let dragged = null;
+      const stripped = prev.groups.map((g) => {
+        const idx = g.items.findIndex((i) => i.id === favId);
+        if (idx >= 0) {
+          dragged = g.items[idx];
+          return { ...g, items: g.items.filter((i) => i.id !== favId) };
+        }
+        return g;
+      });
+      if (!dragged) return prev;
+      // 대상 그룹: beforeFavId가 있으면 그 항목의 그룹, 없으면 toGroupId
+      let destGroupId = toGroupId;
+      if (beforeFavId != null) {
+        const owner = stripped.find((g) => g.items.some((i) => i.id === beforeFavId));
+        if (owner) destGroupId = owner.id;
+      }
+      const groups = stripped.map((g) => {
+        if (g.id !== destGroupId) return g;
+        const items = [...g.items];
+        if (beforeFavId == null) items.push(dragged);
+        else {
+          const ti = items.findIndex((i) => i.id === beforeFavId);
+          items.splice(ti < 0 ? items.length : ti, 0, dragged);
+        }
+        return { ...g, items };
+      });
+      return { groups };
+    });
   }
 
   function applyFavorite(fav) {
@@ -280,16 +354,6 @@ export default function App() {
   function requestLoadFavorite(fav) {
     if (selList.length > 0) setPendingLoad(fav); // 현재 선택 있으면 확인
     else applyFavorite(fav);
-  }
-
-  function deleteFavorite(id) {
-    setFavorites((prev) => prev.filter((f) => f.id !== id));
-  }
-
-  function renameFavorite(id, name) {
-    const n = (name || "").trim();
-    if (!n) return;
-    setFavorites((prev) => prev.map((f) => (f.id === id ? { ...f, name: n } : f)));
   }
 
   return (
@@ -356,9 +420,6 @@ export default function App() {
                 onSetMin={setMin}
                 pinnedOptions={pinnedOptions}
                 onTogglePin={togglePinOption}
-                onSaveFavorite={saveFavorite}
-                defaultFavName={defaultFavName}
-                canSave={canSaveFav}
               />
 
               {/* 가격 필터 (경로석·서판 공통) */}
@@ -466,10 +527,17 @@ export default function App() {
           {/* 우측 즐겨찾기 (xl+, 토글 가능) */}
           {rightOpen && (
             <RightPanel
-              favorites={favorites}
+              groups={favData.groups}
+              autoEditFavId={autoEditFavId}
+              autoEditGroupId={autoEditGroupId}
+              onAddToGroup={addToGroup}
               onLoad={requestLoadFavorite}
-              onDelete={deleteFavorite}
-              onRename={renameFavorite}
+              onRenameFav={renameFav}
+              onDeleteFav={deleteFav}
+              onCreateGroup={createGroup}
+              onRenameGroup={renameGroup}
+              onDeleteGroup={requestDeleteGroup}
+              onMoveFav={moveFav}
             />
           )}
         </div>
@@ -487,6 +555,16 @@ export default function App() {
           confirmLabel="불러오기"
           onConfirm={() => applyFavorite(pendingLoad)}
           onCancel={() => setPendingLoad(null)}
+        />
+      )}
+
+      {pendingGroupDelete && (
+        <ConfirmDialog
+          title="그룹 삭제"
+          message={`'${pendingGroupDelete.name}' 그룹과 안의 즐겨찾기 ${pendingGroupDelete.items.length}개를 삭제할까요?`}
+          confirmLabel="삭제"
+          onConfirm={() => deleteGroup(pendingGroupDelete.id)}
+          onCancel={() => setPendingGroupDelete(null)}
         />
       )}
     </div>

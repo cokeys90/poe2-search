@@ -21,3 +21,5 @@ export const IconChevronLeft = (p) => <Symbol name="chevron_left" {...p} />;
 export const IconClose = (p) => <Symbol name="close" {...p} />;
 export const IconEdit = (p) => <Symbol name="edit" {...p} />;
 export const IconTrash = (p) => <Symbol name="delete" {...p} />;
+export const IconAdd = (p) => <Symbol name="add" {...p} />;
+export const IconExpand = (p) => <Symbol name="expand_more" {...p} />;

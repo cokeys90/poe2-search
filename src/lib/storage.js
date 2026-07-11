@@ -35,25 +35,39 @@ export function savePins(pins) {
   }
 }
 
-// 즐겨찾기 — 이름 붙인 검색 조합 스냅샷 배열. 핀과 별도 키.
+// 즐겨찾기 — 그룹(폴더) 안에 검색 조합 스냅샷. 핀과 별도 키.
+// v2 구조: { version:2, groups:[{ id, name, items:[{ id, name, tab, ... }] }] }
 const FAV_KEY = "poe2-search:favorites";
-const FAV_VERSION = 1;
+const FAV_VERSION = 2;
+
+function defaultFavData() {
+  return { groups: [{ id: "g_default", name: "미분류", items: [] }] };
+}
 
 export function loadFavorites() {
   try {
     const raw = localStorage.getItem(FAV_KEY);
-    if (!raw) return [];
+    if (!raw) return defaultFavData();
     const data = JSON.parse(raw);
-    if (data.version !== FAV_VERSION || !Array.isArray(data.items)) return [];
-    return data.items;
+    if (data.version === FAV_VERSION && Array.isArray(data.groups)) {
+      return { groups: data.groups };
+    }
+    // v1(평면 배열) → v2 마이그레이션: 전부 '미분류' 그룹으로
+    if (Array.isArray(data.items)) {
+      return { groups: [{ id: "g_default", name: "미분류", items: data.items }] };
+    }
+    return defaultFavData();
   } catch {
-    return [];
+    return defaultFavData();
   }
 }
 
-export function saveFavorites(items) {
+export function saveFavorites(data) {
   try {
-    localStorage.setItem(FAV_KEY, JSON.stringify({ version: FAV_VERSION, items }));
+    localStorage.setItem(
+      FAV_KEY,
+      JSON.stringify({ version: FAV_VERSION, groups: data.groups })
+    );
   } catch {
     // 저장 실패는 무시
   }
