@@ -11,9 +11,10 @@ const CURRENCIES = {
   mirror: { img: "/currency/mirror.webp", glow: "0 0 12px rgba(220,230,245,.95)" },
 };
 
+// 가중 랜덤: 디바인 70% / 히네코라 25% / 미러 5% (변화 잘 보이게 조정, 미러는 특별)
 function pickCurrency() {
   const r = Math.random() * 100; // 앱 런타임이라 사용 OK
-  return r < 90 ? "divine" : r < 99 ? "hinekora" : "mirror";
+  return r < 70 ? "divine" : r < 95 ? "hinekora" : "mirror";
 }
 
 function Orb({ slot }) {
@@ -39,6 +40,8 @@ const CSS = `
 /* 캐릭터 */
 .fh-walker { position: absolute; bottom: 12px; animation: fh-walk 9s linear infinite; }
 .fh-bob { animation: fh-bob 0.44s ease-in-out infinite; }
+/* 화폐 먹는 타이밍에 구르기(dodge roll) — PoE2 신규 구르기 오마주 */
+.fh-roll { display: inline-block; transform-origin: 50% 58%; animation: fh-roll 9s linear infinite; }
 .fh-hero { display: block; height: 30px; width: auto; shape-rendering: crispEdges; }
 .fh-legA { animation: fh-legA 0.44s steps(1) infinite; }
 .fh-legB { animation: fh-legB 0.44s steps(1) infinite; }
@@ -46,35 +49,44 @@ const CSS = `
 @keyframes fh-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
 @keyframes fh-legA { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 @keyframes fh-legB { 0%, 49% { opacity: 0; } 50%, 100% { opacity: 1; } }
+@keyframes fh-roll {
+  0%, 29% { transform: rotate(0deg); }
+  37% { transform: rotate(360deg); }
+  50% { transform: rotate(360deg); }
+  58% { transform: rotate(720deg); }
+  72% { transform: rotate(720deg); }
+  80% { transform: rotate(1080deg); }
+  100% { transform: rotate(1080deg); }
+}
 /* 화폐 */
 .fh-orb {
-  position: absolute; bottom: 11px; width: 12px; height: 12px; border-radius: 9999px;
+  position: absolute; bottom: 7px; width: 30px; height: 30px; border-radius: 9999px;
   display: inline-flex; align-items: center; justify-content: center;
 }
-.fh-orb-img { width: 168%; height: 168%; object-fit: contain; }
+.fh-orb-img { width: 108%; height: 108%; object-fit: contain; }
 .fh-orb1 { left: 30%; animation: fh-orb1 9s linear infinite; }
 .fh-orb2 { left: 55%; animation: fh-orb2 9s linear infinite; }
 .fh-orb3 { left: 80%; animation: fh-orb3 9s linear infinite; }
 @keyframes fh-orb1 {
   0% { opacity: 0; transform: scale(0); }
   3%, 30% { opacity: 1; transform: translateY(0) scale(1); }
-  33% { opacity: 0; transform: translateY(-13px) scale(1.9); }
+  33% { opacity: 0; transform: translateY(-18px) scale(1.4); }
   34%, 100% { opacity: 0; transform: scale(0); }
 }
 @keyframes fh-orb2 {
   0%, 24% { opacity: 0; transform: scale(0); }
   27%, 51% { opacity: 1; transform: translateY(0) scale(1); }
-  54% { opacity: 0; transform: translateY(-13px) scale(1.9); }
+  54% { opacity: 0; transform: translateY(-18px) scale(1.4); }
   55%, 100% { opacity: 0; transform: scale(0); }
 }
 @keyframes fh-orb3 {
   0%, 46% { opacity: 0; transform: scale(0); }
   49%, 73% { opacity: 1; transform: translateY(0) scale(1); }
-  76% { opacity: 0; transform: translateY(-13px) scale(1.9); }
+  76% { opacity: 0; transform: translateY(-18px) scale(1.4); }
   77%, 100% { opacity: 0; transform: scale(0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fh-walker, .fh-bob, .fh-legA, .fh-legB, .fh-orb { animation: none; }
+  .fh-walker, .fh-bob, .fh-roll, .fh-legA, .fh-legB, .fh-orb { animation: none; }
   .fh-orb { opacity: 1; transform: none; }
   .fh-walker { left: 6%; }
   .fh-legB { opacity: 0; }
@@ -128,7 +140,9 @@ export default function FarmingScene() {
       <Orb slot={3} />
       <div className="fh-walker">
         <div className="fh-bob">
-          <Hero />
+          <div className="fh-roll">
+            <Hero />
+          </div>
         </div>
       </div>
     </div>
