@@ -13,7 +13,6 @@ import ScrollFab from "./components/ScrollFab.jsx";
 import FarmingScene from "./components/FarmingScene.jsx";
 import NavRail from "./components/NavRail.jsx";
 import RightPanel from "./components/RightPanel.jsx";
-import ContactDialog from "./components/ContactDialog.jsx";
 import ConfirmDialog from "./components/ConfirmDialog.jsx";
 import CreditsDialog from "./components/CreditsDialog.jsx";
 import { IconMenu, IconStar } from "./components/icons.jsx";
@@ -46,7 +45,6 @@ export default function App() {
   const [navOpen, setNavOpen] = useState(false); // 좁은 화면 드로어
   const [navCollapsed, setNavCollapsed] = useState(false); // 넓은 화면 수동 접기
   const [rightOpen, setRightOpen] = useState(true); // 우측 즐겨찾기 패널
-  const [contactOpen, setContactOpen] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [pendingLoad, setPendingLoad] = useState(null); // 즐겨찾기 덮어쓰기 확인 대기
 
@@ -277,7 +275,6 @@ export default function App() {
       <NavRail
         tab={tab}
         onTab={switchTab}
-        onContact={() => setContactOpen(true)}
         onCredits={() => setCreditsOpen(true)}
         overlay={overlayNav}
         open={navOpen}
@@ -460,7 +457,6 @@ export default function App() {
       {/* 스크롤 점프 FAB (최상단/접두어/접미어) */}
       <ScrollFab scrollRef={mainRef} rightInset={rightPanelOpen ? 312 : 24} />
 
-      {contactOpen && <ContactDialog onClose={() => setContactOpen(false)} />}
       {creditsOpen && <CreditsDialog onClose={() => setCreditsOpen(false)} />}
 
       {pendingLoad && (

@@ -14,7 +14,6 @@ function Symbol({ name, width = 24, className = "" }) {
 
 export const IconTablet = (p) => <Symbol name="description" {...p} />;
 export const IconWaystone = (p) => <Symbol name="diamond" {...p} />;
-export const IconMail = (p) => <Symbol name="mail" {...p} />;
 export const IconStar = (p) => <Symbol name="star" {...p} />;
 export const IconMenu = (p) => <Symbol name="menu" {...p} />;
 export const IconChevronLeft = (p) => <Symbol name="chevron_left" {...p} />;

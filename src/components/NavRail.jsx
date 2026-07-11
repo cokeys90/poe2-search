@@ -1,7 +1,6 @@
 import {
   IconTablet,
   IconWaystone,
-  IconMail,
   IconInfo,
   IconChevronLeft,
   IconClose,
@@ -51,7 +50,6 @@ function NavItem({ Icon, label, active, collapsed, onClick }) {
 export default function NavRail({
   tab,
   onTab,
-  onContact,
   onCredits,
   overlay = false,
   open = false,
@@ -96,7 +94,7 @@ export default function NavRail({
       </nav>
 
       <div className="mt-auto flex flex-col gap-1">
-        {/* 정보 · 출처 */}
+        {/* 정보 · 출처 (문의도 여기 GitHub Issues 링크로) */}
         <NavItem
           Icon={IconInfo}
           label="정보"
@@ -104,17 +102,6 @@ export default function NavRail({
           collapsed={collapsed && !drawer}
           onClick={() => {
             onCredits?.();
-            if (drawer) onClose?.();
-          }}
-        />
-        {/* 문의 */}
-        <NavItem
-          Icon={IconMail}
-          label="문의"
-          active={false}
-          collapsed={collapsed && !drawer}
-          onClick={() => {
-            onContact?.();
             if (drawer) onClose?.();
           }}
         />
