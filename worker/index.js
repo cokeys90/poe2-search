@@ -20,7 +20,8 @@ const ALLOWED_ORIGINS = [
 
 const UPSTREAM_STATS = "https://poe.kakaogames.com/api/trade2/data/stats";
 
-// GGG 정책이 요구하는 식별 가능한 User-Agent (앱/버전 + 연락처)
+// GGG 정책이 요구하는 식별 가능한 User-Agent (앱/버전 + 연락처).
+// 연락처는 이메일 대신 저장소 주소 — 공개 저장소라 이메일 노출을 피한다(이슈로 연락 가능).
 const USER_AGENT = "poe2-search/1.0 (+https://github.com/cokeys90/poe2-search)";
 
 function cors(origin) {
