@@ -49,7 +49,7 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, on
         onClick={(e) => e.stopPropagation()}
         onChange={(e) => onSetMin(item, e.target.value)}
         className={[
-          "w-[82px] shrink-0 rounded-l-md-m border-0 border-r border-outline-variant bg-surface-c-lowest px-2 text-center font-mono text-body-l text-primary outline-none transition",
+          "w-[62px] shrink-0 rounded-l-md-m border-0 border-r border-outline-variant bg-surface-c-lowest px-1 text-center font-mono text-body-m text-primary outline-none transition",
           "placeholder:text-body-s placeholder:text-on-surface-variant/50",
           "focus:bg-surface-c-low focus:shadow-[inset_0_0_0_2px_rgb(var(--md-primary))]",
           "disabled:cursor-not-allowed disabled:text-on-surface-variant/30 disabled:placeholder:text-on-surface-variant/25",
@@ -57,9 +57,9 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, on
       />
       <button
         onClick={() => onToggle(item)}
-        className="flex min-w-0 flex-1 items-center gap-3 px-4 py-3.5 text-left text-body-l text-on-surface"
+        className="flex min-w-0 flex-1 items-center gap-2 px-2.5 py-2 text-left text-body-m text-on-surface"
       >
-        <span className="w-5 shrink-0 text-center font-bold">
+        <span className="w-4 shrink-0 text-center font-bold">
           {mode === "inc" ? (
             <span className="text-tertiary">✓</span>
           ) : mode === "exc" ? (
@@ -68,21 +68,19 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, on
             ""
           )}
         </span>
-        <span className="flex-1 leading-normal">
+        <span className="min-w-0 flex-1 leading-snug">
           <HighlightText text={item.text} />
-        </span>
-        {showTrade && item.trade && (
-          <span className="hidden shrink-0 whitespace-nowrap rounded-md-xs bg-surface-c-high px-2 py-0.5 font-mono text-label-s text-on-surface-variant md:inline">
-            {item.trade}
-          </span>
-        )}
-        <span className="shrink-0 whitespace-nowrap rounded-md-xs bg-surface-c-high px-2 py-0.5 font-mono text-label-m text-primary">
-          {item.frag}
+          {/* 거래소명은 개발 빌드에서만 (showTrade가 dev 전용 토글). 옵션 원문 아래 줄에 표시 */}
+          {showTrade && item.trade && (
+            <span className="mt-1 block truncate font-mono text-label-s text-on-surface-variant">
+              {item.trade}
+            </span>
+          )}
         </span>
       </button>
 
       {/* 순서 드래그 핸들 · 숨기기 */}
-      <div className="flex shrink-0 items-center gap-0.5 border-l border-outline-variant pl-1 pr-1.5">
+      <div className="flex shrink-0 items-center gap-0.5 border-l border-outline-variant pl-0.5 pr-1">
         <Tooltip label="끌어서 순서 변경">
           <span
             onPointerDown={() => setHandleHeld(true)}

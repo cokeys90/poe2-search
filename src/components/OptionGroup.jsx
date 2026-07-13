@@ -112,9 +112,6 @@ export default function OptionGroup({
                   <span className="min-w-0 flex-1 truncate">
                     <HighlightText text={it.text} />
                   </span>
-                  <span className="shrink-0 whitespace-nowrap rounded-md-xs bg-surface-c-high px-2 py-0.5 font-mono text-label-s text-on-surface-variant">
-                    {it.frag}
-                  </span>
                 </div>
               ))}
             </div>

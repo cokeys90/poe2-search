@@ -77,7 +77,7 @@ export default function App() {
   const [tier, setTier] = useState(() => pins.waystone.tier ?? DEFAULT_TIER); // 경로석 등급 (""=무관)
   const [corrupt, setCorrupt] = useState(() => pins.common.corrupt ?? "any"); // any | yes | no
   const [filter, setFilter] = useState("");
-  const [showTrade, setShowTrade] = useState(true);
+  const [showTrade, setShowTrade] = useState(false); // 거래소명 표시 = 개발 빌드에서만 켤 수 있다
   const [copied, setCopied] = useState(false);
   // 셸 레이아웃 상태
   const [navOpen, setNavOpen] = useState(false); // 좁은 화면 드로어
@@ -436,6 +436,11 @@ export default function App() {
           {/* 중앙 컨텐츠 (스크롤 영역) */}
           <main ref={mainRef} className="min-w-0 flex-1 overflow-y-auto">
             <div className="mx-auto max-w-[1080px] px-[clamp(18px,4vw,40px)] pb-16">
+              {/* 검색엔진용 제목 — 화면에는 보이지 않는다 */}
+              <h1 className="sr-only">
+                PoE2 경로석·서판 검색기 — 옵션을 고르면 인게임 검색용 정규식이 만들어집니다
+              </h1>
+
               {/* 결과 바 */}
               <ResultBar
                 pattern={pattern}
@@ -451,14 +456,9 @@ export default function App() {
                 onTogglePin={togglePinOption}
                 onTrade={() => openTrade(snapshot())}
                 tradeSkipped={currentTrade.skipped}
+                onTradeImport={() => setImportOpen(true)}
               />
 
-              {/* 필터 카드 — 좌: 가격·타락·결합모드·찾기 / 우: 등급 격자(경로석) */}
-              <section className="mb-4 flex flex-wrap gap-x-6 gap-y-4 rounded-md-m border border-outline-variant bg-surface-c px-4 py-3">
-                <div className="flex min-w-[300px] flex-1 flex-col gap-3">
-                onTradeImport={() => setImportOpen(true)}
-                  <PriceFilter
-                    value={price}
               {importSkipped.length > 0 && (
                 <Callout>
                   <span className="block">
@@ -474,6 +474,11 @@ export default function App() {
                 </Callout>
               )}
 
+              {/* 필터 카드 — 좌: 가격·타락·결합모드·찾기 / 우: 등급 격자(경로석) */}
+              <section className="mb-4 flex flex-wrap gap-x-6 gap-y-4 rounded-md-m border border-outline-variant bg-surface-c px-4 py-3">
+                <div className="flex min-w-[300px] flex-1 flex-col gap-3">
+                  <PriceFilter
+                    value={price}
                     onChange={setPrice}
                     pinned={pricePinned}
                     onTogglePin={togglePinPrice}
@@ -498,23 +503,6 @@ export default function App() {
                     />
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-3">
-                    <input
-                      placeholder="찾기"
-                      value={filter}
-                      onChange={(e) => setFilter(e.target.value)}
-                      className="min-w-[180px] flex-1 rounded-md-s border border-outline bg-surface-c-lowest px-4 py-2 text-body-l text-on-surface outline-none transition focus:border-primary placeholder:text-on-surface-variant/60"
-                    />
-                    <label className="flex cursor-pointer select-none items-center gap-1.5 text-body-m text-on-surface-variant">
-                      <input
-                        type="checkbox"
-                        checked={showTrade}
-                        onChange={(e) => setShowTrade(e.target.checked)}
-                        className="accent-primary"
-                      />
-                      거래소명 보기
-                    </label>
-                  </div>
                 </div>
 
                 {tab === "waystone" && (
@@ -542,28 +530,71 @@ export default function App() {
                     공통 옵션으로 검색하세요.
                   </Callout>
                 )}
-                {pool.groups.map((g) => {
-                  const key = `${tab}:${g.title}`;
-                  const { items, hidden } = optPrefs.applyTo(key, g.items);
+
+                {/* 찾기 — 옵션 목록 전용 입력이라 필터 카드와 분리해 목록 바로 위에 둔다 */}
+                <div className="mb-4 flex flex-wrap items-center gap-3">
+                  <input
+                    placeholder="옵션 찾기"
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="min-w-[220px] flex-1 rounded-md-s border border-outline bg-surface-c px-4 py-2 text-body-l text-on-surface outline-none transition focus:border-primary placeholder:text-on-surface-variant/60"
+                  />
+                  {/* 개발 빌드 전용 — 배포본에는 아예 렌더되지 않는다 */}
+                  {import.meta.env.DEV && (
+                    <label className="flex cursor-pointer select-none items-center gap-1.5 rounded-md-s border border-dashed border-tertiary/60 px-2 py-1.5 text-body-m text-on-surface-variant">
+                      <span className="rounded-md-xs bg-tertiary-container px-1.5 py-0.5 text-label-s text-on-tertiary-container">
+                        dev
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={showTrade}
+                        onChange={(e) => setShowTrade(e.target.checked)}
+                        className="accent-primary"
+                      />
+                      거래소명 보기
+                    </label>
+                  )}
+                </div>
+
+                {(() => {
+                  const render = (g) => {
+                    const key = `${tab}:${g.title}`;
+                    const { items, hidden } = optPrefs.applyTo(key, g.items);
+                    return (
+                      <OptionGroup
+                        key={g.title}
+                        title={g.title}
+                        items={items}
+                        hidden={hidden}
+                        filter={filter}
+                        sel={sel}
+                        showTrade={showTrade}
+                        onToggle={toggle}
+                        onSetMin={setOptMin}
+                        onReorder={(dragId, targetId) =>
+                          optPrefs.reorder(key, g.items, dragId, targetId)
+                        }
+                        onHide={(id) => optPrefs.hide(key, g.items, id)}
+                        onUnhide={(id) => optPrefs.unhide(key, id)}
+                      />
+                    );
+                  };
+                  // poe2db 배치: 경로석의 "옵션"(상단 6종)은 단독 전폭,
+                  // 접두어는 왼쪽 열 / 접미어(공통·고유)는 오른쪽 열에 세로로 쌓는다.
+                  const solo = pool.groups.filter((g) => g.title === "옵션");
+                  const rest = pool.groups.filter((g) => g.title !== "옵션");
+                  const left = rest.filter((g) => g.title.includes("접두어"));
+                  const right = rest.filter((g) => !g.title.includes("접두어"));
                   return (
-                    <OptionGroup
-                      key={g.title}
-                      title={g.title}
-                      items={items}
-                      hidden={hidden}
-                      filter={filter}
-                      sel={sel}
-                      showTrade={showTrade}
-                      onToggle={toggle}
-                      onSetMin={setOptMin}
-                      onReorder={(dragId, targetId) =>
-                        optPrefs.reorder(key, g.items, dragId, targetId)
-                      }
-                      onHide={(id) => optPrefs.hide(key, g.items, id)}
-                      onUnhide={(id) => optPrefs.unhide(key, id)}
-                    />
+                    <>
+                      {solo.map(render)}
+                      <div className="grid items-start gap-x-5 xl:grid-cols-2">
+                        <div>{left.map(render)}</div>
+                        <div>{right.map(render)}</div>
+                      </div>
+                    </>
                   );
-                })}
+                })()}
               </section>
 
               <footer className="mt-10 border-t border-outline-variant pt-[18px] text-center text-body-s leading-[1.8] text-on-surface-variant">
@@ -619,6 +650,10 @@ export default function App() {
         />
       )}
 
+      {importOpen && (
+        <TradeImportDialog onClose={() => setImportOpen(false)} />
+      )}
+
       {creditsOpen && <CreditsDialog onClose={() => setCreditsOpen(false)} />}
 
       {pendingLoad && (
@@ -643,7 +678,3 @@ export default function App() {
     </div>
   );
 }
-      {importOpen && (
-        <TradeImportDialog onClose={() => setImportOpen(false)} />
-      )}
-
