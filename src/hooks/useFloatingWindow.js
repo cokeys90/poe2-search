@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { loadWinState, saveWinState, defaultWinState } from "../lib/storage.js";
 
-export const WIN_MIN_W = 260;
-export const WIN_MIN_H = 240;
+const WIN_MIN_W = 260;
+const WIN_MIN_H = 240;
 const MARGIN = 8; // 뷰포트 가장자리 최소 여백
 const DEFAULT_GAP = 24; // 기본 위치(우하단) 여백
 
