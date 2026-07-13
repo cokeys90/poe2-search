@@ -176,12 +176,30 @@ export function saveLeague(id) {
 // groupKey = `${tab}:${그룹명}` (서판 고유 그룹은 이름에 종류가 들어가 종류별로 갈린다)
 const OPT_KEY = "poe2-search:optprefs";
 
+// 그룹명이 바뀌면 키도 바뀌어 사용자가 바꿔둔 순서·숨김이 유실된다 → 옛 키를 새 키로 옮긴다.
+// "공통 접두어/접미어" → "접두어/접미어" (서판 그룹명에서 '공통' 제거)
+const OPT_KEY_RENAMES = {
+  "tablet:공통 접두어": "tablet:접두어",
+  "tablet:공통 접미어": "tablet:접미어",
+};
+
 export function loadOptPrefs() {
   try {
     const raw = localStorage.getItem(OPT_KEY);
     if (!raw) return {};
     const data = JSON.parse(raw);
-    return data && typeof data === "object" ? data.groups || {} : {};
+    const groups = data && typeof data === "object" ? data.groups || {} : {};
+
+    let migrated = false;
+    for (const [oldKey, newKey] of Object.entries(OPT_KEY_RENAMES)) {
+      if (!groups[oldKey]) continue;
+      if (!groups[newKey]) groups[newKey] = groups[oldKey]; // 새 키가 이미 있으면 그쪽을 존중
+      delete groups[oldKey];
+      migrated = true;
+    }
+    if (migrated) saveOptPrefs(groups);
+
+    return groups;
   } catch {
     return {};
   }

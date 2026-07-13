@@ -20,12 +20,11 @@ export function useOptionPool(tab, tabletType) {
         ],
       };
     }
-    const groups = [
-      { title: "공통 접두어", items: DATA.tablet.common_prefix },
-      { title: "공통 접미어", items: DATA.tablet.common_suffix },
-    ];
+    // 고유 접미어를 접미어보다 위에 (종류를 고른 이유가 고유 옵션이므로 먼저 보이게)
     const uniq = DATA.tablet.unique[tabletType] || [];
+    const groups = [{ title: "접두어", items: DATA.tablet.common_prefix }];
     if (uniq.length) groups.push({ title: tabletType + " 고유 접미어", items: uniq });
+    groups.push({ title: "접미어", items: DATA.tablet.common_suffix });
     return { groups, noUnique: uniq.length === 0 };
   }, [tab, tabletType]);
 }
