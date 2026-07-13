@@ -9,6 +9,7 @@ export const DATA = {
         "text": "부활 횟수",
         "frag": "부활",
         "overlap": 1,
+        "map_filter": "map_revives",
         "numeric": true,
         "rmin": 0,
         "rmax": 6,
@@ -18,6 +19,7 @@ export const DATA = {
         "text": "아이템 희귀도",
         "frag": "아이템",
         "overlap": 1,
+        "map_filter": "map_iir",
         "numeric": true,
         "openMax": true
       },
@@ -25,6 +27,7 @@ export const DATA = {
         "text": "무리 규모",
         "frag": "무리",
         "overlap": 1,
+        "map_filter": "map_packsize",
         "numeric": true,
         "openMax": true
       },
@@ -32,6 +35,7 @@ export const DATA = {
         "text": "몬스터 희귀도",
         "frag": "터.희",
         "overlap": 1,
+        "map_filter": "map_rare_monsters",
         "numeric": true,
         "openMax": true
       },
@@ -39,6 +43,7 @@ export const DATA = {
         "text": "경로석 출현 확률",
         "frag": "출현",
         "overlap": 1,
+        "map_filter": "map_bonus",
         "numeric": true,
         "openMax": true
       },
@@ -46,6 +51,7 @@ export const DATA = {
         "text": "몬스터 효율",
         "frag": "효율",
         "overlap": 1,
+        "map_filter": "map_magic_monsters",
         "numeric": true,
         "openMax": true
       }
@@ -54,179 +60,248 @@ export const DATA = {
       {
         "text": "몬스터가 피해의 (5—9)%를 추가 화염 피해로 줌",
         "frag": "화염",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 피해의 #%를 추가 화염 피해로 줌",
+        "stat_id": "explicit.stat_92381065"
       },
       {
         "text": "몬스터가 피해의 (5—9)%를 추가 냉기 피해로 줌",
         "frag": "냉기",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 피해의 #%를 추가 냉기 피해로 줌",
+        "stat_id": "explicit.stat_211727"
       },
       {
         "text": "몬스터가 피해의 (5—9)%를 추가 번개 피해로 줌",
         "frag": "번개",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 피해의 #%를 추가 번개 피해로 줌",
+        "stat_id": "explicit.stat_512071314"
       },
       {
         "text": "몬스터 피해 (5—9)% 증가",
         "frag": "해.%",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터 피해 #% 증가",
+        "stat_id": "explicit.stat_1890519597"
       },
       {
         "text": "몬스터의 공격, 시전 및 이동 속도 (10—15)% 증가",
         "frag": "시전",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터의 공격, 시전 및 이동 속도 #% 증가",
+        "stat_id": "explicit.stat_3909654181"
       },
       {
         "text": "몬스터의 치명타 명중 확률 (80—120)% 증가",
         "frag": "치명타",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터의 치명타 명중 확률 #% 증가",
+        "stat_id": "explicit.stat_2753083623"
       },
       {
         "text": "몬스터의 생명력 (10—14)% 증폭",
         "frag": "생명력",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터의 생명력 #% 증폭",
+        "stat_id": "explicit.stat_95249895"
       },
       {
         "text": "몬스터가 명중 시 (13—19)%의 확률로 중독 유발",
         "frag": "중독",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 명중 시 #%의 확률로 중독 유발",
+        "stat_id": "explicit.stat_95221307"
       },
       {
         "text": "몬스터가 명중 시 (5—10)%의 확률로 출혈 유발",
         "frag": "출혈",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 명중 시 #%의 확률로 출혈 유발",
+        "stat_id": "explicit.stat_2506820610"
       },
       {
         "text": "몬스터가 준 물리 피해의 (15—20)%와 동일한 방어구 파괴",
         "frag": "물리",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 준 물리 피해의 #%와 동일한 방어구 파괴",
+        "stat_id": "explicit.stat_1879340377"
       },
       {
         "text": "몬스터의 정확도 (10—20)% 증가",
         "frag": "정확",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터의 정확도 #% 증가",
+        "stat_id": "explicit.stat_1588049749"
       },
       {
         "text": "몬스터가 피해의 (5—9)%를 추가 카오스 피해로 줌",
         "frag": "카오스",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 피해의 #%를 추가 카오스 피해로 줌",
+        "stat_id": "explicit.stat_2200661314"
       },
       {
         "text": "몬스터의 기절 축적 (50—60)% 증가",
         "frag": "기절",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터의 기절 축적 #% 증가",
+        "stat_id": "explicit.stat_115425161"
       },
       {
         "text": "몬스터가 투사체 2개 추가 발사",
         "frag": "발사",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 투사체 #개 추가 발사",
+        "stat_id": "explicit.stat_1309819744"
       },
       {
         "text": "몬스터 피해가 (6—8)%의 원소 저항 관통",
         "frag": "원소",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터 피해가 #%의 원소 저항 관통",
+        "stat_id": "explicit.stat_1898978455"
       }
     ],
     "suffix": [
       {
         "text": "희귀 몬스터가 속성 부여 1개 추가 보유",
         "frag": "희귀",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "희귀 몬스터가 속성 부여 #개 추가 보유",
+        "stat_id": "explicit.stat_2550456553"
       },
       {
         "text": "몬스터의 원소 저항 +(20—24)%",
         "frag": "소.저",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터의 원소 저항 +#%",
+        "stat_id": "explicit.stat_1054098949"
       },
       {
         "text": "몬스터가 장갑을 두른 몬스터",
         "frag": "장갑",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 장갑을 두른 몬스터",
+        "stat_id": "explicit.stat_2539290279"
       },
       {
         "text": "몬스터가 회피하는 몬스터",
         "frag": "회피",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 회피하는 몬스터",
+        "stat_id": "explicit.stat_2570249991"
       },
       {
         "text": "몬스터가 최대 생명력의 (12—25)%를 추가 에너지 보호막 최대치로 획득",
         "frag": "생.*최",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 최대 생명력의 #%를 추가 에너지 보호막 최대치로 획득",
+        "stat_id": "explicit.stat_2887760183"
       },
       {
         "text": "몬스터의 상태 이상 한계치 (30—39)% 증가",
         "frag": "한계치",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터의 상태 이상 한계치 #% 증가",
+        "stat_id": "explicit.stat_1994551050"
       },
       {
         "text": "몬스터의 원소 상태 이상 적용 (60—79)% 증가",
         "frag": "원.*이",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터의 원소 상태 이상 적용 #% 증가",
+        "stat_id": "explicit.stat_3877264671"
       },
       {
         "text": "몬스터의 효과 범위 50% 증가",
         "frag": "범위",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터의 효과 범위 #% 증가",
+        "stat_id": "explicit.stat_1708461270"
       },
       {
         "text": "지역이 쇠약화 저주에 걸림",
         "frag": "쇠약화",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "지역이 쇠약화 저주에 걸림",
+        "stat_id": "explicit.stat_2029171424"
       },
       {
         "text": "지역이 시간의 사슬 저주에 걸림",
         "frag": "사슬",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "지역이 시간의 사슬 저주에 걸림",
+        "stat_id": "explicit.stat_1629357380"
       },
       {
         "text": "지역이 원소 약화 저주에 걸림",
         "frag": "원.*약",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "지역이 원소 약화 저주에 걸림",
+        "stat_id": "explicit.stat_554690751"
       },
       {
         "text": "지역에 점화 지대 존재",
         "frag": "점화",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "지역에 점화 지대 존재",
+        "stat_id": "explicit.stat_133340941"
       },
       {
         "text": "지역에 얼음 지대 존재",
         "frag": "얼음",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "지역에 얼음 지대 존재",
+        "stat_id": "explicit.stat_349586058"
       },
       {
         "text": "지역에 감전 지대 존재",
         "frag": "감전",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "지역에 감전 지대 존재",
+        "stat_id": "explicit.stat_3477720557"
       },
       {
         "text": "플레이어 저항 최대치 (-4—-3)%",
         "frag": "저.*최",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "플레이어 저항 최대치 #%",
+        "stat_id": "explicit.stat_3376488707"
       },
       {
         "text": "플레이어의 플라스크 충전량 (20—24)% 감소",
         "frag": "충전량",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "플레이어의 플라스크 충전량 #% 감소",
+        "stat_id": "explicit.stat_2549889921"
       },
       {
         "text": "플레이어의 생명력 및 에너지 보호막 회복 속도 (20—29)% 감폭",
         "frag": "생.*회",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "플레이어의 생명력 및 에너지 보호막 회복 속도 #% 감폭",
+        "stat_id": "explicit.stat_4181072906"
       },
       {
         "text": "플레이어의 재사용 대기시간 회복 속도 (15—20)% 감폭",
         "frag": "재사용",
-        "overlap": 1
+        "overlap": 1,
+        "stat_id": ""
       },
       {
         "text": "몬스터가 치명타 명중으로 받는 추가 피해 (15—19)% 감소",
         "frag": "명중",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터가 치명타 명중으로 받는 추가 피해 #% 감소",
+        "stat_id": "explicit.stat_337935900"
       },
       {
         "text": "몬스터에게 적용되는 저주 효과 (20—30)% 감폭",
         "frag": "저.*효",
-        "overlap": 1
+        "overlap": 1,
+        "trade": "몬스터에게 적용되는 저주 효과 #% 감폭",
+        "stat_id": "explicit.stat_3796523155"
       }
     ]
   },
@@ -774,15 +849,18 @@ export const DATA = {
 };
 
 export const TABLET_META = {
-  // color: 종류색 / glow / icon: 24x24 viewBox SVG path (단일 path, 채움)
-  "균열":   { color:"#b061d6", glow:"rgba(176,97,214,.35)", icon:"M12 2l2.4 6.2 6.6.3-5.2 4 1.8 6.4-5.6-3.7-5.6 3.7 1.8-6.4-5.2-4 6.6-.3z" },        // 자홍 · 파편별
-  "탐험":   { color:"#d0a24a", glow:"rgba(208,162,74,.35)",  icon:"M14.5 4l5.5 5.5-2.3 2.3-2-2-8.6 8.6-3.2.9.9-3.2 8.6-8.6-2-2z" },                    // 황토 · 곡괭이/발굴
-  "환영":   { color:"#5fc7d6", glow:"rgba(95,199,214,.4)",   icon:"M12 3a9 9 0 108.5 6 6.5 6.5 0 11-8.5-6z" },                                        // 시안 · 초승달(안개)
-  "의식":   { color:"#d05a5a", glow:"rgba(208,90,90,.35)",   icon:"M12 21l-7-7a4.5 4.5 0 016.4-6.4l.6.6.6-.6A4.5 4.5 0 0119 14z" },                   // 핏빛 · 제단(하트/희생)
-  "감독관": { color:"#e0b84a", glow:"rgba(224,184,74,.45)",  icon:"M12 2l8 3v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V5z" },                               // 금 · 방패(보스강화)
-  "심연":   { color:"#4a9b8e", glow:"rgba(74,155,142,.35)",  icon:"M12 2a10 10 0 100 20 10 10 0 000-20zm0 5a5 5 0 110 10 5 5 0 010-10zm0 3a2 2 0 100 4 2 2 0 000-4z" }, // 청록 · 구덩이(동심원)
-  "사원":   { color:"#5ac2a0", glow:"rgba(90,194,160,.35)",  icon:"M12 2L3 8v2h18V8zM5 11v7H3v2h18v-2h-2v-7h-2v7h-3v-7h-2v7H9v-7z" },                 // 에메랄드 · 신전 기둥
-  "방사능": { color:"#a6d13a", glow:"rgba(166,209,58,.4)",   icon:"M12 10.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zM12 2a10 10 0 00-8.66 5l5.2 3a4 4 0 013.46-2V2zm8.66 5A10 10 0 0012 2v6a4 4 0 013.46 2zM3.34 17A10 10 0 0012 22v-6a4 4 0 01-3.46-2z" }, // 황록 · 방사능 삼엽
+  // color: 종류색 / glow / slug: public/tablet/{slug}.png (poe2wiki 인벤토리 아이콘)
+  "균열":   { color:"#b061d6", glow:"rgba(176,97,214,.35)", slug:"breach" },
+  "탐험":   { color:"#d0a24a", glow:"rgba(208,162,74,.35)", slug:"expedition" },
+  "환영":   { color:"#5fc7d6", glow:"rgba(95,199,214,.4)",  slug:"delirium" },
+  "의식":   { color:"#d05a5a", glow:"rgba(208,90,90,.35)",  slug:"ritual" },
+  "감독관": { color:"#e0b84a", glow:"rgba(224,184,74,.45)", slug:"overseer" },
+  "심연":   { color:"#4a9b8e", glow:"rgba(74,155,142,.35)", slug:"abyss" },
+  "사원":   { color:"#5ac2a0", glow:"rgba(90,194,160,.35)", slug:"temple" },
+  "방사능": { color:"#a6d13a", glow:"rgba(166,209,58,.4)",  slug:"irradiated" },
 };
 
-export const TABLET_TYPES = ["균열", "탐험", "환영", "의식", "방사능", "감독관", "심연", "사원"];
+// 방사능이 기본·첫 번째 (가장 많이 쓰는 종류)
+export const TABLET_TYPES = ["방사능", "균열", "탐험", "환영", "의식", "감독관", "심연", "사원"];
+export const DEFAULT_TABLET_TYPE = "방사능";
+export const DEFAULT_TIER = "15"; // 경로석 기본 등급

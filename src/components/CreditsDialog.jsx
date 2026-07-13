@@ -16,6 +16,7 @@ const SECTIONS = [
     title: "데이터 · 이미지 출처",
     items: [
       "옵션 데이터 및 화폐 이미지: poe2db.tw",
+      "경로석 · 서판 아이콘: poe2wiki.net (PoE2 Wiki)",
       "참고 정규식 엔진: poe2.re (veiset/poe2.re)",
     ],
   },

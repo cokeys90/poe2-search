@@ -1,14 +1,17 @@
-import {
-  IconTablet,
-  IconWaystone,
-  IconInfo,
-  IconChevronLeft,
-  IconClose,
-} from "./icons.jsx";
+import { IconInfo, IconChevronLeft, IconClose } from "./icons.jsx";
+import { TabletIcon, WaystoneIcon } from "./GameIcon.jsx";
 
+// 메뉴 아이콘은 대표 아이템 그림 — 서판=방사능, 경로석=15등급.
+// 경로석은 아래로 갈수록 가늘어지는 원형이라 같은 크기에서 라벨과의 간격이 떠 보인다 → 광학 보정(살짝 크게 + 1px 내림).
 const NAV_ITEMS = [
-  { key: "tablet", label: "서판", Icon: IconTablet },
-  { key: "waystone", label: "경로석", Icon: IconWaystone },
+  { key: "tablet", label: "서판", Icon: (p) => <TabletIcon {...p} /> },
+  {
+    key: "waystone",
+    label: "경로석",
+    Icon: ({ width = 22, ...p }) => (
+      <WaystoneIcon width={width + 2} className="translate-y-px" {...p} />
+    ),
+  },
 ];
 
 // 내비게이션 항목 하나. collapsed=true면 아이콘 위 라벨(M3 rail), false면 아이콘+라벨 가로 pill.

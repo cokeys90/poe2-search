@@ -1,23 +1,43 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { DATA } from "./data/options.js";
+import { DATA, DEFAULT_TABLET_TYPE, DEFAULT_TIER } from "./data/options.js";
 import { piece, pricePiece, tierPiece } from "./lib/regex.js";
+import { tradeUrl, DEFAULT_LEAGUE } from "./lib/trade.js";
 import { optId, useOptionPool } from "./lib/options.js";
-import { loadPins, savePins } from "./lib/storage.js";
+import {
+  loadPins,
+  savePins,
+  loadCurrency,
+  saveCurrency,
+  loadLeague,
+  saveLeague,
+  FAV_WIN_KEY,
+  SETTINGS_WIN_KEY,
+} from "./lib/storage.js";
 import TabletTypeBar from "./components/TabletTypeBar.jsx";
-import OptionRow from "./components/OptionRow.jsx";
+import OptionGroup from "./components/OptionGroup.jsx";
 import ResultBar from "./components/ResultBar.jsx";
 import PriceFilter from "./components/PriceFilter.jsx";
-import ExtraFilters from "./components/ExtraFilters.jsx";
+import { CorruptFilter, TierGrid } from "./components/ExtraFilters.jsx";
 import Segmented from "./components/Segmented.jsx";
 import ScrollFab from "./components/ScrollFab.jsx";
 import FarmingScene from "./components/FarmingScene.jsx";
 import NavRail from "./components/NavRail.jsx";
-import RightPanel from "./components/RightPanel.jsx";
+import FavoritesWindow from "./components/FavoritesWindow.jsx";
+import SettingsWindow from "./components/SettingsWindow.jsx";
+import Callout from "./components/Callout.jsx";
 import ConfirmDialog from "./components/ConfirmDialog.jsx";
 import CreditsDialog from "./components/CreditsDialog.jsx";
-import { IconMenu, IconStar, IconLightMode, IconDarkMode } from "./components/icons.jsx";
+import {
+  IconMenu,
+  IconStar,
+  IconSettings,
+  IconLightMode,
+  IconDarkMode,
+} from "./components/icons.jsx";
 import { useMediaQuery } from "./hooks/useMediaQuery.js";
 import { useFavorites } from "./hooks/useFavorites.js";
+import { useFloatingWindow } from "./hooks/useFloatingWindow.js";
+import { useOptionPrefs } from "./hooks/useOptionPrefs.js";
 import { useTheme } from "./hooks/useTheme.js";
 
 const DEFAULT_PRICE = {
@@ -25,19 +45,29 @@ const DEFAULT_PRICE = {
   mode: "exact",
   min: "",
   max: "",
-  currency: "chaos",
+  currency: "exalted",
 };
 const INITIAL_TAB = "tablet";
+
+// 탭 전환·초기화 시의 가격 기본값. 핀돼 있으면 핀 값(화폐 포함)이 우선,
+// 아니면 그 탭에서 마지막에 고른 화폐를 유지한다.
+function basePrice(pins, lastCurrency, t) {
+  if (pins.common.price != null) return pins.common.price;
+  return { ...DEFAULT_PRICE, currency: lastCurrency[t] };
+}
 
 export default function App() {
   const [pins, setPins] = useState(loadPins); // 고정된 설정 (localStorage)
   const [tab, setTab] = useState(INITIAL_TAB);
-  const [tabletType, setTabletType] = useState("탐험");
+  const [tabletType, setTabletType] = useState(DEFAULT_TABLET_TYPE);
   // 초기값을 핀에서 복원
   const [sel, setSel] = useState(() => ({ ...pins[INITIAL_TAB].options }));
   const [mode, setMode] = useState("or");
-  const [price, setPrice] = useState(() => pins.common.price ?? DEFAULT_PRICE);
-  const [tier, setTier] = useState(() => pins.waystone.tier ?? ""); // 경로석 등급 (""=무관)
+  const [lastCurrency, setLastCurrency] = useState(loadCurrency); // 탭별 마지막 화폐
+  const [price, setPrice] = useState(() =>
+    pins.common.price ?? { ...DEFAULT_PRICE, currency: loadCurrency()[INITIAL_TAB] }
+  );
+  const [tier, setTier] = useState(() => pins.waystone.tier ?? DEFAULT_TIER); // 경로석 등급 (""=무관)
   const [corrupt, setCorrupt] = useState(() => pins.common.corrupt ?? "any"); // any | yes | no
   const [filter, setFilter] = useState("");
   const [showTrade, setShowTrade] = useState(true);
@@ -45,7 +75,6 @@ export default function App() {
   // 셸 레이아웃 상태
   const [navOpen, setNavOpen] = useState(false); // 좁은 화면 드로어
   const [navCollapsed, setNavCollapsed] = useState(false); // 넓은 화면 수동 접기
-  const [rightOpen, setRightOpen] = useState(true); // 우측 즐겨찾기 패널
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [pendingLoad, setPendingLoad] = useState(null); // 즐겨찾기 덮어쓰기 확인 대기
   const { theme, toggle: toggleTheme } = useTheme();
@@ -55,8 +84,23 @@ export default function App() {
   const isWide = useMediaQuery("(min-width: 1280px)");
   const overlayNav = !isMidUp;
   const railCollapsed = isWide ? navCollapsed : true;
-  const rightPanelOpen = isWide && rightOpen;
   const mainRef = useRef(null); // 중앙 스크롤 컨테이너 (FAB 점프용)
+
+  // 플로팅 창들 (위치·크기·표시모드는 localStorage에 영속)
+  const favWin = useFloatingWindow(FAV_WIN_KEY);
+  const settingsWin = useFloatingWindow(SETTINGS_WIN_KEY);
+  // 좁은 화면(<640px)에선 드래그 가능한 창이 쓸모없으므로 전체화면 시트로
+  const winFullscreen = !useMediaQuery("(min-width: 640px)");
+
+  // 옵션 목록 개인화 (그룹 내 순서·숨김)
+  const optPrefs = useOptionPrefs();
+
+  // 거래소 링크에 쓸 리그
+  const [league, setLeagueState] = useState(() => loadLeague(DEFAULT_LEAGUE));
+  function setLeague(id) {
+    setLeagueState(id);
+    saveLeague(id);
+  }
 
   const pool = useOptionPool(tab, tabletType);
 
@@ -64,6 +108,14 @@ export default function App() {
   useEffect(() => {
     savePins(pins);
   }, [pins]);
+
+  // 화폐를 바꾸면 현재 탭의 "마지막 화폐"로 기억
+  useEffect(() => {
+    setLastCurrency((c) => (c[tab] === price.currency ? c : { ...c, [tab]: price.currency }));
+  }, [price.currency, tab]);
+  useEffect(() => {
+    saveCurrency(lastCurrency);
+  }, [lastCurrency]);
 
   // 핀된 값이 바뀌면 스냅샷 동기화 (핀 = 현재 값으로 항상 갱신되는 저장)
   useEffect(() => {
@@ -186,9 +238,9 @@ export default function App() {
   // 초기화: 핀된 것만 남기고 상황별 선택은 지움
   function clearAll() {
     setSel({ ...pins[tab].options });
-    setPrice(pins.common.price ?? DEFAULT_PRICE);
+    setPrice(basePrice(pins, lastCurrency, tab));
     setCorrupt(pins.common.corrupt ?? "any");
-    if (tab === "waystone") setTier(pins.waystone.tier ?? "");
+    if (tab === "waystone") setTier(pins.waystone.tier ?? DEFAULT_TIER);
   }
 
   // 패턴 생성 (게임 문법: 각 검색 세트를 " "로 감싸고 공백으로 구분)
@@ -234,11 +286,11 @@ export default function App() {
   function switchTab(t) {
     setTab(t);
     setSel({ ...pins[t].options }); // 새 탭의 핀된 옵션 복원
-    // 서판/경로석은 독립 — 상황별 가격·타락 필터는 넘기지 않고 초기화(핀만 유지)
-    setPrice(pins.common.price ?? DEFAULT_PRICE);
+    // 서판/경로석은 독립 — 상황별 가격·타락 필터는 넘기지 않고 초기화(핀·탭별 화폐만 유지)
+    setPrice(basePrice(pins, lastCurrency, t));
     setCorrupt(pins.common.corrupt ?? "any");
     setFilter("");
-    if (t === "waystone") setTier(pins.waystone.tier ?? "");
+    if (t === "waystone") setTier(pins.waystone.tier ?? DEFAULT_TIER);
   }
 
   // ── 즐겨찾기 ──
@@ -272,6 +324,16 @@ export default function App() {
   function requestLoadFavorite(fav) {
     if (selList.length > 0) setPendingLoad(fav); // 현재 선택 있으면 확인
     else applyFavorite(fav);
+  }
+
+  // 거래소 — 검색 조건을 ?q=로 실어 새 탭으로 연다 (현재 검색 / 즐겨찾기 스냅샷 공용)
+  const currentTrade = useMemo(
+    () => tradeUrl({ tab, sel, mode, price, corrupt, tier, league }),
+    [tab, sel, mode, price, corrupt, tier, league]
+  );
+  function openTrade(snap) {
+    const { url } = tradeUrl({ ...snap, league });
+    window.open(url, "_blank", "noopener");
   }
 
   return (
@@ -313,17 +375,24 @@ export default function App() {
             >
               {theme === "dark" ? <IconLightMode width={22} /> : <IconDarkMode width={22} />}
             </button>
-            {isWide && (
-              <button
-                onClick={() => setRightOpen((o) => !o)}
-                title={rightOpen ? "즐겨찾기 숨기기" : "즐겨찾기 보기"}
-                className={`rounded-full p-2 transition hover:bg-surface-c-high ${
-                  rightOpen ? "text-primary" : "text-on-surface-variant"
-                }`}
-              >
-                <IconStar width={22} height={22} />
-              </button>
-            )}
+            <button
+              onClick={favWin.toggleOpen}
+              title={favWin.open ? "즐겨찾기 닫기" : "즐겨찾기 열기"}
+              className={`rounded-full p-2 transition hover:bg-surface-c-high ${
+                favWin.open ? "text-primary" : "text-on-surface-variant"
+              }`}
+            >
+              <IconStar width={22} height={22} />
+            </button>
+            <button
+              onClick={settingsWin.toggleOpen}
+              title={settingsWin.open ? "설정 닫기" : "설정 열기"}
+              className={`rounded-full p-2 transition hover:bg-surface-c-high ${
+                settingsWin.open ? "text-primary" : "text-on-surface-variant"
+              }`}
+            >
+              <IconSettings width={22} height={22} />
+            </button>
           </div>
         </header>
 
@@ -344,28 +413,67 @@ export default function App() {
                 onSetMin={setMin}
                 pinnedOptions={pinnedOptions}
                 onTogglePin={togglePinOption}
+                onTrade={() => openTrade(snapshot())}
+                tradeSkipped={currentTrade.skipped}
               />
 
-              {/* 가격 필터 (경로석·서판 공통) */}
-              <PriceFilter
-                value={price}
-                onChange={setPrice}
-                pinned={pricePinned}
-                onTogglePin={togglePinPrice}
-              />
+              {/* 필터 카드 — 좌: 가격·타락·결합모드·찾기 / 우: 등급 격자(경로석) */}
+              <section className="mb-4 flex flex-wrap gap-x-6 gap-y-4 rounded-md-m border border-outline-variant bg-surface-c px-4 py-3">
+                <div className="flex min-w-[300px] flex-1 flex-col gap-3">
+                  <PriceFilter
+                    value={price}
+                    onChange={setPrice}
+                    pinned={pricePinned}
+                    onTogglePin={togglePinPrice}
+                  />
 
-              {/* 등급(경로석)·타락 필터 */}
-              <ExtraFilters
-                tab={tab}
-                tier={tier}
-                onTier={setTier}
-                corrupt={corrupt}
-                onCorrupt={setCorrupt}
-                tierPinned={tierPinned}
-                onTogglePinTier={togglePinTier}
-                corruptPinned={corruptPinned}
-                onTogglePinCorrupt={togglePinCorrupt}
-              />
+                  <CorruptFilter
+                    corrupt={corrupt}
+                    onCorrupt={setCorrupt}
+                    pinned={corruptPinned}
+                    onTogglePin={togglePinCorrupt}
+                  />
+
+                  <div className="flex items-center gap-2">
+                    <span className="w-12 shrink-0 text-label-l text-on-surface">결합</span>
+                    <Segmented
+                      value={mode}
+                      onChange={setMode}
+                      options={[
+                        { value: "or", label: "OR (아무거나)", title: "선택 옵션 중 하나라도" },
+                        { value: "and", label: "AND (모두)", title: "선택 옵션 모두" },
+                      ]}
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <input
+                      placeholder="찾기"
+                      value={filter}
+                      onChange={(e) => setFilter(e.target.value)}
+                      className="min-w-[180px] flex-1 rounded-md-s border border-outline bg-surface-c-lowest px-4 py-2 text-body-l text-on-surface outline-none transition focus:border-primary placeholder:text-on-surface-variant/60"
+                    />
+                    <label className="flex cursor-pointer select-none items-center gap-1.5 text-body-m text-on-surface-variant">
+                      <input
+                        type="checkbox"
+                        checked={showTrade}
+                        onChange={(e) => setShowTrade(e.target.checked)}
+                        className="accent-primary"
+                      />
+                      거래소명 보기
+                    </label>
+                  </div>
+                </div>
+
+                {tab === "waystone" && (
+                  <TierGrid
+                    tier={tier}
+                    onTier={setTier}
+                    pinned={tierPinned}
+                    onTogglePin={togglePinTier}
+                  />
+                )}
+              </section>
 
               {/* 서판 종류 (옵션 목록을 결정하는 입력 → 목록 바로 위에 배치) */}
               {tab === "tablet" && (
@@ -374,69 +482,34 @@ export default function App() {
                 </div>
               )}
 
-              {/* 포함 결합 모드 + 필터 */}
-              <div className="mb-4 flex flex-wrap items-center gap-3">
-                <Segmented
-                  value={mode}
-                  onChange={setMode}
-                  options={[
-                    { value: "or", label: "OR (아무거나)", title: "선택 옵션 중 하나라도" },
-                    { value: "and", label: "AND (모두)", title: "선택 옵션 모두" },
-                  ]}
-                />
-                <input
-                  placeholder="찾기"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  className="min-w-[220px] flex-1 rounded-md-s border border-outline bg-surface-c px-4 py-2.5 text-body-l text-on-surface outline-none transition focus:border-primary placeholder:text-on-surface-variant/60"
-                />
-                <label className="flex cursor-pointer select-none items-center gap-1.5 text-body-m text-on-surface-variant">
-                  <input
-                    type="checkbox"
-                    checked={showTrade}
-                    onChange={(e) => setShowTrade(e.target.checked)}
-                    className="accent-primary"
-                  />
-                  거래소명 보기
-                </label>
-              </div>
-
               {/* 옵션 목록 */}
               <section>
                 {tab === "tablet" && pool.noUnique && (
-                  <div className="mb-[18px] rounded-md-s border border-outline-variant border-l-4 border-l-primary bg-surface-c px-4 py-3 text-body-m text-on-surface-variant">
-                    <b className="text-primary">{tabletType} 서판</b>은 전용 고유 옵션이 없어요.
-                    아래 공통 옵션으로 검색하세요.
-                  </div>
+                  <Callout>
+                    <b className="text-primary">{tabletType} 서판</b>은 전용 고유 옵션이 없어요. 아래
+                    공통 옵션으로 검색하세요.
+                  </Callout>
                 )}
                 {pool.groups.map((g) => {
-                  const items = filter
-                    ? g.items.filter((it) => it.text.includes(filter))
-                    : g.items;
-                  if (!items.length) return null;
+                  const key = `${tab}:${g.title}`;
+                  const { items, hidden } = optPrefs.applyTo(key, g.items);
                   return (
-                    <div key={g.title} data-group={g.title} className="mb-8">
-                      <div className="mb-3.5 flex items-center gap-3 px-0.5">
-                        <span className="font-cinzel text-label-l uppercase tracking-[2px] text-primary">
-                          {g.title}
-                        </span>
-                        <span className="rounded-full border border-outline-variant px-2 py-0.5 text-label-s text-on-surface-variant">
-                          {items.length}
-                        </span>
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        {items.map((it) => (
-                          <OptionRow
-                            key={optId(it.text)}
-                            item={it}
-                            sel={sel[optId(it.text)]}
-                            showTrade={showTrade}
-                            onToggle={toggle}
-                            onSetMin={setOptMin}
-                          />
-                        ))}
-                      </div>
-                    </div>
+                    <OptionGroup
+                      key={g.title}
+                      title={g.title}
+                      items={items}
+                      hidden={hidden}
+                      filter={filter}
+                      sel={sel}
+                      showTrade={showTrade}
+                      onToggle={toggle}
+                      onSetMin={setOptMin}
+                      onReorder={(dragId, targetId) =>
+                        optPrefs.reorder(key, g.items, dragId, targetId)
+                      }
+                      onHide={(id) => optPrefs.hide(key, g.items, id)}
+                      onUnhide={(id) => optPrefs.unhide(key, id)}
+                    />
                   );
                 })}
               </section>
@@ -448,28 +521,51 @@ export default function App() {
             </div>
           </main>
 
-          {/* 우측 즐겨찾기 (xl+, 토글 가능) */}
-          {rightOpen && (
-            <RightPanel
-              groups={favs.groups}
-              autoEditFavId={favs.autoEditFavId}
-              autoEditGroupId={favs.autoEditGroupId}
-              onAddToGroup={favs.addToGroup}
-              onLoad={requestLoadFavorite}
-              onRenameFav={favs.renameFav}
-              onDeleteFav={favs.deleteFav}
-              onOverwriteFav={favs.overwriteFav}
-              onCreateGroup={favs.createGroup}
-              onRenameGroup={favs.renameGroup}
-              onDeleteGroup={favs.requestDeleteGroup}
-              onMoveFav={favs.moveFav}
-            />
-          )}
         </div>
       </div>
 
-      {/* 스크롤 점프 FAB (최상단/접두어/접미어) */}
-      <ScrollFab scrollRef={mainRef} rightInset={rightPanelOpen ? 312 : 24} />
+      {/* 스크롤 점프 FAB (최상단/접두어/접미어) — 창은 레이아웃을 밀지 않으므로 여백 고정 */}
+      <ScrollFab scrollRef={mainRef} rightInset={24} />
+
+      {/* 즐겨찾기 플로팅 창 (non-modal — 띄운 채로 옵션을 고르고 저장) */}
+      {favWin.open && (
+        <FavoritesWindow
+          geom={favWin.geom}
+          onGeom={favWin.setGeom}
+          fullscreen={winFullscreen}
+          view={favWin.view}
+          onView={favWin.setView}
+          onClose={favWin.close}
+          groups={favs.groups}
+          autoEditFavId={favs.autoEditFavId}
+          autoEditGroupId={favs.autoEditGroupId}
+          onAddToGroup={favs.addToGroup}
+          onLoad={requestLoadFavorite}
+          onRenameFav={favs.renameFav}
+          onDeleteFav={favs.deleteFav}
+          onOverwriteFav={favs.overwriteFav}
+          onTradeFav={openTrade}
+          onCreateGroup={favs.createGroup}
+          onRenameGroup={favs.renameGroup}
+          onDeleteGroup={favs.requestDeleteGroup}
+          onMoveFav={favs.moveFav}
+        />
+      )}
+
+      {/* 설정 창 (즐겨찾기와 같은 플로팅 셸) */}
+      {settingsWin.open && (
+        <SettingsWindow
+          geom={settingsWin.geom}
+          onGeom={settingsWin.setGeom}
+          fullscreen={winFullscreen}
+          onClose={settingsWin.close}
+          onResetFavWindow={favWin.resetGeom}
+          onResetOptPrefs={optPrefs.reset}
+          optPrefsDirty={optPrefs.hasPrefs}
+          league={league}
+          onLeague={setLeague}
+        />
+      )}
 
       {creditsOpen && <CreditsDialog onClose={() => setCreditsOpen(false)} />}
 

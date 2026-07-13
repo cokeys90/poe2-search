@@ -1,5 +1,7 @@
 import { hasNumeric, rangeHint } from "../lib/regex.js";
 import PinButton from "./PinButton.jsx";
+import Tooltip from "./Tooltip.jsx";
+import { IconTrade } from "./icons.jsx";
 
 export default function ResultBar({
   pattern,
@@ -13,6 +15,8 @@ export default function ResultBar({
   onSetMin,
   pinnedOptions = {},
   onTogglePin,
+  onTrade,
+  tradeSkipped = [],
 }) {
   return (
     <div className="sticky top-3 z-20 my-6 rounded-md-l border border-outline-variant bg-surface-c-low p-5 shadow-lg">
@@ -26,6 +30,27 @@ export default function ResultBar({
           >
             {len} / 250
           </span>
+          <Tooltip
+            label={
+              tradeSkipped.length
+                ? `거래소에서 열기 (옵션 ${tradeSkipped.length}개는 거래소 검색 불가라 제외)`
+                : "선택 조건 그대로 공식 거래소에서 열기"
+            }
+          >
+            <button
+              onClick={onTrade}
+              disabled={selList.length === 0}
+              className="flex items-center gap-1 rounded-md-s bg-secondary-container px-3 py-1.5 text-label-l text-on-secondary-container transition hover:brightness-110 disabled:opacity-40 disabled:hover:brightness-100"
+            >
+              <IconTrade width={17} />
+              거래소
+              {tradeSkipped.length > 0 && (
+                <span className="text-label-s text-on-secondary-container/70">
+                  -{tradeSkipped.length}
+                </span>
+              )}
+            </button>
+          </Tooltip>
           <button
             onClick={onCopy}
             className="rounded-md-s bg-primary-container px-3 py-1.5 text-label-l text-on-primary-container transition hover:brightness-110"

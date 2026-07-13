@@ -1,4 +1,5 @@
 import { TABLET_META, TABLET_TYPES } from "../data/options.js";
+import { TabletIcon } from "./GameIcon.jsx";
 
 export default function TabletTypeBar({ value, onChange }) {
   return (
@@ -18,14 +19,7 @@ export default function TabletTypeBar({ value, onChange }) {
             ].join(" ")}
             style={active ? { background: meta.color, borderColor: meta.color } : undefined}
           >
-            <svg
-              viewBox="0 0 24 24"
-              width="17"
-              height="17"
-              fill={active ? "rgb(var(--md-surface))" : meta.color}
-            >
-              <path d={meta.icon} />
-            </svg>
+            <TabletIcon type={t} width={20} />
             {t}
           </button>
         );

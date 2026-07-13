@@ -12,8 +12,6 @@ function Symbol({ name, width = 24, className = "" }) {
   );
 }
 
-export const IconTablet = (p) => <Symbol name="description" {...p} />;
-export const IconWaystone = (p) => <Symbol name="diamond" {...p} />;
 export const IconStar = (p) => <Symbol name="star" {...p} />;
 export const IconMenu = (p) => <Symbol name="menu" {...p} />;
 export const IconChevronLeft = (p) => <Symbol name="chevron_left" {...p} />;
@@ -27,3 +25,11 @@ export const IconCheck = (p) => <Symbol name="check" {...p} />;
 export const IconInfo = (p) => <Symbol name="info" {...p} />;
 export const IconLightMode = (p) => <Symbol name="light_mode" {...p} />;
 export const IconDarkMode = (p) => <Symbol name="dark_mode" {...p} />;
+export const IconViewList = (p) => <Symbol name="view_list" {...p} />;
+export const IconViewCard = (p) => <Symbol name="grid_view" {...p} />;
+export const IconSettings = (p) => <Symbol name="settings" {...p} />;
+export const IconReset = (p) => <Symbol name="restart_alt" {...p} />;
+export const IconReorder = (p) => <Symbol name="swap_vert" {...p} />;
+export const IconTrade = (p) => <Symbol name="storefront" {...p} />;
+export const IconHide = (p) => <Symbol name="do_not_disturb_on" {...p} />;
+export const IconUnhide = (p) => <Symbol name="add_circle" {...p} />;

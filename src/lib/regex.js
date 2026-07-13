@@ -106,18 +106,33 @@ export function hasNumeric(text) {
 // 단어 경계 \b로 자릿수 경계 처리 → "\b50 chaos"가 150 chaos를 잘못 잡지 않음.
 // (게임이 검색어 앞 공백은 잘라버려서 공백 경계는 안 통함 — \b 사용.)
 // price: {enabled, mode:"exact"|"range", min, max, currency}  → 반환: "\b3 chaos" 등, 없으면 ""
+// 가격 상한 — 옵션 수치(openMax)와 같은 3자리 관례
+const PRICE_MAX = 999;
+
 export function pricePiece(price) {
   if (!price || !price.enabled || !price.currency) return "";
-  const lo = parseInt(String(price.min).trim(), 10);
-  if (isNaN(lo) || lo < 0) return "";
   const cur = price.currency;
+  const lo = parseInt(String(price.min).trim(), 10);
+  const hi = parseInt(String(price.max).trim(), 10);
+
   if (price.mode === "range") {
-    const hi = parseInt(String(price.max).trim(), 10);
-    if (isNaN(hi) || hi < lo) return "";
-    const rg = rangeRegex(lo, hi);
+    const hasLo = !isNaN(lo) && lo >= 0;
+    const hasHi = !isNaN(hi) && hi >= 0;
+    let rg;
+    if (hasLo && hasHi) {
+      if (hi < lo) return "";
+      rg = rangeRegex(lo, hi);
+    } else if (hasLo) {
+      rg = rangeRegex(lo, PRICE_MAX); // 최소만 → "그 이상"
+    } else if (hasHi) {
+      rg = rangeRegex(0, hi); // 최대만 → "그 이하"
+    } else {
+      return "";
+    }
     return rg ? "\\b" + rg + " " + cur : "";
   }
   // 정확히 lo개
+  if (isNaN(lo) || lo < 0) return "";
   return "\\b" + lo + " " + cur;
 }
 
