@@ -848,17 +848,22 @@ export const DATA = {
   }
 };
 
+// color: 종류색 / glow / slug: public/tablet/{slug}.png (poe2wiki 인벤토리 아이콘)
+// base: 거래소 기본 타입명 (query.type에 넣으면 그 종류만 검색) — 카카오 trade2 /data/items에서 수집
+// implicit: 종류를 결정하는 고정 옵션 stat id ("… 추가, 잔여 사용 횟수 #회") — /data/stats에서 수집
 export const TABLET_META = {
-  // color: 종류색 / glow / slug: public/tablet/{slug}.png (poe2wiki 인벤토리 아이콘)
-  "균열":   { color:"#b061d6", glow:"rgba(176,97,214,.35)", slug:"breach" },
-  "탐험":   { color:"#d0a24a", glow:"rgba(208,162,74,.35)", slug:"expedition" },
-  "환영":   { color:"#5fc7d6", glow:"rgba(95,199,214,.4)",  slug:"delirium" },
-  "의식":   { color:"#d05a5a", glow:"rgba(208,90,90,.35)",  slug:"ritual" },
-  "감독관": { color:"#e0b84a", glow:"rgba(224,184,74,.45)", slug:"overseer" },
-  "심연":   { color:"#4a9b8e", glow:"rgba(74,155,142,.35)", slug:"abyss" },
-  "사원":   { color:"#5ac2a0", glow:"rgba(90,194,160,.35)", slug:"temple" },
-  "방사능": { color:"#a6d13a", glow:"rgba(166,209,58,.4)",  slug:"irradiated" },
+  "균열":   { color:"#b061d6", glow:"rgba(176,97,214,.35)", slug:"breach",     base:"균열 서판",         implicit:"implicit.stat_2219129443" },
+  "탐험":   { color:"#d0a24a", glow:"rgba(208,162,74,.35)", slug:"expedition", base:"탐험 서판",         implicit:"implicit.stat_1714888636" },
+  "환영":   { color:"#5fc7d6", glow:"rgba(95,199,214,.4)",  slug:"delirium",   base:"환영 서판",         implicit:"implicit.stat_3879011313" },
+  "의식":   { color:"#d05a5a", glow:"rgba(208,90,90,.35)",  slug:"ritual",     base:"의식 서판",         implicit:"implicit.stat_3166002380" },
+  "감독관": { color:"#e0b84a", glow:"rgba(224,184,74,.45)", slug:"overseer",   base:"감독관 서판",       implicit:"implicit.stat_3376302538" },
+  "심연":   { color:"#4a9b8e", glow:"rgba(74,155,142,.35)", slug:"abyss",      base:"심연 서판",         implicit:"implicit.stat_2369421690" },
+  "사원":   { color:"#5ac2a0", glow:"rgba(90,194,160,.35)", slug:"temple",     base:"사원 서판",         implicit:"implicit.stat_3035440454" },
+  "방사능": { color:"#a6d13a", glow:"rgba(166,209,58,.4)",  slug:"irradiated", base:"방사능 노출 서판",  implicit:"implicit.stat_4041853756" },
 };
+
+// 경로석 기본 타입명 — 거래소는 등급별로 다른 기본 타입을 쓴다 ("경로석 (15등급)")
+export const waystoneBase = (tier) => `경로석 (${tier}등급)`;
 
 // 방사능이 기본·첫 번째 (가장 많이 쓰는 종류)
 export const TABLET_TYPES = ["방사능", "균열", "탐험", "환영", "의식", "감독관", "심연", "사원"];

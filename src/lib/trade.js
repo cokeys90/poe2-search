@@ -1,4 +1,4 @@
-import { DATA } from "../data/options.js";
+import { DATA, TABLET_META, waystoneBase } from "../data/options.js";
 import { optId } from "./options.js";
 
 // 공식 거래소(카카오 PoE2) 링크 생성.
@@ -36,9 +36,40 @@ const num = (v) => {
   return isNaN(n) ? null : n;
 };
 
+// 서판 종류를 결정하는 고정 옵션(잔여 사용 횟수) → 종류 (가져오기에서 종류 판별)
+const BY_IMPLICIT = new Map(
+  Object.entries(TABLET_META).map(([type, m]) => [m.implicit, type])
+);
+
+// 거래소 stat_id / 엔드게임 필터 id → 우리 옵션 (가져오기용 역인덱스)
+const BY_STAT = (() => {
+  const m = new Map();
+  const add = (list, tab, tabletType) =>
+    list.forEach((it) => {
+      if (it.stat_id) m.set(it.stat_id, { item: it, tab, tabletType });
+      if (it.map_filter) m.set(it.map_filter, { item: it, tab, tabletType });
+    });
+  add(DATA.waystone.implicit, "waystone");
+  add(DATA.waystone.prefix, "waystone");
+  add(DATA.waystone.suffix, "waystone");
+  add(DATA.tablet.common_prefix, "tablet");
+  add(DATA.tablet.common_suffix, "tablet");
+  for (const [type, list] of Object.entries(DATA.tablet.unique)) add(list, "tablet", type);
+  return m;
+})();
+
 // 검색 상태(스냅샷) → 거래소 URL.
 // 반환: { url, skipped: [거래소에 없는 옵션 원문] }
-export function tradeUrl({ tab, sel, mode, price, corrupt, tier, league = DEFAULT_LEAGUE }) {
+export function tradeUrl({
+  tab,
+  tabletType,
+  sel,
+  mode,
+  price,
+  corrupt,
+  tier,
+  league = DEFAULT_LEAGUE,
+}) {
   const and = [];
   const not = [];
   const count = [];
@@ -85,6 +116,13 @@ export function tradeUrl({ tab, sel, mode, price, corrupt, tier, league = DEFAUL
   const filters = {
     type_filters: { filters: { category: { option: CATEGORY[tab] } } },
   };
+  // 기본 타입까지 지정하면 종류/등급이 정확히 좁혀진다 (카테고리만 쓰면 서판 8종이 다 섞인다)
+  const baseType =
+    tab === "tablet"
+      ? TABLET_META[tabletType]?.base
+      : t != null
+      ? waystoneBase(t)
+      : null;
   if (Object.keys(mapFilters).length) filters.map_filters = { filters: mapFilters };
   if (corrupt === "yes" || corrupt === "no")
     filters.misc_filters = { filters: { corrupted: { option: corrupt === "yes" } } };
@@ -102,10 +140,154 @@ export function tradeUrl({ tab, sel, mode, price, corrupt, tier, league = DEFAUL
   }
 
   const q = {
-    query: { status: { option: "securable" }, stats, filters },
+    query: { status: { option: "securable" }, ...(baseType ? { type: baseType } : {}), stats, filters },
     sort: { price: "asc" },
   };
 
   const url = `${BASE}/${encodeURIComponent(league)}?q=${encodeURIComponent(JSON.stringify(q))}`;
   return { url, skipped };
+}
+
+/* ── 거래소에서 가져오기 ─────────────────────────────────────────
+   짧은 검색 ID(rPBBYV9GuQ)에는 조건이 들어 있지 않고, 조건을 얻으려면 거래소 API를 불러야 한다.
+   그 API는 CORS가 없어 브라우저에서 못 읽고, 서버로 우회하면 거래소의 IP 레이트리밋에 걸린다
+   (공용 IP를 남과 나눠 쓰므로 구조적으로 불안정) → 링크로 가져오는 경로는 두지 않는다.
+   대신 북마클릿이 거래소 페이지 안에서 조건을 읽어 이 앱을 열어준다 (API 호출 0회). */
+
+const PROXY = import.meta.env.VITE_TRADE_PROXY || "";
+
+// 못 가져온 옵션의 stat id → 거래소 원문. 필요할 때만(가져오기에서 빠진 게 있을 때만) 받아온다.
+let statNames = null;
+export async function fetchStatNames(ids) {
+  if (!ids?.length) return [];
+  if (!statNames && PROXY) {
+    try {
+      const res = await fetch(`${PROXY}/stats`);
+      if (res.ok) statNames = await res.json();
+    } catch {
+      // 조회 실패 시엔 id를 그대로 보여준다
+    }
+  }
+  return ids.map((id) => statNames?.[id] || id);
+}
+
+// 북마클릿 — 거래소 페이지에서 조건(window.tradeOpts.state)을 읽어 우리 앱을 열어준다.
+// 거래소 API를 호출하지 않으므로(이미 열린 페이지의 값을 읽을 뿐) 레이트리밋·CORS와 무관하다.
+export function bookmarkletCode(appOrigin = location.origin) {
+  return (
+    "javascript:(function(){var o=window.tradeOpts;" +
+    "if(!o||!o.state){alert('거래소 검색 페이지에서 눌러주세요.');return;}" +
+    `location.href='${appOrigin}/#trade='+encodeURIComponent(JSON.stringify(o.state));})()`
+  );
+}
+
+// 주소의 #trade=… → 조건 JSON (북마클릿이 넘겨준 값)
+export function readHashQuery() {
+  const m = String(location.hash || "").match(/^#trade=(.+)$/);
+  if (!m) return null;
+  try {
+    return JSON.parse(decodeURIComponent(m[1]));
+  } catch {
+    return null;
+  }
+}
+
+// 거래소 조건 JSON → 우리 앱 상태.
+// 반환: { state: {tab, tabletType, tier, sel, mode, price, corrupt}, skipped: [거래소 원문…] }
+export function queryToState(query) {
+  const skipped = [];
+  const sel = {};
+  let hasCount = false;
+  let tab = null;
+  let tabletType = null;
+  let tier = "";
+
+  // 기본 타입명이 있으면 그것만으로 종류·등급이 확정된다 ("방사능 노출 서판" / "경로석 (15등급)")
+  const baseType = String(query?.type || "").trim();
+  if (baseType) {
+    const hit = Object.entries(TABLET_META).find(([, m]) => m.base === baseType);
+    if (hit) {
+      tab = "tablet";
+      tabletType = hit[0];
+    } else {
+      const wm = baseType.match(/경로석 \((\d+)등급\)/);
+      if (wm) {
+        tab = "waystone";
+        tier = wm[1];
+      }
+    }
+  }
+
+
+  const category = query?.filters?.type_filters?.filters?.category?.option;
+  if (category === "map.waystone") tab = "waystone";
+  else if (category === "map.tablet") tab = "tablet";
+
+  const take = (id, mode, min) => {
+    // 서판 종류를 결정하는 고정 옵션 — 우리 옵션 목록엔 없지만 "못 가져온 조건"이 아니라 종류 정보다
+    const implicitType = BY_IMPLICIT.get(id);
+    if (implicitType) {
+      tab = "tablet";
+      tabletType = implicitType;
+      return;
+    }
+    const hit = BY_STAT.get(id);
+    if (!hit) {
+      skipped.push(id);
+      return;
+    }
+    if (!tab) tab = hit.tab; // 카테고리가 없으면 스탯으로 판별
+    if (hit.tabletType) tabletType = hit.tabletType; // 고유 옵션이면 서판 종류까지
+    sel[optId(hit.item.text)] = { ...hit.item, mode, min: min == null ? "" : String(min) };
+  };
+
+  for (const g of query?.stats || []) {
+    if (g.disabled) continue; // 거래소에서 꺼둔 그룹은 무시
+    for (const f of g.filters || []) {
+      if (f.disabled) continue;
+      if (g.type === "not") take(f.id, "exc", null);
+      else {
+        if (g.type === "count") hasCount = true;
+        take(f.id, "inc", f.value?.min);
+      }
+    }
+  }
+
+  // 엔드게임 필터 (경로석 상단 6옵션 · 등급)
+  const mf = query?.filters?.map_filters?.filters || {};
+  for (const [key, v] of Object.entries(mf)) {
+    if (key === "map_tier") {
+      const t = num(v?.min);
+      if (t != null) tier = String(t);
+      continue;
+    }
+    take(key, "inc", v?.min);
+  }
+
+  const price = { enabled: false, mode: "exact", min: "", max: "", currency: "exalted" };
+  const pf = query?.filters?.trade_filters?.filters?.price;
+  if (pf && (pf.min != null || pf.max != null)) {
+    price.enabled = true;
+    price.currency = pf.option || price.currency;
+    price.min = pf.min != null ? String(pf.min) : "";
+    price.max = pf.max != null ? String(pf.max) : "";
+    price.mode = pf.min != null && pf.max != null && pf.min === pf.max ? "exact" : "range";
+    if (price.mode === "exact") price.max = "";
+  }
+
+  const cf = query?.filters?.misc_filters?.filters?.corrupted?.option;
+  const corrupt = cf === true || cf === "true" ? "yes" : cf === false || cf === "false" ? "no" : "any";
+
+  return {
+    state: {
+      tab: tab || "tablet",
+      tabletType,
+      tier,
+      sel,
+      mode: hasCount ? "or" : "and",
+      price,
+      corrupt,
+    },
+    skipped,
+  };
 }

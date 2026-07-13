@@ -1,7 +1,14 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { DATA, DEFAULT_TABLET_TYPE, DEFAULT_TIER } from "./data/options.js";
 import { piece, pricePiece, tierPiece } from "./lib/regex.js";
-import { tradeUrl, DEFAULT_LEAGUE } from "./lib/trade.js";
+import {
+  tradeUrl,
+  queryToState,
+  readHashQuery,
+  fetchStatNames,
+  DEFAULT_LEAGUE,
+} from "./lib/trade.js";
+import TradeImportDialog from "./components/TradeImportDialog.jsx";
 import { optId, useOptionPool } from "./lib/options.js";
 import {
   loadPins,
@@ -328,12 +335,41 @@ export default function App() {
 
   // 거래소 — 검색 조건을 ?q=로 실어 새 탭으로 연다 (현재 검색 / 즐겨찾기 스냅샷 공용)
   const currentTrade = useMemo(
-    () => tradeUrl({ tab, sel, mode, price, corrupt, tier, league }),
-    [tab, sel, mode, price, corrupt, tier, league]
+    () => tradeUrl({ tab, tabletType, sel, mode, price, corrupt, tier, league }),
+    [tab, tabletType, sel, mode, price, corrupt, tier, league]
   );
   function openTrade(snap) {
     const { url } = tradeUrl({ ...snap, league });
     window.open(url, "_blank", "noopener");
+  }
+
+  // 거래소 → 우리 앱. 못 옮긴 조건은 배너로 알린다.
+  const [importOpen, setImportOpen] = useState(false);
+  const [importSkipped, setImportSkipped] = useState([]);
+
+  // 북마클릿이 넘겨준 조건(#trade=…)을 첫 렌더에 적용
+  useEffect(() => {
+    const q = readHashQuery();
+    if (!q) return;
+    history.replaceState(null, "", location.pathname); // 주소는 깔끔하게 되돌린다
+    const { state, skipped } = queryToState(q);
+    applyImport(state, skipped);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function applyImport(s, skipped) {
+    // 못 가져온 옵션은 stat id뿐이라 이름을 따로 조회해 보여준다
+    fetchStatNames(skipped).then(setImportSkipped);
+    setTab(s.tab);
+    if (s.tab === "tablet" && s.tabletType) setTabletType(s.tabletType);
+    setSel(s.sel);
+    setMode(s.mode);
+    setPrice(s.price);
+    setCorrupt(s.corrupt);
+    setTier(s.tab === "waystone" ? s.tier : "");
+    setFilter("");
+    setImportSkipped(skipped);
+    setImportOpen(false);
   }
 
   return (
@@ -420,8 +456,24 @@ export default function App() {
               {/* 필터 카드 — 좌: 가격·타락·결합모드·찾기 / 우: 등급 격자(경로석) */}
               <section className="mb-4 flex flex-wrap gap-x-6 gap-y-4 rounded-md-m border border-outline-variant bg-surface-c px-4 py-3">
                 <div className="flex min-w-[300px] flex-1 flex-col gap-3">
+                onTradeImport={() => setImportOpen(true)}
                   <PriceFilter
                     value={price}
+              {importSkipped.length > 0 && (
+                <Callout>
+                  <span className="block">
+                    거래소 조건 중{" "}
+                    <b className="text-primary">{importSkipped.length}개</b>는 이 앱에 없는 옵션이라
+                    못 가져왔어요.
+                  </span>
+                  <ul className="mt-1 list-disc pl-4 text-body-s text-on-surface-variant">
+                    {importSkipped.map((s, i) => (
+                      <li key={i}>{s}</li>
+                    ))}
+                  </ul>
+                </Callout>
+              )}
+
                     onChange={setPrice}
                     pinned={pricePinned}
                     onTogglePin={togglePinPrice}
@@ -591,3 +643,7 @@ export default function App() {
     </div>
   );
 }
+      {importOpen && (
+        <TradeImportDialog onClose={() => setImportOpen(false)} />
+      )}
+

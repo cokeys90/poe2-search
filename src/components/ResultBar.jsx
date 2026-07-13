@@ -1,7 +1,7 @@
 import { hasNumeric, rangeHint } from "../lib/regex.js";
 import PinButton from "./PinButton.jsx";
 import Tooltip from "./Tooltip.jsx";
-import { IconTrade } from "./icons.jsx";
+import { IconTrade, IconImport } from "./icons.jsx";
 
 export default function ResultBar({
   pattern,
@@ -17,6 +17,7 @@ export default function ResultBar({
   onTogglePin,
   onTrade,
   tradeSkipped = [],
+  onTradeImport,
 }) {
   return (
     <div className="sticky top-3 z-20 my-6 rounded-md-l border border-outline-variant bg-surface-c-low p-5 shadow-lg">
@@ -30,6 +31,15 @@ export default function ResultBar({
           >
             {len} / 250
           </span>
+          <Tooltip label="거래소 검색 링크를 붙여넣어 조건 불러오기">
+            <button
+              onClick={onTradeImport}
+              className="flex items-center gap-1 rounded-md-s px-2.5 py-1.5 text-label-l text-on-surface-variant transition hover:bg-surface-c-high hover:text-on-surface"
+            >
+              <IconImport width={17} />
+              가져오기
+            </button>
+          </Tooltip>
           <Tooltip
             label={
               tradeSkipped.length

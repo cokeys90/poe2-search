@@ -31,5 +31,6 @@ export const IconSettings = (p) => <Symbol name="settings" {...p} />;
 export const IconReset = (p) => <Symbol name="restart_alt" {...p} />;
 export const IconReorder = (p) => <Symbol name="swap_vert" {...p} />;
 export const IconTrade = (p) => <Symbol name="storefront" {...p} />;
+export const IconImport = (p) => <Symbol name="download" {...p} />;
 export const IconHide = (p) => <Symbol name="do_not_disturb_on" {...p} />;
 export const IconUnhide = (p) => <Symbol name="add_circle" {...p} />;
