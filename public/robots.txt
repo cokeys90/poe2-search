@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://poe2.cokeys90.dev/sitemap.xml
