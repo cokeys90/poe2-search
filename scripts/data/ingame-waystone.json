@@ -1,0 +1,144 @@
+{
+  "_source": "PoE2 클라이언트에서 언어를 바꿔가며 속성이 붙은 경로석(15등급)을 직접 캡처. memo/map_{lang}.png",
+  "_why": [
+    "경로석 상단 6옵션은 여러 모드가 합산돼 아이템에 표시되는 값이라 poe2db에 없다.",
+    "거래소 필터 라벨은 UI 문구라 인게임 문구와 다르다('경로석 IIR' vs '아이템 희귀도') — 못 쓴다.",
+    "정규식은 게임 화면의 글자를 맞춰야 하므로 인게임 캡처가 유일한 출처다.",
+    "cn(简体中文)은 게임이 다른 지역 클라이언트에 제공하지 않아 확인할 수 없었다 → 지원 보류."
+  ],
+  "_format": {
+    "implicit": "경로석 상단 6옵션. 게임 표시는 '라벨: +12%' 꼴이라 라벨만 담는다.",
+    "corrupted": "타락 아이템에 찍히는 단어. 검색어에 그대로 들어간다.",
+    "tierSearch": "등급 검색 조각의 틀. {n}이 등급 숫자. 언어마다 어순이 달라 접미사로 못 박는다 (kr '15등급' vs en 'Tier 15')."
+  },
+
+  "kr": {
+    "implicit": {
+      "ws.imp.revives": "부활 횟수",
+      "ws.imp.item_rarity": "아이템 희귀도",
+      "ws.imp.pack_size": "무리 규모",
+      "ws.imp.rare_monsters": "몬스터 희귀도",
+      "ws.imp.monster_effect": "몬스터 효율",
+      "ws.imp.waystone_chance": "경로석 출현 확률"
+    },
+    "corrupted": "타락",
+    "tierSearch": "{n}등급"
+  },
+
+  "us": {
+    "implicit": {
+      "ws.imp.revives": "Revives Available",
+      "ws.imp.item_rarity": "Item Rarity",
+      "ws.imp.pack_size": "Pack Size",
+      "ws.imp.rare_monsters": "Monster Rarity",
+      "ws.imp.monster_effect": "Monster Effectiveness",
+      "ws.imp.waystone_chance": "Waystone Drop Chance"
+    },
+    "corrupted": "Corrupted",
+    "tierSearch": "Tier {n}"
+  },
+
+  "jp": {
+    "implicit": {
+      "ws.imp.revives": "復活が利用可能",
+      "ws.imp.item_rarity": "アイテムレアリティ",
+      "ws.imp.pack_size": "パックサイズ",
+      "ws.imp.rare_monsters": "モンスターレアリティ",
+      "ws.imp.monster_effect": "モンスターエフェクティブ",
+      "ws.imp.waystone_chance": "ウェイストーンドロップ確率"
+    },
+    "corrupted": "コラプト状態",
+    "tierSearch": "ティア{n}"
+  },
+
+  "tw": {
+    "implicit": {
+      "ws.imp.revives": "可用的復活數",
+      "ws.imp.item_rarity": "物品稀有度",
+      "ws.imp.pack_size": "怪群大小",
+      "ws.imp.rare_monsters": "怪物稀有度",
+      "ws.imp.monster_effect": "怪物效能",
+      "ws.imp.waystone_chance": "換界石掉落機率"
+    },
+    "corrupted": "已汙染",
+    "tierSearch": "階級 {n}"
+  },
+
+  "ru": {
+    "implicit": {
+      "ws.imp.revives": "Доступно возрождений",
+      "ws.imp.item_rarity": "Редкость предметов",
+      "ws.imp.pack_size": "Размер групп монстров",
+      "ws.imp.rare_monsters": "Редкость монстров",
+      "ws.imp.monster_effect": "Эффективность монстров",
+      "ws.imp.waystone_chance": "Шанс выпадения путевого камня"
+    },
+    "corrupted": "Осквернено",
+    "tierSearch": "Tier {n}"
+  },
+
+  "pt": {
+    "implicit": {
+      "ws.imp.revives": "Renascimentos Disponíveis",
+      "ws.imp.item_rarity": "Raridade de Itens",
+      "ws.imp.pack_size": "Tamanho de Grupos de Monstros",
+      "ws.imp.rare_monsters": "Raridade de Monstros",
+      "ws.imp.monster_effect": "Efetividade do Monstro",
+      "ws.imp.waystone_chance": "Chance de obtenção de Pedra-guia"
+    },
+    "corrupted": "Corrompido",
+    "tierSearch": "Nível {n}"
+  },
+
+  "th": {
+    "implicit": {
+      "ws.imp.revives": "จำนวนสิทธิ์คืนชีพ",
+      "ws.imp.item_rarity": "ระดับความหายากของไอเทม",
+      "ws.imp.pack_size": "ขนาดกองมอนสเตอร์",
+      "ws.imp.rare_monsters": "ระดับความหายากของมอนสเตอร์",
+      "ws.imp.monster_effect": "ประสิทธิภาพของมอนสเตอร์",
+      "ws.imp.waystone_chance": "โอกาสดรอปศิลานำทาง"
+    },
+    "corrupted": "มีมลทิน",
+    "tierSearch": "ระดับ {n}"
+  },
+
+  "fr": {
+    "implicit": {
+      "ws.imp.revives": "Résurrections disponibles",
+      "ws.imp.item_rarity": "Rareté des objets",
+      "ws.imp.pack_size": "Taille des Groupes",
+      "ws.imp.rare_monsters": "Rareté des Monstres",
+      "ws.imp.monster_effect": "Efficacité des Monstres",
+      "ws.imp.waystone_chance": "Chances de trouver des Pierres de téléportation"
+    },
+    "corrupted": "Corrompu",
+    "tierSearch": "Palier {n}"
+  },
+
+  "de": {
+    "implicit": {
+      "ws.imp.revives": "Wiederbelebungen verfügbar",
+      "ws.imp.item_rarity": "Gegenstandsseltenheit",
+      "ws.imp.pack_size": "Monstergruppengrösse",
+      "ws.imp.rare_monsters": "Monsterseltenheit",
+      "ws.imp.monster_effect": "Monster-Schlagkraft",
+      "ws.imp.waystone_chance": "Chance auf fallen gelassene Wegsteine"
+    },
+    "corrupted": "Verderbt",
+    "tierSearch": "Tier {n}"
+  },
+
+  "sp": {
+    "implicit": {
+      "ws.imp.revives": "Resurrecciones disponibles",
+      "ws.imp.item_rarity": "Rareza de objetos",
+      "ws.imp.pack_size": "Tamaño de los grupos de monstruos",
+      "ws.imp.rare_monsters": "Rareza de los monstruos",
+      "ws.imp.monster_effect": "Efectividad de los monstruos",
+      "ws.imp.waystone_chance": "Probabilidad de que caigan piedras guía"
+    },
+    "corrupted": "Corrupto",
+    "tierSearch": "grado {n}"
+  }
+}

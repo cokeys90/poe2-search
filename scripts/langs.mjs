@@ -1,2 +1,7 @@
-// poe2db 언어 코드 11개. UI 라벨과 URL 코드가 다르다 (PO→pt, ES→sp, English→us).
-export const LANGS = ["us", "kr", "jp", "cn", "tw", "ru", "pt", "th", "fr", "de", "sp"];
+// poe2db 언어 코드. UI 라벨과 URL 코드가 다르다 (PO→pt, ES→sp, English→us).
+//
+// cn(简体中文)은 뺐다. 게임이 다른 지역 클라이언트에 그 언어를 제공하지 않아
+// (중국은 별도 서버) 경로석 상단 6옵션의 인게임 문구를 확인할 수 없다.
+// 그 6개는 경로석에서 제일 많이 쓰는 옵션이라 반쪽짜리로 낼 수 없다.
+// poe2db에는 cn 데이터가 있으니, 그 6줄만 확보되면 바로 되살릴 수 있다.
+export const LANGS = ["us", "kr", "jp", "tw", "ru", "pt", "th", "fr", "de", "sp"];
