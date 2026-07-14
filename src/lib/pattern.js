@@ -6,7 +6,7 @@
 // 게임 문법: 각 검색 세트를 " "로 감싸고 공백으로 구분 (공백 = AND)
 
 import { BY_KEY, TOKENS, tabletImplicit } from "../data/options.js";
-import { piece, pricePiece, tierPiece } from "./regex.js";
+import { piece, pricePiece, tierPiece, meansAbsent } from "./regex.js";
 
 // sel: { [key]: {mode:"inc"|"exc", min} } — 옵션 본문은 key로 데이터에서 되살린다
 // uses: { on, min } — 서판 고정 옵션(잔여 사용 횟수). 서판 탭에서만 쓴다.
@@ -17,13 +17,19 @@ export function buildPattern({ tab, tabletType, sel, mode, tier, corrupt, price,
   for (const [key, s] of Object.entries(sel || {})) {
     const item = BY_KEY.get(key);
     if (!item) continue; // 데이터에서 사라진 옵션(옛 저장분)은 건너뛴다
-    const p = piece(item.frag, s.min, s.max, item.text, {
+    const opts = {
       openMax: item.openMax,
       rmin: item.rmin,
       rmax: item.rmax,
       noPercent: item.noPercent,
-    });
-    if (s.mode === "inc") inc.push(p);
+    };
+    const p = piece(item.frag, s.min, s.max, item.text, opts);
+
+    // ⚠️ "최대 0"처럼 그 모드가 **없어야** 한다는 조건은 인게임에선 제외 검색이라야 한다.
+    //    0%인 무리 규모는 줄이 아예 안 뜨므로 "무리.*0%"는 영원히 안 잡힌다 → "!무리"가 맞다.
+    //    (거래소는 max:0을 그대로 이해하므로 내보내기는 손대지 않는다)
+    const absent = meansAbsent(s.min, s.max, item.text, opts);
+    if (s.mode === "inc" && !absent) inc.push(p);
     else exc.push(p);
   }
 

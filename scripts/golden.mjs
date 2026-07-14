@@ -89,11 +89,23 @@ const tb = [
   { ...pick("tb.suffix", 0), mode: "inc", min: "20" },
   { ...pick("tb.prefix", 2), mode: "exc", min: "" },
 ];
-// sel은 이제 {안정키: {mode, min}} — 옵션 본문은 buildPattern이 데이터에서 되살린다
-const asSel = (arr) => Object.fromEntries(arr.map((o) => [o.key, { mode: o.mode, min: o.min }]));
+// "그 모드가 없어야 한다"(최대 0) — 인게임에선 제외 검색으로 뒤집혀야 한다.
+// 0%인 무리 규모는 줄이 아예 안 뜨므로 "무리.*0%"는 영원히 안 잡힌다. 부활은 "0"으로 뜨니 값으로 찾는다.
+const absent = [
+  { ...pick("ws.implicit", 2), mode: "inc", min: "", max: "0" }, // 무리 규모 → "!무리"
+  { ...pick("ws.implicit", 0), mode: "inc", min: "", max: "0" }, // 부활 횟수 → "부활.*0"
+  { ...pick("ws.implicit", 1), mode: "inc", min: "55", max: "" },
+];
+// sel은 이제 {안정키: {mode, min, max}} — 옵션 본문은 buildPattern이 데이터에서 되살린다
+const asSel = (arr) =>
+  Object.fromEntries(arr.map((o) => [o.key, { mode: o.mode, min: o.min, max: o.max ?? "" }]));
 
 const CASES = [];
-for (const [name, arr, tab] of [["ws", ws, "waystone"], ["tb", tb, "tablet"]]) {
+for (const [name, arr, tab] of [
+  ["ws", ws, "waystone"],
+  ["tb", tb, "tablet"],
+  ["absent", absent, "waystone"],
+]) {
   for (const mode of ["and", "or"]) {
     for (const corrupt of ["any", "yes", "no"]) {
       for (const tier of ["", "15"]) {

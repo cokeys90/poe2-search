@@ -222,6 +222,37 @@ const int = (v) => {
 };
 
 
+// 그 옵션이 가질 수 있는 값의 범위(도메인)와, 실제로 굴려질 수 있는 최소값.
+//
+// ⚠️ 둘은 다르다. 무리 규모는 0~999로 다루지만 **0이면 게임 화면에 줄이 아예 안 뜬다**(인게임 확인).
+//    그러니 굴려질 수 있는 최소값은 1이다. 부활 횟수는 "부활 횟수: 0"으로 실제로 뜬다 → 0이다.
+function domain(text, opts) {
+  if (opts.rmin != null && opts.rmax != null)
+    return { lo: opts.rmin, hi: opts.rmax, rollMin: opts.rmin, suffix: opts.noPercent ? "" : "%" };
+
+  if (opts.openMax)
+    // 경로석 상단의 합산 % 옵션 — 0이면 그 줄이 없다
+    return { lo: 0, hi: 999, rollMin: 1, suffix: opts.noPercent ? "" : "%" };
+
+  const rr = text ? rangeMinMax(text) : null;
+  if (rr) return { lo: rr.min, hi: rr.max, rollMin: rr.min, suffix: valueAnchor(rr.unit) };
+  return { lo: 0, hi: 999, rollMin: 1, suffix: "[%(]" };
+}
+
+// "이 모드가 아예 없어야 한다"는 뜻인가 — 최대값이 굴려질 수 있는 최소값보다 작을 때.
+//
+//   무리 규모 최대 0        → 0 < 1  → 없어야 함 (0%면 줄이 안 뜬다)
+//   아이템 희귀도(8—12) 최대 0 → 0 < 8  → 없어야 함
+//   부활 횟수 최대 0        → 0 < 0 아님 → "부활 횟수: 0"으로 뜨므로 값으로 찾는다
+//
+// ⚠️ 인게임에선 "0을 찾아라"가 아니라 **제외 검색**("!무리")이라야 한다. 없는 줄은 매칭할
+//    텍스트가 없기 때문이다. 그래서 pattern.js가 이걸 보고 제외로 돌린다.
+export function meansAbsent(minInput, maxInput, text, opts) {
+  const hi = int(maxInput);
+  if (hi == null) return false;
+  return hi < domain(text, opts || {}).rollMin;
+}
+
 // 조각 + 최소/최대 → 검색 piece. 거래소와 같은 min/max 모델이다.
 //   둘 다 없음 → 조각만 ("있기만 하면")
 //   최소만    → 그 이상 · 최대만 → 그 이하 · 둘 다 → 그 사이
@@ -238,31 +269,11 @@ export function piece(frag, minInput, maxInput, text, opts) {
 
   const join = (num) => (numComesFirst(frag, text) ? num + ".*" + frag : frag + ".*" + num);
 
-  // 옵션의 도메인 [dLo, dHi]와 값 뒤에 붙일 것(단위·앵커)
-  let dLo, dHi, suffix;
-  if (opts.rmin != null && opts.rmax != null) {
-    // 명시적 범위 — 부활 횟수 0~6. 아이템에 "부활 횟수: 3"으로 뜨고 범위 표시가 없다
-    dLo = opts.rmin;
-    dHi = opts.rmax;
-    suffix = opts.noPercent ? "" : "%";
-  } else if (opts.openMax) {
-    // 상한 없는 옵션(경로석 상단 6종) — 여러 모드의 합산 값이라 범위 표시가 없다
-    dLo = 0;
-    dHi = 999;
-    suffix = opts.noPercent ? "" : "%";
-  } else {
-    // 접사 — 원문의 (8—12) 범위가 곧 도메인이다
-    const rr = text ? rangeMinMax(text) : null;
-    if (rr) {
-      dLo = rr.min;
-      dHi = rr.max;
-      suffix = valueAnchor(rr.unit);
-    } else {
-      dLo = 0;
-      dHi = 999;
-      suffix = "[%(]";
-    }
-  }
+  // "그 모드가 없어야 한다"는 뜻이면 수치로 표현할 수 없다 — 없는 줄엔 매칭할 텍스트가 없다.
+  // 조각만 내놓고, 제외(!)로 돌리는 건 pattern.js가 한다.
+  if (meansAbsent(minInput, maxInput, text, opts)) return frag;
+
+  const { lo: dLo, hi: dHi, suffix } = domain(text, opts);
 
   // 요청한 구간 [lo, hi] 과 도메인의 **교집합**을 구한다.
   // ⚠️ 도메인 안으로 잘라 넣으면(clamp) 안 된다 — "희귀도(8—12) 최대 0"이 "8을 찾아라"로
