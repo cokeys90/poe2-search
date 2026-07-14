@@ -10,7 +10,21 @@
     ],
     "headers": [
       {
-        "//": "index.html은 항상 새로 받게 한다 — 배포 직후 옛 화면이 뜨는 걸 막는다. 언어별 경로(/en/index.html …)도 함께",
+        "//": "⚠️ Firebase의 headers는 **요청 경로**로 매칭한다 — 실제로 서빙되는 파일이 아니다. 그래서 '**/index.html'만으로는 '/'나 '/en/' 요청에 안 걸린다(기본 max-age=3600이 붙어 배포 후 1시간 동안 옛 앱이 뜬다). 디렉터리 경로를 따로 적어야 한다.",
+        "source": "/",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
+        "//": "언어별 경로 (/en/ /ja/ /zh-tw/ …). *는 /를 넘지 않으므로 한 단계만 매칭된다",
+        "source": "/*/",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
+        "//": "index.html에 직접 접근하는 경우",
         "source": "**/index.html",
         "headers": [
           { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
