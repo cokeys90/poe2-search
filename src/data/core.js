@@ -1,7 +1,7 @@
 // PoE2 경로석·서판 옵션 — 언어무관 코어 (poe2db 검증, 0.5.x)
 // 표시 텍스트·검색조각·거래소명은 언어별로 src/data/locales/{lang}.json 에 있다. key로 잇는다.
 // 경로석: 옵션(상단 6종) / 접두(15) / 접미(20)
-// 서판: 공통 접두(13) + 공통 접미(9) + 종류별 고유. 방사능(irradiated)은 고유 옵션이 없다.
+// 서판: 공통 접두(13) + 공통 접미(11) + 종류별 고유. 방사능(irradiated)은 고유 옵션이 없다.
 
 export const CORE = {
   "waystone": {
@@ -398,6 +398,9 @@ export const CORE = {
         {
           "key": "tb.abyss.desecrated_currency",
           "stat_id": "explicit.stat_1710200734"
+        },
+        {
+          "key": "tb.abyss.presence_area"
         }
       ],
       "temple": [
@@ -506,6 +509,12 @@ export const CORE = {
       {
         "key": "tb.suf.unique_monsters_rare",
         "stat_id": "explicit.stat_3371085671"
+      },
+      {
+        "key": "tb.suf.waystones_shrine"
+      },
+      {
+        "key": "tb.suf.waystones_strongbox"
       }
     ]
   }
