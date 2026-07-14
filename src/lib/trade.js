@@ -112,10 +112,17 @@ const BY_IMPLICIT = new Map(
 // 언어무관 코어에서만 만든다 — 언어가 바뀌어도 그대로다. 원문이 필요하면 BY_KEY로 되살린다.
 const BY_STAT = (() => {
   const m = new Map();
+  // ⚠️ 한 스탯에 옵션이 여럿 물릴 수 있다 — 게임이 같은 스탯을 쓰기 때문이다.
+  //    ("지도에 성소 1개 추가 등장"은 공통 접미 복합모드와 감독관 고유 옵션이 함께 쓴다)
+  //    그래서 값이 배열이다. 가져올 때 서판 종류를 보고 고른다.
+  const push = (id, v) => {
+    if (!m.has(id)) m.set(id, []);
+    m.get(id).push(v);
+  };
   const add = (list, tab, tabletType) =>
     list.forEach((c) => {
-      if (c.stat_id) m.set(c.stat_id, { key: c.key, tab, tabletType });
-      if (c.map_filter) m.set(c.map_filter, { key: c.key, tab, tabletType });
+      if (c.stat_id) push(c.stat_id, { key: c.key, tab, tabletType, negated: c.negated });
+      if (c.map_filter) push(c.map_filter, { key: c.key, tab, tabletType });
     });
   add(CORE.waystone.implicit, "waystone");
   add(CORE.waystone.prefix, "waystone");
@@ -154,9 +161,21 @@ export function tradeUrl({
     const item = BY_KEY.get(key);
     if (!item) continue; // 데이터에서 사라진 옵션(옛 저장분)
     // 거래소와 같은 min/max 모델. 둘 다 없으면 "있기만 하면"
+    //
+    // ⚠️ 부호가 반대인 옵션(negated) — 거래소엔 "증가/증폭/더 빠르게"만 있고 우리 옵션은
+    //    "감소/감폭/더 느리게"다. 아이템엔 그 스탯의 **음수값**으로 들어간다.
+    //    화면의 "20% 감소 이상"은 거래소에선 "-20 이하"다 → 부호를 뒤집고 최소·최대를 맞바꾼다.
+    //    (min만 지원하던 시절엔 이걸 표현할 수 없어 이 옵션들을 아예 못 보냈다)
+    const lo = num(s.min);
+    const hi = num(s.max);
     const v = {};
-    if (num(s.min) != null) v.min = num(s.min);
-    if (num(s.max) != null) v.max = num(s.max);
+    if (item.negated) {
+      if (hi != null) v.min = -hi;
+      if (lo != null) v.max = -lo;
+    } else {
+      if (lo != null) v.min = lo;
+      if (hi != null) v.max = hi;
+    }
     const hasValue = Object.keys(v).length > 0;
 
     // 경로석 상단 6옵션은 스탯이 아니라 엔드게임 필터(map_iir 등)로 들어간다
@@ -350,13 +369,29 @@ export function queryToState(query) {
       uses = { on: true, min: min == null ? DEFAULT_USES : String(min), max: str(max) };
       return;
     }
-    const hit = BY_STAT.get(id);
-    if (!hit) {
+    const cands = BY_STAT.get(id);
+    if (!cands?.length) {
       skipped.push(id);
       return;
     }
+    // 스탯 하나에 옵션이 여럿이면 (공통 복합모드 vs 감독관 고유) 서판 종류로 고른다.
+    // 종류를 아직 모르면 **공통 옵션**을 고른다 — 감독관으로 잘못 넘어가면 종류가 통째로 바뀐다.
+    const hit =
+      (tabletType && cands.find((c) => c.tabletType === tabletType)) ||
+      cands.find((c) => !c.tabletType) ||
+      cands[0];
+
     if (!tab) tab = hit.tab; // 카테고리가 없으면 스탯으로 판별
-    if (hit.tabletType) tabletType = hit.tabletType; // 고유 옵션이면 서판 종류까지
+    // 기본 타입명으로 이미 종류가 정해졌으면 스탯이 덮어쓰지 않는다 (위 선택이 그 종류를 존중한다)
+    if (hit.tabletType && !tabletType) tabletType = hit.tabletType;
+
+    // 부호가 반대인 옵션은 내보낼 때 뒤집었으므로 가져올 때 되돌린다 (안 그러면 왕복이 깨진다)
+    if (hit.negated) {
+      const a = min == null ? null : -min;
+      const b = max == null ? null : -max;
+      sel[hit.key] = { mode, min: str(b), max: str(a) }; // 부호를 뒤집으면 최소·최대도 뒤바뀐다
+      return;
+    }
     sel[hit.key] = { mode, min: str(min), max: str(max) };
   };
 

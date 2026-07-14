@@ -179,7 +179,8 @@ export const CORE = {
       },
       {
         "key": "ws.suf.cooldown_recovery_rate",
-        "stat_id": ""
+        "stat_id": "explicit.stat_941368244",
+        "negated": true
       },
       {
         "key": "ws.suf.take_damage_critical",
@@ -268,7 +269,8 @@ export const CORE = {
         },
         {
           "key": "tb.delirium.dissipates_slower",
-          "stat_id": ""
+          "stat_id": "explicit.stat_3350944114",
+          "negated": true
         },
         {
           "key": "tb.delirium.applies_deliriousness",
@@ -302,11 +304,13 @@ export const CORE = {
         },
         {
           "key": "tb.ritual.rerolling_costs_reduced",
-          "stat_id": ""
+          "stat_id": "explicit.stat_2282052746",
+          "negated": true
         },
         {
           "key": "tb.ritual.deferring_costs_reduced",
-          "stat_id": ""
+          "stat_id": "explicit.stat_1345835998",
+          "negated": true
         },
         {
           "key": "tb.ritual.deferred_reappear_sooner",
@@ -460,15 +464,15 @@ export const CORE = {
       },
       {
         "key": "tb.pre.contains_essences",
-        "stat_id": "explicit.stat_2777224821"
+        "stat_id": "explicit.stat_395808938"
       },
       {
         "key": "tb.pre.contains_azmeri_spirits",
-        "stat_id": "explicit.stat_2777224821"
+        "stat_id": "explicit.stat_775597083"
       },
       {
         "key": "tb.pre.contains_rogue_exiles",
-        "stat_id": "explicit.stat_2777224821"
+        "stat_id": "explicit.stat_3550168289"
       },
       {
         "key": "tb.pre.contains_summoning_circles",
@@ -513,10 +517,12 @@ export const CORE = {
         "stat_id": "explicit.stat_3371085671"
       },
       {
-        "key": "tb.suf.waystones_shrine"
+        "key": "tb.suf.waystones_shrine",
+        "stat_id": "explicit.stat_1468737867"
       },
       {
-        "key": "tb.suf.waystones_strongbox"
+        "key": "tb.suf.waystones_strongbox",
+        "stat_id": "explicit.stat_3240183538"
       }
     ],
     "implicit": {

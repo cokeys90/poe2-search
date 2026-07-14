@@ -13,7 +13,7 @@
 import "./fs-locales.mjs";
 import { readFileSync } from "node:fs";
 import { tradeUrl, queryToState, TRADE_SITES, siteForLang, importLangs, tradeOrigin } from "../src/lib/trade.js";
-import { ensureBases, setLang, BY_KEY, DEFAULT_USES } from "../src/data/options.js";
+import { ensureBases, setLang, BY_KEY, DEFAULT_USES, tabletBase } from "../src/data/options.js";
 import { CURRENCIES } from "../src/lib/currency.js";
 import { buildPattern } from "../src/lib/pattern.js";
 
@@ -196,6 +196,70 @@ if (noTrade.length) {
   if (!skipped.length) bad(`거래소명 없는 옵션(${one.key})이 skipped에 안 담겼다 — 조용히 사라진다`);
 }
 console.log(`거래소로 못 보내는 옵션 ${noTrade.length}개 — 전부 사용자에게 보고됨`);
+
+/* ── 3-1. 부호가 반대인 옵션 (negated) ──────────────────────────── */
+
+// 거래소엔 "증가"만 있고 우리 옵션은 "감소"다 → 아이템엔 음수값으로 들어간다.
+// 화면의 "20% 감소 이상"은 거래소에선 "-20 이하"여야 한다. 뒤집지 않으면 정반대를 검색한다.
+const negated = [...BY_KEY.values()].filter((o) => o.negated);
+if (!negated.length) bad("부호 반대 옵션이 하나도 없다 — core.js의 negated가 사라졌나?");
+
+for (const o of negated) {
+  const isTablet = o.key.startsWith("tb.");
+  const state = {
+    tab: isTablet ? "tablet" : "waystone",
+    tabletType: o.key.split(".")[1],
+    sel: { [o.key]: { mode: "inc", min: "20", max: "" } }, // 20% 감소 이상
+    mode: "and",
+    uses: { on: false },
+    price: { enabled: false },
+    corrupt: "any",
+    tier: "",
+  };
+  const { url, skipped } = tradeUrl({ ...state, site: "kakao", lang: "kr" });
+  if (skipped.length) bad(`${o.key}: 아직도 거래소로 못 보낸다`);
+
+  const q = parseQ(url);
+  const f = [...(q.query.stats?.[0]?.filters || [])].find((x) => x.id === o.stat_id);
+  if (!f) bad(`${o.key}: 거래소 조건에 안 들어갔다`);
+  else if (f.value?.max !== -20 || f.value?.min != null)
+    bad(`${o.key}: "20% 감소 이상"이 ${JSON.stringify(f.value)} 로 나갔다 (max:-20 이라야 한다)`);
+
+  const back = queryToState(q.query).state.sel[o.key];
+  if (!back || back.min !== "20" || back.max !== "")
+    bad(`${o.key}: 왕복에서 ${JSON.stringify(back)} 가 됐다`);
+}
+console.log(`부호 반대 옵션 ${negated.length}개 — 뒤집어 내보내고 되돌려 가져옴`);
+
+/* ── 3-2. 스탯 하나에 옵션이 여럿일 때 (공통 vs 감독관 고유) ────── */
+
+// 게임이 같은 스탯을 쓴다 — "지도에 성소 1개 추가 등장"은 공통 접미 복합모드와 감독관 고유 옵션이
+// 함께 쓴다. 가져올 때 서판 종류를 안 보고 고르면 방사능 서판이 감독관으로 통째로 바뀐다.
+for (const [common, uniq, slug] of [
+  ["tb.suf.waystones_shrine", "tb.overseer.shrines", "irradiated"],
+  ["tb.suf.waystones_strongbox", "tb.overseer.strongboxes", "irradiated"],
+  ["tb.pre.contains_essences", "tb.overseer.essences", "irradiated"],
+]) {
+  const statId = BY_KEY.get(common)?.stat_id;
+  if (!statId) {
+    bad(`${common}: 거래소 스탯이 없다`);
+    continue;
+  }
+  if (BY_KEY.get(uniq)?.stat_id !== statId) continue; // 겹치지 않으면 볼 것 없다
+
+  // 방사능 서판(고유 옵션이 없는 종류)으로 온 조건 → 공통 옵션이라야 한다
+  const q = {
+    type: tabletBase(slug, "kr"),
+    stats: [{ type: "and", filters: [{ id: statId }] }],
+    filters: { type_filters: { filters: { category: { option: "map.tablet" } } } },
+  };
+  const { state } = queryToState(q);
+  if (state.tabletType !== slug)
+    bad(`${common}: 서판 종류가 ${slug} → ${state.tabletType} 로 바뀌었다`);
+  if (!state.sel[common])
+    bad(`${common}: 공통 옵션이 아니라 ${Object.keys(state.sel)} 로 잡혔다`);
+}
+console.log(`스탯이 겹치는 옵션 — 서판 종류를 보고 고른다`);
 
 /* ── 4. 워커의 허용 목록이 앱이 실제로 부르는 거래소를 다 덮는가 ── */
 
