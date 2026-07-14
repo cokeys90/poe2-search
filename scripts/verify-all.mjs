@@ -88,7 +88,8 @@ ${results.filter((r) => r.status === "실패").length ? `## 실패\n\n${results.
 ## 자동으로 검증하지 못하는 것
 
 아래는 **사람이 브라우저에서 봐야 한다.** 검증 안 한 것을 통과했다고 적지 않기 위해 여기 남긴다.
-절차는 [verification-spec.md](verification-spec.md)의 "수동 검증" 참고.
+절차는 [verification-spec.md](verification-spec.md)의 "수동 검증",
+**직접 본 결과는 [manual-checks.md](manual-checks.md)** 에 적는다 (이 파일은 자동 생성이라 못 적는다).
 
 - F-08 즐겨찾기 (그룹·저장·드래그 이동·플로팅 창)
 - F-09 핀 · F-10 옵션 순서·숨김

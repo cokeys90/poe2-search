@@ -1,10 +1,10 @@
 # 검증 결과 보고서
 
-> `node scripts/verify-all.mjs --net` 가 만든다. **손으로 고치지 말 것.**
+> `node scripts/verify-all.mjs` 가 만든다. **손으로 고치지 말 것.**
 > 무엇을 검증하는지는 [verification-spec.md](verification-spec.md), 기능 목록은 [feature-spec.md](feature-spec.md).
 
-- 커밋: `a97110b 2026-07-14T21:23:49+09:00`
-- 범위: 오프라인 + 네트워크
+- 커밋: `35e0e5e 2026-07-14T21:34:30+09:00`
+- 범위: 오프라인만 (네트워크 검증은 건너뜀)
 
 | | 검증 | 덮는 기능 | 결과 |
 |---|---|---|---|
@@ -15,14 +15,15 @@
 | ✅ | V-H 250자 예산 | F-03 F-12 | 실전 조합은 전부 250자 안에 들어간다 |
 | ✅ | V-A 골든 회귀 | F-03 | 1779개 케이스 — 베이스라인과 바이트 동일 |
 | ✅ | V-I 빌드 (경로 정합 포함) | F-12 F-13 |   /  /en  /ja  /zh-tw  /ru  /pt-br  /th  /fr  /de  /es |
-| ✅ | V-E 게임 용어 ↔ poe2db | F-12 | 전부 일치 |
-| ✅ | V-F 기본 타입명 ↔ 거래소 API | F-06 F-12 | 전부 통과 |
+| ⏭ | V-E 게임 용어 ↔ poe2db | F-12 | 네트워크 검증 (--net으로 실행) |
+| ⏭ | V-F 기본 타입명 ↔ 거래소 API | F-06 F-12 | 네트워크 검증 (--net으로 실행) |
 
 
 ## 자동으로 검증하지 못하는 것
 
 아래는 **사람이 브라우저에서 봐야 한다.** 검증 안 한 것을 통과했다고 적지 않기 위해 여기 남긴다.
-절차는 [verification-spec.md](verification-spec.md)의 "수동 검증" 참고.
+절차는 [verification-spec.md](verification-spec.md)의 "수동 검증",
+**직접 본 결과는 [manual-checks.md](manual-checks.md)** 에 적는다 (이 파일은 자동 생성이라 못 적는다).
 
 - F-08 즐겨찾기 (그룹·저장·드래그 이동·플로팅 창)
 - F-09 핀 · F-10 옵션 순서·숨김
