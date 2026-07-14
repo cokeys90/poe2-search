@@ -401,7 +401,8 @@ export const CORE = {
           "stat_id": "explicit.stat_1710200734"
         },
         {
-          "key": "tb.abyss.presence_area"
+          "key": "tb.abyss.spawn_monsters",
+          "stat_id": "explicit.stat_944630113"
         }
       ],
       "temple": [

@@ -1,7 +1,7 @@
-// 서판 모드의 소속(공통 / 종류 고유)을 근거로 확정한다.
+// 서판 종류별 페이지 수집 — 소속(공통/고유) · 고정 옵션 · 언어무관 식별자(ModFamilyList).
 //
 //   node scripts/scrape-tablet-types.mjs [lang]     (기본 kr)
-//   → scripts/out/tablet-types-{lang}.json   { [정규화된 모드 텍스트]: { types:[…], gen, text } }
+//   → scripts/out/tablet-types-{lang}.json   { implicits:{slug:[줄…]}, mods:[…] }
 //
 // poe2db의 종류별 페이지(/{lang}/Breach_Tablet 등)에는 그 서판에 붙을 수 있는 모드 전체가
 // JSON으로 박혀 있다(표는 JS로 렌더돼 HTML엔 없다). 그래서:
@@ -9,8 +9,8 @@
 //   한 종류 페이지에만 나오는 모드     = 그 종류의 고유
 // 종류를 사람이 추측하지 않고 이렇게 확정한다.
 //
-// (JSON의 "Name"은 언어 무관 ID가 아니다 — 공통 모드에선 한국어 접사명("도전자의")이고
-//  이름 없는 모드에서만 내부명(TowerIncursionPackSize)이 나온다.)
+// ⚠️ 텍스트 소스로는 쓰지 말 것 — pt·th 페이지는 데이터가 빠져 있다(심연 us 33개 vs pt 23개).
+//    옵션 원문은 통합표(scrape-poe2db.mjs)에서 가져온다. 이 스크립트는 소속·고정 옵션·식별자용이다.
 
 import { writeFileSync } from "node:fs";
 
@@ -69,7 +69,7 @@ function normalArray(html) {
 }
 
 // ModGenerationTypeID: 1=접두 2=접미 (그 밖은 고정 옵션 등 — 검색 대상이 아니다)
-// str에는 딸린 부가효과 줄이 <br>로 이어진다 — 첫 줄만 실제 옵션이다.
+// str에는 딸린 부가 옵션 줄이 <br>로 이어진다.
 function parseMods(html) {
   const arr = normalArray(html);
   if (!arr) return [];
@@ -79,13 +79,28 @@ function parseMods(html) {
     if (gen !== 1 && gen !== 2) continue;
     const lines = String(m.str || "").split(/<br\s*\/?>/i).map(strip).filter(Boolean);
     if (!lines.length) continue;
-    out.push({ gen, name: m.Name, text: lines[0], lines });
+    // ModFamilyList는 언어 무관 식별자다 — 언어 간 같은 모드를 맞추는 유일한 열쇠.
+    // (Name은 못 쓴다: 공통 모드에선 한국어 접사명이고, 이름 없는 모드에서만 내부명이 나온다.)
+    out.push({ gen, family: (m.ModFamilyList || []).join(","), text: lines[0], lines });
   }
   return out;
 }
 
+// 서판의 고정 옵션 — 아이템 카드 헤더(2번째)에 들어 있다.
+//   <span class='item_magic'>지도에 <a…>저세상 균열</a> 1개 추가<br/>잔여 사용 횟수 <span…>10</span>회</span>
+// 두 줄이 <br>로 갈려 있다. 나머지 태그(키워드 링크·mod-value)는 지운다.
+function implicitLines(html) {
+  const heads = [...html.matchAll(/card-header[^>]*>([\s\S]*?)<\/h5>/g)];
+  if (heads.length < 2) return null;
+  return heads[1][1]
+    .split(/<br\s*\/?>/i)
+    .map(strip)
+    .filter(Boolean);
+}
+
 const lang = process.argv[2] || "kr";
-const index = new Map(); // 정규화 텍스트 → { types:Set, gen, text }
+const implicits = {};
+const index = new Map();
 
 for (const [slug, page] of Object.entries(PAGES)) {
   const res = await fetch(`https://poe2db.tw/${lang}/${page}`, { headers: { "User-Agent": UA } });
@@ -93,45 +108,50 @@ for (const [slug, page] of Object.entries(PAGES)) {
     console.error(`✗ ${page} → HTTP ${res.status}`);
     continue;
   }
-  const mods = parseMods(await res.text());
+  const html = await res.text();
+  implicits[slug] = implicitLines(html);
   const uniq = new Set();
-  for (const m of mods) {
+  for (const m of parseMods(html)) {
     const k = m.lines.map(norm).join(" ¶ ");
     uniq.add(k);
-    if (!index.has(k)) index.set(k, { types: new Set(), gen: m.gen, text: m.text, lines: m.lines });
+    if (!index.has(k)) {
+      index.set(k, { types: new Set(), gen: m.gen, family: m.family, text: m.text, lines: m.lines });
+    }
     index.get(k).types.add(slug);
   }
   console.error(`  ${slug.padEnd(11)} 모드 ${uniq.size}개`);
 }
 
 const TOTAL = Object.keys(PAGES).length;
-const rows = [...index.entries()].map(([k, v]) => ({
+const mods = [...index.entries()].map(([k, v]) => ({
   norm: k,
   text: v.text,
   lines: v.lines,
   gen: v.gen, // 1=접두 2=접미
+  family: v.family, // 언어 무관 식별자
   types: [...v.types],
 }));
 
-const common = rows.filter((r) => r.types.length === TOTAL);
-const unique = rows.filter((r) => r.types.length === 1);
-const partial = rows.filter((r) => r.types.length > 1 && r.types.length < TOTAL);
+const common = mods.filter((r) => r.types.length === TOTAL);
+const unique = mods.filter((r) => r.types.length === 1);
+const partial = mods.filter((r) => r.types.length > 1 && r.types.length < TOTAL);
 
 console.error(`\n공통(8종 전부) ${common.length}개 · 고유(1종) ${unique.length}개 · 애매(2~7종) ${partial.length}개`);
 console.error(
   `  공통 접두 ${common.filter((r) => r.gen === 1).length} / 접미 ${common.filter((r) => r.gen === 2).length}`
 );
 for (const slug of Object.keys(PAGES)) {
-  const n = unique.filter((r) => r.types[0] === slug).length;
-  console.error(`  고유 ${slug.padEnd(11)} ${n}개`);
+  console.error(`  고유 ${slug.padEnd(11)} ${unique.filter((r) => r.types[0] === slug).length}개`);
 }
 if (partial.length) {
   console.error("\n⚠ 여러 종류에 걸친 모드 (공통도 고유도 아님):");
   for (const r of partial) console.error(`   [${r.types.join(",")}] ${r.text}`);
 }
 
-writeFileSync(
-  `scripts/out/tablet-types-${lang}.json`,
-  JSON.stringify(rows, null, 1)
-);
+console.error("\n[고정 옵션]");
+for (const [slug, t] of Object.entries(implicits)) {
+  console.error(`  ${slug.padEnd(11)} ${t ? t.join("  /  ") : "✗ 못 찾음"}`);
+}
+
+writeFileSync(`scripts/out/tablet-types-${lang}.json`, JSON.stringify({ implicits, mods }, null, 1));
 console.error(`\n→ scripts/out/tablet-types-${lang}.json`);
