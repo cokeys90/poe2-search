@@ -98,6 +98,7 @@ const ours = [
 ];
 
 const texts = {};
+const extras = {};
 const missing = [];
 
 for (const [pool, affix, it] of ours) {
@@ -110,16 +111,21 @@ for (const [pool, affix, it] of ours) {
   // 줄 번호는 언어 간 같다(같은 모드의 같은 스탯 순서) → kr에서 찾은 줄 번호를 그대로 쓴다.
   const krLines = MODS[pool].kr[i].lines || [MODS[pool].kr[i].text];
   const li = krLines.findIndex((l) => norm(l) === norm(it.text));
-  texts[it.key] = Object.fromEntries(
-    LANGS.map((l) => {
-      const m = MODS[pool][l][i];
-      const lines = m.lines || [m.text];
-      let t = lines[li] ?? lines[lines.length - 1];
-      // 대표 행의 범위 합집합을 그 줄에도 반영
-      if (m.span && RANGE.test(t)) t = t.replace(RANGE, `(${m.span[0]}—${m.span[1]})`);
-      return [l, t];
-    })
-  );
+  const pick = (l, idx) => {
+    const m = MODS[pool][l][i];
+    const lines = m.lines || [m.text];
+    let t = lines[idx] ?? lines[lines.length - 1];
+    // 대표 행의 범위 합집합을 그 줄에도 반영
+    if (m.span && RANGE.test(t)) t = t.replace(RANGE, `(${m.span[0]}—${m.span[1]})`);
+    return t;
+  };
+  texts[it.key] = Object.fromEntries(LANGS.map((l) => [l, pick(l, li)]));
+
+  // 복합 모드의 부가 옵션 — 실제 옵션 줄을 뺀 나머지. 검색 대상은 아니고 화면에만 쓴다(§3-4).
+  if (krLines.length > 1) {
+    const others = krLines.map((_, x) => x).filter((x) => x !== li);
+    extras[it.key] = Object.fromEntries(LANGS.map((l) => [l, others.map((x) => pick(l, x))]));
+  }
 }
 
 /* ── 경로석 상단 6옵션: 인게임 캡처 ───────────────────────────── */
@@ -168,7 +174,10 @@ if (missing.length) {
 }
 
 writeFileSync("scripts/out/texts.json", JSON.stringify(texts, null, 1));
-console.error("\n→ scripts/out/texts.json");
+writeFileSync("scripts/out/extras.json", JSON.stringify(extras, null, 1));
+console.error(
+  `\n→ scripts/out/texts.json (${Object.keys(texts).length}개) · extras.json (${Object.keys(extras).length}개)`
+);
 
 const sample = "ws.pre.deal_extra_fire";
 console.error(`\n[샘플] ${sample}`);

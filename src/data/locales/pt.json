@@ -1,0 +1,832 @@
+{
+  "tablets": {
+    "irradiated": "Irradiada",
+    "breach": "Fenda",
+    "expedition": "Expedition",
+    "delirium": "Delirium",
+    "ritual": "Ritual",
+    "overseer": "do Supervisor",
+    "abyss": "Abismo",
+    "temple": "do Templo"
+  },
+  "bases": {
+    "irradiated": "Tábua Irradiada",
+    "breach": "Tábua de Fenda",
+    "expedition": "Tábua de Expedição",
+    "delirium": "Tábua de Delírio",
+    "ritual": "Tábua de Ritual",
+    "overseer": "Tábua do Supervisor",
+    "abyss": "Tábua do Abismo",
+    "temple": "Tábua do Templo",
+    "waystone": "Pedra-guia (Nível {tier})"
+  },
+  "tokens": {
+    "tier": "Nível {n}",
+    "corrupted": "Corrompido",
+    "units": "%"
+  },
+  "options": {
+    "ws.imp.revives": {
+      "text": "Renascimentos Disponíveis",
+      "frag": "ív",
+      "overlap": 1
+    },
+    "ws.imp.item_rarity": {
+      "text": "Raridade de Itens",
+      "frag": "ens",
+      "overlap": 1
+    },
+    "ws.imp.pack_size": {
+      "text": "Tamanho de Grupos de Monstros",
+      "frag": "ru",
+      "overlap": 1
+    },
+    "ws.imp.rare_monsters": {
+      "text": "Raridade de Monstros",
+      "frag": "de de M",
+      "overlap": 1
+    },
+    "ws.imp.waystone_chance": {
+      "text": "Chance de obtenção de Pedra-guia",
+      "frag": "bt",
+      "overlap": 1
+    },
+    "ws.imp.monster_effect": {
+      "text": "Efetividade do Monstro",
+      "frag": "eti",
+      "overlap": 1
+    },
+    "ws.pre.deal_extra_fire": {
+      "text": "Monstros causam (5—24)% do dano como dano de fogo adicional",
+      "frag": "fo",
+      "overlap": 1,
+      "extra": [
+        "Monstros têm a efetividade aumentada em 16%",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.deal_extra_cold": {
+      "text": "Monstros causam (5—24)% do dano como dano de frio adicional",
+      "frag": "fri",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+14% de raridade de itens encontrados nesta área",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.deal_extra_lightning": {
+      "text": "Monstros causam (5—24)% do dano como dano elétrico adicional",
+      "frag": "lé",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+8% de tamanho do grupo",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.monster_damage": {
+      "text": "Dano de monstro aumentado em (5—24)%",
+      "frag": "ro a",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+25% de monstros mágicos e raros",
+        "Monstros raros têm +25% de chance de ter modificadores de monstro",
+        "ㅤ+20% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.attack_cast_movement": {
+      "text": "Monstros têm a velocidade de ataque, de conjuração e de movimento aumentada em (10—15)%",
+      "frag": "ju",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+9% de tamanho do grupo",
+        "ㅤ+25% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.critical_hit": {
+      "text": "Monstros têm uma chance de golpe crítico aumentada em (80—300)%",
+      "frag": "e cr",
+      "overlap": 1,
+      "extra": [
+        "+(80—300)% ao bônus de dano crítico de monstros",
+        "ㅤ+9% de tamanho do grupo",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.monster_life": {
+      "text": "ㅤ+(10—30)% de vida de monstro",
+      "frag": "ro$",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+23% de monstros mágicos e raros",
+        "Monstros raros têm +23% de chance de ter modificadores de monstro",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.poison_hit": {
+      "text": "Monstros têm uma chance de envenenar ao atingir",
+      "frag": "nv",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+7% de tamanho do grupo",
+        "ㅤ+10% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.inflict_bleeding_hit": {
+      "text": "Monstros têm (5—25)% de chance de infligir sangramento ao atingir",
+      "frag": "fl",
+      "overlap": 1,
+      "extra": [
+        "Monstros têm +13% de efetividade",
+        "ㅤ+10% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.break_armour_equal": {
+      "text": "Monstros quebram a armadura equivalente a (15—45)% do dano físico causado",
+      "frag": "br",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+19% de monstros mágicos e raros",
+        "Monstros raros têm +19% de chance de ter modificadores de monstro",
+        "ㅤ+10% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.accuracy_rating": {
+      "text": "Monstros têm a precisão aumentada em (10—50)%",
+      "frag": "a p",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+7% de tamanho do grupo",
+        "ㅤ+10% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.deal_extra_chaos": {
+      "text": "Monstros causam (5—24)% do dano como dano de caos adicional",
+      "frag": "aos",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+15% de raridade de itens encontrados nesta área",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.stun_buildup": {
+      "text": "Monstros têm o acúmulo de atordoamento aumentado em (50—110)%",
+      "frag": "ac",
+      "overlap": 1,
+      "extra": [
+        "Monstros têm +13% de efetividade",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.fire_projectiles": {
+      "text": "Monstros disparam 2 projéteis adicionais",
+      "frag": "jé",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+9% de tamanho do grupo",
+        "ㅤ+25% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.pre.penetrates_elemental_resistances": {
+      "text": "Dano dos monstros ignora (6—16)% das resistências elementais",
+      "frag": "gn",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+16% de raridade de itens encontrados nesta área",
+        "ㅤ+20% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.rare_monsters_modifiers": {
+      "text": "Monstros raros têm 1 modificador adicional",
+      "frag": "1 m",
+      "overlap": 1,
+      "extra": [
+        "Quantidade de monstros raros aumentada em 25%",
+        "Quantidade de Pedras-guia encontradas na área aumentada em 10%"
+      ]
+    },
+    "ws.suf.monster_elemental_resistances": {
+      "text": "ㅤ+(20—40)% de resistências elementais para monstros",
+      "frag": "s p",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+14% de raridade de itens encontrados nesta área",
+        "ㅤ+10% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.monsters_armoured": {
+      "text": "Monstros são blindados",
+      "frag": "bl",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+18% de monstros mágicos e raros",
+        "Monstros raros têm +18% de chance de ter modificadores de monstro",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.monsters_evasive": {
+      "text": "Monstros são evasivos",
+      "frag": "ev",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+6% de tamanho do grupo",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.gain_maximum_life": {
+      "text": "Monstros ganham (12—25)% de vida máxima como escudo de energia máximo adicional",
+      "frag": "imo",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+13% de raridade de itens encontrados nesta área",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.monsters_ailment_threshold": {
+      "text": "Monstros têm a resistência-limite a afecções aumentada em (30—79)%",
+      "frag": "mi",
+      "overlap": 1,
+      "extra": [
+        "Monstros têm a resistência-limite a atordoamento aumentada em (30—79)%",
+        "Monstros têm +13% de efetividade",
+        "ㅤ+10% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.monster_ailment_application": {
+      "text": "Monstros têm a aplicação de afecção elemental aumentada em (60—130)%",
+      "frag": "ap",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+11% de raridade de itens encontrados nesta área",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.monsters_effect": {
+      "text": "Monstros têm a área de efeito aumentada em 50%",
+      "frag": "a á",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+20% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.periodically_cursed_enfeeble": {
+      "text": "Jogadores são periodicamente amaldiçoados com Enfraquecimento",
+      "frag": "Enf",
+      "overlap": 1,
+      "extra": [
+        "Monstros têm +16% de efetividade",
+        "ㅤ+20% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.periodically_temporal_chains": {
+      "text": "Jogadores são periodicamente amaldiçoados com Grilhões Temporais",
+      "frag": "hõ",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+8% de tamanho do grupo",
+        "ㅤ+20% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.periodically_cursed_weakness": {
+      "text": "Jogadores são periodicamente amaldiçoados com fraqueza elemental",
+      "frag": "ez",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+13% de raridade de itens encontrados nesta área",
+        "ㅤ+20% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.patches_ignited_ground": {
+      "text": "Área tem trechos de chão incendiado",
+      "frag": "cen",
+      "overlap": 1,
+      "extra": [
+        "Monstros têm +15% de efetividade",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área",
+        "ground fire art variation [1033]",
+        "map ground effect patches per 100 tiles [4]",
+        "map ground effect radius [20]"
+      ]
+    },
+    "ws.suf.patches_chilled_ground": {
+      "text": "Área tem trechos de chão congelado",
+      "frag": "ge",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+12% de raridade de itens encontrados nesta área",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área",
+        "ground ice art variation [1014]",
+        "map ground effect patches per 100 tiles [3]",
+        "map ground effect radius [26]"
+      ]
+    },
+    "ws.suf.patches_shocked_ground": {
+      "text": "Área tem trechos de chão eletrificado",
+      "frag": "etr",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+7% de tamanho do grupo",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área",
+        "ground lightning art variation [1011]",
+        "map ground effect patches per 100 tiles [5]",
+        "map ground effect radius [17]"
+      ]
+    },
+    "ws.suf.maximum_resistances": {
+      "text": "(-10—-3)% de resistências máximas do jogador",
+      "frag": "mas",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+10% de tamanho do grupo",
+        "ㅤ+25% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.gain_flask_charges": {
+      "text": "Jogadores ganham (20—35)% menos cargas de frasco",
+      "frag": "eno",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+7% de tamanho do grupo",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.recovery_rate_life": {
+      "text": "Jogadores têm -(20—40)% de recuperação de vida e de escudo de energia",
+      "frag": "cup",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+15% de raridade de itens encontrados nesta área",
+        "ㅤ+20% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.cooldown_recovery_rate": {
+      "text": "Jogadores têm -(15—30)% de velocidade de recarga",
+      "frag": "eca",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+12% de raridade de itens encontrados nesta área",
+        "ㅤ+15% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.take_damage_critical": {
+      "text": "Monstros sofrem dano adicional de golpes críticos reduzido em (15—30)",
+      "frag": "of",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+18% de monstros mágicos e raros",
+        "Monstros raros têm +18% de chance de ter modificadores de monstro",
+        "ㅤ+10% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "ws.suf.less_effect_curses": {
+      "text": "ㅤ-(20—50)% de efeito de maldições em monstros",
+      "frag": "içõ",
+      "overlap": 1,
+      "extra": [
+        "ㅤ+10% de raridade de itens encontrados nesta área",
+        "ㅤ+10% de quantidade de Pedras-guia encontradas na área"
+      ]
+    },
+    "tb.pre.monsters_effectiveness": {
+      "text": "Monstros têm a efetividade aumentada em (10—15)%",
+      "frag": "et",
+      "overlap": 1
+    },
+    "tb.pre.rarity_items_found": {
+      "text": "Raridade de itens encontrados no mapa aumentada em (8—12)%",
+      "frag": "ns e",
+      "overlap": 1
+    },
+    "tb.pre.pack_size": {
+      "text": "Tamanho de grupos do mapa aumentado em (5—7)%",
+      "frag": "^Ta",
+      "overlap": 1
+    },
+    "tb.pre.magic_monsters": {
+      "text": "Mapa tem a quantidade de monstros mágicos aumentada em (30—40)%",
+      "frag": "os m",
+      "overlap": 1
+    },
+    "tb.pre.number_rare_monsters": {
+      "text": "Mapa tem a quantidade de monstros raros aumentada em (25—35)%",
+      "frag": "aros au",
+      "overlap": 1
+    },
+    "tb.pre.monster_rarity": {
+      "text": "Mapa tem a Raridade de monstro aumentada em (15—20)%",
+      "frag": "a Ra",
+      "overlap": 1
+    },
+    "tb.pre.gold_found": {
+      "text": "Ouro encontrado no mapa aumentado em (25—35)%",
+      "frag": "Our",
+      "overlap": 1
+    },
+    "tb.pre.experience_gain": {
+      "text": "Ganho de experiência no mapa aumentado em (12—18)%",
+      "frag": "^Ga",
+      "overlap": 1
+    },
+    "tb.pre.contains_rare_chests": {
+      "text": "Mapa contém (2—3) baús raros adicionais",
+      "frag": "ús r",
+      "overlap": 1
+    },
+    "tb.pre.contains_essences": {
+      "text": "Mapa contém 1 essência adicional",
+      "frag": "a ad",
+      "overlap": 2,
+      "extra": [
+        "Quantidade de Pedras-guia encontradas no mapa aumentada em %"
+      ]
+    },
+    "tb.pre.contains_azmeri_spirits": {
+      "text": "Mapa contém 1 espírito azmeri adicional",
+      "frag": "i ad",
+      "overlap": 2,
+      "extra": [
+        "Quantidade de Pedras-guia encontradas no mapa aumentada em %"
+      ]
+    },
+    "tb.pre.contains_rogue_exiles": {
+      "text": "Mapa é habitado por 1 Exilado Renegado adicional",
+      "frag": "a é",
+      "overlap": 1,
+      "extra": [
+        "Quantidade de Pedras-guia encontradas no mapa aumentada em %"
+      ]
+    },
+    "tb.pre.contains_summoning_circles": {
+      "text": "Mapa contém 1 círculo de invocação adicional",
+      "frag": "ão ad",
+      "overlap": 1
+    },
+    "tb.suf.quantity_waystones_found": {
+      "text": "Quantidade de Pedras-guia encontradas no mapa aumentada em (30—40)%",
+      "frag": "a en",
+      "overlap": 3
+    },
+    "tb.suf.contain_shrines": {
+      "text": "Mapa tem uma chance de conter altares aumentada em (70—100)%",
+      "frag": "er a",
+      "overlap": 1
+    },
+    "tb.suf.contain_strongboxes": {
+      "text": "Mapa tem uma chance de conter caixas-forte aumentada em (70—100)%",
+      "frag": "s-f",
+      "overlap": 1
+    },
+    "tb.suf.essences": {
+      "text": "Mapa tem uma chance de conter essências aumentada em (70—100)%",
+      "frag": "ias",
+      "overlap": 1
+    },
+    "tb.suf.azmeri_spirits": {
+      "text": "Mapa tem uma chance de conter espíritos azmeri aumentada em (70—100)%",
+      "frag": "i au",
+      "overlap": 1
+    },
+    "tb.suf.rogue_exiles": {
+      "text": "Mapa tem uma chance de conter Exilados Renegados aumentada em (70—100)%",
+      "frag": "r Ex",
+      "overlap": 1
+    },
+    "tb.suf.summoning_circle": {
+      "text": "Mapa tem uma chance de conter 1 círculo de invocação aumentada em (70—100)%",
+      "frag": "er 1",
+      "overlap": 1
+    },
+    "tb.suf.random_modifiers": {
+      "text": "Mapa tem (1—2) modificador aleatório adicional",
+      "frag": "ór",
+      "overlap": 1
+    },
+    "tb.suf.unique_monsters_rare": {
+      "text": "Monstros Únicos têm 1 Modificador adicional",
+      "frag": "os Ú",
+      "overlap": 1
+    },
+    "tb.suf.waystones_shrine": {
+      "text": "Quantidade de Pedras-guia encontradas no mapa aumentada em %",
+      "frag": "em %",
+      "overlap": 2,
+      "extra": [
+        "Tamanho de grupos do mapa reduzido em %",
+        "Mapa contém 1 altar adicional"
+      ]
+    },
+    "tb.suf.waystones_strongbox": {
+      "text": "Quantidade de Pedras-guia encontradas no mapa aumentada em %",
+      "frag": "em %",
+      "overlap": 2,
+      "extra": [
+        "Tamanho de grupos do mapa reduzido em %",
+        "Mapa contém 1 caixa-forte adicional"
+      ]
+    },
+    "tb.impl.irradiated": {
+      "text": "Adiciona Irradiação a um mapa / Restam (1—10) utilizações",
+      "frag": "Ir",
+      "overlap": 1
+    },
+    "tb.impl.breach": {
+      "text": "Adiciona uma Fenda de Outro Mundo a um mapa / Restam (1—10) utilizações",
+      "frag": "Mu",
+      "overlap": 1
+    },
+    "tb.breach.quantity_hiveblood_found": {
+      "text": "map breach hiveblood quantity +% [30,60]",
+      "frag": "eb",
+      "overlap": 1
+    },
+    "tb.breach.quantity_wombgifts_found": {
+      "text": "(30—60)% increased Quantity of Wombgifts found in Map",
+      "frag": "d i",
+      "overlap": 1
+    },
+    "tb.breach.wombgifts_drop_higher": {
+      "text": "Wombgifts have (10—30)% chance to drop one Level higher in Map",
+      "frag": "el",
+      "overlap": 1
+    },
+    "tb.breach.contain_vruun_marshal": {
+      "text": "Unstable Breaches in Map have (20—50)% increased chance to contain Vruun, Marshal of Xesht",
+      "frag": "ht",
+      "overlap": 1
+    },
+    "tb.breach.spawn_when_stabilised": {
+      "text": "Unstable Breaches in Map spawn an additional Rare Monster when Stabilised",
+      "frag": "aw",
+      "overlap": 1
+    },
+    "tb.breach.effectiveness_rare_breach": {
+      "text": "(5—20)% increased Effectiveness of Rare Breach Monsters in Map",
+      "frag": "ct",
+      "overlap": 1
+    },
+    "tb.breach.pack_size": {
+      "text": "Fendas no mapa têm a densidade de monstros aumentada em (5—15)%",
+      "frag": "si",
+      "overlap": 1
+    },
+    "tb.impl.expedition": {
+      "text": "Adiciona uma Expedição Kalguurana a um mapa / Restam (1—10) utilizações",
+      "frag": "Ka",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_artifacts_dropped": {
+      "text": "Quantidade dos artefatos da Expedição largados por monstros no mapa aumentada em (15—30)%",
+      "frag": "fa",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_placement_range": {
+      "text": "Alcance de posicionamento do explosivo da Expedição no mapa aumentado em (15—30)%",
+      "frag": "lc",
+      "overlap": 1
+    },
+    "tb.expedition.expeditions_remnants": {
+      "text": "Expedições no mapa têm +(1—2) vestígio",
+      "frag": "içõ",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_radius": {
+      "text": "Raio do explosivo da Expedição no mapa aumentado em (15—30)%",
+      "frag": "aio",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_logbooks_dropped": {
+      "text": "Quantidade dos Diários da Expedição largados por monstros rúnicos no mapa aumentada em (15—30)%",
+      "frag": "ár",
+      "overlap": 1
+    },
+    "tb.expedition.number_rare_monsters": {
+      "text": "Quantidade de monstros |raros da Expedição no mapa aumentada em (25—40)%",
+      "frag": "\\|ra",
+      "overlap": 1
+    },
+    "tb.expedition.effect_remnants": {
+      "text": "Efeito de vestígios da Expedição no mapa aumentado em (12—18)%",
+      "frag": "ei",
+      "overlap": 1
+    },
+    "tb.expedition.contains_monster_markers": {
+      "text": "Quantidade de marcadores de monstros rúnicos no mapa aumentada em (15—30)%",
+      "frag": "arc",
+      "overlap": 1
+    },
+    "tb.impl.delirium": {
+      "text": "Adiciona um Espelho do Delírio a um mapa / Restam (1—10) utilizações",
+      "frag": "a u",
+      "overlap": 1
+    },
+    "tb.delirium.stack_simulacrum_splinters": {
+      "text": "Fragmentos de Simulacrum encontrados no mapa têm o tamanho da pilha aumentado em (15—30)%",
+      "frag": "gm",
+      "overlap": 1
+    },
+    "tb.delirium.lasts_before_dissipating": {
+      "text": "A névoa de Delírio no mapa dura (6—12) segundos adicionais antes de se dissipar",
+      "frag": "du",
+      "overlap": 1
+    },
+    "tb.delirium.dissipates_slower": {
+      "text": "A névoa de Delírio no mapa se dissipa (20—30)% mais devagar",
+      "frag": "ev",
+      "overlap": 1
+    },
+    "tb.delirium.applies_deliriousness": {
+      "text": "O Delírio no mapa aumenta (15—30)% mais rápido conforme se afasta do espelho",
+      "frag": "af",
+      "overlap": 1
+    },
+    "tb.delirium.monsters_pack_size": {
+      "text": "Monstros de Delírio no mapa têm o tamanho de grupos aumentado em (15—30)%",
+      "frag": "pos a",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_fracturing_mirrors": {
+      "text": "A névoa de Delírio no mapa gera (15—30)% mais espelhos fractais",
+      "frag": "ct",
+      "overlap": 1
+    },
+    "tb.delirium.slaying_rare_pauses": {
+      "text": "Matar monstros raros no mapa pausa o temporizador do Espelho de Delírio por (3—5) segundos",
+      "frag": "mp",
+      "overlap": 1
+    },
+    "tb.delirium.encounters_likely_spawn": {
+      "text": "Encontros de Delírio no mapa têm (15—30)% mais chance de gerar chefes únicos",
+      "frag": "he",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_mirrorshards": {
+      "text": "Delirium Fog in Map spawns (12—26)% increased MirrorShards",
+      "frag": "aw",
+      "overlap": 1
+    },
+    "tb.impl.ritual": {
+      "text": "Adiciona Altares Ritualísticos a um mapa / Restam (1—10) utilizações",
+      "frag": "a u",
+      "overlap": 1
+    },
+    "tb.ritual.monsters_sacrificed_grant": {
+      "text": "Monstros sacrificados em Altares Ritualísticos no mapa concedem (18—30)% a mais de tributo",
+      "frag": "ac",
+      "overlap": 1
+    },
+    "tb.ritual.rerolling_costs_reduced": {
+      "text": "Favores recriados em Altares Ritualísticos no mapa têm o custo de tributo reduzido em (20—30)%",
+      "frag": "du",
+      "overlap": 2
+    },
+    "tb.ritual.deferring_costs_reduced": {
+      "text": "Favores adiados em Altares Ritualísticos no mapa têm o custo de tributo reduzido em (20—30)%",
+      "frag": "du",
+      "overlap": 2
+    },
+    "tb.ritual.deferred_reappear_sooner": {
+      "text": "Favores adiados em Altares Ritualísticos no mapa reaparecem (25—40)% mais rápido",
+      "frag": "áp",
+      "overlap": 1
+    },
+    "tb.ritual.allow_rerolling_times": {
+      "text": "Altares ritualísticos no mapa permitem recriar favores mais uma vez",
+      "frag": "ez",
+      "overlap": 1
+    },
+    "tb.ritual.rerolled_cost": {
+      "text": "Favores recriados em Altares Ritualísticos no mapa têm (3—6)% de chance de não custarem tributos",
+      "frag": "nã",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_magic": {
+      "text": "Monstros revividos nos Altares Ritualísticos no mapa têm uma chance aumentada em (35—70)% de serem mágicos",
+      "frag": "em m",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_rare": {
+      "text": "Monstros revividos nos Altares Ritualísticos no mapa têm uma chance aumentada em (25—40)% de serem raros",
+      "frag": "m ra",
+      "overlap": 1
+    },
+    "tb.ritual.omens": {
+      "text": "Favores ritualísticos no mapa têm uma chance aumentada em (35—70)% de serem Presságios",
+      "frag": "Pr",
+      "overlap": 1
+    },
+    "tb.impl.overseer": {
+      "text": "Fortalece o chefe de mapa de um mapa / Restam (1—10) utilizações",
+      "frag": "ec",
+      "overlap": 1
+    },
+    "tb.overseer.strongboxes": {
+      "text": "Mapa contém 1 caixa-forte adicional",
+      "frag": "a-f",
+      "overlap": 1
+    },
+    "tb.overseer.shrines": {
+      "text": "Mapa contém 1 altar adicional",
+      "frag": "1 a",
+      "overlap": 1
+    },
+    "tb.overseer.essences": {
+      "text": "Mapa contém 1 essência adicional",
+      "frag": "a ad",
+      "overlap": 2
+    },
+    "tb.overseer.azmeri_spirits": {
+      "text": "Mapa contém 1 espírito azmeri adicional",
+      "frag": "i ad",
+      "overlap": 2
+    },
+    "tb.overseer.quantity_waystones_dropped": {
+      "text": "Quantidade de Pedras-guia largadas por chefes de mapa aumentada em (18—30)%",
+      "frag": "a l",
+      "overlap": 1
+    },
+    "tb.overseer.grant_experience": {
+      "text": "Chefes de mapas concedem experiência aumentada em (40—80)%",
+      "frag": "ced",
+      "overlap": 1
+    },
+    "tb.overseer.rarity_items_dropped": {
+      "text": "Raridade de itens largados por chefes de mapas aumentada em (35—60)%",
+      "frag": "ridade de itens l",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_items_dropped": {
+      "text": "Quantidade de itens largados por chefes de mapas aumentada em (13—20)%",
+      "frag": "tidade de i",
+      "overlap": 1
+    },
+    "tb.impl.abyss": {
+      "text": "Adiciona Abismos a um mapa / Restam (1—10) utilizações",
+      "frag": "m m",
+      "overlap": 1
+    },
+    "tb.abyss.rare_monsters_spawned": {
+      "text": "Mais (1—2) monstros raros adicionais são gerados dos Abismos no mapa",
+      "frag": "sã",
+      "overlap": 1
+    },
+    "tb.abyss.difficulty_reward_closed": {
+      "text": "Monstros abissais no mapa têm a dificuldade e a recompensa aumentadas para cada fosso fechado",
+      "frag": "ld",
+      "overlap": 1
+    },
+    "tb.abyss.lead_abyssal_depths": {
+      "text": "Abismos no mapa têm uma chance aumentada em (10—20)% de levar a uma Profundeza Abissal",
+      "frag": "ev",
+      "overlap": 1
+    },
+    "tb.abyss.contains_abyss": {
+      "text": "Mapa contém 1 Abismo adicional",
+      "frag": "1 A",
+      "overlap": 1
+    },
+    "tb.abyss.abyss_pits_likely": {
+      "text": "Fossos Abissais no mapa têm o dobro de chance de conter recompensas",
+      "frag": "br",
+      "overlap": 1
+    },
+    "tb.abyss.contain_four": {
+      "text": "Mapa tem (20—40)% de chance de conter 4 Abismos adicionais",
+      "frag": "4 A",
+      "overlap": 1
+    },
+    "tb.abyss.abyssal_monsters_modifiers": {
+      "text": "Monstros abissais no mapa têm uma chance aumentada em (20—30)% de ter modificadores abissais",
+      "frag": "e t",
+      "overlap": 1
+    },
+    "tb.abyss.desecrated_currency": {
+      "text": "Chance aumentada em (20—30)% de obter moedas profanadas de Abismos no mapa",
+      "frag": "bt",
+      "overlap": 1
+    },
+    "tb.abyss.spawn_monsters": {
+      "text": "Abismos no mapa têm a geração de monstros aumentada em (20—30)%",
+      "frag": "a g",
+      "overlap": 1
+    },
+    "tb.impl.temple": {
+      "text": "Adiciona Sinalizadores Vaal a um mapa / Restam (1—10) utilizações",
+      "frag": "a S",
+      "overlap": 1
+    },
+    "tb.temple.add_unique_monster": {
+      "text": "(10—25)% de chance de adicionar um monstro único de sinalizador vaal ao mapa",
+      "frag": "ao",
+      "overlap": 1
+    },
+    "tb.temple.chests_rare": {
+      "text": "Chance aumentada em (30—60)% de os baús de sinalizador vaal serem raros no mapa",
+      "frag": "se",
+      "overlap": 1
+    },
+    "tb.temple.gain_crystal_beacons": {
+      "text": "(5—10)% de chance de ganhar um cristal adicional dos sinalizadores vaal no mapa",
+      "frag": "cr",
+      "overlap": 1
+    }
+  }
+}

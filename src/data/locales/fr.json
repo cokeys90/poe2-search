@@ -1,0 +1,832 @@
+{
+  "tablets": {
+    "irradiated": "irradiée",
+    "breach": "Brèche",
+    "expedition": "Expedition",
+    "delirium": "Delirium",
+    "ritual": "Ritual",
+    "overseer": "du Superviseur",
+    "abyss": "Abyss",
+    "temple": "du Temple"
+  },
+  "bases": {
+    "irradiated": "Tablette irradiée",
+    "breach": "Tablette de Brèche",
+    "expedition": "Tablette d'Expédition",
+    "delirium": "Tablette de Délire",
+    "ritual": "Tablette de Rituel",
+    "overseer": "Tablette du Superviseur",
+    "abyss": "Tablette d'Abysse",
+    "temple": "Tablette du Temple",
+    "waystone": "Pierre de téléportation (Palier {tier})"
+  },
+  "tokens": {
+    "tier": "Palier {n}",
+    "corrupted": "Corrompu",
+    "units": "%"
+  },
+  "options": {
+    "ws.imp.revives": {
+      "text": "Résurrections disponibles",
+      "frag": "ni",
+      "overlap": 1
+    },
+    "ws.imp.item_rarity": {
+      "text": "Rareté des objets",
+      "frag": "bj",
+      "overlap": 1
+    },
+    "ws.imp.pack_size": {
+      "text": "Taille des Groupes",
+      "frag": "Gr",
+      "overlap": 1
+    },
+    "ws.imp.rare_monsters": {
+      "text": "Rareté des Monstres",
+      "frag": "eté des M",
+      "overlap": 1
+    },
+    "ws.imp.waystone_chance": {
+      "text": "Chances de trouver des Pierres de téléportation",
+      "frag": "Pi",
+      "overlap": 1
+    },
+    "ws.imp.monster_effect": {
+      "text": "Efficacité des Monstres",
+      "frag": "aci",
+      "overlap": 1
+    },
+    "ws.pre.deal_extra_fire": {
+      "text": "Les Monstres Rajoutent (5—24)% de leurs Dégâts sous forme de Dégâts de Feu",
+      "frag": "Feu",
+      "overlap": 1,
+      "extra": [
+        "Les Monstres ont 16% d'Augmentation d'Efficacité",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.deal_extra_cold": {
+      "text": "Les Monstres Rajoutent (5—24)% de leurs Dégâts sous forme de Dégâts de Froid",
+      "frag": "id",
+      "overlap": 1,
+      "extra": [
+        "14% Davantage de Rareté des Objets cédés dans cette Zone",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.deal_extra_lightning": {
+      "text": "Les Monstres Rajoutent (5—24)% de leurs Dégâts sous forme de Dégâts de Foudre",
+      "frag": "dr",
+      "overlap": 1,
+      "extra": [
+        "8% Davantage de Taille des Groupes",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.monster_damage": {
+      "text": "(5—24)% d'Augmentation des Dégâts des Monstres",
+      "frag": "ts des",
+      "overlap": 1,
+      "extra": [
+        "25% Davantage de Monstres Magiques et Rares",
+        "Les Monstres Rares ont 25% Davantage de chances de Modificateurs de Monstre",
+        "20% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.attack_cast_movement": {
+      "text": "Les Monstres ont (10—15)% d'Augmentation de la Vitesse dAttaque, d'incantation et de déplacement",
+      "frag": "aq",
+      "overlap": 1,
+      "extra": [
+        "9% Davantage de Taille des Groupes",
+        "25% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.critical_hit": {
+      "text": "Les Monstres ont (80—300)% d'Augmentation des Chances de Touche critique",
+      "frag": "cr",
+      "overlap": 1,
+      "extra": [
+        "+(80—300)% au Bonus de Dégâts critiques des Monstres",
+        "9% Davantage de Taille des Groupes",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.monster_life": {
+      "text": "(10—30)% Davantage de Vie des Monstres",
+      "frag": "age",
+      "overlap": 1,
+      "extra": [
+        "23% Davantage de Monstres Magiques et Rares",
+        "Les Monstres Rares ont 23% Davantage de chances de Modificateurs de Monstre",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.poison_hit": {
+      "text": "Les Monstres ont (13—40)% de chances d'Empoisonner au Toucher",
+      "frag": "nn",
+      "overlap": 1,
+      "extra": [
+        "7% Davantage de Taille des Groupes",
+        "10% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.inflict_bleeding_hit": {
+      "text": "Les Monstres ont (5—25)% de chances d'infliger le Saignement au Toucher",
+      "frag": "aig",
+      "overlap": 1,
+      "extra": [
+        "Les Monstres ont 13% Davantage d'Efficacité",
+        "10% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.break_armour_equal": {
+      "text": "Les Monstres Brisent l'Armure à hauteur de (15—45)% des Dégâts Physiques infligés",
+      "frag": "gé",
+      "overlap": 1,
+      "extra": [
+        "19% Davantage de Monstres Magiques et Rares",
+        "Les Monstres Rares ont 19% Davantage de chances de Modificateurs de Monstre",
+        "10% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.accuracy_rating": {
+      "text": "Les Monstres ont (10—50)% d'Augmentation du Score de Précision",
+      "frag": "Sc",
+      "overlap": 1,
+      "extra": [
+        "7% Davantage de Taille des Groupes",
+        "10% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.deal_extra_chaos": {
+      "text": "Les Monstres Rajoutent (5—24)% de leurs Dégâts sous forme de Dégâts de Chaos",
+      "frag": "ao",
+      "overlap": 1,
+      "extra": [
+        "15% Davantage de Rareté des Objets cédés dans cette Zone",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.stun_buildup": {
+      "text": "Les Monstres ont (50—110)% d'Augmentation d'Accumulation d'Étourdissement",
+      "frag": "cc",
+      "overlap": 1,
+      "extra": [
+        "Les Monstres ont 13% Davantage d'Efficacité",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.fire_projectiles": {
+      "text": "Les Monstres tirent 2 Projectiles supplémentaires",
+      "frag": "oj",
+      "overlap": 1,
+      "extra": [
+        "9% Davantage de Taille des Groupes",
+        "25% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.pre.penetrates_elemental_resistances": {
+      "text": "Les Monstres ont (6—16)% de Pénétration des Résistances élémentaires",
+      "frag": "éné",
+      "overlap": 1,
+      "extra": [
+        "16% Davantage de Rareté des Objets cédés dans cette Zone",
+        "20% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.rare_monsters_modifiers": {
+      "text": "Les Monstres Rares ont 1 Modificateur supplémentaire",
+      "frag": "1 M",
+      "overlap": 1,
+      "extra": [
+        "25% d'Augmentation du nombre de Monstres Rares",
+        "10% d'Augmentation du nombre de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.monster_elemental_resistances": {
+      "text": "+(20—40)% à la Résistance élémentaire des Monstres",
+      "frag": "à l",
+      "overlap": 1,
+      "extra": [
+        "14% Davantage de Rareté des Objets cédés dans cette Zone",
+        "10% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.monsters_armoured": {
+      "text": "Les Monstres ont de l'Armure",
+      "frag": "e l'",
+      "overlap": 1,
+      "extra": [
+        "18% Davantage de Monstres Magiques et Rares",
+        "Les Monstres Rares ont 18% Davantage de chances de Modificateurs de Monstre",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.monsters_evasive": {
+      "text": "Les Monstres sont Évasifs",
+      "frag": "Év",
+      "overlap": 1,
+      "extra": [
+        "6% Davantage de Taille des Groupes",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.gain_maximum_life": {
+      "text": "Les Monstres Rajoutent (12—25)% de leur Vie Maximale sous forme de Bouclier d'énergie",
+      "frag": "e M",
+      "overlap": 1,
+      "extra": [
+        "13% Davantage de Rareté des Objets cédés dans cette Zone",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.monsters_ailment_threshold": {
+      "text": "Les Monstres ont (30—79)% d'Augmentation de Seuil d'Altération",
+      "frag": "ui",
+      "overlap": 1,
+      "extra": [
+        "Les Monstres ont (30—79)% d'Augmentation de Seuil d'Étourdissement",
+        "Les Monstres ont 13% Davantage d'Efficacité",
+        "10% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.monster_ailment_application": {
+      "text": "Les Monstres ont (60—130)% d'Augmentation d'Application des Altérations Élémentaires",
+      "frag": "Ap",
+      "overlap": 1,
+      "extra": [
+        "11% Davantage de Rareté des Objets cédés dans cette Zone",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.monsters_effect": {
+      "text": "Les Monstres ont 50% d'Augmentation de Zone d'effet",
+      "frag": "e Z",
+      "overlap": 1,
+      "extra": [
+        "20% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.periodically_cursed_enfeeble": {
+      "text": "Les Joueurs sont périodiquement Maudits avec Affaiblissement",
+      "frag": "Af",
+      "overlap": 1,
+      "extra": [
+        "Les Monstres ont 16% Davantage d'Efficacité",
+        "20% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.periodically_temporal_chains": {
+      "text": "Les Joueurs sont périodiquement Maudits avec Chaînes temporelles",
+      "frag": "aî",
+      "overlap": 1,
+      "extra": [
+        "8% Davantage de Taille des Groupes",
+        "20% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.periodically_cursed_weakness": {
+      "text": "Les Joueurs sont périodiquement Maudits par Sensibilité aux éléments",
+      "frag": "bi",
+      "overlap": 1,
+      "extra": [
+        "13% Davantage de Rareté des Objets cédés dans cette Zone",
+        "20% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.patches_ignited_ground": {
+      "text": "La Zone a des surfaces de Sol embrasant",
+      "frag": "mb",
+      "overlap": 1,
+      "extra": [
+        "Les Monstres ont 15% Davantage d'Efficacité",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone",
+        "ground fire art variation [1033]",
+        "map ground effect patches per 100 tiles [4]",
+        "map ground effect radius [20]"
+      ]
+    },
+    "ws.suf.patches_chilled_ground": {
+      "text": "La Zone contient des surfaces de Sol frigorifiant",
+      "frag": "go",
+      "overlap": 1,
+      "extra": [
+        "12% Davantage de Rareté des Objets cédés dans cette Zone",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone",
+        "ground ice art variation [1014]",
+        "map ground effect patches per 100 tiles [3]",
+        "map ground effect radius [26]"
+      ]
+    },
+    "ws.suf.patches_shocked_ground": {
+      "text": "La Zone contient des surfaces Sol électrocutant",
+      "frag": "oc",
+      "overlap": 1,
+      "extra": [
+        "7% Davantage de Taille des Groupes",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone",
+        "ground lightning art variation [1011]",
+        "map ground effect patches per 100 tiles [5]",
+        "map ground effect radius [17]"
+      ]
+    },
+    "ws.suf.maximum_resistances": {
+      "text": "(-10—-3)% aux Résistances maximales des joueurs",
+      "frag": "x R",
+      "overlap": 1,
+      "extra": [
+        "10% Davantage de Taille des Groupes",
+        "25% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.gain_flask_charges": {
+      "text": "Les joueurs ont (20—35)% de Réduction des charges de Flacon gagnées",
+      "frag": "ée",
+      "overlap": 1,
+      "extra": [
+        "7% Davantage de Taille des Groupes",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.recovery_rate_life": {
+      "text": "Les joueurs ont (20—40)% de Perte de Récupération de Vie et de Bouclier d'énergie",
+      "frag": "cup",
+      "overlap": 1,
+      "extra": [
+        "15% Davantage de Rareté des Objets cédés dans cette Zone",
+        "20% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.cooldown_recovery_rate": {
+      "text": "Les Joueurs ont (15—30)% de Perte de Vitesse de recharge",
+      "frag": "ech",
+      "overlap": 1,
+      "extra": [
+        "12% Davantage de Rareté des Objets cédés dans cette Zone",
+        "15% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "ws.suf.take_damage_critical": {
+      "text": "Les monstres ont (15—30)% de Réduction des Dégâts supplémentaires",
+      "frag": "ts su",
+      "overlap": 1,
+      "extra": [
+        "découlant de Touches critiques qu'ils subissent",
+        "18% Davantage de Monstres Magiques et Rares",
+        "Les Monstres Rares ont 18% Davantage de chances de Modificateurs de Monstre"
+      ]
+    },
+    "ws.suf.less_effect_curses": {
+      "text": "Les Malédictions ont (20—50)% de Perte d'Effet sur les Monstres",
+      "frag": "alé",
+      "overlap": 1,
+      "extra": [
+        "10% Davantage de Rareté des Objets cédés dans cette Zone",
+        "10% Davantage de Pierres de téléportation trouvées dans la Zone"
+      ]
+    },
+    "tb.pre.monsters_effectiveness": {
+      "text": "Les Monstres ont (10—15)% d'Augmentation d'Efficacité",
+      "frag": "aci",
+      "overlap": 1
+    },
+    "tb.pre.rarity_items_found": {
+      "text": "(8—12)% d'Augmentation de la Rareté des Objets trouvés dans la Carte",
+      "frag": "s tr",
+      "overlap": 1
+    },
+    "tb.pre.pack_size": {
+      "text": "(5—7)% d'Augmentation de la Taille des Groupes dans la Carte",
+      "frag": "pes d",
+      "overlap": 1
+    },
+    "tb.pre.magic_monsters": {
+      "text": "(30—40)% d'Augmentation de Monstres Magiques dans la Carte",
+      "frag": "s Ma",
+      "overlap": 1
+    },
+    "tb.pre.number_rare_monsters": {
+      "text": "(25—35)% d'Augmentation du nombre de Monstres Rares dans la Carte",
+      "frag": "s Rares d",
+      "overlap": 1
+    },
+    "tb.pre.monster_rarity": {
+      "text": "Map has (15—20)% increased Monster Rarity",
+      "frag": "ari",
+      "overlap": 1
+    },
+    "tb.pre.gold_found": {
+      "text": "(25—35)% d'Augmentation de l'Or trouvé dans la Carte",
+      "frag": "'Or",
+      "overlap": 1
+    },
+    "tb.pre.experience_gain": {
+      "text": "(12—18)% d'Augmentation du gain d'Expérience dans la Carte",
+      "frag": "u g",
+      "overlap": 1
+    },
+    "tb.pre.contains_rare_chests": {
+      "text": "La Carte contient (2—3) Coffres Rares supplémentaires",
+      "frag": "fres R",
+      "overlap": 1
+    },
+    "tb.pre.contains_essences": {
+      "text": "La Carte contient une Essence supplémentaire",
+      "frag": "ce s",
+      "overlap": 2,
+      "extra": [
+        "% d'Augmentation de la Quantité de Pierres de téléportation trouvées dans la Carte"
+      ]
+    },
+    "tb.pre.contains_azmeri_spirits": {
+      "text": "La Carte contient 1 Esprit azmérien supplémentaire",
+      "frag": "1 Es",
+      "overlap": 1,
+      "extra": [
+        "% d'Augmentation de la Quantité de Pierres de téléportation trouvées dans la Carte"
+      ]
+    },
+    "tb.pre.contains_rogue_exiles": {
+      "text": "La Carte est habitée par 1 Exilé renégat supplémentaire",
+      "frag": "bit",
+      "overlap": 1,
+      "extra": [
+        "% d'Augmentation de la Quantité de Pierres de téléportation trouvées dans la Carte"
+      ]
+    },
+    "tb.pre.contains_summoning_circles": {
+      "text": "La Carte contient un Cercle d'invocation supplémentaire",
+      "frag": "on s",
+      "overlap": 1
+    },
+    "tb.suf.quantity_waystones_found": {
+      "text": "(30—40)% d'Augmentation de la Quantité de Pierres de téléportation trouvées dans la Carte",
+      "frag": "vée",
+      "overlap": 3
+    },
+    "tb.suf.contain_shrines": {
+      "text": "La Carte a (70—100)% d'Augmentation de chances de contenir des Autels",
+      "frag": "ls$",
+      "overlap": 1
+    },
+    "tb.suf.contain_strongboxes": {
+      "text": "La Carte a (70—100)% d'Augmentation de chances de contenir des Coffres-forts",
+      "frag": "es-",
+      "overlap": 1
+    },
+    "tb.suf.essences": {
+      "text": "La Carte a (70—100)% d'Augmentation de chances de contenir des Essences",
+      "frag": "ces$",
+      "overlap": 1
+    },
+    "tb.suf.azmeri_spirits": {
+      "text": "La Carte a (70—100)% d'Augmentation de chances de contenir des Esprits azmériens",
+      "frag": "its",
+      "overlap": 1
+    },
+    "tb.suf.rogue_exiles": {
+      "text": "La Carte a (70—100)% d'Augmentation de chances de contenir des Exilés renégats",
+      "frag": "ats",
+      "overlap": 1
+    },
+    "tb.suf.summoning_circle": {
+      "text": "La Carte a (70—100)% d'Augmentation de chances de contenir un Cercle d'invocation",
+      "frag": "r u",
+      "overlap": 1
+    },
+    "tb.suf.random_modifiers": {
+      "text": "La Carte a (1—2) Modificateur aléatoire supplémentaire",
+      "frag": "r al",
+      "overlap": 1
+    },
+    "tb.suf.unique_monsters_rare": {
+      "text": "Les Monstres Uniques ont 1 Modificateur supplémentaire",
+      "frag": "r s",
+      "overlap": 1
+    },
+    "tb.suf.waystones_shrine": {
+      "text": "% d'Augmentation de la Quantité de Pierres de téléportation trouvées dans la Carte",
+      "frag": "^% d'A",
+      "overlap": 2,
+      "extra": [
+        "% de Réduction de la Taille des Groupes dans la Carte",
+        "La Carte contient un Autel supplémentaire"
+      ]
+    },
+    "tb.suf.waystones_strongbox": {
+      "text": "% d'Augmentation de la Quantité de Pierres de téléportation trouvées dans la Carte",
+      "frag": "^% d'A",
+      "overlap": 2,
+      "extra": [
+        "% de Réduction de la Taille des Groupes dans la Carte",
+        "La Carte contient un Coffre-fort supplémentaire"
+      ]
+    },
+    "tb.impl.irradiated": {
+      "text": "Ajoute Irradiation à une Carte / (1—10) utilisations restantes",
+      "frag": "ad",
+      "overlap": 1
+    },
+    "tb.impl.breach": {
+      "text": "Ajoute une Brèche à une Carte / (1—10) utilisations restantes",
+      "frag": "Aj",
+      "overlap": 1
+    },
+    "tb.breach.quantity_hiveblood_found": {
+      "text": "map breach hiveblood quantity +% [30,60]",
+      "frag": "eb",
+      "overlap": 1
+    },
+    "tb.breach.quantity_wombgifts_found": {
+      "text": "(30—60)% increased Quantity of Wombgifts found in Map",
+      "frag": "nd",
+      "overlap": 1
+    },
+    "tb.breach.wombgifts_drop_higher": {
+      "text": "Wombgifts have (10—30)% chance to drop one Level higher in Map",
+      "frag": "dr",
+      "overlap": 1
+    },
+    "tb.breach.contain_vruun_marshal": {
+      "text": "Unstable Breaches in Map have (20—50)% increased chance to contain Vruun, Marshal of Xesht",
+      "frag": "ht",
+      "overlap": 1
+    },
+    "tb.breach.spawn_when_stabilised": {
+      "text": "Unstable Breaches in Map spawn an additional Rare Monster when Stabilised",
+      "frag": "ad",
+      "overlap": 1
+    },
+    "tb.breach.effectiveness_rare_breach": {
+      "text": "(5—20)% increased Effectiveness of Rare Breach Monsters in Map",
+      "frag": "ct",
+      "overlap": 1
+    },
+    "tb.breach.pack_size": {
+      "text": "Dans la Carte, les Brèches ont (5—15)% d'Augmentation de Densité des Monstres",
+      "frag": "si",
+      "overlap": 1
+    },
+    "tb.impl.expedition": {
+      "text": "Ajoute une Expédition kalguurienne à une Carte / (1—10) utilisations restantes",
+      "frag": "Aj",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_artifacts_dropped": {
+      "text": "Dans la Carte, les Monstres ont (15—30)% d'Augmentation de Quantité d'Artéfacts d'Expédition cédés",
+      "frag": "ct",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_placement_range": {
+      "text": "Dans la Carte, les Explosifs d'Expédition ont (15—30)% d'Augmentation de Distance de placement",
+      "frag": "em",
+      "overlap": 1
+    },
+    "tb.expedition.expeditions_remnants": {
+      "text": "Dans la Carte, les Expéditions ont +(1—2) Vestige",
+      "frag": "ge$",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_radius": {
+      "text": "Dans la Carte, les Explosifs d'Expédition ont (15—30)% d'Augmentation de Rayon",
+      "frag": "ay",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_logbooks_dropped": {
+      "text": "(15—30)% d'Augmentation de la Quantité de Journaux de bord d'Expédition cédés par les Monstres Runiques dans la Carte",
+      "frag": "bo",
+      "overlap": 1
+    },
+    "tb.expedition.number_rare_monsters": {
+      "text": "(25—40)% d'Augmentation du nombre de Monstres d'Expédition Rares dans la Carte",
+      "frag": "n R",
+      "overlap": 1
+    },
+    "tb.expedition.effect_remnants": {
+      "text": "Dans la Carte, les Vestiges d'Expédition ont (12—18)% d'Augmentation d'Effet",
+      "frag": "fe",
+      "overlap": 1
+    },
+    "tb.expedition.contains_monster_markers": {
+      "text": "La Carte a (15—30)% d'Augmentation du nombre de Marqueurs de Monstres Runiques",
+      "frag": "rq",
+      "overlap": 1
+    },
+    "tb.impl.delirium": {
+      "text": "Ajoute un Miroir du Délire à une Carte / (1—10) utilisations restantes",
+      "frag": "Aj",
+      "overlap": 1
+    },
+    "tb.delirium.stack_simulacrum_splinters": {
+      "text": "(15—30)% d'Augmentation de la taille des Ensembles d'Esquilles de Simulacre trouvés dans la Carte",
+      "frag": "bl",
+      "overlap": 1
+    },
+    "tb.delirium.lasts_before_dissipating": {
+      "text": "Dans la Carte, les Brumes du Délire durent (6—12) secondes supplémentaires avant de se dissiper",
+      "frag": "dur",
+      "overlap": 1
+    },
+    "tb.delirium.dissipates_slower": {
+      "text": "Dans la Carte, les Brumes du Délire se dissipent (20—30)% plus lentement",
+      "frag": "len",
+      "overlap": 1
+    },
+    "tb.delirium.applies_deliriousness": {
+      "text": "Dans la Carte, le Délire progresse (15—30)% plus rapidement en fonction de l'éloignement du Miroir",
+      "frag": "ct",
+      "overlap": 1
+    },
+    "tb.delirium.monsters_pack_size": {
+      "text": "Dans la Carte, les Monstres du Délire ont (15—30)% d'Augmentation de Taille des Groupes",
+      "frag": "e Ta",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_fracturing_mirrors": {
+      "text": "Dans la Carte, les Brumes du Délire ont (15—30)% d'Augmentation du nombre de Miroirs fissurants générés",
+      "frag": "ré",
+      "overlap": 1
+    },
+    "tb.delirium.slaying_rare_pauses": {
+      "text": "Dans la Carte, tuer des Monstres Rares met le compte à rebours du Miroir du Délire en pause pendant (3—5) secondes",
+      "frag": "eb",
+      "overlap": 1
+    },
+    "tb.delirium.encounters_likely_spawn": {
+      "text": "Dans la Carte, les Rencontres du Délire ont (15—30)% davantage de chances de générer des Boss Uniques",
+      "frag": "ge",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_mirrorshards": {
+      "text": "Delirium Fog in Map spawns (12—26)% increased MirrorShards",
+      "frag": "aw",
+      "overlap": 1
+    },
+    "tb.impl.ritual": {
+      "text": "Ajoute des Autels de Rituel à une Carte / (1—10) utilisations restantes",
+      "frag": "Aj",
+      "overlap": 1
+    },
+    "tb.ritual.monsters_sacrificed_grant": {
+      "text": "Dans la Carte, les Monstres Sacrifiés sur les Autels de Rituel ont (18—30)% d'Augmentation du Tribut octroyé",
+      "frag": "ié",
+      "overlap": 1
+    },
+    "tb.ritual.rerolling_costs_reduced": {
+      "text": "Dans la Carte, le coût en Tribut d'un tirage aléatoire de nouvelles Faveurs auprès d'un Autel de Rituel a (20—30)% de Réduction",
+      "frag": "'un",
+      "overlap": 1
+    },
+    "tb.ritual.deferring_costs_reduced": {
+      "text": "Dans la Carte, les Faveurs Différées auprès des Autels de Rituel ont (20—30)% de Réduction de coût en Tribut",
+      "frag": "de coû",
+      "overlap": 1
+    },
+    "tb.ritual.deferred_reappear_sooner": {
+      "text": "Dans la Carte, les Faveurs Différées auprès des Autels de Rituel réapparaissent (25—40)% plus tôt",
+      "frag": "ôt",
+      "overlap": 1
+    },
+    "tb.ritual.allow_rerolling_times": {
+      "text": "Dans la Carte, les Autels de Rituel vous permettent de tirer au sort de nouvelles Faveurs une fois de plus",
+      "frag": "rm",
+      "overlap": 1
+    },
+    "tb.ritual.rerolled_cost": {
+      "text": "Dans la Carte, les Faveurs relancées auprès des Autels de Rituel ont (3—6)% de chances de ne pas coûter de Tribut",
+      "frag": "cé",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_magic": {
+      "text": "Dans la Carte, les Monstres Ressuscités par les Autels de Rituel ont (35—70)% d'Augmentation de chances d'être Magiques",
+      "frag": "e Ma",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_rare": {
+      "text": "Dans la Carte, les Monstres Ressuscités par les Autels de Rituel ont (25—40)% d'Augmentation de chances d'être Rares",
+      "frag": "e Ra",
+      "overlap": 1
+    },
+    "tb.ritual.omens": {
+      "text": "Dans la Carte, les Faveurs de Rituel ont (35—70)% d'Augmentation de chances d'être des Présages",
+      "frag": "ésa",
+      "overlap": 1
+    },
+    "tb.impl.overseer": {
+      "text": "Améliore le Boss de Carte d'une Carte / (1—10) utilisations restantes",
+      "frag": "Am",
+      "overlap": 1
+    },
+    "tb.overseer.strongboxes": {
+      "text": "La Carte contient un Coffre-fort supplémentaire",
+      "frag": "e-f",
+      "overlap": 1
+    },
+    "tb.overseer.shrines": {
+      "text": "La Carte contient un Autel supplémentaire",
+      "frag": "l s",
+      "overlap": 1
+    },
+    "tb.overseer.essences": {
+      "text": "La Carte contient une Essence supplémentaire",
+      "frag": "ce s",
+      "overlap": 2
+    },
+    "tb.overseer.azmeri_spirits": {
+      "text": "La Carte contient un Esprit azmérien supplémentaire",
+      "frag": "n E",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_waystones_dropped": {
+      "text": "(18—30)% d'Augmentation de Quantité la de Pierres de téléportations cédées par les Boss de Carte",
+      "frag": "a d",
+      "overlap": 1
+    },
+    "tb.overseer.grant_experience": {
+      "text": "Les Boss de Carte ont (40—80)% d'Augmentation de l'Expérience octroyée",
+      "frag": "ct",
+      "overlap": 1
+    },
+    "tb.overseer.rarity_items_dropped": {
+      "text": "(35—60)% d'Augmentation de la Rareté des Objets cédés par les Boss de Carte",
+      "frag": "\\sObjets c",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_items_dropped": {
+      "text": "(13—20)% d'Augmentation de la Quantité d'Objets cédés par les Boss de Carte",
+      "frag": "'Ob",
+      "overlap": 1
+    },
+    "tb.impl.abyss": {
+      "text": "Ajoute des Abysses à une Carte / (1—10) utilisations restantes",
+      "frag": "Aj",
+      "overlap": 1
+    },
+    "tb.abyss.rare_monsters_spawned": {
+      "text": "Dans la Carte, les Abysses génèrent (1—2) Monstres Rares supplémentaires",
+      "frag": "èr",
+      "overlap": 1
+    },
+    "tb.abyss.difficulty_reward_closed": {
+      "text": "Dans la Carte, la Difficulté et les Récompenses des Monstres Abyssaux augmente à chaque Fosse fermée",
+      "frag": "aq",
+      "overlap": 1
+    },
+    "tb.abyss.lead_abyssal_depths": {
+      "text": "Dans la Carte, les Abysses ont (10—20)% d'Augmentation de chances de mener à des Profondeurs abyssales",
+      "frag": "nd",
+      "overlap": 1
+    },
+    "tb.abyss.contains_abyss": {
+      "text": "La Carte contient un Abysse supplémentaire",
+      "frag": "n A",
+      "overlap": 1
+    },
+    "tb.abyss.abyss_pits_likely": {
+      "text": "Dans la Carte, les Fosses d'Abysse ont deux fois plus de chances de contenir des Récompenses",
+      "frag": "lu",
+      "overlap": 1
+    },
+    "tb.abyss.contain_four": {
+      "text": "La Carte a (20—40)% de chances de contenir quatre Abysses supplémentaires",
+      "frag": "atr",
+      "overlap": 1
+    },
+    "tb.abyss.abyssal_monsters_modifiers": {
+      "text": "Dans la Carte, les Monstres Abyssaux ont (20—30)% d'Augmentation de chances d'avoir des Modificateurs abyssaux",
+      "frag": "av",
+      "overlap": 1
+    },
+    "tb.abyss.desecrated_currency": {
+      "text": "Dans la Carte, les Objets monétaires générés par les Abysses ont (20—30)% d'Augmentation de chances d'être Profanés",
+      "frag": "ét",
+      "overlap": 1
+    },
+    "tb.abyss.spawn_monsters": {
+      "text": "Dans la Carte, les Abysses ont (20—30)% d'Augmentation de nombre de Monstres générés",
+      "frag": "e n",
+      "overlap": 1
+    },
+    "tb.impl.temple": {
+      "text": "Adds Vaal Beacons to a Map / (1—10) uses remaining",
+      "frag": "ds",
+      "overlap": 1
+    },
+    "tb.temple.add_unique_monster": {
+      "text": "(10—25)% chance to add a Vaal Beacon Unique Monster to the Map",
+      "frag": "th",
+      "overlap": 1
+    },
+    "tb.temple.chests_rare": {
+      "text": "(30—60)% increased chance Vaal Beacon Chests are Rare in Map",
+      "frag": "Che",
+      "overlap": 1
+    },
+    "tb.temple.gain_crystal_beacons": {
+      "text": "(5—10)% chance to gain an additional Crystal from Vaal Beacons in Map",
+      "frag": "na",
+      "overlap": 1
+    }
+  }
+}

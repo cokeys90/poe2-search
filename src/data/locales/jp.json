@@ -1,0 +1,832 @@
+{
+  "tablets": {
+    "irradiated": "照射",
+    "breach": "ブリーチ",
+    "expedition": "エクスペディション",
+    "delirium": "デリリウム",
+    "ritual": "リチュアル",
+    "overseer": "監督者",
+    "abyss": "アビス",
+    "temple": "神殿"
+  },
+  "bases": {
+    "irradiated": "照射の石板",
+    "breach": "ブリーチの石板",
+    "expedition": "エクスペディションの石板",
+    "delirium": "デリリウムの石板",
+    "ritual": "リチュアルの石板",
+    "overseer": "監督者の石板",
+    "abyss": "アビスの石板",
+    "temple": "神殿の石板",
+    "waystone": "ウェイストーン (ティア{tier})"
+  },
+  "tokens": {
+    "tier": "ティア{n}",
+    "corrupted": "コラプト状態",
+    "units": "%個回体秒"
+  },
+  "options": {
+    "ws.imp.revives": {
+      "text": "復活が利用可能",
+      "frag": "可能",
+      "overlap": 1
+    },
+    "ws.imp.item_rarity": {
+      "text": "アイテムレアリティ",
+      "frag": "アイ",
+      "overlap": 1
+    },
+    "ws.imp.pack_size": {
+      "text": "パックサイズ",
+      "frag": "イズ",
+      "overlap": 1
+    },
+    "ws.imp.rare_monsters": {
+      "text": "モンスターレアリティ",
+      "frag": "ーレ",
+      "overlap": 1
+    },
+    "ws.imp.waystone_chance": {
+      "text": "ウェイストーンドロップ確率",
+      "frag": "イス",
+      "overlap": 1
+    },
+    "ws.imp.monster_effect": {
+      "text": "モンスターエフェクティブ",
+      "frag": "ーエ",
+      "overlap": 1
+    },
+    "ws.pre.deal_extra_fire": {
+      "text": "モンスターはダメージの(5—24)%を追加火ダメージとして与える",
+      "frag": "加火",
+      "overlap": 1,
+      "extra": [
+        "モンスターはエフェクティブが16%増加する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.pre.deal_extra_cold": {
+      "text": "モンスターはダメージの(5—24)%を追加冷気ダメージとして与える",
+      "frag": "加冷",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが14%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.pre.deal_extra_lightning": {
+      "text": "モンスターはダメージの(5—24)%を追加雷ダメージとして与える",
+      "frag": "加雷",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが8%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.pre.monster_damage": {
+      "text": "モンスターのダメージが(5—24)%増加する",
+      "frag": "のダメージが",
+      "overlap": 1,
+      "extra": [
+        "マジックおよびレアモンスターの数が25%上昇する",
+        "レアモンスターはモンスターモッドを持つ確率が25%上昇する",
+        "エリアで見つかるウェイストーンの量が20%上昇する"
+      ]
+    },
+    "ws.pre.attack_cast_movement": {
+      "text": "モンスターのアタックスピード、キャストスピードおよび移動スピードが(10—15)%増加する",
+      "frag": "ード",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが9%上昇する",
+        "エリアで見つかるウェイストーンの量が25%上昇する"
+      ]
+    },
+    "ws.pre.critical_hit": {
+      "text": "モンスターのクリティカルヒット率が(80—300)%増加する",
+      "frag": "ト率",
+      "overlap": 1,
+      "extra": [
+        "モンスターのクリティカルダメージボーナス +(80—300)%",
+        "パックサイズが9%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.pre.monster_life": {
+      "text": "モンスターのライフが(10—30)%上昇する",
+      "frag": "上昇",
+      "overlap": 1,
+      "extra": [
+        "マジックおよびレアモンスターの数が23%上昇する",
+        "レアモンスターはモンスターモッドを持つ確率が23%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.pre.poison_hit": {
+      "text": "モンスターはヒット時に(13—40)%の確率で毒を付与する",
+      "frag": "毒を",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが7%上昇する",
+        "エリアで見つかるウェイストーンの量が10%上昇する"
+      ]
+    },
+    "ws.pre.inflict_bleeding_hit": {
+      "text": "モンスターはヒット時に(5—25)%の確率で出血を付与する",
+      "frag": "出血",
+      "overlap": 1,
+      "extra": [
+        "モンスターはエフェクティブが13%上昇する",
+        "エリアで見つかるウェイストーンの量が10%上昇する"
+      ]
+    },
+    "ws.pre.break_armour_equal": {
+      "text": "モンスターは与えた物理ダメージの(15—45)%と同量のアーマーを破壊する",
+      "frag": "ーを",
+      "overlap": 1,
+      "extra": [
+        "マジックおよびレアモンスターの数が19%上昇する",
+        "レアモンスターはモンスターモッドを持つ確率が19%上昇する",
+        "エリアで見つかるウェイストーンの量が10%上昇する"
+      ]
+    },
+    "ws.pre.accuracy_rating": {
+      "text": "モンスターの命中力が(10—50)%増加する",
+      "frag": "命中",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが7%上昇する",
+        "エリアで見つかるウェイストーンの量が10%上昇する"
+      ]
+    },
+    "ws.pre.deal_extra_chaos": {
+      "text": "モンスターはダメージの(5—24)%を追加混沌ダメージとして与える",
+      "frag": "加混",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが15%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.pre.stun_buildup": {
+      "text": "モンスターのスタン蓄積が(50—110)%増加する",
+      "frag": "積が",
+      "overlap": 1,
+      "extra": [
+        "モンスターはエフェクティブが13%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.pre.fire_projectiles": {
+      "text": "モンスターは投射物を追加で2個放つ",
+      "frag": "2個",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが9%上昇する",
+        "エリアで見つかるウェイストーンの量が25%上昇する"
+      ]
+    },
+    "ws.pre.penetrates_elemental_resistances": {
+      "text": "モンスターのダメージは(6—16)%の元素耐性を貫通する",
+      "frag": "貫通",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが16%上昇する",
+        "エリアで見つかるウェイストーンの量が20%上昇する"
+      ]
+    },
+    "ws.suf.rare_monsters_modifiers": {
+      "text": "レアモンスターは追加のモッドを1個持つ",
+      "frag": "1個",
+      "overlap": 1,
+      "extra": [
+        "レアモンスターの数が25%増加する",
+        "エリアで見つかるウェイストーンの量が10%増加する"
+      ]
+    },
+    "ws.suf.monster_elemental_resistances": {
+      "text": "モンスターの元素耐性 +(20—40)%",
+      "frag": "耐性\\s",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが14%上昇する",
+        "エリアで見つかるウェイストーンの量が10%上昇する"
+      ]
+    },
+    "ws.suf.monsters_armoured": {
+      "text": "モンスターはアーマーが高い",
+      "frag": "はア",
+      "overlap": 1,
+      "extra": [
+        "マジックおよびレアモンスターの数が18%上昇する",
+        "レアモンスターはモンスターモッドを持つ確率が18%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.suf.monsters_evasive": {
+      "text": "モンスターは回避力が高い",
+      "frag": "避力",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが6%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.suf.gain_maximum_life": {
+      "text": "モンスターは最大ライフの(12—25)%を追加最大エナジーシールドとして獲得する",
+      "frag": "加最",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが13%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.suf.monsters_ailment_threshold": {
+      "text": "モンスターは状態異常閾値が(30—79)%増加する",
+      "frag": "常閾",
+      "overlap": 1,
+      "extra": [
+        "モンスターのスタン閾値が(30—79)%増加する",
+        "モンスターはエフェクティブが13%上昇する",
+        "エリアで見つかるウェイストーンの量が10%上昇する"
+      ]
+    },
+    "ws.suf.monster_ailment_application": {
+      "text": "モンスターの元素系状態異常付与率が(60—130)%増加する",
+      "frag": "系状",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが11%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.suf.monsters_effect": {
+      "text": "モンスターの効果範囲が50%増加する",
+      "frag": "果範",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるウェイストーンの量が20%上昇する"
+      ]
+    },
+    "ws.suf.periodically_cursed_enfeeble": {
+      "text": "エリアはエンフィーブルで呪われている",
+      "frag": "ーブ",
+      "overlap": 1,
+      "extra": [
+        "モンスターはエフェクティブが16%上昇する",
+        "エリアで見つかるウェイストーンの量が20%上昇する"
+      ]
+    },
+    "ws.suf.periodically_temporal_chains": {
+      "text": "エリアはテンポラルチェーンで呪われている",
+      "frag": "ェー",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが8%上昇する",
+        "エリアで見つかるウェイストーンの量が20%上昇する"
+      ]
+    },
+    "ws.suf.periodically_cursed_weakness": {
+      "text": "エリアはエレメンタルウィークネスで呪われている",
+      "frag": "ーク",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが13%上昇する",
+        "エリアで見つかるウェイストーンの量が20%上昇する"
+      ]
+    },
+    "ws.suf.patches_ignited_ground": {
+      "text": "エリアには発火領域がまだらに存在する",
+      "frag": "火領",
+      "overlap": 1,
+      "extra": [
+        "モンスターはエフェクティブが15%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する",
+        "ground fire art variation [1033]",
+        "map ground effect patches per 100 tiles [4]",
+        "map ground effect radius [20]"
+      ]
+    },
+    "ws.suf.patches_chilled_ground": {
+      "text": "エリアには冷却領域がまだらに存在する",
+      "frag": "却領",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが12%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する",
+        "ground ice art variation [1014]",
+        "map ground effect patches per 100 tiles [3]",
+        "map ground effect radius [26]"
+      ]
+    },
+    "ws.suf.patches_shocked_ground": {
+      "text": "エリアには感電領域がまだらに存在する",
+      "frag": "感電",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが7%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する",
+        "ground lightning art variation [1011]",
+        "map ground effect patches per 100 tiles [5]",
+        "map ground effect radius [17]"
+      ]
+    },
+    "ws.suf.maximum_resistances": {
+      "text": "プレイヤーの耐性の最大値が(-10—-3)%",
+      "frag": "大値",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが10%上昇する",
+        "エリアで見つかるウェイストーンの量が25%上昇する"
+      ]
+    },
+    "ws.suf.gain_flask_charges": {
+      "text": "全てのプレイヤーの獲得フラスコチャージが(20—35)%減少する",
+      "frag": "得フ",
+      "overlap": 1,
+      "extra": [
+        "パックサイズが7%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.suf.recovery_rate_life": {
+      "text": "全てのプレイヤーのライフとエナジーシールドの回復レートが(20—40)%低下する",
+      "frag": "復レ",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが15%上昇する",
+        "エリアで見つかるウェイストーンの量が20%上昇する"
+      ]
+    },
+    "ws.suf.cooldown_recovery_rate": {
+      "text": "全てのプレイヤーのクールダウン解消レートが(15—30)%低下する",
+      "frag": "消レ",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが12%上昇する",
+        "エリアで見つかるウェイストーンの量が15%上昇する"
+      ]
+    },
+    "ws.suf.take_damage_critical": {
+      "text": "モンスターがクリティカルヒットから受ける追加ダメージが(15—30)%減少する",
+      "frag": "加ダ",
+      "overlap": 1,
+      "extra": [
+        "マジックおよびレアモンスターの数が18%上昇する",
+        "レアモンスターはモンスターモッドを持つ確率が18%上昇する",
+        "エリアで見つかるウェイストーンの量が10%上昇する"
+      ]
+    },
+    "ws.suf.less_effect_curses": {
+      "text": "モンスターに対する呪いの効果が(20—50)%低下する",
+      "frag": "ーに",
+      "overlap": 1,
+      "extra": [
+        "エリアで見つかるアイテムのレアリティが10%上昇する",
+        "エリアで見つかるウェイストーンの量が10%上昇する"
+      ]
+    },
+    "tb.pre.monsters_effectiveness": {
+      "text": "モンスターのエフェクティブが(10—15)%増加する",
+      "frag": "^モン",
+      "overlap": 1
+    },
+    "tb.pre.rarity_items_found": {
+      "text": "マップで見つかるアイテムのレアリティが(8—12)%増加する",
+      "frag": "かるア",
+      "overlap": 1
+    },
+    "tb.pre.pack_size": {
+      "text": "マップのパックサイズが(5—7)%増加する",
+      "frag": "プのパ",
+      "overlap": 1
+    },
+    "tb.pre.magic_monsters": {
+      "text": "マップのマジックモンスターが(30—40)%増加する",
+      "frag": "のマジ",
+      "overlap": 1
+    },
+    "tb.pre.number_rare_monsters": {
+      "text": "マップのレアモンスターの数が(25—35)%増加する",
+      "frag": "のレアモ",
+      "overlap": 1
+    },
+    "tb.pre.monster_rarity": {
+      "text": "マップのモンスターレアリティが(15—20)%増加する",
+      "frag": "ーレ",
+      "overlap": 1
+    },
+    "tb.pre.gold_found": {
+      "text": "マップで見つかるゴールドが(25—35)%増加する",
+      "frag": "ゴー",
+      "overlap": 1
+    },
+    "tb.pre.experience_gain": {
+      "text": "マップでの獲得経験値が(12—18)%増加する",
+      "frag": "得経",
+      "overlap": 1
+    },
+    "tb.pre.contains_rare_chests": {
+      "text": "マップにレアのチェストが追加で(2—3)個出現する",
+      "frag": "アの",
+      "overlap": 1
+    },
+    "tb.pre.contains_essences": {
+      "text": "マップにエッセンスが追加で1個出現する",
+      "frag": "ンスが追",
+      "overlap": 2,
+      "extra": [
+        "マップで見つかるウェイストーンの数量が%増加する"
+      ]
+    },
+    "tb.pre.contains_azmeri_spirits": {
+      "text": "マップにアズメリの精霊が追加で1体出現する",
+      "frag": "体出",
+      "overlap": 2,
+      "extra": [
+        "マップで見つかるウェイストーンの数量が%増加する"
+      ]
+    },
+    "tb.pre.contains_rogue_exiles": {
+      "text": "マップにローグエグザイルが追加で1体生息している",
+      "frag": "体生",
+      "overlap": 1,
+      "extra": [
+        "マップで見つかるウェイストーンの数量が%増加する"
+      ]
+    },
+    "tb.pre.contains_summoning_circles": {
+      "text": "マップにサモ二ングサークルが追加で1個出現する",
+      "frag": "二ン",
+      "overlap": 1
+    },
+    "tb.suf.quantity_waystones_found": {
+      "text": "マップで見つかるウェイストーンの数量が(30—40)%増加する",
+      "frag": "かるウ",
+      "overlap": 1
+    },
+    "tb.suf.contain_shrines": {
+      "text": "マップにシュラインが出現する確率が(70—100)%増加する",
+      "frag": "インが出",
+      "overlap": 1
+    },
+    "tb.suf.contain_strongboxes": {
+      "text": "マップにストロングボックスが出現する確率が(70—100)%増加する",
+      "frag": "クスが出",
+      "overlap": 1
+    },
+    "tb.suf.essences": {
+      "text": "マップにエッセンスが出現する確率が(70—100)%増加する",
+      "frag": "ンスが出",
+      "overlap": 1
+    },
+    "tb.suf.azmeri_spirits": {
+      "text": "マップにアズメリの精霊が出現する確率が(70—100)%増加する",
+      "frag": "霊が出",
+      "overlap": 1
+    },
+    "tb.suf.rogue_exiles": {
+      "text": "マップにローグエグザイルが出現する確率が(70—100)%増加する",
+      "frag": "イルが出",
+      "overlap": 1
+    },
+    "tb.suf.summoning_circle": {
+      "text": "マップにサモニングサークルが出現する確率が(70—100)%増加する",
+      "frag": "ニン",
+      "overlap": 1
+    },
+    "tb.suf.random_modifiers": {
+      "text": "マップはランダムなモッドを追加で(1—2)個持つ",
+      "frag": "ダム",
+      "overlap": 1
+    },
+    "tb.suf.unique_monsters_rare": {
+      "text": "ユニークモンスターはレアモッドを追加で1個持つ",
+      "frag": "はレ",
+      "overlap": 1
+    },
+    "tb.suf.waystones_shrine": {
+      "text": "マップにシュラインが追加で1個出現する",
+      "frag": "ンが追",
+      "overlap": 2,
+      "extra": [
+        "マップのパックサイズが%減少する",
+        "マップで見つかるウェイストーンの数量が%増加する"
+      ]
+    },
+    "tb.suf.waystones_strongbox": {
+      "text": "マップにストロングボックスが追加で1個出現する",
+      "frag": "クスが追",
+      "overlap": 2,
+      "extra": [
+        "マップのパックサイズが%減少する",
+        "マップで見つかるウェイストーンの数量が%増加する"
+      ]
+    },
+    "tb.impl.irradiated": {
+      "text": "マップに照射状態を追加する / 残り使用回数 (1—10)回",
+      "frag": "射状",
+      "overlap": 1
+    },
+    "tb.impl.breach": {
+      "text": "マップに異世界からのブリーチを追加する / 残り使用可能回数 (1—10)回",
+      "frag": "界か",
+      "overlap": 1
+    },
+    "tb.breach.quantity_hiveblood_found": {
+      "text": "マップで見つかるハイヴブラッドの数量が(30—60)%増加する",
+      "frag": "イヴ",
+      "overlap": 1
+    },
+    "tb.breach.quantity_wombgifts_found": {
+      "text": "マップで見つかる母胎ギフトの数量が(30—60)%増加する",
+      "frag": "る母",
+      "overlap": 1
+    },
+    "tb.breach.wombgifts_drop_higher": {
+      "text": "マップの母胎ギフトは(10—30)%の確率で1レベル高いものがドロップする",
+      "frag": "1レ",
+      "overlap": 1
+    },
+    "tb.breach.contain_vruun_marshal": {
+      "text": "マップの不安定なブリーチにゼシュトの元帥、ヴルーンが出現する確率が(20—50)%増加する",
+      "frag": "元帥",
+      "overlap": 1
+    },
+    "tb.breach.spawn_when_stabilised": {
+      "text": "マップの不安定なブリーチは安定化した後レアモンスターが追加で(1—3)体スポーンする",
+      "frag": "体ス",
+      "overlap": 1
+    },
+    "tb.breach.effectiveness_rare_breach": {
+      "text": "マップに出現するレアブリーチモンスターのエフェクティブが(5—20)%増加する",
+      "frag": "アブ",
+      "overlap": 1
+    },
+    "tb.breach.pack_size": {
+      "text": "マップのブリーチのパックサイズが(5—15)%増加する",
+      "frag": "チの",
+      "overlap": 1
+    },
+    "tb.impl.expedition": {
+      "text": "マップにカルグールのエクスペディションを追加する / 残り使用可能回数 (1—10)回",
+      "frag": "カル",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_artifacts_dropped": {
+      "text": "マップでモンスターがドロップするエクスペディションアーティファクトの数量が(15—30)%増加する",
+      "frag": "ーテ",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_placement_range": {
+      "text": "マップでエクスペディションの爆発物の設置範囲が(15—30)%増加する",
+      "frag": "範囲",
+      "overlap": 1
+    },
+    "tb.expedition.expeditions_remnants": {
+      "text": "マップのエクスペディションのレムナントが+(1—2)個される",
+      "frag": "個さ",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_radius": {
+      "text": "マップでエクスペディションの爆発物の半径が(15—30)%増加する",
+      "frag": "半径",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_logbooks_dropped": {
+      "text": "マップでルーニックモンスターがドロップするエクスペディションログブックの数量が(15—30)%増加する",
+      "frag": "クの",
+      "overlap": 1
+    },
+    "tb.expedition.number_rare_monsters": {
+      "text": "マップのレア エクスペディションモンスターの数が(25—40)%増加する",
+      "frag": "ンモ",
+      "overlap": 1
+    },
+    "tb.expedition.effect_remnants": {
+      "text": "マップのエクスペディションのレムナントの効果が(12—18)%増加する",
+      "frag": "果が",
+      "overlap": 1
+    },
+    "tb.expedition.contains_monster_markers": {
+      "text": "マップに出現するルーニックモンスターマーカーの数が(15—30)%増加する",
+      "frag": "ーカ",
+      "overlap": 1
+    },
+    "tb.impl.delirium": {
+      "text": "マップにデリリウムの鏡を追加する / 残り使用可能回数 (1—10)回",
+      "frag": "鏡を",
+      "overlap": 1
+    },
+    "tb.delirium.stack_simulacrum_splinters": {
+      "text": "マップで見つかるシミュラクラムスプリンターのスタックサイズが(15—30)%増加する",
+      "frag": "クラ",
+      "overlap": 1
+    },
+    "tb.delirium.lasts_before_dissipating": {
+      "text": "マップでデリリウムの霧は消失する前に追加で(6—12)秒持続する",
+      "frag": "前に",
+      "overlap": 1
+    },
+    "tb.delirium.dissipates_slower": {
+      "text": "マップでデリリウムの霧は(20—30)%遅く消失する",
+      "frag": "遅く",
+      "overlap": 1
+    },
+    "tb.delirium.applies_deliriousness": {
+      "text": "マップのデリリウムの霧はプレイヤーにせん妄度(15—30)%増加を適用する",
+      "frag": "ーに",
+      "overlap": 1
+    },
+    "tb.delirium.monsters_pack_size": {
+      "text": "マップのデリリウムモンスターはパックサイズが(15—30)%増加する",
+      "frag": "はパ",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_fracturing_mirrors": {
+      "text": "マップのデリリウムの霧がスポーンさせる割れた鏡の数が(15—30)%増加する",
+      "frag": "霧が",
+      "overlap": 1
+    },
+    "tb.delirium.slaying_rare_pauses": {
+      "text": "マップでレアモンスターを倒すとデリリウムの鏡のタイマーが(3—5)秒停止する",
+      "frag": "ーを",
+      "overlap": 1
+    },
+    "tb.delirium.encounters_likely_spawn": {
+      "text": "マップのデリリウムエンカウンターでユニークボスがスポーンする確率が(15—30)%高くなる",
+      "frag": "ーで",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_mirrorshards": {
+      "text": "マップのデリリウムの霧でスポーンする鏡の破片が(12—26)%増加する",
+      "frag": "霧で",
+      "overlap": 1
+    },
+    "tb.impl.ritual": {
+      "text": "マップにリチュアルの祭壇を追加する / 残り使用回数 (1—10)回",
+      "frag": "壇を",
+      "overlap": 1
+    },
+    "tb.ritual.monsters_sacrificed_grant": {
+      "text": "マップのリチュアルの祭壇で捧げられたモンスターが付与するトリビュートが(18—30)%増加する",
+      "frag": "捧げ",
+      "overlap": 1
+    },
+    "tb.ritual.rerolling_costs_reduced": {
+      "text": "マップのリチュアルの祭壇で恩寵のリロールでコストとして消費するトリビュートが(20—30)%減少する",
+      "frag": "費す",
+      "overlap": 1
+    },
+    "tb.ritual.deferring_costs_reduced": {
+      "text": "マップのリチュアルの祭壇での恩寵の繰り越しにコストとしてかかるトリビュートが(20—30)%減少する",
+      "frag": "かか",
+      "overlap": 1
+    },
+    "tb.ritual.deferred_reappear_sooner": {
+      "text": "マップのリチュアルの祭壇で繰り越しした恩寵は(25—40)%速く再出現する",
+      "frag": "速く",
+      "overlap": 1
+    },
+    "tb.ritual.allow_rerolling_times": {
+      "text": "マップのリチュアルの祭壇は恩寵を追加で(1—3)回リロールできる",
+      "frag": "壇は",
+      "overlap": 1
+    },
+    "tb.ritual.rerolled_cost": {
+      "text": "マップのリチュアルの祭壇で恩寵のリロールは(3—6)%の確率でトリビュートをコストとして消費しない",
+      "frag": "費し",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_magic": {
+      "text": "マップのリチュアルの祭壇で復活するモンスターがマジックになる確率が(35—70)%増加する",
+      "frag": "がマ",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_rare": {
+      "text": "マップのリチュアルの祭壇で復活するモンスターがレアになる確率が(25—40)%増加する",
+      "frag": "アに",
+      "overlap": 1
+    },
+    "tb.ritual.omens": {
+      "text": "マップのリチュアルの恩寵がお告げとなる確率が(35—70)%増加する",
+      "frag": "告げ",
+      "overlap": 1
+    },
+    "tb.impl.overseer": {
+      "text": "マップのマップボスを強化する / 残り使用回数 (1—10)回",
+      "frag": "化す",
+      "overlap": 1
+    },
+    "tb.overseer.strongboxes": {
+      "text": "マップにストロングボックスが追加で(1—2)個出現する",
+      "frag": "クスが追",
+      "overlap": 2
+    },
+    "tb.overseer.shrines": {
+      "text": "マップにシュラインが追加で(1—2)個出現する",
+      "frag": "ンが追",
+      "overlap": 2
+    },
+    "tb.overseer.essences": {
+      "text": "マップにエッセンスが追加で(1—2)個出現する",
+      "frag": "ンスが追",
+      "overlap": 2
+    },
+    "tb.overseer.azmeri_spirits": {
+      "text": "マップにアズメリの精霊が追加で(1—2)体出現する",
+      "frag": "体出",
+      "overlap": 2
+    },
+    "tb.overseer.quantity_waystones_dropped": {
+      "text": "マップボスがドロップするウェイストーンの数量が(18—30)%増加する",
+      "frag": "がド",
+      "overlap": 1
+    },
+    "tb.overseer.grant_experience": {
+      "text": "マップボスが付与する経験値が(40—80)%上昇する",
+      "frag": "付与",
+      "overlap": 1
+    },
+    "tb.overseer.rarity_items_dropped": {
+      "text": "マップボスのドロップするアイテムのレアリティが(35—60)%増加する",
+      "frag": "するアイテムのレ",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_items_dropped": {
+      "text": "マップボスのドロップするアイテムの数量が(13—20)%増加する",
+      "frag": "ムの数",
+      "overlap": 1
+    },
+    "tb.impl.abyss": {
+      "text": "マップにアビスを追加する / 残り使用可能回数 (1—10)回",
+      "frag": "スを",
+      "overlap": 1
+    },
+    "tb.abyss.rare_monsters_spawned": {
+      "text": "マップのアビスの穴からレアモンスターが追加で(1—2)体スポーンする",
+      "frag": "体ス",
+      "overlap": 1
+    },
+    "tb.abyss.difficulty_reward_closed": {
+      "text": "マップのアビサルモンスターの難易度および報酬が閉じた穴の数ごとに増加する",
+      "frag": "難易",
+      "overlap": 1
+    },
+    "tb.abyss.lead_abyssal_depths": {
+      "text": "マップのアビスがアビスの深淵に繋がる確率が(10—20)%増加する",
+      "frag": "深淵",
+      "overlap": 1
+    },
+    "tb.abyss.contains_abyss": {
+      "text": "マップにアビスが追加で1個出現する",
+      "frag": "にアビスが",
+      "overlap": 1
+    },
+    "tb.abyss.abyss_pits_likely": {
+      "text": "マップのアビスの穴が報酬を持つ確率が2倍になる",
+      "frag": "2倍",
+      "overlap": 1
+    },
+    "tb.abyss.contain_four": {
+      "text": "マップに(20—40)%の確率でアビスが追加で4個出現する",
+      "frag": "4個",
+      "overlap": 1
+    },
+    "tb.abyss.abyssal_monsters_modifiers": {
+      "text": "マップのアビサルモンスターがアビサルモッドを持つ確率が(20—30)%増加する",
+      "frag": "ーがア",
+      "overlap": 1
+    },
+    "tb.abyss.desecrated_currency": {
+      "text": "マップのアビスから冒涜カレンシーを獲得する確率が(20—30)%増加する",
+      "frag": "ーを",
+      "overlap": 1
+    },
+    "tb.abyss.spawn_monsters": {
+      "text": "マップのアビスがスポーンするモンスターの数が(20—30)%増加する",
+      "frag": "がス",
+      "overlap": 1
+    },
+    "tb.impl.temple": {
+      "text": "マップにヴァールビーコンを追加する / 残り使用可能回数 (1—10)回",
+      "frag": "にヴ",
+      "overlap": 1
+    },
+    "tb.temple.add_unique_monster": {
+      "text": "(10—25)%の確率でヴァールビーコンユニークモンスターをマップに追加する",
+      "frag": "ーを",
+      "overlap": 1
+    },
+    "tb.temple.chests_rare": {
+      "text": "マップのヴァールビーコンチェストがレアになる確率が(30—60)%増加する",
+      "frag": "アに",
+      "overlap": 1
+    },
+    "tb.temple.gain_crystal_beacons": {
+      "text": "(5—10)%の確率でマップのヴァールビーコンからクリスタルを追加で1個獲得する",
+      "frag": "個獲",
+      "overlap": 1
+    }
+  }
+}

@@ -1,0 +1,832 @@
+{
+  "tablets": {
+    "irradiated": "อาบรังสี",
+    "breach": "บรีช",
+    "expedition": "Expedition",
+    "delirium": "Delirium",
+    "ritual": "Ritual",
+    "overseer": "ผู้คุม",
+    "abyss": "อะบิส",
+    "temple": "วิหาร"
+  },
+  "bases": {
+    "irradiated": "แผ่นหินอาบรังสี",
+    "breach": "แผ่นหินบรีช",
+    "expedition": "แผ่นหินกองสำรวจ",
+    "delirium": "แผ่นหินเดลิเรียม",
+    "ritual": "แผ่นหินพิธีกรรม",
+    "overseer": "แผ่นหินผู้คุม",
+    "abyss": "แผ่นหินอะบิส",
+    "temple": "แผ่นหินวิหาร",
+    "waystone": "ศิลานำทาง (ระดับ {tier})"
+  },
+  "tokens": {
+    "tier": "ระดับ {n}",
+    "corrupted": "มีมลทิน",
+    "units": "%"
+  },
+  "options": {
+    "ws.imp.revives": {
+      "text": "จำนวนสิทธิ์คืนชีพ",
+      "frag": "จำ",
+      "overlap": 1
+    },
+    "ws.imp.item_rarity": {
+      "text": "ระดับความหายากของไอเทม",
+      "frag": "งไ",
+      "overlap": 1
+    },
+    "ws.imp.pack_size": {
+      "text": "ขนาดกองมอนสเตอร์",
+      "frag": "กอ",
+      "overlap": 1
+    },
+    "ws.imp.rare_monsters": {
+      "text": "ระดับความหายากของมอนสเตอร์",
+      "frag": "กของม",
+      "overlap": 1
+    },
+    "ws.imp.waystone_chance": {
+      "text": "โอกาสดรอปศิลานำทาง",
+      "frag": "ดร",
+      "overlap": 1
+    },
+    "ws.imp.monster_effect": {
+      "text": "ประสิทธิภาพของมอนสเตอร์",
+      "frag": "ปร",
+      "overlap": 1
+    },
+    "ws.pre.deal_extra_fire": {
+      "text": "มอนสเตอร์ นำความเสียหาย (5—24)% ไปเสริมเป็น ไฟ",
+      "frag": "ไฟ",
+      "overlap": 1,
+      "extra": [
+        "มอนสเตอร์ มีประสิทธิภาพ เพิ่มขึ้น 16%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.pre.deal_extra_cold": {
+      "text": "มอนสเตอร์ นำความเสียหาย (5—24)% ไปเสริมเป็น น้ำแข็ง",
+      "frag": "แข",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 14%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.pre.deal_extra_lightning": {
+      "text": "มอนสเตอร์ นำความเสียหาย (5—24)% ไปเสริมเป็น สายฟ้า",
+      "frag": "ยฟ",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 8%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.pre.monster_damage": {
+      "text": "เพิ่มความเสียหายของ มอนสเตอร์ (5—24)%",
+      "frag": "่มค",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มมอนสเตอร์เมจิกและแรร์ อีก 25%",
+        "มอนสเตอร์แรร์ มีม็อดมอนสเตอร์ เพิ่มขึ้น อีก 25%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 20%"
+      ]
+    },
+    "ws.pre.attack_cast_movement": {
+      "text": "มอนสเตอร์ มีความเร็วในการโจมตี, ร่าย, เคลื่อนที่ เพิ่มขึ้น (10—15)%",
+      "frag": "คล",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 9%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 25%"
+      ]
+    },
+    "ws.pre.critical_hit": {
+      "text": "มอนสเตอร์ มีโอกาสปะทะคริติคอล เพิ่มขึ้น (80—300)%",
+      "frag": "สป",
+      "overlap": 1,
+      "extra": [
+        "โบนัสความเสียหายคริติคอลของมอนสเตอร์ +(80—300)%",
+        "เพิ่มขนาดกอง อีก 9%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.pre.monster_life": {
+      "text": "เพิ่มพลังชีวิตของ มอนสเตอร์ อีก (10—30)%",
+      "frag": "ตข",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มมอนสเตอร์เมจิกและแรร์ อีก 23%",
+        "มอนสเตอร์แรร์ มีม็อดมอนสเตอร์ เพิ่มขึ้น อีก 23%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.pre.poison_hit": {
+      "text": "มอนสเตอร์ มีโอกาสสร้างสถานะ พิษ (13—40)% เมื่อปะทะ​",
+      "frag": "ทะ​",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 7%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 10%"
+      ]
+    },
+    "ws.pre.inflict_bleeding_hit": {
+      "text": "มอนสเตอร์ มีโอกาสสร้างสถานะ เลือดไหล (5—25)% เมื่อปะทะ",
+      "frag": "ดไ",
+      "overlap": 1,
+      "extra": [
+        "มอนสเตอร์ มีประสิทธิภาพ เพิ่มขึ้น อีก 13%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 10%"
+      ]
+    },
+    "ws.pre.break_armour_equal": {
+      "text": "มอนสเตอร์ หักเกราะ เท่ากับ (15—45)% ของความเสียหาย กายภาพ ที่สร้าง",
+      "frag": "กเ",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มมอนสเตอร์เมจิกและแรร์ อีก 19%",
+        "มอนสเตอร์แรร์ มีม็อดมอนสเตอร์ เพิ่มขึ้น อีก 19%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 10%"
+      ]
+    },
+    "ws.pre.accuracy_rating": {
+      "text": "มอนสเตอร์ มีอัตราความแม่นยำ เพิ่มขึ้น (10—50)%",
+      "frag": "ตร",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 7%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 10%"
+      ]
+    },
+    "ws.pre.deal_extra_chaos": {
+      "text": "มอนสเตอร์ นำความเสียหาย (5—24)% ไปเสริมเป็น เคออส",
+      "frag": "อส",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 15%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.pre.stun_buildup": {
+      "text": "มอนสเตอร์ มีการสะสมค่าสตัน เพิ่มขึ้น (50—110)%",
+      "frag": "สต",
+      "overlap": 1,
+      "extra": [
+        "มอนสเตอร์ มีประสิทธิภาพ เพิ่มขึ้น อีก 13%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.pre.fire_projectiles": {
+      "text": "มอนสเตอร์ ยิงโพรเจกไทล์ เพิ่มเติม 2 ลูก",
+      "frag": "งโ",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 9%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 25%"
+      ]
+    },
+    "ws.pre.penetrates_elemental_resistances": {
+      "text": "ความเสียหายของมอนสเตอร์ เจาะต้านทาน ธาตุ (6—16)%",
+      "frag": "ะต",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 16%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 20%"
+      ]
+    },
+    "ws.suf.rare_monsters_modifiers": {
+      "text": "มอนสเตอร์แรร์ มีม็อด เพิ่มเติม 1 อย่าง",
+      "frag": "รร",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มจำนวนของ มอนสเตอร์แรร์ 25%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน 10%"
+      ]
+    },
+    "ws.suf.monster_elemental_resistances": {
+      "text": "ค่าต้านทาน ธาตุ ของมอนสเตอร์ +(20—40)%",
+      "frag": "ตุ ข",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 14%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 10%"
+      ]
+    },
+    "ws.suf.monsters_armoured": {
+      "text": "มอนสเตอร์ หุ้มเกราะ​",
+      "frag": "มเก",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มมอนสเตอร์เมจิกและแรร์ อีก 18%",
+        "มอนสเตอร์แรร์ มีม็อดมอนสเตอร์ เพิ่มขึ้น อีก 18%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.suf.monsters_evasive": {
+      "text": "มอนสเตอร์ หลบหลีก​",
+      "frag": "บห",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 6%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.suf.gain_maximum_life": {
+      "text": "มอนสเตอร์ นำ พลังชีวิตสูงสุด (12—25)% ไปเสริมเป็น โล่พลังงานสูงสุด",
+      "frag": "ตส",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 13%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.suf.monsters_ailment_threshold": {
+      "text": "มอนสเตอร์ มีความยากในการติด สถานะเจ็บป่วย เพิ่มขึ้น (30—79)%",
+      "frag": "กใ",
+      "overlap": 1,
+      "extra": [
+        "มอนสเตอร์ มีความยากในการติดสถานะ สตัน เพิ่มขึ้น (30—79)%",
+        "มอนสเตอร์ มีประสิทธิภาพ เพิ่มขึ้น อีก 13%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 10%"
+      ]
+    },
+    "ws.suf.monster_ailment_application": {
+      "text": "มอนสเตอร์ มีความสามารถในการสร้าง สถานะเจ็บป่วยธาตุ เพิ่มขึ้น (60—130)%",
+      "frag": "ถใ",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 11%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.suf.monsters_effect": {
+      "text": "มอนสเตอร์ มีพื้นที่ส่งผล เพิ่มขึ้น 50%",
+      "frag": "่งผ",
+      "overlap": 1,
+      "extra": [
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 20%"
+      ]
+    },
+    "ws.suf.periodically_cursed_enfeeble": {
+      "text": "ด่าน ถูกสาปด้วย หมดเรี่ยวแรง (Enfeeble)",
+      "frag": "bl",
+      "overlap": 1,
+      "extra": [
+        "มอนสเตอร์ มีประสิทธิภาพ เพิ่มขึ้น อีก 16%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 20%"
+      ]
+    },
+    "ws.suf.periodically_temporal_chains": {
+      "text": "ด่าน ถูกสาปด้วย โซ่กาลเวลา (Temporal Chains)",
+      "frag": "ai",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 8%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 20%"
+      ]
+    },
+    "ws.suf.periodically_cursed_weakness": {
+      "text": "ด่าน ถูกสาปด้วย แพ้ธาตุ (Elemental Weakness)",
+      "frag": "ak",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 13%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 20%"
+      ]
+    },
+    "ws.suf.patches_ignited_ground": {
+      "text": "ด่านมี พื้นลุกไหม้ เป็นบางส่วน",
+      "frag": "นล",
+      "overlap": 1,
+      "extra": [
+        "มอนสเตอร์ มีประสิทธิภาพ เพิ่มขึ้น อีก 15%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%",
+        "ground fire art variation [1033]",
+        "map ground effect patches per 100 tiles [4]",
+        "map ground effect radius [20]"
+      ]
+    },
+    "ws.suf.patches_chilled_ground": {
+      "text": "ด่านมี พื้นหนาวเย็น เป็นบางส่วน",
+      "frag": "นห",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 12%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%",
+        "ground ice art variation [1014]",
+        "map ground effect patches per 100 tiles [3]",
+        "map ground effect radius [26]"
+      ]
+    },
+    "ws.suf.patches_shocked_ground": {
+      "text": "ด่านมี พื้นช็อค เป็นบางส่วน",
+      "frag": "อค",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 7%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%",
+        "ground lightning art variation [1011]",
+        "map ground effect patches per 100 tiles [5]",
+        "map ground effect radius [17]"
+      ]
+    },
+    "ws.suf.maximum_resistances": {
+      "text": "ค่าต้านทาน ทุกชนิด สูงสุด ของผู้เล่น (-10—-3)%",
+      "frag": "กช",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 10%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 25%"
+      ]
+    },
+    "ws.suf.gain_flask_charges": {
+      "text": "ผู้เล่น ได้รับชาร์จขวดยา ลดลง (20—35)%",
+      "frag": "ขว",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มขนาดกอง อีก 7%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.suf.recovery_rate_life": {
+      "text": "ผู้เล่น มีความเร็วในการ เติม พลังชีวิตและโล่พลังงาน ลดลง อีก (20—40)%",
+      "frag": "ตแ",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 15%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 20%"
+      ]
+    },
+    "ws.suf.cooldown_recovery_rate": {
+      "text": "ผู้เล่น มีความเร็วในการฟื้นฟูคูลดาวน์ ลดลง อีก (15—30)%",
+      "frag": "ดา",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 12%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 15%"
+      ]
+    },
+    "ws.suf.take_damage_critical": {
+      "text": "มอนสเตอร์ ได้รับความเสียหายเพิ่มเติมจากการปะทะคริติคอล ลดลง (15—30)%",
+      "frag": "กก",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มมอนสเตอร์เมจิกและแรร์ อีก 18%",
+        "มอนสเตอร์แรร์ มีม็อดมอนสเตอร์ เพิ่มขึ้น อีก 18%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 10%"
+      ]
+    },
+    "ws.suf.less_effect_curses": {
+      "text": "ลดผลของคำสาป ต่อมอนสเตอร์ อีก (20—50)%",
+      "frag": "คำ",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มระดับความหายากของ ไอเทม ที่พบในด่านนี้ อีก 10%",
+        "เพิ่ม ศิลานำทาง ที่พบในด่าน อีก 10%"
+      ]
+    },
+    "tb.pre.monsters_effectiveness": {
+      "text": "มอนสเตอร์ มีประสิทธิภาพ เพิ่มขึ้น (10—15)%",
+      "frag": "ภา",
+      "overlap": 1
+    },
+    "tb.pre.rarity_items_found": {
+      "text": "เพิ่มระดับความหายากของ ไอเทม ที่พบในแผนที่ (8—12)%",
+      "frag": "ม ที่พ",
+      "overlap": 1
+    },
+    "tb.pre.pack_size": {
+      "text": "เพิ่มขนาดกองมอนสเตอร์ ในแผนที่ (5—7)%",
+      "frag": "มขนาดกองม",
+      "overlap": 1
+    },
+    "tb.pre.magic_monsters": {
+      "text": "แผนที่มี มอนสเตอร์เมจิก เพิ่มขึ้น (30—40)%",
+      "frag": "ี มอ",
+      "overlap": 1
+    },
+    "tb.pre.number_rare_monsters": {
+      "text": "แผนที่ มีจำนวนของ มอนสเตอร์แรร์ เพิ่มขึ้น (25—35)%",
+      "frag": "่ มีจ",
+      "overlap": 1
+    },
+    "tb.pre.monster_rarity": {
+      "text": "แผนที่มี ระดับความหายากของ มอนสเตอร์ เพิ่มขึ้น (15—20)%",
+      "frag": "\\sระ",
+      "overlap": 1
+    },
+    "tb.pre.gold_found": {
+      "text": "เพิ่ม ทอง ที่พบในแผนที่ (25—35)%",
+      "frag": "ทอ",
+      "overlap": 1
+    },
+    "tb.pre.experience_gain": {
+      "text": "เพิ่มค่าประสบการณ์ที่ได้รับ ในแผนที่ (12—18)%",
+      "frag": "มค",
+      "overlap": 1
+    },
+    "tb.pre.contains_rare_chests": {
+      "text": "แผนที่มี หีบแรร์ เพิ่มเติม (2—3) ใบ",
+      "frag": "มี ห",
+      "overlap": 1
+    },
+    "tb.pre.contains_essences": {
+      "text": "แผนที่มี เอสเซนส์ เพิ่มเติม 1 ผลึก",
+      "frag": "1 ผ",
+      "overlap": 2,
+      "extra": [
+        "เพิ่มจำนวนของ ศิลานำทาง ที่พบในแผนที่ %"
+      ]
+    },
+    "tb.pre.contains_azmeri_spirits": {
+      "text": "แผนที่มี วิญญาณแอสเมรี เพิ่มเติม 1 ตน",
+      "frag": "ตน",
+      "overlap": 2,
+      "extra": [
+        "เพิ่มจำนวนของ ศิลานำทาง ที่พบในแผนที่ %"
+      ]
+    },
+    "tb.pre.contains_rogue_exiles": {
+      "text": "แผนที่มี เอ็กไซล์อันธพาล อาศัยอยู่ เพิ่มเติม 1 คน",
+      "frag": "คน",
+      "overlap": 1,
+      "extra": [
+        "เพิ่มจำนวนของ ศิลานำทาง ที่พบในแผนที่ %"
+      ]
+    },
+    "tb.pre.contains_summoning_circles": {
+      "text": "แผนที่มี วงศิลาอัญเชิญ เพิ่มเติม 1 วง",
+      "frag": "ญ เ",
+      "overlap": 1
+    },
+    "tb.suf.quantity_waystones_found": {
+      "text": "เพิ่มจำนวนของ ศิลานำทาง ที่พบในแผนที่ (30—40)%",
+      "frag": "าง ที่พ",
+      "overlap": 3
+    },
+    "tb.suf.contain_shrines": {
+      "text": "แผนที่ มีโอกาสมี แท่นบูชา เพิ่มขึ้น (70—100)%",
+      "frag": "สมี แ",
+      "overlap": 1
+    },
+    "tb.suf.contain_strongboxes": {
+      "text": "แผนที่ มีโอกาสมี กล่องนิรภัย เพิ่มขึ้น (70—100)%",
+      "frag": "สมี ก",
+      "overlap": 1
+    },
+    "tb.suf.essences": {
+      "text": "แผนที่ มีโอกาสมี เอสเซนส์ เพิ่มขึ้น (70—100)%",
+      "frag": "สมี เอส",
+      "overlap": 1
+    },
+    "tb.suf.azmeri_spirits": {
+      "text": "แผนที่ มีโอกาสมี วิญญาณแอสเมรี เพิ่มขึ้น (70—100)%",
+      "frag": "สมี วิ",
+      "overlap": 1
+    },
+    "tb.suf.rogue_exiles": {
+      "text": "แผนที่ มีโอกาสมี เอ็กไซล์อันธพาล เพิ่มขึ้น (70—100)%",
+      "frag": "าล เ",
+      "overlap": 1
+    },
+    "tb.suf.summoning_circle": {
+      "text": "แผนที่ มีโอกาสมี วงศิลาอัญเชิญ 1 วง เพิ่มขึ้น (70—100)%",
+      "frag": "ญ 1",
+      "overlap": 1
+    },
+    "tb.suf.random_modifiers": {
+      "text": "แผนที่ มีม็อดแบบสุ่ม เพิ่มเติม (1—2) อย่าง",
+      "frag": "ดแ",
+      "overlap": 1
+    },
+    "tb.suf.unique_monsters_rare": {
+      "text": "มอนสเตอร์ยูนิค มีม็อด เพิ่มเติม 1 อย่าง",
+      "frag": "ด เ",
+      "overlap": 1
+    },
+    "tb.suf.waystones_shrine": {
+      "text": "เพิ่มจำนวนของ ศิลานำทาง ที่พบในแผนที่ %",
+      "frag": "นที่ %",
+      "overlap": 2,
+      "extra": [
+        "ลดขนาดกองมอนสเตอร์ ในแผนที่ %",
+        "แผนที่มี แท่นบูชา เพิ่มเติม 1 แท่น"
+      ]
+    },
+    "tb.suf.waystones_strongbox": {
+      "text": "เพิ่มจำนวนของ ศิลานำทาง ที่พบในแผนที่ %",
+      "frag": "นที่ %",
+      "overlap": 2,
+      "extra": [
+        "ลดขนาดกองมอนสเตอร์ ในแผนที่ %",
+        "แผนที่มี กล่องนิรภัย เพิ่มเติม 1 ใบ"
+      ]
+    },
+    "tb.impl.irradiated": {
+      "text": "เพิ่ม รังสี ลงไปในแผนที่ เหลือการใช้งานอีก (1—10) ครั้ง",
+      "frag": "คร",
+      "overlap": 1
+    },
+    "tb.impl.breach": {
+      "text": "เพิ่ม บรีชจากโลกอื่น ลงไปในแผนที่ / เหลือการใช้งานอีก (1—10) ครั้ง",
+      "frag": "กโ",
+      "overlap": 1
+    },
+    "tb.breach.quantity_hiveblood_found": {
+      "text": "map breach hiveblood quantity +% [30,60]",
+      "frag": "eb",
+      "overlap": 1
+    },
+    "tb.breach.quantity_wombgifts_found": {
+      "text": "(30—60)% increased Quantity of Wombgifts found in Map",
+      "frag": "fo",
+      "overlap": 1
+    },
+    "tb.breach.wombgifts_drop_higher": {
+      "text": "Wombgifts have (10—30)% chance to drop one Level higher in Map",
+      "frag": "dr",
+      "overlap": 1
+    },
+    "tb.breach.contain_vruun_marshal": {
+      "text": "Unstable Breaches in Map have (20—50)% increased chance to contain Vruun, Marshal of Xesht",
+      "frag": "ai",
+      "overlap": 1
+    },
+    "tb.breach.spawn_when_stabilised": {
+      "text": "Unstable Breaches in Map spawn an additional Rare Monster when Stabilised",
+      "frag": "ad",
+      "overlap": 1
+    },
+    "tb.breach.effectiveness_rare_breach": {
+      "text": "(5—20)% increased Effectiveness of Rare Breach Monsters in Map",
+      "frag": "ct",
+      "overlap": 1
+    },
+    "tb.breach.pack_size": {
+      "text": "บรีช ในแผนที่ มีความหนาแน่นของมอนสเตอร์ เพิ่มขึ้น (5—15)%",
+      "frag": "แน",
+      "overlap": 1
+    },
+    "tb.impl.expedition": {
+      "text": "เพิ่ม กองสำรวจคาลเกอร์ ลงไปในแผนที่ / เหลือการใช้งานอีก (1—10) ครั้ง",
+      "frag": "เก",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_artifacts_dropped": {
+      "text": "เพิ่มจำนวนของ โบราณวัตถุกองสำรวจ ที่ดรอปจากมอนสเตอร์ ในแผนที่ (15—30)%",
+      "frag": "กม",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_placement_range": {
+      "text": "เพิ่มระยะการวาง วัตถุระเบิดกองสำรวจ ในแผนที่ (15—30)%",
+      "frag": "ยะ",
+      "overlap": 1
+    },
+    "tb.expedition.expeditions_remnants": {
+      "text": "กองสำรวจ ในแผนที่มี ซากอารยธรรม +(1—2) ชิ้น",
+      "frag": "^กอ",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_radius": {
+      "text": "เพิ่มรัศมีของ วัตถุระเบิดกองสำรวจ ในแผนที่ (15—30)%",
+      "frag": "ศม",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_logbooks_dropped": {
+      "text": "เพิ่มจำนวนของ สมุดปูมเดินทางกองสำรวจ ที่ดรอปจาก มอนสเตอร์อักขระ ในแผนที่ (15—30)%",
+      "frag": "งก",
+      "overlap": 1
+    },
+    "tb.expedition.number_rare_monsters": {
+      "text": "เพิ่มจำนวนของ มอนสเตอร์Expeditionแรร์ ในแผนที่ (25—40)%",
+      "frag": "di",
+      "overlap": 1
+    },
+    "tb.expedition.effect_remnants": {
+      "text": "เพิ่มผลของ ซากอารยธรรมกองสำรวจ ในแผนที่ (12—18)%",
+      "frag": "มก",
+      "overlap": 1
+    },
+    "tb.expedition.contains_monster_markers": {
+      "text": "ด่านมีจำนวนของ เครื่องหมายมอนสเตอร์แรร์อักขระ เพิ่มขึ้น (15—30)%",
+      "frag": "เค",
+      "overlap": 1
+    },
+    "tb.impl.delirium": {
+      "text": "เพิ่ม กระจกเดลิเรียม ลงไปในแผนที่ / เหลือการใช้งานอีก (1—10) ครั้ง",
+      "frag": "งไ",
+      "overlap": 1
+    },
+    "tb.delirium.stack_simulacrum_splinters": {
+      "text": "เพิ่มขนาดกองของ สะเก็ดเมืองจำแลง ที่พบในแผนที่ (15—30)%",
+      "frag": "เก",
+      "overlap": 1
+    },
+    "tb.delirium.lasts_before_dissipating": {
+      "text": "หมอกเดลิเรียม ในแผนที่ คงอยู่ เพิ่มเติม (6—12) วินาที ก่อนที่จะสลายไป",
+      "frag": "คง",
+      "overlap": 1
+    },
+    "tb.delirium.dissipates_slower": {
+      "text": "หมอกเดลิเรียม ในแผนที่ สลายตัว ช้าลง (20—30)%",
+      "frag": "ยต",
+      "overlap": 1
+    },
+    "tb.delirium.applies_deliriousness": {
+      "text": "เดลิเรียม ในแผนที่เพิ่ม เร็วขึ้น (15—30)% ตามระยะห่างจากกระจก",
+      "frag": "กก",
+      "overlap": 1
+    },
+    "tb.delirium.monsters_pack_size": {
+      "text": "มอนสเตอร์เดลิเรียม ในแผนที่ มีขนาดกองมอนสเตอร์ เพิ่มขึ้น (15—30)%",
+      "frag": "์เด",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_fracturing_mirrors": {
+      "text": "หมอกเดลิเรียม ในแผนที่เรียก กระจกแตกร้าว เพิ่มขึ้น (15—30)%",
+      "frag": "กแ",
+      "overlap": 1
+    },
+    "tb.delirium.slaying_rare_pauses": {
+      "text": "การสังหาร มอนสเตอร์แรร์ ในแผนที่จะหยุดเวลาของ กระจกเดลิเรียม (3—5) วินาที",
+      "frag": "งห",
+      "overlap": 1
+    },
+    "tb.delirium.encounters_likely_spawn": {
+      "text": "การเผชิญหน้าเดลิเรียม ในแผนที่ มีโอกาสเรียก บอสยูนิค มากขึ้น (15—30)%",
+      "frag": "ญห",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_mirrorshards": {
+      "text": "Delirium Fog in Map spawns (12—26)% increased MirrorShards",
+      "frag": "ap",
+      "overlap": 1
+    },
+    "tb.impl.ritual": {
+      "text": "เพิ่ม แท่นพิธีกรรม ลงไปในแผนที่ เหลือการใช้งานอีก (1—10) ครั้ง",
+      "frag": "งา",
+      "overlap": 1
+    },
+    "tb.ritual.monsters_sacrificed_grant": {
+      "text": "มอนสเตอร์ที่ถูกสังเวยที่ แท่นพิธีกรรม ในแผนที่ให้ บรรณาการ เพิ่มขึ้น (18—30)%",
+      "frag": "งเ",
+      "overlap": 1
+    },
+    "tb.ritual.rerolling_costs_reduced": {
+      "text": "การสุ่มของสนองบรรณาการที่ แท่นพิธีกรรม ในแผนที่มี ค่าบรรณาการ ลดลง (20—30)%",
+      "frag": "รส",
+      "overlap": 1
+    },
+    "tb.ritual.deferring_costs_reduced": {
+      "text": "การผัดผ่อนของสนองบรรณาการที่ แท่นพิธีกรรม ในแผนที่มี ค่าบรรณาการ ลดลง (20—30)%",
+      "frag": "รผ",
+      "overlap": 1
+    },
+    "tb.ritual.deferred_reappear_sooner": {
+      "text": "ของสนองบรรณาการ ที่ถูกผัดผ่อนใน แท่นพิธีกรรม ในแผนที่ ปรากฏใหม่ เร็วขึ้น (25—40)%",
+      "frag": "กฏ",
+      "overlap": 1
+    },
+    "tb.ritual.allow_rerolling_times": {
+      "text": "แท่นพิธีกรรม ในแผนที่ สามารถ สุ่มของสนองบรรณาการ ได้ เพิ่มเติม 1 ครั้ง",
+      "frag": "มา",
+      "overlap": 1
+    },
+    "tb.ritual.rerolled_cost": {
+      "text": "ของสนองบรรณาการ ที่ถูกสุ่มใน แท่นพิธีกรรม ในแผนที่ มีโอกาส ไม่มีค่าบรรณาการ (3—6)%",
+      "frag": "มใ",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_magic": {
+      "text": "มอนสเตอร์ที่คืนชีพจาก แท่นพิธีกรรม ในแผนที่ มีโอกาสเป็น มอนสเตอร์เมจิก เพิ่มขึ้น (35—70)%",
+      "frag": "น มอนสเตอร์เ",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_rare": {
+      "text": "มอนสเตอร์ที่คืนชีพจาก แท่นพิธีกรรม ในแผนที่ มีโอกาสเป็น มอนสเตอร์แรร์ เพิ่มขึ้น (25—40)%",
+      "frag": "น มอนสเตอร์แ",
+      "overlap": 1
+    },
+    "tb.ritual.omens": {
+      "text": "ของสนองบรรณาการพิธีกรรม ในแผนที่ มีโอกาสเป็น ลางบอกเหตุ เพิ่มขึ้น (35—70)%",
+      "frag": "กเ",
+      "overlap": 1
+    },
+    "tb.impl.overseer": {
+      "text": "เสริมฤทธิ์ให้กับ บอสประจำแผนที่ ในแผนที่ / เหลือการใช้งานอีก (1—10) ครั้ง",
+      "frag": "มฤ",
+      "overlap": 1
+    },
+    "tb.overseer.strongboxes": {
+      "text": "แผนที่มี กล่องนิรภัย เพิ่มเติม 1 ใบ",
+      "frag": "1 ใ",
+      "overlap": 1
+    },
+    "tb.overseer.shrines": {
+      "text": "แผนที่มี แท่นบูชา เพิ่มเติม 1 แท่น",
+      "frag": "1 แ",
+      "overlap": 1
+    },
+    "tb.overseer.essences": {
+      "text": "แผนที่มี เอสเซนส์ เพิ่มเติม 1 ผลึก",
+      "frag": "ผล",
+      "overlap": 2
+    },
+    "tb.overseer.azmeri_spirits": {
+      "text": "แผนที่มี วิญญาณแอสเมรี เพิ่มเติม 1 ตน",
+      "frag": "ตน",
+      "overlap": 2
+    },
+    "tb.overseer.quantity_waystones_dropped": {
+      "text": "เพิ่มจำนวนของ ศิลานำทาง ที่ดรอปจาก บอสประจำแผนที่ (18—30)%",
+      "frag": "ง ที่ด",
+      "overlap": 1
+    },
+    "tb.overseer.grant_experience": {
+      "text": "บอสประจำแผนที่ ให้ค่าประสบการณ์ เพิ่มขึ้น อีก (40—80)%",
+      "frag": "น อ",
+      "overlap": 1
+    },
+    "tb.overseer.rarity_items_dropped": {
+      "text": "เพิ่มระดับความหายากของ ไอเทม ที่ดรอปจาก บอสประจำแผนที่ (35—60)%",
+      "frag": "กของ ไอเทม ที่ด",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_items_dropped": {
+      "text": "เพิ่มจำนวนของ ไอเทม ที่ดรอปจาก บอสประจำแผนที่ (13—20)%",
+      "frag": "นของ ไ",
+      "overlap": 1
+    },
+    "tb.impl.abyss": {
+      "text": "เพิ่ม อะบิส ลงไปในแผนที่ / เหลือการใช้งานอีก (1—10) ครั้ง",
+      "frag": "งไ",
+      "overlap": 1
+    },
+    "tb.abyss.rare_monsters_spawned": {
+      "text": "อะบิส ในแผนที่ เรียก มอนสเตอร์แรร์ เพิ่มเติม (1—2) ตัว",
+      "frag": "ก ม",
+      "overlap": 1
+    },
+    "tb.abyss.difficulty_reward_closed": {
+      "text": "มอนสเตอร์อะบิส ในแผนที่ มีระดับความยากและของรางวัล เพิ่มขึ้น ตามจำนวนหลุมที่ปิด",
+      "frag": "กแ",
+      "overlap": 1
+    },
+    "tb.abyss.lead_abyssal_depths": {
+      "text": "อะบิส ในแผนที่ มีโอกาสนำไปสู่ เบื้องลึกอะบิส เพิ่มขึ้น (10—20)%",
+      "frag": "งล",
+      "overlap": 1
+    },
+    "tb.abyss.contains_abyss": {
+      "text": "แผนที่มี อะบิส เพิ่มเติม 1 แห่ง",
+      "frag": "1 แ",
+      "overlap": 1
+    },
+    "tb.abyss.abyss_pits_likely": {
+      "text": "หลุมอะบิส ในแผนที่ มีโอกาสมี ของรางวัล มากขึ้นเป็นสองเท่า",
+      "frag": "งเ",
+      "overlap": 1
+    },
+    "tb.abyss.contain_four": {
+      "text": "แผนที่ มีโอกาสมี อะบิส เพิ่มเติม 4 แห่ง (20—40)%",
+      "frag": "4 แ",
+      "overlap": 1
+    },
+    "tb.abyss.abyssal_monsters_modifiers": {
+      "text": "มอนสเตอร์อะบิส ในแผนที่ มีโอกาสมี ม็อดอะบิส เพิ่มขึ้น (20—30)%",
+      "frag": "ดอ",
+      "overlap": 1
+    },
+    "tb.abyss.desecrated_currency": {
+      "text": "อะบิส ในแผนที่ มีโอกาสให้ เงินตราสามานย์ เพิ่มขึ้น (20—30)%",
+      "frag": "เง",
+      "overlap": 1
+    },
+    "tb.abyss.spawn_monsters": {
+      "text": "อะบิส ในแผนที่ เรียกมอนสเตอร์ เพิ่มขึ้น (20—30)%",
+      "frag": "กม",
+      "overlap": 1
+    },
+    "tb.impl.temple": {
+      "text": "เพิ่ม สัญญาณไฟวาล์ ลงไปในแผนที่ / เหลือการใช้งานอีก (1—10) ครั้ง",
+      "frag": "ม ส",
+      "overlap": 1
+    },
+    "tb.temple.add_unique_monster": {
+      "text": "มีโอกาสเพิ่ม มอนสเตอร์สัญญาณไฟวาล์ยูนิค 1 ตัว ลงไปในแผนที่ (10—25)%",
+      "frag": "ค 1",
+      "overlap": 1
+    },
+    "tb.temple.chests_rare": {
+      "text": "หีบสัญญาณไฟวาล์ ในแผนที่ มีโอกาสเป็น หีบแรร์ เพิ่มขึ้น (30—60)%",
+      "frag": "เป",
+      "overlap": 1
+    },
+    "tb.temple.gain_crystal_beacons": {
+      "text": "มีโอกาสได้รับ คริสตัล เพิ่มเติม 1 ชิ้นจาก สัญญาณไฟวาล์ ในแผนที่ (5—10)%",
+      "frag": "จา",
+      "overlap": 1
+    }
+  }
+}

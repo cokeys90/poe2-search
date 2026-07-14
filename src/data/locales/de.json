@@ -1,0 +1,832 @@
+{
+  "tablets": {
+    "irradiated": "Bestrahlte",
+    "breach": "Riss",
+    "expedition": "Expedition",
+    "delirium": "Delirium",
+    "ritual": "Ritual",
+    "overseer": "Aufseher-",
+    "abyss": "Abgrund",
+    "temple": "Tempel-"
+  },
+  "bases": {
+    "irradiated": "Bestrahlte Tafel",
+    "breach": "Riss-Tafel",
+    "expedition": "Expedition-Tafel",
+    "delirium": "Delirium-Tafel",
+    "ritual": "Ritual-Tafel",
+    "overseer": "Aufseher-Tafel",
+    "abyss": "Abgrund-Tafel",
+    "temple": "Tempel-Tafel",
+    "waystone": "Waystone (Tier {tier})"
+  },
+  "tokens": {
+    "tier": "Tier {n}",
+    "corrupted": "Verderbt",
+    "units": "%"
+  },
+  "options": {
+    "ws.imp.revives": {
+      "text": "Wiederbelebungen verfügbar",
+      "frag": "gb",
+      "overlap": 1
+    },
+    "ws.imp.item_rarity": {
+      "text": "Gegenstandsseltenheit",
+      "frag": "ds",
+      "overlap": 1
+    },
+    "ws.imp.pack_size": {
+      "text": "Monstergruppengrösse",
+      "frag": "ös",
+      "overlap": 1
+    },
+    "ws.imp.rare_monsters": {
+      "text": "Monsterseltenheit",
+      "frag": "rse",
+      "overlap": 1
+    },
+    "ws.imp.waystone_chance": {
+      "text": "Chance auf fallen gelassene Wegsteine",
+      "frag": "as",
+      "overlap": 1
+    },
+    "ws.imp.monster_effect": {
+      "text": "Monster-Schlagkraft",
+      "frag": "af",
+      "overlap": 1
+    },
+    "ws.pre.deal_extra_fire": {
+      "text": "Monster verursachen (5—24)% des Schadens als extra Feuerschaden",
+      "frag": "a F",
+      "overlap": 1,
+      "extra": [
+        "Monster haben 16% erhöhte Schlagkraft",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.deal_extra_cold": {
+      "text": "Monster verursachen (5—24)% des Schadens als extra Kälteschaden",
+      "frag": "äl",
+      "overlap": 1,
+      "extra": [
+        "14% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.deal_extra_lightning": {
+      "text": "Monster verursachen (5—24)% des Schadens als extra Blitzschaden",
+      "frag": "zs",
+      "overlap": 1,
+      "extra": [
+        "8% mehr Gruppengröße",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.monster_damage": {
+      "text": "(5—24)% erhöhter Monsterschaden",
+      "frag": "er M",
+      "overlap": 1,
+      "extra": [
+        "25% mehr magische und seltene Monster",
+        "Seltene Monster haben 25% mehr Chance auf Monster-Modifikatoren",
+        "20% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.attack_cast_movement": {
+      "text": "Monster haben (10—15)% erhöhte Angriffs-, Zauber- und Bewegungsgeschwindigkeit",
+      "frag": "ew",
+      "overlap": 1,
+      "extra": [
+        "9% mehr Gruppengröße",
+        "25% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.critical_hit": {
+      "text": "Monster haben (80—300)% erhöhte kritische Trefferchance",
+      "frag": "e k",
+      "overlap": 1,
+      "extra": [
+        "Monster haben +(80—300)% zu Bonus für kritische Treffer",
+        "9% mehr Gruppengröße",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.monster_life": {
+      "text": "(10—30)% mehr Monsterleben",
+      "frag": "eh",
+      "overlap": 1,
+      "extra": [
+        "23% mehr magische und seltene Monster",
+        "Seltene Monster haben 23% mehr Chance auf Monster-Modifikatoren",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.poison_hit": {
+      "text": "Monster haben (13—40)% Chance, bei Treffer zu vergiften",
+      "frag": "fte",
+      "overlap": 1,
+      "extra": [
+        "7% mehr Gruppengröße",
+        "10% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.inflict_bleeding_hit": {
+      "text": "Monster haben (5—25)% Chance, bei Treffer Bluten zu verursachen",
+      "frag": "ut",
+      "overlap": 1,
+      "extra": [
+        "Monster haben 13% mehr Schlagkraft",
+        "10% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.break_armour_equal": {
+      "text": "Monster zerbrechen Rüstung in Höhe von (15—45)% des verursachten physischen Schadens",
+      "frag": "br",
+      "overlap": 1,
+      "extra": [
+        "19% mehr magische und seltene Monster",
+        "Seltene Monster haben 19% mehr Chance auf Monster-Modifikatoren",
+        "10% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.accuracy_rating": {
+      "text": "Monster haben (10—50)% erhöhte Treffgenauigkeit",
+      "frag": "fg",
+      "overlap": 1,
+      "extra": [
+        "7% mehr Gruppengröße",
+        "10% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.deal_extra_chaos": {
+      "text": "Monster verursachen (5—24)% des Schadens als extra Chaosschaden",
+      "frag": "ao",
+      "overlap": 1,
+      "extra": [
+        "15% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.stun_buildup": {
+      "text": "Monster haben (50—110)% erhöhten Betäubungsaufbau",
+      "frag": "äu",
+      "overlap": 1,
+      "extra": [
+        "Monster haben 13% mehr Schlagkraft",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.fire_projectiles": {
+      "text": "Monster feuern 2 zusätzliche Projektile",
+      "frag": "ek",
+      "overlap": 1,
+      "extra": [
+        "9% mehr Gruppengröße",
+        "25% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.pre.penetrates_elemental_resistances": {
+      "text": "Monsterschaden durchdringt (6—16)% Elementarwiderstände",
+      "frag": "dr",
+      "overlap": 1,
+      "extra": [
+        "16% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "20% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.rare_monsters_modifiers": {
+      "text": "Seltene Monster haben 1 zusätzlichen Modifikator",
+      "frag": "ik",
+      "overlap": 1,
+      "extra": [
+        "25% erhöhte Anzahl seltener Monster",
+        "10% erhöhte gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.monster_elemental_resistances": {
+      "text": "+(20—40)% zu Monster-Elementarwiderständen",
+      "frag": "-El",
+      "overlap": 1,
+      "extra": [
+        "14% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "10% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.monsters_armoured": {
+      "text": "Monster haben Rüstung",
+      "frag": "ng$",
+      "overlap": 1,
+      "extra": [
+        "18% mehr magische und seltene Monster",
+        "Seltene Monster haben 18% mehr Chance auf Monster-Modifikatoren",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.monsters_evasive": {
+      "text": "Monster sind ausweichend",
+      "frag": "sw",
+      "overlap": 1,
+      "extra": [
+        "6% mehr Gruppengröße",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.gain_maximum_life": {
+      "text": "Monster erhalten (12—25)% des maximalen Lebens als extra maximalen Energieschild",
+      "frag": "a m",
+      "overlap": 1,
+      "extra": [
+        "13% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.monsters_ailment_threshold": {
+      "text": "Monster haben (30—79)% erhöhte Schwelle für Beeinträchtigungen",
+      "frag": "ür",
+      "overlap": 1,
+      "extra": [
+        "Monster haben (30—79)% erhöhte Betäubungsschwelle",
+        "Monster haben 13% mehr Schlagkraft",
+        "10% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.monster_ailment_application": {
+      "text": "Monster haben (60—130)% erhöhte Anwendung von elementaren Beeinträchtigungen",
+      "frag": "Anw",
+      "overlap": 1,
+      "extra": [
+        "11% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.monsters_effect": {
+      "text": "Monster haben 50% vergrößerten Wirkungsbereich",
+      "frag": "öß",
+      "overlap": 1,
+      "extra": [
+        "20% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.periodically_cursed_enfeeble": {
+      "text": "Gebiet ist verflucht mit Schwächen",
+      "frag": "wä",
+      "overlap": 1,
+      "extra": [
+        "Monster haben 16% mehr Schlagkraft",
+        "20% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.periodically_temporal_chains": {
+      "text": "Gebiet ist verflucht mit Fesseln der Zeit",
+      "frag": "ln",
+      "overlap": 1,
+      "extra": [
+        "8% mehr Gruppengröße",
+        "20% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.periodically_cursed_weakness": {
+      "text": "Gebiet ist verflucht mit Elementarempfindlichkeit",
+      "frag": "dl",
+      "overlap": 1,
+      "extra": [
+        "13% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "20% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.patches_ignited_ground": {
+      "text": "Gebiet hat stellenweise entzündeten Boden",
+      "frag": "ün",
+      "overlap": 1,
+      "extra": [
+        "Monster haben 15% mehr Schlagkraft",
+        "15% mehr gefundene Wegsteine im Gebiet",
+        "ground fire art variation [1033]",
+        "map ground effect patches per 100 tiles [4]",
+        "map ground effect radius [20]"
+      ]
+    },
+    "ws.suf.patches_chilled_ground": {
+      "text": "Gebiet hat stellenweise unterkühlenden Boden",
+      "frag": "kü",
+      "overlap": 1,
+      "extra": [
+        "12% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "15% mehr gefundene Wegsteine im Gebiet",
+        "ground ice art variation [1014]",
+        "map ground effect patches per 100 tiles [3]",
+        "map ground effect radius [26]"
+      ]
+    },
+    "ws.suf.patches_shocked_ground": {
+      "text": "Gebiet hat stellenweise schockenden Boden",
+      "frag": "ck",
+      "overlap": 1,
+      "extra": [
+        "7% mehr Gruppengröße",
+        "15% mehr gefundene Wegsteine im Gebiet",
+        "ground lightning art variation [1011]",
+        "map ground effect patches per 100 tiles [5]",
+        "map ground effect radius [17]"
+      ]
+    },
+    "ws.suf.maximum_resistances": {
+      "text": "(-10—-3)% maximale Spielerwiderstände",
+      "frag": "erw",
+      "overlap": 1,
+      "extra": [
+        "10% mehr Gruppengröße",
+        "25% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.gain_flask_charges": {
+      "text": "Spieler erhalten (20—35)% verringerte Fläschchenfüllungen",
+      "frag": "äs",
+      "overlap": 1,
+      "extra": [
+        "7% mehr Gruppengröße",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.recovery_rate_life": {
+      "text": "Spieler haben (20—40)% weniger Lebens-, Mana- und Energieschild-Wiederherstellungsrate",
+      "frag": "sr",
+      "overlap": 1,
+      "extra": [
+        "15% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "20% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.cooldown_recovery_rate": {
+      "text": "Spieler haben (15—30)% weniger Abklingzeit-Rate",
+      "frag": "bk",
+      "overlap": 1,
+      "extra": [
+        "12% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "15% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.take_damage_critical": {
+      "text": "Monster erleiden (15—30)% verringerten extra Schaden von kritischen Treffern",
+      "frag": "a S",
+      "overlap": 1,
+      "extra": [
+        "18% mehr magische und seltene Monster",
+        "Seltene Monster haben 18% mehr Chance auf Monster-Modifikatoren",
+        "10% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "ws.suf.less_effect_curses": {
+      "text": "(20—50)% weniger Wirkung von Flüchen auf Monster",
+      "frag": "lü",
+      "overlap": 1,
+      "extra": [
+        "10% mehr Seltenheit gefundener Gegenstände in diesem Gebiet",
+        "10% mehr gefundene Wegsteine im Gebiet"
+      ]
+    },
+    "tb.pre.monsters_effectiveness": {
+      "text": "Monster haben (10—15)% erhöhte Schlagkraft",
+      "frag": "af",
+      "overlap": 1
+    },
+    "tb.pre.rarity_items_found": {
+      "text": "(8—12)% erhöhte Seltenheit gefundener Gegenstände in der Karte",
+      "frag": "t g",
+      "overlap": 1
+    },
+    "tb.pre.pack_size": {
+      "text": "(5—7)% erhöhte Gruppengröße in der Karte",
+      "frag": "ße i",
+      "overlap": 1
+    },
+    "tb.pre.magic_monsters": {
+      "text": "Karte hat (30—40)% erhöhte magische Monster",
+      "frag": "e ma",
+      "overlap": 1
+    },
+    "tb.pre.number_rare_monsters": {
+      "text": "Karte hat (25—35)% erhöhte Anzahl seltener Monster",
+      "frag": "r M",
+      "overlap": 1
+    },
+    "tb.pre.monster_rarity": {
+      "text": "Karte hat (15—20)% erhöhte Monsterseltenheit",
+      "frag": "rse",
+      "overlap": 1
+    },
+    "tb.pre.gold_found": {
+      "text": "(25—35)% erhöhtes gefundenes Gold in der Karte",
+      "frag": "Go",
+      "overlap": 1
+    },
+    "tb.pre.experience_gain": {
+      "text": "(12—18)% erhöhter Erfahrungsgewinn in der Karte",
+      "frag": "sg",
+      "overlap": 1
+    },
+    "tb.pre.contains_rare_chests": {
+      "text": "Karte enthält (2—3) zusätzliche seltene Truhen",
+      "frag": "e Tr",
+      "overlap": 1
+    },
+    "tb.pre.contains_essences": {
+      "text": "Karte enthält eine zusätzliche Essenz",
+      "frag": "nz$",
+      "overlap": 2,
+      "extra": [
+        "% erhöhte Menge gefundener Wegsteine in der Karte"
+      ]
+    },
+    "tb.pre.contains_azmeri_spirits": {
+      "text": "Karte enthält 1 zusätzlichen Azmeri-Geist",
+      "frag": "t 1 z",
+      "overlap": 1,
+      "extra": [
+        "% erhöhte Menge gefundener Wegsteine in der Karte"
+      ]
+    },
+    "tb.pre.contains_rogue_exiles": {
+      "text": "Karte ist von 1 zusätzlichen Abtrünnigen Verbannten besiedelt",
+      "frag": "esi",
+      "overlap": 1,
+      "extra": [
+        "% erhöhte Menge gefundener Wegsteine in der Karte"
+      ]
+    },
+    "tb.pre.contains_summoning_circles": {
+      "text": "Karte enthält einen zusätzlichen Beschwörungskreis",
+      "frag": "is$",
+      "overlap": 1
+    },
+    "tb.suf.quantity_waystones_found": {
+      "text": "(30—40)% erhöhte Menge gefundener Wegsteine in der Karte",
+      "frag": "ge g",
+      "overlap": 3
+    },
+    "tb.suf.contain_shrines": {
+      "text": "Karte hat (70—100)% erhöhte Chance, Schreine zu enthalten",
+      "frag": ", Sc",
+      "overlap": 1
+    },
+    "tb.suf.contain_strongboxes": {
+      "text": "Karte hat (70—100)% erhöhte Chance, Tresore zu enthalten",
+      "frag": ", Tr",
+      "overlap": 1
+    },
+    "tb.suf.essences": {
+      "text": "Karte hat (70—100)% erhöhte Chance, Essenzen zu enthalten",
+      "frag": "nze",
+      "overlap": 1
+    },
+    "tb.suf.azmeri_spirits": {
+      "text": "Karte hat (70—100)% erhöhte Chance, Azmeri-Geister zu enthalten",
+      "frag": ", Az",
+      "overlap": 1
+    },
+    "tb.suf.rogue_exiles": {
+      "text": "Karte hat (70—100)% erhöhte Chance, Abtrünnige Verbannte zu enthalten",
+      "frag": ", Ab",
+      "overlap": 1
+    },
+    "tb.suf.summoning_circle": {
+      "text": "Karte hat (70—100)% erhöhte Chance, einen Beschwörungskreis zu enthalten",
+      "frag": "s z",
+      "overlap": 1
+    },
+    "tb.suf.random_modifiers": {
+      "text": "Karte verfügt über (1—2) zufälligen zusätzlichen Modifikator",
+      "frag": "fä",
+      "overlap": 1
+    },
+    "tb.suf.unique_monsters_rare": {
+      "text": "Einzigartige Monster haben 1 zusätzlichen Modifikator",
+      "frag": "^Ei",
+      "overlap": 1
+    },
+    "tb.suf.waystones_shrine": {
+      "text": "% erhöhte Menge gefundener Wegsteine in der Karte",
+      "frag": "^% er",
+      "overlap": 2,
+      "extra": [
+        "% verringerte Gruppengröße in der Karte",
+        "Karte enthält einen zusätzlichen Schrein"
+      ]
+    },
+    "tb.suf.waystones_strongbox": {
+      "text": "% erhöhte Menge gefundener Wegsteine in der Karte",
+      "frag": "^% er",
+      "overlap": 2,
+      "extra": [
+        "% verringerte Gruppengröße in der Karte",
+        "Karte enthält einen zusätzlichen Tresor"
+      ]
+    },
+    "tb.impl.irradiated": {
+      "text": "Fügt einer Karte Bestrahlung hinzu / (1—10) Nutzungen übrig",
+      "frag": "hi",
+      "overlap": 1
+    },
+    "tb.impl.breach": {
+      "text": "Fügt einer Karte einen Riss ins Jenseits hinzu / (1—10) Nutzungen übrig",
+      "frag": "Je",
+      "overlap": 1
+    },
+    "tb.breach.quantity_hiveblood_found": {
+      "text": "map breach hiveblood quantity +% [30,60]",
+      "frag": "eb",
+      "overlap": 1
+    },
+    "tb.breach.quantity_wombgifts_found": {
+      "text": "(30—60)% increased Quantity of Wombgifts found in Map",
+      "frag": "fo",
+      "overlap": 1
+    },
+    "tb.breach.wombgifts_drop_higher": {
+      "text": "Wombgifts have (10—30)% chance to drop one Level higher in Map",
+      "frag": "dr",
+      "overlap": 1
+    },
+    "tb.breach.contain_vruun_marshal": {
+      "text": "Unstable Breaches in Map have (20—50)% increased chance to contain Vruun, Marshal of Xesht",
+      "frag": "ai",
+      "overlap": 1
+    },
+    "tb.breach.spawn_when_stabilised": {
+      "text": "Unstable Breaches in Map spawn an additional Rare Monster when Stabilised",
+      "frag": "ad",
+      "overlap": 1
+    },
+    "tb.breach.effectiveness_rare_breach": {
+      "text": "(5—20)% increased Effectiveness of Rare Breach Monsters in Map",
+      "frag": "ct",
+      "overlap": 1
+    },
+    "tb.breach.pack_size": {
+      "text": "Risse in der Karte haben (5—15)% erhöhte Monsterdichte",
+      "frag": "rd",
+      "overlap": 1
+    },
+    "tb.impl.expedition": {
+      "text": "Fügt einer Karte eine kalguurische Expedition hinzu / (1—10) Nutzungen übrig",
+      "frag": "gu",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_artifacts_dropped": {
+      "text": "(15—30)% erhöhte Menge fallen gelassener Expedition-Artefakte von Monstern in der Karte",
+      "frag": "ak",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_placement_range": {
+      "text": "(15—30)% erhöhte Expedition-Sprengstoff-Platzierungsreichweite in der Karte",
+      "frag": "ff",
+      "overlap": 1
+    },
+    "tb.expedition.expeditions_remnants": {
+      "text": "Expeditionen in der Karte haben +(1—2) Relikt",
+      "frag": "one",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_radius": {
+      "text": "(15—30)% vergrößerter Expedition-Explosionsradius in der Karte",
+      "frag": "ad",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_logbooks_dropped": {
+      "text": "(15—30)% erhöhte Menge fallen gelassener Expedition-Logbücher von Runenmonstern in der Karte",
+      "frag": "bü",
+      "overlap": 1
+    },
+    "tb.expedition.number_rare_monsters": {
+      "text": "(25—40)% erhöhte Anzahl seltener Expeditions-Monster in der Karte",
+      "frag": "-Mo",
+      "overlap": 1
+    },
+    "tb.expedition.effect_remnants": {
+      "text": "(12—18)% erhöhte Wirkung von Expedition-Relikten in der Karte",
+      "frag": "ir",
+      "overlap": 1
+    },
+    "tb.expedition.contains_monster_markers": {
+      "text": "Karte enthält (15—30)% erhöhte Anzahl an Markierungen für Runenmonster",
+      "frag": "ki",
+      "overlap": 1
+    },
+    "tb.impl.delirium": {
+      "text": "Fügt einer Karte einen Spiegel des Deliriums hinzu / (1—10) Nutzungen übrig",
+      "frag": "hi",
+      "overlap": 1
+    },
+    "tb.delirium.stack_simulacrum_splinters": {
+      "text": "(15—30)% erhöhte Stapelgröße von gefundenen Simulacrum-Splittern in der Karte",
+      "frag": "ac",
+      "overlap": 1
+    },
+    "tb.delirium.lasts_before_dissipating": {
+      "text": "Delirium-Nebel in der Karte hält (6—12) zusätzliche Sekunden an, bevor er sich auflöst",
+      "frag": "ev",
+      "overlap": 1
+    },
+    "tb.delirium.dissipates_slower": {
+      "text": "Delirium-Nebel in der Karte löst sich (20—30)% langsamer auf",
+      "frag": "am",
+      "overlap": 1
+    },
+    "tb.delirium.applies_deliriousness": {
+      "text": "Delirium in der Karte wird von der Distanz zum Spiegel (15—30)% schneller erhöht",
+      "frag": "hn",
+      "overlap": 1
+    },
+    "tb.delirium.monsters_pack_size": {
+      "text": "Delirium-Monster in der Karte haben (15—30)% erhöhte Gruppengröße",
+      "frag": "-Mo",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_fracturing_mirrors": {
+      "text": "Deliriumnebel in der Karte beschwört (15—30)% erhöhte zerbrechende Spiegel",
+      "frag": "ec",
+      "overlap": 1
+    },
+    "tb.delirium.slaying_rare_pauses": {
+      "text": "Das Töten von seltenen Monstern in der Karte pausiert den Timer des Deliriumspiegels für (3—5) Sekunden",
+      "frag": "Da",
+      "overlap": 1
+    },
+    "tb.delirium.encounters_likely_spawn": {
+      "text": "Delirium-Begegnungen in der Karte beschwören mit (15—30)% größerer Wahrscheinlichkeit einzigartige Bosse",
+      "frag": "Bo",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_mirrorshards": {
+      "text": "Delirium Fog in Map spawns (12—26)% increased MirrorShards",
+      "frag": "aw",
+      "overlap": 1
+    },
+    "tb.impl.ritual": {
+      "text": "Fügt einer Karte Ritual-Altäre hinzu / (1—10) Nutzungen übrig",
+      "frag": "hi",
+      "overlap": 1
+    },
+    "tb.ritual.monsters_sacrificed_grant": {
+      "text": "Bei Ritual-Altären geopferte Monster in der Karte gewähren (18—30)% erhöhten Tribut",
+      "frag": "äh",
+      "overlap": 1
+    },
+    "tb.ritual.rerolling_costs_reduced": {
+      "text": "Das Würfeln von Gaben bei Ritual-Altären in der Karte kostet (20—30)% verringerten Tribut",
+      "frag": "ln",
+      "overlap": 1
+    },
+    "tb.ritual.deferring_costs_reduced": {
+      "text": "Das Aufbewahren von Gaben in Ritual-Altären in der Karte kostet (20—30)% verringerten Tribut",
+      "frag": "s A",
+      "overlap": 1
+    },
+    "tb.ritual.deferred_reappear_sooner": {
+      "text": "Aufbewahrte Gaben in Ritual-Altären in der Karte erscheinen (25—40)% früher wieder",
+      "frag": "fr",
+      "overlap": 1
+    },
+    "tb.ritual.allow_rerolling_times": {
+      "text": "Gaben von Ritual-Altäre in der Karte können ein zusätzliches Mal gewürfelt werden",
+      "frag": "kö",
+      "overlap": 1
+    },
+    "tb.ritual.rerolled_cost": {
+      "text": "Neu gewürfelte Gaben in Ritual-Altären in der Karte haben (3—6)% Chance, kein Tribut zu kosten",
+      "frag": "eu",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_magic": {
+      "text": "Wiederbelebte Monster von Ritual-Altären in der Karte haben (35—70)% erhöhte Chance, magisch zu sein",
+      "frag": "h z",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_rare": {
+      "text": "Wiederbelebte Monster von Ritual-Altären in der Karte haben (25—40)% erhöhte Chance, selten zu sein",
+      "frag": ", se",
+      "overlap": 1
+    },
+    "tb.ritual.omens": {
+      "text": "Ritualgaben in der Karte haben (35—70)% erhöhte Chance, Omen zu sein",
+      "frag": "lg",
+      "overlap": 1
+    },
+    "tb.impl.overseer": {
+      "text": "Verstärkt den Kartenboss einer Karte / (1—10) Nutzungen übrig",
+      "frag": "är",
+      "overlap": 1
+    },
+    "tb.overseer.strongboxes": {
+      "text": "Karte enthält einen zusätzlichen Tresor",
+      "frag": "n T",
+      "overlap": 1
+    },
+    "tb.overseer.shrines": {
+      "text": "Karte enthält einen zusätzlichen Schrein",
+      "frag": "n S",
+      "overlap": 1
+    },
+    "tb.overseer.essences": {
+      "text": "Karte enthält eine zusätzliche Essenz",
+      "frag": "nz$",
+      "overlap": 2
+    },
+    "tb.overseer.azmeri_spirits": {
+      "text": "Karte enthält einen zusätzlichen Azmeri-Geist",
+      "frag": "n zusätzlichen A",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_waystones_dropped": {
+      "text": "(18—30)% erhöhte Menge fallen gelassener Wegsteine von Kartenbossen",
+      "frag": "ne v",
+      "overlap": 1
+    },
+    "tb.overseer.grant_experience": {
+      "text": "Kartenbosse gewähren (40—80)% mehr Erfahrung",
+      "frag": "äh",
+      "overlap": 1
+    },
+    "tb.overseer.rarity_items_dropped": {
+      "text": "(35—60)% erhöhte Seltenheit fallen gelassener Gegenstände von Kartenbossen",
+      "frag": "t f",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_items_dropped": {
+      "text": "(13—20)% erhöhte Menge fallen gelassener Gegenstände von Kartenbossen",
+      "frag": "e fallen gelassener G",
+      "overlap": 1
+    },
+    "tb.impl.abyss": {
+      "text": "Fügt einer Karte Abgründe hinzu / (1—10) Nutzungen übrig",
+      "frag": "hi",
+      "overlap": 1
+    },
+    "tb.abyss.rare_monsters_spawned": {
+      "text": "(1—2) zusätzliche seltene Monster werden von Abgründen in der Karte beschworen",
+      "frag": "rd",
+      "overlap": 1
+    },
+    "tb.abyss.difficulty_reward_closed": {
+      "text": "Abgrund-Monster in der Karte haben erhöhte Schwierigkeit und Belohnungen für jede geschlossene Grube",
+      "frag": "je",
+      "overlap": 1
+    },
+    "tb.abyss.lead_abyssal_depths": {
+      "text": "Abgründe in der Karte haben (10—20)% erhöhte Chance, in Abgründige Tiefen zu führen",
+      "frag": "fe",
+      "overlap": 1
+    },
+    "tb.abyss.contains_abyss": {
+      "text": "Karte enthält einen zusätzlichen Abgrund",
+      "frag": "nd$",
+      "overlap": 1
+    },
+    "tb.abyss.abyss_pits_likely": {
+      "text": "Abgrund-Gruben in der Karte haben mit doppelter Wahrscheinlichkeit Belohnungen",
+      "frag": "do",
+      "overlap": 1
+    },
+    "tb.abyss.contain_four": {
+      "text": "Karte hat (20—40)% Chance, vier zusätzliche Abgründe zu enthalten",
+      "frag": "vi",
+      "overlap": 1
+    },
+    "tb.abyss.abyssal_monsters_modifiers": {
+      "text": "(20—30)% erhöhte Chance, dass Abgrund-Monster in der Karte Abgrund-Modifikatoren haben",
+      "frag": "as",
+      "overlap": 1
+    },
+    "tb.abyss.desecrated_currency": {
+      "text": "(20—30)% erhöhte Chance auf entweihte Währung aus ContainsAbyss|Abgründen] in der Karte",
+      "frag": "äh",
+      "overlap": 1
+    },
+    "tb.abyss.spawn_monsters": {
+      "text": "Abgründe in der Karte beschwören (20—30)% erhöhte Monster",
+      "frag": "öre",
+      "overlap": 1
+    },
+    "tb.impl.temple": {
+      "text": "Fügt einer Karte Vaal-Leuchtfeuer hinzu / (1—10) Nutzungen übrig",
+      "frag": "^Fü",
+      "overlap": 1
+    },
+    "tb.temple.add_unique_monster": {
+      "text": "(10—25)% Chance, der Karte ein einzigartiges Monster von Vaal-Leuchtfeuern hinzuzufügen",
+      "frag": "uz",
+      "overlap": 1
+    },
+    "tb.temple.chests_rare": {
+      "text": "(30—60)% erhöhte Chance, dass Vaal-Leuchtfeuer-Truhen in der Karte selten sind",
+      "frag": "as",
+      "overlap": 1
+    },
+    "tb.temple.gain_crystal_beacons": {
+      "text": "(5—10)% Chance, einen zusätzlichen Kristall von Vaal-Leuchtfeuern in der Karte zu erhalten",
+      "frag": "ta",
+      "overlap": 1
+    }
+  }
+}

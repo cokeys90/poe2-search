@@ -9,9 +9,9 @@
   "_format": {
     "implicit": "경로석 상단 6옵션. 게임 표시는 '라벨: +12%' 꼴이라 라벨만 담는다.",
     "corrupted": "타락 아이템에 찍히는 단어. 검색어에 그대로 들어간다.",
-    "tierSearch": "등급 검색 조각의 틀. {n}이 등급 숫자. 언어마다 어순이 달라 접미사로 못 박는다 (kr '15등급' vs en 'Tier 15')."
+    "tierSearch": "등급 검색 조각의 틀. {n}이 등급 숫자. 언어마다 어순이 달라 접미사로 못 박는다 (kr '15등급' vs en 'Tier 15').",
+    "waystoneBase": "경로석의 기본 타입명(거래소 query.type). {tier}가 등급. ru·de는 클라이언트가 아이템 이름을 영어로 표시한다."
   },
-
   "kr": {
     "implicit": {
       "ws.imp.revives": "부활 횟수",
@@ -22,9 +22,9 @@
       "ws.imp.waystone_chance": "경로석 출현 확률"
     },
     "corrupted": "타락",
-    "tierSearch": "{n}등급"
+    "tierSearch": "{n}등급",
+    "waystoneBase": "경로석 ({tier}등급)"
   },
-
   "us": {
     "implicit": {
       "ws.imp.revives": "Revives Available",
@@ -35,9 +35,9 @@
       "ws.imp.waystone_chance": "Waystone Drop Chance"
     },
     "corrupted": "Corrupted",
-    "tierSearch": "Tier {n}"
+    "tierSearch": "Tier {n}",
+    "waystoneBase": "Waystone (Tier {tier})"
   },
-
   "jp": {
     "implicit": {
       "ws.imp.revives": "復活が利用可能",
@@ -48,9 +48,9 @@
       "ws.imp.waystone_chance": "ウェイストーンドロップ確率"
     },
     "corrupted": "コラプト状態",
-    "tierSearch": "ティア{n}"
+    "tierSearch": "ティア{n}",
+    "waystoneBase": "ウェイストーン (ティア{tier})"
   },
-
   "tw": {
     "implicit": {
       "ws.imp.revives": "可用的復活數",
@@ -61,9 +61,9 @@
       "ws.imp.waystone_chance": "換界石掉落機率"
     },
     "corrupted": "已汙染",
-    "tierSearch": "階級 {n}"
+    "tierSearch": "階級 {n}",
+    "waystoneBase": "換界石（階級 {tier}）"
   },
-
   "ru": {
     "implicit": {
       "ws.imp.revives": "Доступно возрождений",
@@ -74,9 +74,9 @@
       "ws.imp.waystone_chance": "Шанс выпадения путевого камня"
     },
     "corrupted": "Осквернено",
-    "tierSearch": "Tier {n}"
+    "tierSearch": "Tier {n}",
+    "waystoneBase": "Waystone (Tier {tier})"
   },
-
   "pt": {
     "implicit": {
       "ws.imp.revives": "Renascimentos Disponíveis",
@@ -87,9 +87,9 @@
       "ws.imp.waystone_chance": "Chance de obtenção de Pedra-guia"
     },
     "corrupted": "Corrompido",
-    "tierSearch": "Nível {n}"
+    "tierSearch": "Nível {n}",
+    "waystoneBase": "Pedra-guia (Nível {tier})"
   },
-
   "th": {
     "implicit": {
       "ws.imp.revives": "จำนวนสิทธิ์คืนชีพ",
@@ -100,9 +100,9 @@
       "ws.imp.waystone_chance": "โอกาสดรอปศิลานำทาง"
     },
     "corrupted": "มีมลทิน",
-    "tierSearch": "ระดับ {n}"
+    "tierSearch": "ระดับ {n}",
+    "waystoneBase": "ศิลานำทาง (ระดับ {tier})"
   },
-
   "fr": {
     "implicit": {
       "ws.imp.revives": "Résurrections disponibles",
@@ -113,9 +113,9 @@
       "ws.imp.waystone_chance": "Chances de trouver des Pierres de téléportation"
     },
     "corrupted": "Corrompu",
-    "tierSearch": "Palier {n}"
+    "tierSearch": "Palier {n}",
+    "waystoneBase": "Pierre de téléportation (Palier {tier})"
   },
-
   "de": {
     "implicit": {
       "ws.imp.revives": "Wiederbelebungen verfügbar",
@@ -126,9 +126,9 @@
       "ws.imp.waystone_chance": "Chance auf fallen gelassene Wegsteine"
     },
     "corrupted": "Verderbt",
-    "tierSearch": "Tier {n}"
+    "tierSearch": "Tier {n}",
+    "waystoneBase": "Waystone (Tier {tier})"
   },
-
   "sp": {
     "implicit": {
       "ws.imp.revives": "Resurrecciones disponibles",
@@ -139,6 +139,7 @@
       "ws.imp.waystone_chance": "Probabilidad de que caigan piedras guía"
     },
     "corrupted": "Corrupto",
-    "tierSearch": "grado {n}"
+    "tierSearch": "grado {n}",
+    "waystoneBase": "Piedra guía (grado {tier})"
   }
 }

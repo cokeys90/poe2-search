@@ -1,0 +1,832 @@
+{
+  "tablets": {
+    "irradiated": "Irradiated",
+    "breach": "Breach",
+    "expedition": "Expedition",
+    "delirium": "Delirium",
+    "ritual": "Ritual",
+    "overseer": "Overseer",
+    "abyss": "Abyss",
+    "temple": "Temple"
+  },
+  "bases": {
+    "irradiated": "Irradiated Tablet",
+    "breach": "Breach Tablet",
+    "expedition": "Expedition Tablet",
+    "delirium": "Delirium Tablet",
+    "ritual": "Ritual Tablet",
+    "overseer": "Overseer Tablet",
+    "abyss": "Abyss Tablet",
+    "temple": "Temple Tablet",
+    "waystone": "Waystone (Tier {tier})"
+  },
+  "tokens": {
+    "tier": "Tier {n}",
+    "corrupted": "Corrupted",
+    "units": "%"
+  },
+  "options": {
+    "ws.imp.revives": {
+      "text": "Revives Available",
+      "frag": "ab",
+      "overlap": 1
+    },
+    "ws.imp.item_rarity": {
+      "text": "Item Rarity",
+      "frag": "m R",
+      "overlap": 1
+    },
+    "ws.imp.pack_size": {
+      "text": "Pack Size",
+      "frag": "iz",
+      "overlap": 1
+    },
+    "ws.imp.rare_monsters": {
+      "text": "Monster Rarity",
+      "frag": "r Ra",
+      "overlap": 1
+    },
+    "ws.imp.waystone_chance": {
+      "text": "Waystone Drop Chance",
+      "frag": "Dr",
+      "overlap": 1
+    },
+    "ws.imp.monster_effect": {
+      "text": "Monster Effectiveness",
+      "frag": "tiv",
+      "overlap": 1
+    },
+    "ws.pre.deal_extra_fire": {
+      "text": "Monsters deal (5—24)% of Damage as Extra Fire",
+      "frag": "a F",
+      "overlap": 1,
+      "extra": [
+        "Monsters have 16% increased Effectiveness",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.deal_extra_cold": {
+      "text": "Monsters deal (5—24)% of Damage as Extra Cold",
+      "frag": "Col",
+      "overlap": 1,
+      "extra": [
+        "14% more Rarity of Items found in this Area",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.deal_extra_lightning": {
+      "text": "Monsters deal (5—24)% of Damage as Extra Lightning",
+      "frag": "gh",
+      "overlap": 1,
+      "extra": [
+        "8% more Pack size",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.monster_damage": {
+      "text": "(5—24)% increased Monster Damage",
+      "frag": "ge$",
+      "overlap": 1,
+      "extra": [
+        "25% more Magic and Rare Monsters",
+        "Rare Monsters have 25% more chance of Monster Modifiers",
+        "20% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.attack_cast_movement": {
+      "text": "Monsters have (10—15)% increased Attack, Cast and Movement Speed",
+      "frag": "Sp",
+      "overlap": 1,
+      "extra": [
+        "9% more Pack size",
+        "25% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.critical_hit": {
+      "text": "Monsters have (80—300)% increased Critical Hit Chance",
+      "frag": "d C",
+      "overlap": 1,
+      "extra": [
+        "Monsters have +(80—300)% Critical Damage Bonus",
+        "9% more Pack size",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.monster_life": {
+      "text": "(10—30)% more Monster Life",
+      "frag": "mor",
+      "overlap": 1,
+      "extra": [
+        "23% more Magic and Rare Monsters",
+        "Rare Monsters have 23% more chance of Monster Modifiers",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.poison_hit": {
+      "text": "Monsters have (13—40)% chance to Poison on Hit",
+      "frag": "oi",
+      "overlap": 1,
+      "extra": [
+        "7% more Pack size",
+        "10% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.inflict_bleeding_hit": {
+      "text": "Monsters have (5—25)% chance to inflict Bleeding on Hit",
+      "frag": "din",
+      "overlap": 1,
+      "extra": [
+        "Monsters have 13% more Effectiveness",
+        "10% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.break_armour_equal": {
+      "text": "Monsters Break Armour equal to (15—45)% of Physical Damage dealt",
+      "frag": "Br",
+      "overlap": 1,
+      "extra": [
+        "19% more Magic and Rare Monsters",
+        "Rare Monsters have 19% more chance of Monster Modifiers",
+        "10% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.accuracy_rating": {
+      "text": "Monsters have (10—50)% increased Accuracy Rating",
+      "frag": "cc",
+      "overlap": 1,
+      "extra": [
+        "7% more Pack size",
+        "10% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.deal_extra_chaos": {
+      "text": "Monsters deal (5—24)% of Damage as Extra Chaos",
+      "frag": "ao",
+      "overlap": 1,
+      "extra": [
+        "15% more Rarity of Items found in this Area",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.stun_buildup": {
+      "text": "Monsters have (50—110)% increased Stun Buildup",
+      "frag": "Bu",
+      "overlap": 1,
+      "extra": [
+        "Monsters have 13% more Effectiveness",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.fire_projectiles": {
+      "text": "Monsters fire 2 additional Projectiles",
+      "frag": "je",
+      "overlap": 1,
+      "extra": [
+        "9% more Pack size",
+        "25% more Waystones found in Area"
+      ]
+    },
+    "ws.pre.penetrates_elemental_resistances": {
+      "text": "Monster Damage Penetrates (6—16)% Elemental Resistances",
+      "frag": "et",
+      "overlap": 1,
+      "extra": [
+        "16% more Rarity of Items found in this Area",
+        "20% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.rare_monsters_modifiers": {
+      "text": "Rare Monsters have 1 additional Modifiers",
+      "frag": "1 a",
+      "overlap": 1,
+      "extra": [
+        "25% increased number of Rare Monsters",
+        "10% increased Waystones found in Area"
+      ]
+    },
+    "ws.suf.monster_elemental_resistances": {
+      "text": "+(20—40)% Monster Elemental Resistances",
+      "frag": "r El",
+      "overlap": 1,
+      "extra": [
+        "14% more Rarity of Items found in this Area",
+        "10% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.monsters_armoured": {
+      "text": "Monsters are Armoured",
+      "frag": "ure",
+      "overlap": 1,
+      "extra": [
+        "18% more Magic and Rare Monsters",
+        "Rare Monsters have 18% more chance of Monster Modifiers",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.monsters_evasive": {
+      "text": "Monsters are Evasive",
+      "frag": "asi",
+      "overlap": 1,
+      "extra": [
+        "6% more Pack size",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.gain_maximum_life": {
+      "text": "Monsters gain (12—25)% of maximum Life as Extra maximum Energy Shield",
+      "frag": "a m",
+      "overlap": 1,
+      "extra": [
+        "13% more Rarity of Items found in this Area",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.monsters_ailment_threshold": {
+      "text": "Monsters have (30—79)% increased Ailment Threshold",
+      "frag": "hr",
+      "overlap": 1,
+      "extra": [
+        "Monsters have (30—79)% increased Stun Threshold",
+        "Monsters have 13% more Effectiveness",
+        "10% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.monster_ailment_application": {
+      "text": "Monster have (60—130)% increased Elemental Ailment Application",
+      "frag": "Ap",
+      "overlap": 1,
+      "extra": [
+        "11% more Rarity of Items found in this Area",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.monsters_effect": {
+      "text": "Monsters have 50% increased Area of Effect",
+      "frag": "a o",
+      "overlap": 1,
+      "extra": [
+        "20% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.periodically_cursed_enfeeble": {
+      "text": "Players are periodically Cursed with Enfeeble",
+      "frag": "eb",
+      "overlap": 1,
+      "extra": [
+        "Monsters have 16% more Effectiveness",
+        "20% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.periodically_temporal_chains": {
+      "text": "Players are periodically Cursed with Temporal Chains",
+      "frag": "mp",
+      "overlap": 1,
+      "extra": [
+        "8% more Pack size",
+        "20% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.periodically_cursed_weakness": {
+      "text": "Players are periodically Cursed with Elemental Weakness",
+      "frag": "kn",
+      "overlap": 1,
+      "extra": [
+        "13% more Rarity of Items found in this Area",
+        "20% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.patches_ignited_ground": {
+      "text": "Area has patches of Ignited Ground",
+      "frag": "gn",
+      "overlap": 1,
+      "extra": [
+        "Monsters have 15% more Effectiveness",
+        "15% more Waystones found in Area",
+        "ground fire art variation [1033]",
+        "map ground effect patches per 100 tiles [4]",
+        "map ground effect radius [20]"
+      ]
+    },
+    "ws.suf.patches_chilled_ground": {
+      "text": "Area has patches of Chilled Ground",
+      "frag": "Chi",
+      "overlap": 1,
+      "extra": [
+        "12% more Rarity of Items found in this Area",
+        "15% more Waystones found in Area",
+        "ground ice art variation [1014]",
+        "map ground effect patches per 100 tiles [3]",
+        "map ground effect radius [26]"
+      ]
+    },
+    "ws.suf.patches_shocked_ground": {
+      "text": "Area has patches of Shocked Ground",
+      "frag": "oc",
+      "overlap": 1,
+      "extra": [
+        "7% more Pack size",
+        "15% more Waystones found in Area",
+        "ground lightning art variation [1011]",
+        "map ground effect patches per 100 tiles [5]",
+        "map ground effect radius [17]"
+      ]
+    },
+    "ws.suf.maximum_resistances": {
+      "text": "(-10—-3)% maximum Player Resistances",
+      "frag": "m P",
+      "overlap": 1,
+      "extra": [
+        "10% more Pack size",
+        "25% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.gain_flask_charges": {
+      "text": "Players gain (20—35)% reduced Flask Charges",
+      "frag": "sk",
+      "overlap": 1,
+      "extra": [
+        "7% more Pack size",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.recovery_rate_life": {
+      "text": "Players have (20—40)% less Recovery Rate of Life and Energy Shield",
+      "frag": "e o",
+      "overlap": 1,
+      "extra": [
+        "15% more Rarity of Items found in this Area",
+        "20% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.cooldown_recovery_rate": {
+      "text": "Players have (15—30)% less Cooldown Recovery Rate",
+      "frag": "do",
+      "overlap": 1,
+      "extra": [
+        "12% more Rarity of Items found in this Area",
+        "15% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.take_damage_critical": {
+      "text": "Monsters take (15—30)% reduced Extra Damage from Critical Hits",
+      "frag": "fr",
+      "overlap": 1,
+      "extra": [
+        "18% more Magic and Rare Monsters",
+        "Rare Monsters have 18% more chance of Monster Modifiers",
+        "10% more Waystones found in Area"
+      ]
+    },
+    "ws.suf.less_effect_curses": {
+      "text": "(20—50)% less effect of Curses on Monsters",
+      "frag": "n M",
+      "overlap": 1,
+      "extra": [
+        "10% more Rarity of Items found in this Area",
+        "10% more Waystones found in Area"
+      ]
+    },
+    "tb.pre.monsters_effectiveness": {
+      "text": "Monsters have (10—15)% increased Effectiveness",
+      "frag": "ss$",
+      "overlap": 1
+    },
+    "tb.pre.rarity_items_found": {
+      "text": "(8—12)% increased Rarity of Items found in Map",
+      "frag": "ms f",
+      "overlap": 1
+    },
+    "tb.pre.pack_size": {
+      "text": "(5—7)% increased Pack Size in Map",
+      "frag": "ze i",
+      "overlap": 1
+    },
+    "tb.pre.magic_monsters": {
+      "text": "Map has (30—40)% increased Magic Monsters",
+      "frag": "d Ma",
+      "overlap": 1
+    },
+    "tb.pre.number_rare_monsters": {
+      "text": "Map has (25—35)% increased number of Rare Monsters",
+      "frag": "f Rare M",
+      "overlap": 1
+    },
+    "tb.pre.monster_rarity": {
+      "text": "Map has (15—20)% increased Monster Rarity",
+      "frag": "r R",
+      "overlap": 1
+    },
+    "tb.pre.gold_found": {
+      "text": "(25—35)% increased Gold found in Map",
+      "frag": "Go",
+      "overlap": 1
+    },
+    "tb.pre.experience_gain": {
+      "text": "(12—18)% increased Experience gain in Map",
+      "frag": "e g",
+      "overlap": 1
+    },
+    "tb.pre.contains_rare_chests": {
+      "text": "Map contains (2—3) additional Rare Chests",
+      "frag": "e C",
+      "overlap": 1
+    },
+    "tb.pre.contains_essences": {
+      "text": "Map contains 1 additional Essences",
+      "frag": "l E",
+      "overlap": 2,
+      "extra": [
+        "% increased Quantity of Waystones found in Map"
+      ]
+    },
+    "tb.pre.contains_azmeri_spirits": {
+      "text": "Map contains 1 additional Azmeri Spirits",
+      "frag": "l Az",
+      "overlap": 2,
+      "extra": [
+        "% increased Quantity of Waystones found in Map"
+      ]
+    },
+    "tb.pre.contains_rogue_exiles": {
+      "text": "Map is inhabited by 1 additional Rogue Exiles",
+      "frag": "nh",
+      "overlap": 1,
+      "extra": [
+        "% increased Quantity of Waystones found in Map"
+      ]
+    },
+    "tb.pre.contains_summoning_circles": {
+      "text": "Map contains 1 additional Summoning Circles",
+      "frag": "cles",
+      "overlap": 1
+    },
+    "tb.suf.quantity_waystones_found": {
+      "text": "(30—40)% increased Quantity of Waystones found in Map",
+      "frag": "es f",
+      "overlap": 1
+    },
+    "tb.suf.contain_shrines": {
+      "text": "Map has (70—100)% increased chance to contain Shrines",
+      "frag": "n Sh",
+      "overlap": 1
+    },
+    "tb.suf.contain_strongboxes": {
+      "text": "Map has (70—100)% increased chance to contain Strongboxes",
+      "frag": "in St",
+      "overlap": 1
+    },
+    "tb.suf.essences": {
+      "text": "Map has (70—100)% increased chance to contain Essences",
+      "frag": "in E",
+      "overlap": 1
+    },
+    "tb.suf.azmeri_spirits": {
+      "text": "Map has (70—100)% increased chance to contain Azmeri Spirits",
+      "frag": "n Az",
+      "overlap": 1
+    },
+    "tb.suf.rogue_exiles": {
+      "text": "Map has (70—100)% increased chance to contain Rogue Exiles",
+      "frag": "in R",
+      "overlap": 1
+    },
+    "tb.suf.summoning_circle": {
+      "text": "Map has (70—100)% increased chance to contain a Summoning Circle",
+      "frag": "a S",
+      "overlap": 1
+    },
+    "tb.suf.random_modifiers": {
+      "text": "Map has (1—2) additional random Modifiers",
+      "frag": "do",
+      "overlap": 1
+    },
+    "tb.suf.unique_monsters_rare": {
+      "text": "Unique Monsters have 1 additional Rare Modifiers",
+      "frag": "^Uni",
+      "overlap": 1
+    },
+    "tb.suf.waystones_shrine": {
+      "text": "Map contains 1 additional Shrines",
+      "frag": "l Sh",
+      "overlap": 2,
+      "extra": [
+        "% reduced Pack Size in Map",
+        "% increased Quantity of Waystones found in Map"
+      ]
+    },
+    "tb.suf.waystones_strongbox": {
+      "text": "Map contains 1 additional Strongboxes",
+      "frag": "l St",
+      "overlap": 2,
+      "extra": [
+        "% reduced Pack Size in Map",
+        "% increased Quantity of Waystones found in Map"
+      ]
+    },
+    "tb.impl.irradiated": {
+      "text": "Adds Irradiated to a Map / (1—10) uses remaining",
+      "frag": "at",
+      "overlap": 1
+    },
+    "tb.impl.breach": {
+      "text": "Adds an Otherworldy Breach to a Map / (1—10) uses remaining",
+      "frag": "ds",
+      "overlap": 1
+    },
+    "tb.breach.quantity_hiveblood_found": {
+      "text": "(30—60)% increased Quantity of Hiveblood found in Map",
+      "frag": "eb",
+      "overlap": 1
+    },
+    "tb.breach.quantity_wombgifts_found": {
+      "text": "(30—60)% increased Quantity of Wombgifts found in Map",
+      "frag": "\\sWo",
+      "overlap": 1
+    },
+    "tb.breach.wombgifts_drop_higher": {
+      "text": "Wombgifts have (10—30)% chance to drop one Level higher in Map",
+      "frag": "dr",
+      "overlap": 1
+    },
+    "tb.breach.contain_vruun_marshal": {
+      "text": "Unstable Breaches in Map have (20—50)% increased chance to contain Vruun, Marshal of Xesht",
+      "frag": "ht",
+      "overlap": 1
+    },
+    "tb.breach.spawn_when_stabilised": {
+      "text": "Unstable Breaches in Map spawn (1—3) additional Rare Monsters when Stabilised",
+      "frag": "aw",
+      "overlap": 1
+    },
+    "tb.breach.effectiveness_rare_breach": {
+      "text": "(5—20)% increased Effectiveness of Rare Breach Monsters in Map",
+      "frag": "h M",
+      "overlap": 1
+    },
+    "tb.breach.pack_size": {
+      "text": "Breaches in Map have (5—15)% increased Pack Size",
+      "frag": "^Br",
+      "overlap": 1
+    },
+    "tb.impl.expedition": {
+      "text": "Adds a Kalguuran Expedition to a Map / (1—10) uses remaining",
+      "frag": "ds",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_artifacts_dropped": {
+      "text": "(15—30)% increased quantity of Expedition Artifacts dropped by Monsters in Map",
+      "frag": "fa",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_placement_range": {
+      "text": "(15—30)% increased Expedition Explosive Placement Range in Map",
+      "frag": "ge",
+      "overlap": 1
+    },
+    "tb.expedition.expeditions_remnants": {
+      "text": "Expeditions in Map have +(1—2) Remnants",
+      "frag": "^Ex",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_radius": {
+      "text": "(15—30)% increased Expedition Explosive Radius in Map",
+      "frag": "iu",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_logbooks_dropped": {
+      "text": "(15—30)% increased Quantity of Expedition Logbooks dropped by Runic Monsters in Map",
+      "frag": "ks",
+      "overlap": 1
+    },
+    "tb.expedition.number_rare_monsters": {
+      "text": "(25—40)% increased number of Rare Expedition Monsters in Map",
+      "frag": "n Mo",
+      "overlap": 1
+    },
+    "tb.expedition.effect_remnants": {
+      "text": "(12—18)% increased Effect of Expedition Remnants in Map",
+      "frag": "t o",
+      "overlap": 1
+    },
+    "tb.expedition.contains_monster_markers": {
+      "text": "Map contains (15—30)% increased number of Runic Monster Markers",
+      "frag": "ke",
+      "overlap": 1
+    },
+    "tb.impl.delirium": {
+      "text": "Adds a Mirror of Delirium to a Map / (1—10) uses remaining",
+      "frag": "a M",
+      "overlap": 1
+    },
+    "tb.delirium.stack_simulacrum_splinters": {
+      "text": "(15—30)% increased Stack size of Simulacrum Splinters found in Map",
+      "frag": "mu",
+      "overlap": 1
+    },
+    "tb.delirium.lasts_before_dissipating": {
+      "text": "Delirium Fog in Map lasts (6—12) additional seconds before dissipating",
+      "frag": "ast",
+      "overlap": 1
+    },
+    "tb.delirium.dissipates_slower": {
+      "text": "Delirium Fog in Map dissipates (20—30)% slower",
+      "frag": "lo",
+      "overlap": 1
+    },
+    "tb.delirium.applies_deliriousness": {
+      "text": "Delirium Fog in Map applies (15—30)% increased Deliriousness to Players",
+      "frag": "pp",
+      "overlap": 1
+    },
+    "tb.delirium.monsters_pack_size": {
+      "text": "Delirium Monsters in Map have (15—30)% increased Pack Size",
+      "frag": "ze$",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_fracturing_mirrors": {
+      "text": "Delirium Fog in Map spawns (15—30)% increased Fracturing Mirrors",
+      "frag": "Fr",
+      "overlap": 1
+    },
+    "tb.delirium.slaying_rare_pauses": {
+      "text": "Slaying Rare Monsters in Map pauses the Delirium Mirror Timer for (3—5) seconds",
+      "frag": "au",
+      "overlap": 1
+    },
+    "tb.delirium.encounters_likely_spawn": {
+      "text": "Delirium Encounters in Map are (15—30)% more likely to spawn Unique Bosses",
+      "frag": "ik",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_mirrorshards": {
+      "text": "Delirium Fog in Map spawns (12—26)% increased MirrorShards",
+      "frag": "rd",
+      "overlap": 1
+    },
+    "tb.impl.ritual": {
+      "text": "Adds Ritual Altars to a Map / (1—10) uses remaining",
+      "frag": "ds",
+      "overlap": 1
+    },
+    "tb.ritual.monsters_sacrificed_grant": {
+      "text": "Monsters Sacrificed at Ritual Altars in Map grant (18—30)% increased Tribute",
+      "frag": "gr",
+      "overlap": 1
+    },
+    "tb.ritual.rerolling_costs_reduced": {
+      "text": "Rerolling Favours at Ritual Altars in Map costs (20—30)% reduced Tribute",
+      "frag": "^Rer",
+      "overlap": 1
+    },
+    "tb.ritual.deferring_costs_reduced": {
+      "text": "Deferring Favours at Ritual Altars in Map costs (20—30)% reduced Tribute",
+      "frag": "rri",
+      "overlap": 1
+    },
+    "tb.ritual.deferred_reappear_sooner": {
+      "text": "Favours Deferred at Ritual Altars in Map reappear (25—40)% sooner",
+      "frag": "oo",
+      "overlap": 1
+    },
+    "tb.ritual.allow_rerolling_times": {
+      "text": "Ritual Altars in Map allow rerolling Favours (1—3) additional times",
+      "frag": "im",
+      "overlap": 1
+    },
+    "tb.ritual.rerolled_cost": {
+      "text": "Favours Rerolled at Ritual Altars in Map have (3—6)% chance to cost no Tribute",
+      "frag": "no",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_magic": {
+      "text": "Revived Monsters from Ritual Altars in Map have (35—70)% increased chance to be Magic",
+      "frag": "ic$",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_rare": {
+      "text": "Revived Monsters from Ritual Altars in Map have (25—40)% increased chance to be Rare",
+      "frag": "e R",
+      "overlap": 1
+    },
+    "tb.ritual.omens": {
+      "text": "Ritual Favours in Map have (35—70)% increased chance to be Omens",
+      "frag": "e O",
+      "overlap": 1
+    },
+    "tb.impl.overseer": {
+      "text": "Empowers the Map Boss of a Map / (1—10) uses remaining",
+      "frag": "mp",
+      "overlap": 1
+    },
+    "tb.overseer.strongboxes": {
+      "text": "Map contains (1—2) additional Strongboxes",
+      "frag": "l St",
+      "overlap": 2
+    },
+    "tb.overseer.shrines": {
+      "text": "Map contains (1—2) additional Shrines",
+      "frag": "l Sh",
+      "overlap": 2
+    },
+    "tb.overseer.essences": {
+      "text": "Map contains (1—2) additional Essences",
+      "frag": "l E",
+      "overlap": 2
+    },
+    "tb.overseer.azmeri_spirits": {
+      "text": "Map contains (1—2) additional Azmeri Spirits",
+      "frag": "l A",
+      "overlap": 2
+    },
+    "tb.overseer.quantity_waystones_dropped": {
+      "text": "(18—30)% increased Quantity of Waystones dropped by Map Bosses",
+      "frag": "es d",
+      "overlap": 1
+    },
+    "tb.overseer.grant_experience": {
+      "text": "Map Bosses grant (40—80)% increased Experience",
+      "frag": "gr",
+      "overlap": 1
+    },
+    "tb.overseer.rarity_items_dropped": {
+      "text": "(35—60)% increased Rarity of Items dropped by Map Bosses",
+      "frag": "rity of Items d",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_items_dropped": {
+      "text": "(13—20)% increased Quantity of Items dropped by Map Bosses",
+      "frag": "tity of I",
+      "overlap": 1
+    },
+    "tb.impl.abyss": {
+      "text": "Adds Abysses to a Map / (1—10) uses remaining",
+      "frag": "a M",
+      "overlap": 1
+    },
+    "tb.abyss.rare_monsters_spawned": {
+      "text": "(1—2) additional Rare Monsters are spawned from Abysses in Map",
+      "frag": "e s",
+      "overlap": 1
+    },
+    "tb.abyss.difficulty_reward_closed": {
+      "text": "Abyssal Monsters in Map have increased Difficulty and Reward for each closed Pit",
+      "frag": "lo",
+      "overlap": 1
+    },
+    "tb.abyss.lead_abyssal_depths": {
+      "text": "Abysses in Map have (10—20)% increased chance to lead to an Abyssal Depths",
+      "frag": "ep",
+      "overlap": 1
+    },
+    "tb.abyss.contains_abyss": {
+      "text": "Map contains 1 additional Abysses",
+      "frag": "1 additional Ab",
+      "overlap": 1
+    },
+    "tb.abyss.abyss_pits_likely": {
+      "text": "Abyss Pits in Map are twice as likely to have Rewards",
+      "frag": "el",
+      "overlap": 1
+    },
+    "tb.abyss.contain_four": {
+      "text": "Map has (20—40)% chance to contain four additional Abysses",
+      "frag": "n f",
+      "overlap": 1
+    },
+    "tb.abyss.abyssal_monsters_modifiers": {
+      "text": "(20—30)% increased chance for Abyssal monsters in Map to have Abyssal Modifiers",
+      "frag": "p t",
+      "overlap": 1
+    },
+    "tb.abyss.desecrated_currency": {
+      "text": "(20—30)% increased chance for Desecrated Currency from Abysses in Map",
+      "frag": "at",
+      "overlap": 1
+    },
+    "tb.abyss.spawn_monsters": {
+      "text": "Abysses in Map spawn (20—30)% increased Monsters",
+      "frag": "p s",
+      "overlap": 1
+    },
+    "tb.impl.temple": {
+      "text": "Adds Vaal Beacons to a Map / (1—10) uses remaining",
+      "frag": "ds",
+      "overlap": 1
+    },
+    "tb.temple.add_unique_monster": {
+      "text": "(10—25)% chance to add a Vaal Beacon Unique Monster to the Map",
+      "frag": "th",
+      "overlap": 1
+    },
+    "tb.temple.chests_rare": {
+      "text": "(30—60)% increased chance Vaal Beacon Chests are Rare in Map",
+      "frag": "e R",
+      "overlap": 1
+    },
+    "tb.temple.gain_crystal_beacons": {
+      "text": "(5—10)% chance to gain an additional Crystal from Vaal Beacons in Map",
+      "frag": "fr",
+      "overlap": 1
+    }
+  }
+}

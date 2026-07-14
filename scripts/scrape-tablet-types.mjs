@@ -98,8 +98,20 @@ function implicitLines(html) {
     .filter(Boolean);
 }
 
+// 카드 헤더에서 이름 두 개를 뽑는다.
+//   1번 카드: "균열 서판 BreachAugment /8"  → 거래소 기본 타입명 ("균열 서판")
+//   4번 카드: "균열"                        → 화면에 쓰는 종류 이름
+function names(html) {
+  const heads = [...html.matchAll(/card-header[^>]*>([\s\S]*?)<\/h5>/g)].map((m) => strip(m[1]));
+  const base = heads[0]?.replace(/\s*\S*Augment\s*\/\s*\d+\s*$/, "").trim() || null;
+  const name = heads[3]?.trim() || null;
+  return { base, name };
+}
+
 const lang = process.argv[2] || "kr";
 const implicits = {};
+const bases = {};
+const tabletNames = {};
 const index = new Map();
 
 for (const [slug, page] of Object.entries(PAGES)) {
@@ -110,6 +122,9 @@ for (const [slug, page] of Object.entries(PAGES)) {
   }
   const html = await res.text();
   implicits[slug] = implicitLines(html);
+  const n = names(html);
+  bases[slug] = n.base;
+  tabletNames[slug] = n.name;
   const uniq = new Set();
   for (const m of parseMods(html)) {
     const k = m.lines.map(norm).join(" ¶ ");
@@ -148,10 +163,18 @@ if (partial.length) {
   for (const r of partial) console.error(`   [${r.types.join(",")}] ${r.text}`);
 }
 
+console.error("\n[이름]");
+for (const slug of Object.keys(PAGES)) {
+  console.error(`  ${slug.padEnd(11)} 타입명 "${bases[slug]}"   종류명 "${tabletNames[slug]}"`);
+}
+
 console.error("\n[고정 옵션]");
 for (const [slug, t] of Object.entries(implicits)) {
   console.error(`  ${slug.padEnd(11)} ${t ? t.join("  /  ") : "✗ 못 찾음"}`);
 }
 
-writeFileSync(`scripts/out/tablet-types-${lang}.json`, JSON.stringify({ implicits, mods }, null, 1));
+writeFileSync(
+  `scripts/out/tablet-types-${lang}.json`,
+  JSON.stringify({ implicits, bases, names: tabletNames, mods }, null, 1)
+);
 console.error(`\n→ scripts/out/tablet-types-${lang}.json`);

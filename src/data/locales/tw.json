@@ -1,0 +1,832 @@
+{
+  "tablets": {
+    "irradiated": "輻照",
+    "breach": "裂痕",
+    "expedition": "死境探險",
+    "delirium": "譫妄異域",
+    "ritual": "祭祀",
+    "overseer": "總督",
+    "abyss": "深淵",
+    "temple": "神廟"
+  },
+  "bases": {
+    "irradiated": "輻照碑牌",
+    "breach": "裂痕碑牌",
+    "expedition": "探險碑牌",
+    "delirium": "譫妄碑牌",
+    "ritual": "祭祀碑牌",
+    "overseer": "總督碑牌",
+    "abyss": "深淵碑牌",
+    "temple": "神廟碑牌",
+    "waystone": "換界石（階級 {tier}）"
+  },
+  "tokens": {
+    "tier": "階級 {n}",
+    "corrupted": "已汙染",
+    "units": "%個次名魔秒隻"
+  },
+  "options": {
+    "ws.imp.revives": {
+      "text": "可用的復活數",
+      "frag": "可用",
+      "overlap": 1
+    },
+    "ws.imp.item_rarity": {
+      "text": "物品稀有度",
+      "frag": "物品",
+      "overlap": 1
+    },
+    "ws.imp.pack_size": {
+      "text": "怪群大小",
+      "frag": "怪群",
+      "overlap": 1
+    },
+    "ws.imp.rare_monsters": {
+      "text": "怪物稀有度",
+      "frag": "物稀",
+      "overlap": 1
+    },
+    "ws.imp.waystone_chance": {
+      "text": "換界石掉落機率",
+      "frag": "界石",
+      "overlap": 1
+    },
+    "ws.imp.monster_effect": {
+      "text": "怪物效能",
+      "frag": "物效",
+      "overlap": 1
+    },
+    "ws.pre.deal_extra_fire": {
+      "text": "怪物造成等同於傷害(5—24)%的額外火焰傷害",
+      "frag": "焰傷",
+      "overlap": 1,
+      "extra": [
+        "增加16%怪物的效用",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.pre.deal_extra_cold": {
+      "text": "怪物造成等同於傷害(5—24)%的額外冰冷傷害",
+      "frag": "冷傷",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有14%更多稀有度",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.pre.deal_extra_lightning": {
+      "text": "怪物造成等同於傷害(5—24)%的額外閃電傷害",
+      "frag": "閃電",
+      "overlap": 1,
+      "extra": [
+        "8%更多怪物群大小",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.pre.monster_damage": {
+      "text": "增加(5—24)%怪物傷害",
+      "frag": "%怪物傷",
+      "overlap": 1,
+      "extra": [
+        "25%更多魔法和稀有怪物",
+        "稀有怪物有25%更多怪物詞綴機率",
+        "此區域找到20%更多換界石"
+      ]
+    },
+    "ws.pre.attack_cast_movement": {
+      "text": "怪物增加(10—15)%攻擊、施放、移動速度",
+      "frag": "攻擊",
+      "overlap": 1,
+      "extra": [
+        "9%更多怪物群大小",
+        "此區域找到25%更多換界石"
+      ]
+    },
+    "ws.pre.critical_hit": {
+      "text": "增加(80—300)%怪物的暴擊率",
+      "frag": "擊率",
+      "overlap": 1,
+      "extra": [
+        "+(80—300)%怪物暴擊傷害加成",
+        "9%更多怪物群大小",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.pre.monster_life": {
+      "text": "(10—30)%更多怪物生命",
+      "frag": "更多",
+      "overlap": 1,
+      "extra": [
+        "23%更多魔法和稀有怪物",
+        "稀有怪物有23%更多怪物詞綴機率",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.pre.poison_hit": {
+      "text": "怪物有(13—40)%機率在擊中時造成中毒",
+      "frag": "成中",
+      "overlap": 1,
+      "extra": [
+        "7%更多怪物群大小",
+        "此區域找到10%更多換界石"
+      ]
+    },
+    "ws.pre.inflict_bleeding_hit": {
+      "text": "怪物有(5—25)%機率在擊中時引起流血",
+      "frag": "起流",
+      "overlap": 1,
+      "extra": [
+        "怪物擁有13%更多效用",
+        "此區域找到10%更多換界石"
+      ]
+    },
+    "ws.pre.break_armour_equal": {
+      "text": "怪物破壞的護甲值等同於造成的(15—45)%物理傷害",
+      "frag": "甲值",
+      "overlap": 1,
+      "extra": [
+        "19%更多魔法和稀有怪物",
+        "稀有怪物有19%更多怪物詞綴機率",
+        "此區域找到10%更多換界石"
+      ]
+    },
+    "ws.pre.accuracy_rating": {
+      "text": "怪物增加(10—50)%命中值",
+      "frag": "命中",
+      "overlap": 1,
+      "extra": [
+        "7%更多怪物群大小",
+        "此區域找到10%更多換界石"
+      ]
+    },
+    "ws.pre.deal_extra_chaos": {
+      "text": "怪物造成等同於傷害(5—24)%的額外混沌傷害",
+      "frag": "沌傷",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有15%更多稀有度",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.pre.stun_buildup": {
+      "text": "增加(50—110)%怪物的暈眩累積",
+      "frag": "累積",
+      "overlap": 1,
+      "extra": [
+        "怪物擁有13%更多效用",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.pre.fire_projectiles": {
+      "text": "怪物發射2個額外投射物",
+      "frag": "2個",
+      "overlap": 1,
+      "extra": [
+        "9%更多怪物群大小",
+        "此區域找到25%更多換界石"
+      ]
+    },
+    "ws.pre.penetrates_elemental_resistances": {
+      "text": "怪物傷害穿透(6—16)%元素抗性",
+      "frag": "穿透",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有16%更多稀有度",
+        "此區域找到20%更多換界石"
+      ]
+    },
+    "ws.suf.rare_monsters_modifiers": {
+      "text": "稀有怪物有1個額外詞綴",
+      "frag": "1個",
+      "overlap": 1,
+      "extra": [
+        "增加25%稀有怪物的數量",
+        "增加10%此區域找到的換界石"
+      ]
+    },
+    "ws.suf.monster_elemental_resistances": {
+      "text": "+(20—40)%怪物元素抗性",
+      "frag": "物元",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有14%更多稀有度",
+        "此區域找到10%更多換界石"
+      ]
+    },
+    "ws.suf.monsters_armoured": {
+      "text": "怪物為裝甲的",
+      "frag": "甲的",
+      "overlap": 1,
+      "extra": [
+        "18%更多魔法和稀有怪物",
+        "稀有怪物有18%更多怪物詞綴機率",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.suf.monsters_evasive": {
+      "text": "怪物為閃避的",
+      "frag": "閃避",
+      "overlap": 1,
+      "extra": [
+        "6%更多怪物群大小",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.suf.gain_maximum_life": {
+      "text": "怪物獲得等同於最大生命(12—25)%的額外最大能量護盾",
+      "frag": "大能",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有13%更多稀有度",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.suf.monsters_ailment_threshold": {
+      "text": "增加(30—79)%怪物異常狀態門檻",
+      "frag": "門檻",
+      "overlap": 1,
+      "extra": [
+        "增加(30—79)%怪物的暈眩門檻",
+        "怪物擁有13%更多效用",
+        "此區域找到10%更多換界石"
+      ]
+    },
+    "ws.suf.monster_ailment_application": {
+      "text": "怪物增加(60—130)%元素異常狀態施加",
+      "frag": "素異",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有11%更多稀有度",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.suf.monsters_effect": {
+      "text": "增加怪物50%範圍效果",
+      "frag": "加怪",
+      "overlap": 1,
+      "extra": [
+        "此區域找到20%更多換界石"
+      ]
+    },
+    "ws.suf.periodically_cursed_enfeeble": {
+      "text": "玩家正在持續被衰弱詛咒",
+      "frag": "衰弱",
+      "overlap": 1,
+      "extra": [
+        "怪物擁有16%更多效用",
+        "此區域找到20%更多換界石"
+      ]
+    },
+    "ws.suf.periodically_temporal_chains": {
+      "text": "玩家正在持續被時空鎖鏈詛咒",
+      "frag": "空鎖",
+      "overlap": 1,
+      "extra": [
+        "8%更多怪物群大小",
+        "此區域找到20%更多換界石"
+      ]
+    },
+    "ws.suf.periodically_cursed_weakness": {
+      "text": "玩家正在持續被元素要害詛咒",
+      "frag": "素要",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有13%更多稀有度",
+        "此區域找到20%更多換界石"
+      ]
+    },
+    "ws.suf.patches_ignited_ground": {
+      "text": "區域中有多個點燃地面",
+      "frag": "個點",
+      "overlap": 1,
+      "extra": [
+        "怪物擁有15%更多效用",
+        "此區域找到15%更多換界石",
+        "ground fire art variation [1033]",
+        "map ground effect patches per 100 tiles [4]",
+        "map ground effect radius [20]"
+      ]
+    },
+    "ws.suf.patches_chilled_ground": {
+      "text": "區域會有多塊冰緩地面",
+      "frag": "塊冰",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有12%更多稀有度",
+        "此區域找到15%更多換界石",
+        "ground ice art variation [1014]",
+        "map ground effect patches per 100 tiles [3]",
+        "map ground effect radius [26]"
+      ]
+    },
+    "ws.suf.patches_shocked_ground": {
+      "text": "區域會有多塊感電地面",
+      "frag": "感電",
+      "overlap": 1,
+      "extra": [
+        "7%更多怪物群大小",
+        "此區域找到15%更多換界石",
+        "ground lightning art variation [1011]",
+        "map ground effect patches per 100 tiles [5]",
+        "map ground effect radius [17]"
+      ]
+    },
+    "ws.suf.maximum_resistances": {
+      "text": "玩家(-10—-3)%最大抗性",
+      "frag": "大抗",
+      "overlap": 1,
+      "extra": [
+        "10%更多怪物群大小",
+        "此區域找到25%更多換界石"
+      ]
+    },
+    "ws.suf.gain_flask_charges": {
+      "text": "減少(20—35)%玩家獲得的藥劑充能",
+      "frag": "家獲",
+      "overlap": 1,
+      "extra": [
+        "7%更多怪物群大小",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.suf.recovery_rate_life": {
+      "text": "玩家擁有(20—40)%更少生命和能量護盾恢復率",
+      "frag": "家擁",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有15%更多稀有度",
+        "此區域找到20%更多換界石"
+      ]
+    },
+    "ws.suf.cooldown_recovery_rate": {
+      "text": "玩家有(15—30)%更少冷卻時間恢復率",
+      "frag": "家有",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有12%更多稀有度",
+        "此區域找到15%更多換界石"
+      ]
+    },
+    "ws.suf.take_damage_critical": {
+      "text": "怪物遭暴擊時，減少(15—30)%承受的額外傷害",
+      "frag": "擊時",
+      "overlap": 1,
+      "extra": [
+        "18%更多魔法和稀有怪物",
+        "稀有怪物有18%更多怪物詞綴機率",
+        "此區域找到10%更多換界石"
+      ]
+    },
+    "ws.suf.less_effect_curses": {
+      "text": "怪物身上的詛咒具有(20—50)%更少效果",
+      "frag": "具有",
+      "overlap": 1,
+      "extra": [
+        "此區域找到的物品擁有10%更多稀有度",
+        "此區域找到10%更多換界石"
+      ]
+    },
+    "tb.pre.monsters_effectiveness": {
+      "text": "增加(10—15)%怪物的效用",
+      "frag": "%怪物的",
+      "overlap": 1
+    },
+    "tb.pre.rarity_items_found": {
+      "text": "增加(8—12)%地圖內找到的物品稀有度",
+      "frag": "的物",
+      "overlap": 1
+    },
+    "tb.pre.pack_size": {
+      "text": "增加(5—7)%地圖內的怪物群大小",
+      "frag": "內的怪",
+      "overlap": 1
+    },
+    "tb.pre.magic_monsters": {
+      "text": "增加(30—40)%地圖含有的魔法怪物",
+      "frag": "的魔",
+      "overlap": 1
+    },
+    "tb.pre.number_rare_monsters": {
+      "text": "增加(25—35)%地圖含有的稀有怪物數量",
+      "frag": "有的稀",
+      "overlap": 1
+    },
+    "tb.pre.monster_rarity": {
+      "text": "地圖增加(15—20)%怪物稀有度",
+      "frag": "圖增",
+      "overlap": 1
+    },
+    "tb.pre.gold_found": {
+      "text": "增加(25—35)%地圖內所獲取的金幣數量",
+      "frag": "金幣",
+      "overlap": 1
+    },
+    "tb.pre.experience_gain": {
+      "text": "增加(12—18)%地圖內所獲取的經驗量",
+      "frag": "驗量",
+      "overlap": 1
+    },
+    "tb.pre.contains_rare_chests": {
+      "text": "地圖內含有額外的(2—3)個稀有箱子",
+      "frag": "個稀",
+      "overlap": 1
+    },
+    "tb.pre.contains_essences": {
+      "text": "地圖內含有額外的1個精髓",
+      "frag": "個精",
+      "overlap": 2,
+      "extra": [
+        "增加%地圖內找到的換界石數量"
+      ]
+    },
+    "tb.pre.contains_azmeri_spirits": {
+      "text": "地圖內含有1個額外阿茲莫里魂靈",
+      "frag": "外阿",
+      "overlap": 1,
+      "extra": [
+        "增加%地圖內找到的換界石數量"
+      ]
+    },
+    "tb.pre.contains_rogue_exiles": {
+      "text": "地圖內含有1名額外盜賊流亡者",
+      "frag": "外盜",
+      "overlap": 1,
+      "extra": [
+        "增加%地圖內找到的換界石數量"
+      ]
+    },
+    "tb.pre.contains_summoning_circles": {
+      "text": "地圖內含有額外的1個召喚法陣",
+      "frag": "個召",
+      "overlap": 1
+    },
+    "tb.suf.quantity_waystones_found": {
+      "text": "增加(30—40)%地圖內找到的換界石數量",
+      "frag": "到的換",
+      "overlap": 1
+    },
+    "tb.suf.contain_shrines": {
+      "text": "增加(70—100)%地圖內含有神殿的機率",
+      "frag": "有神",
+      "overlap": 1
+    },
+    "tb.suf.contain_strongboxes": {
+      "text": "增加(70—100)%地圖內有含有保險箱的機率",
+      "frag": "箱的",
+      "overlap": 1
+    },
+    "tb.suf.essences": {
+      "text": "增加(70—100)%地圖內含有精髓的機率",
+      "frag": "髓的",
+      "overlap": 1
+    },
+    "tb.suf.azmeri_spirits": {
+      "text": "增加(70—100)%地圖內有含有阿茲莫里魂靈的機率",
+      "frag": "靈的",
+      "overlap": 1
+    },
+    "tb.suf.rogue_exiles": {
+      "text": "增加(70—100)%地圖內含有盜賊流亡者的機率",
+      "frag": "有盜",
+      "overlap": 1
+    },
+    "tb.suf.summoning_circle": {
+      "text": "增加(70—100)%地圖內有含有召喚法陣的機率",
+      "frag": "有召",
+      "overlap": 1
+    },
+    "tb.suf.random_modifiers": {
+      "text": "地圖有(1—2)個額外隨機詞綴",
+      "frag": "機詞",
+      "overlap": 1
+    },
+    "tb.suf.unique_monsters_rare": {
+      "text": "傳奇怪物會擁有1個額外的詞綴",
+      "frag": "物會",
+      "overlap": 1
+    },
+    "tb.suf.waystones_shrine": {
+      "text": "地圖內含有額外的1個神殿",
+      "frag": "個神",
+      "overlap": 2,
+      "extra": [
+        "減少%地圖內的怪物群大小",
+        "增加%地圖內找到的換界石數量"
+      ]
+    },
+    "tb.suf.waystones_strongbox": {
+      "text": "地圖內含有額外的1個保險箱",
+      "frag": "個保",
+      "overlap": 2,
+      "extra": [
+        "減少%地圖內的怪物群大小",
+        "增加%地圖內找到的換界石數量"
+      ]
+    },
+    "tb.impl.irradiated": {
+      "text": "在地圖內加入照耀區域 / 剩餘(1—10)次使用",
+      "frag": "加入",
+      "overlap": 1
+    },
+    "tb.impl.breach": {
+      "text": "在地圖內加入一個裂痕 / 剩餘(1—10)次使用次數",
+      "frag": "加入",
+      "overlap": 1
+    },
+    "tb.breach.quantity_hiveblood_found": {
+      "text": "增加(30—60)%地圖內找到的巢裔之血數量",
+      "frag": "巢裔",
+      "overlap": 1
+    },
+    "tb.breach.quantity_wombgifts_found": {
+      "text": "增加(30—60)%地圖內找到的胎贈數量",
+      "frag": "贈數",
+      "overlap": 1
+    },
+    "tb.breach.wombgifts_drop_higher": {
+      "text": "地圖內有(10—30)%機率掉落高一等級的胎贈",
+      "frag": "高一",
+      "overlap": 1
+    },
+    "tb.breach.contain_vruun_marshal": {
+      "text": "增加(20—50)%地圖內的不穩定裂痕含有烈許的統領．弗倫的機率",
+      "frag": "烈許",
+      "overlap": 1
+    },
+    "tb.breach.spawn_when_stabilised": {
+      "text": "地圖內的不穩定裂痕會在穩定後生成(1—3)名額外稀有怪物]",
+      "frag": "生成",
+      "overlap": 1
+    },
+    "tb.breach.effectiveness_rare_breach": {
+      "text": "增加(5—20)%地圖內稀有裂痕怪物的效用",
+      "frag": "內稀",
+      "overlap": 1
+    },
+    "tb.breach.pack_size": {
+      "text": "增加(5—15)%地圖內裂痕的怪物群大小",
+      "frag": "內裂",
+      "overlap": 1
+    },
+    "tb.impl.expedition": {
+      "text": "在地圖內加入一個卡爾葛墓地 / 剩餘(1—10)次使用次數",
+      "frag": "加入",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_artifacts_dropped": {
+      "text": "增加(15—30)%地圖內的探險事件怪物所掉落的文物數量",
+      "frag": "件怪",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_placement_range": {
+      "text": "增加(15—30)%地圖內的探險事件放置炸藥的距離",
+      "frag": "距離",
+      "overlap": 1
+    },
+    "tb.expedition.expeditions_remnants": {
+      "text": "地圖內的探險事件含有+(1—2)魔符",
+      "frag": "魔符$",
+      "overlap": 1
+    },
+    "tb.expedition.explosive_radius": {
+      "text": "增加(15—30)%地圖內的探險事件爆炸的範圍",
+      "frag": "件爆",
+      "overlap": 1
+    },
+    "tb.expedition.quantity_logbooks_dropped": {
+      "text": "增加(15—30)%地圖內的探險事件所生成的符文怪物掉落的探險日誌數量",
+      "frag": "件所",
+      "overlap": 1
+    },
+    "tb.expedition.number_rare_monsters": {
+      "text": "增加(25—40)%地圖內的探險事件含有稀有怪物的數量",
+      "frag": "有稀",
+      "overlap": 1
+    },
+    "tb.expedition.effect_remnants": {
+      "text": "增加(12—18)%地圖內的探險事件魔符的效果",
+      "frag": "件魔",
+      "overlap": 1
+    },
+    "tb.expedition.contains_monster_markers": {
+      "text": "增加(15—30)%地圖內含有的符文怪物印記的數量",
+      "frag": "記的",
+      "overlap": 1
+    },
+    "tb.impl.delirium": {
+      "text": "在地圖內加入一個譫妄之鏡 / 剩餘(1—10)次使用次數",
+      "frag": "加入",
+      "overlap": 1
+    },
+    "tb.delirium.stack_simulacrum_splinters": {
+      "text": "增加(15—30)%地圖內掉落的幻像斷片數量",
+      "frag": "內掉",
+      "overlap": 1
+    },
+    "tb.delirium.lasts_before_dissipating": {
+      "text": "地圖內含有的譫妄迷霧會在消散前額外持續(6—12)秒",
+      "frag": "霧會",
+      "overlap": 1
+    },
+    "tb.delirium.dissipates_slower": {
+      "text": "減少(20—30)%地圖內的譫妄迷霧消散速度",
+      "frag": "減少",
+      "overlap": 1
+    },
+    "tb.delirium.applies_deliriousness": {
+      "text": "地圖中的譫妄會增加(15—30)%玩家的譫妄程度",
+      "frag": "家的",
+      "overlap": 1
+    },
+    "tb.delirium.monsters_pack_size": {
+      "text": "增加(15—30)%地圖內的譫妄怪物怪物群大小",
+      "frag": "妄怪",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_fracturing_mirrors": {
+      "text": "增加(15—30)%地圖內的譫妄生成破碎之鏡",
+      "frag": "妄生",
+      "overlap": 1
+    },
+    "tb.delirium.slaying_rare_pauses": {
+      "text": "地圖內的譫妄迷霧在擊殺稀有怪物時會暫停(3—5)秒",
+      "frag": "擊殺",
+      "overlap": 1
+    },
+    "tb.delirium.encounters_likely_spawn": {
+      "text": "地圖內的譫妄有(15—30)%更多機率生成傳奇頭目",
+      "frag": "更多",
+      "overlap": 1
+    },
+    "tb.delirium.spawns_mirrorshards": {
+      "text": "地圖中的譫妄迷霧增加(12—26)%裂鏡碎片的生成量",
+      "frag": "鏡碎",
+      "overlap": 1
+    },
+    "tb.impl.ritual": {
+      "text": "在地圖內加入祭祀神壇 / 剩餘(1—10)次使用",
+      "frag": "加入",
+      "overlap": 1
+    },
+    "tb.ritual.monsters_sacrificed_grant": {
+      "text": "增加(18—30)%在地圖內的祭祀神壇所獻祭的怪物提供的貢禮數量",
+      "frag": "供的",
+      "overlap": 1
+    },
+    "tb.ritual.rerolling_costs_reduced": {
+      "text": "減少(20—30)%地圖內的祭祀神壇重骰所需的貢禮數量",
+      "frag": "壇重",
+      "overlap": 1
+    },
+    "tb.ritual.deferring_costs_reduced": {
+      "text": "減少(20—30)%地圖內的祭祀神壇所需的貢禮數量",
+      "frag": "壇所需",
+      "overlap": 1
+    },
+    "tb.ritual.deferred_reappear_sooner": {
+      "text": "地圖內的祭祀神壇所延遲的恩惠之物出現速度加快(25—40)%",
+      "frag": "加快",
+      "overlap": 1
+    },
+    "tb.ritual.allow_rerolling_times": {
+      "text": "地圖內的祭祀神壇可以額外重骰(1—3)次",
+      "frag": "可以",
+      "overlap": 1
+    },
+    "tb.ritual.rerolled_cost": {
+      "text": "地圖內的祭祀神壇有(3—6)%機率不消耗貢禮",
+      "frag": "壇有",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_magic": {
+      "text": "地圖內的祭祀神壇所復活的怪物增加(35—70)%為魔法怪物的機率",
+      "frag": "為魔",
+      "overlap": 1
+    },
+    "tb.ritual.revived_monsters_rare": {
+      "text": "地圖內的祭祀神壇所復活的怪物增加(25—40)%為稀有怪物的機率",
+      "frag": "為稀",
+      "overlap": 1
+    },
+    "tb.ritual.omens": {
+      "text": "增加(35—70)%地圖內的祭祀神壇獎勵為預兆的機率",
+      "frag": "壇獎",
+      "overlap": 1
+    },
+    "tb.impl.overseer": {
+      "text": "強化地圖的頭目 / 剩餘(1—10)次使用次數",
+      "frag": "圖的",
+      "overlap": 1
+    },
+    "tb.overseer.strongboxes": {
+      "text": "地圖內含有額外的(1—2)個保險箱",
+      "frag": "個保",
+      "overlap": 2
+    },
+    "tb.overseer.shrines": {
+      "text": "地圖內含有額外的(1—2)個神殿",
+      "frag": "個神",
+      "overlap": 2
+    },
+    "tb.overseer.essences": {
+      "text": "地圖內含有額外的(1—2)個精髓",
+      "frag": "個精",
+      "overlap": 2
+    },
+    "tb.overseer.azmeri_spirits": {
+      "text": "地圖內含有額外的(1—2)個阿茲莫里魂靈",
+      "frag": "個阿",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_waystones_dropped": {
+      "text": "增加(18—30)%地圖頭目掉落的換界石數量",
+      "frag": "落的",
+      "overlap": 1
+    },
+    "tb.overseer.grant_experience": {
+      "text": "增加(40—80)%地圖頭目賦予的經驗",
+      "frag": "目賦",
+      "overlap": 1
+    },
+    "tb.overseer.rarity_items_dropped": {
+      "text": "增加(35—60)%地圖頭目掉落物品的稀有度",
+      "frag": "品的",
+      "overlap": 1
+    },
+    "tb.overseer.quantity_items_dropped": {
+      "text": "增加(13—20)%地圖頭目的掉落物品數量",
+      "frag": "目的",
+      "overlap": 1
+    },
+    "tb.impl.abyss": {
+      "text": "在地圖內加入一個深淵 / 剩餘(1—10)次使用次數",
+      "frag": "加入",
+      "overlap": 1
+    },
+    "tb.abyss.rare_monsters_spawned": {
+      "text": "地圖內的深淵生成(1—2)隻額外稀有怪物",
+      "frag": "外稀",
+      "overlap": 1
+    },
+    "tb.abyss.difficulty_reward_closed": {
+      "text": "地圖內的深淵怪物根據每1關閉的坑洞增加難度和獎勵",
+      "frag": "1關",
+      "overlap": 1
+    },
+    "tb.abyss.lead_abyssal_depths": {
+      "text": "地圖內的深淵增加有(10—20)%機率前往無盡深淵",
+      "frag": "加有",
+      "overlap": 1
+    },
+    "tb.abyss.contains_abyss": {
+      "text": "地圖內含有額外1道深淵",
+      "frag": "1道",
+      "overlap": 1
+    },
+    "tb.abyss.abyss_pits_likely": {
+      "text": "地圖內的深淵坑洞有兩倍機率含有獎勵",
+      "frag": "洞有",
+      "overlap": 1
+    },
+    "tb.abyss.contain_four": {
+      "text": "地圖有(20—40)%機率包含4道額外深淵",
+      "frag": "4道",
+      "overlap": 1
+    },
+    "tb.abyss.abyssal_monsters_modifiers": {
+      "text": "地圖內的深淵怪物增加(20—30)%擁有深淵詞綴的機率",
+      "frag": "物增",
+      "overlap": 1
+    },
+    "tb.abyss.desecrated_currency": {
+      "text": "增加(20—30)%來自地圖內深淵的褻瀆通貨掉落機率",
+      "frag": "內深",
+      "overlap": 1
+    },
+    "tb.abyss.spawn_monsters": {
+      "text": "增加(20—30)%地圖內的深淵生成的怪物數量",
+      "frag": "成的",
+      "overlap": 1
+    },
+    "tb.impl.temple": {
+      "text": "在地圖內加入瓦爾烽塔 / 剩餘(1—10)次使用次數",
+      "frag": "加入",
+      "overlap": 1
+    },
+    "tb.temple.add_unique_monster": {
+      "text": "有(10—25)%機率為地圖新增一名瓦爾烽塔傳奇怪物",
+      "frag": "圖新",
+      "overlap": 1
+    },
+    "tb.temple.chests_rare": {
+      "text": "增加(30—60)%地圖內瓦爾烽塔的寶箱為稀有的機率",
+      "frag": "內瓦",
+      "overlap": 1
+    },
+    "tb.temple.gain_crystal_beacons": {
+      "text": "有(5—10)%機率從地圖內的瓦爾烽塔獲得額外一個額外水晶",
+      "frag": "得額",
+      "overlap": 1
+    }
+  }
+}
