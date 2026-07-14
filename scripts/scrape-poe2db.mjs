@@ -10,13 +10,12 @@
 //   /{lang}/Tablet     의 "… Mods /83"   → 서판 전체      (티어별 행)
 // 경로석 상단 6옵션(부활 횟수·아이템 희귀도 …)은 이 표에 없다 — 고정 6종이라 손으로 관리한다.
 //
-// 각 행 Description의 **첫 줄만** 실제 옵션이다(2번째 줄부터는 딸린 부가효과). CLAUDE.md §3-1.
-// 언어 간 행 수와 순서가 동일하므로 인덱스로 정렬하고, 수치 시그니처로 교차검증한다.
+// 각 행 Description의 첫 줄만 실제 옵션이다(2번째 줄부터는 딸린 부가효과). CLAUDE.md §3-1.
+// 단, 첫 줄이 같고 둘째 줄만 다른 모드가 있어(서판 접두 3종) lines에 전체 줄을 남긴다.
 
 import { writeFileSync, mkdirSync } from "node:fs";
+import { LANGS } from "./langs.mjs";
 
-// UI 라벨과 URL 코드가 다르다: PO→pt, ES→sp, English→us
-export const LANGS = ["us", "kr", "jp", "cn", "tw", "ru", "pt", "th", "fr", "de", "sp"];
 const UA = "poe2-search-i18n (+https://github.com/cokeys90/poe2-search)";
 
 const PAGES = [
@@ -39,14 +38,20 @@ function modsTable(html) {
   return cands.reduce((a, b) => (b.declared > a.declared ? b : a));
 }
 
-// 행 → { level, affix, text }. text는 Description 첫 줄, 값 범위는 원문 그대로 보존.
+// 행 → { level, affix, text, lines }. text는 Description 첫 줄, 값 범위는 원문 그대로 보존.
+//
+// ⚠️ 설명이 빈 행도 버리지 않는다(text: ""). 언어별로 번역이 빠진 행이 있어서(pt 경로석 3행),
+// 버리면 행 수가 달라져 언어 간 인덱스 정렬이 통째로 밀린다. 자리는 지키고 내용만 비워 둔다.
 function parseRow(tr) {
   const tds = [...tr.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((t) => t[1]);
-  if (tds.length < 3) return null;
-  const firstLine = tds[2].split(/<br\s*\/?>/i)[0];
-  const text = stripTags(firstLine);
-  if (!text) return null;
-  return { level: +stripTags(tds[0]) || 0, affix: stripTags(tds[1]), text };
+  if (tds.length < 3) return null; // 헤더(th)만 걸러낸다
+  const lines = tds[2].split(/<br\s*\/?>/i).map(stripTags).filter(Boolean);
+  return {
+    level: +stripTags(tds[0]) || 0,
+    affix: stripTags(tds[1]),
+    text: lines[0] || "",
+    lines, // 첫 줄이 같고 둘째 줄만 다른 모드가 있다(서판 접두 3종) → 둘째 줄 이하도 남긴다
+  };
 }
 
 function stripTags(s) {
@@ -99,26 +104,35 @@ for (const lang of langs) {
   writeFileSync(`scripts/out/raw-${lang}.json`, JSON.stringify(all[lang], null, 1));
 }
 
-// 교차검증: 언어 간 행 수 + 수치 시그니처가 일치해야 인덱스 정렬이 성립한다.
-const base = langs[0];
-let bad = 0;
-for (const pool of ["waystone", "tablet"]) {
-  for (const lang of langs.slice(1)) {
-    const a = all[base][pool].rows, b = all[lang][pool].rows;
-    if (a.length !== b.length) {
-      console.error(`✗ ${pool}: ${base}=${a.length}행 vs ${lang}=${b.length}행 — 정렬 불가`);
-      bad++;
-      continue;
-    }
-    const key = (r) => r.level + "|" + numSig(r.text);
-    const mismatch = a.filter((r, i) => key(r) !== key(b[i])).length;
-    if (mismatch) {
-      console.error(`✗ ${pool}: ${base}↔${lang} 수치 시그니처 불일치 ${mismatch}/${a.length}행`);
-      bad++;
-    } else {
-      console.error(`✓ ${pool}: ${base}↔${lang} ${a.length}행 정렬 OK`);
-    }
-  }
+/* ---------- 수집 보고 ----------
+   언어 간 정렬은 여기서 하지 않는다. 행 인덱스로는 맞출 수 없기 때문이다:
+   poe2db는 한 모드의 티어를 여러 행으로 보여주는데 그 행 수가 언어마다 다르다.
+   (pt 경로석은 중독 4티어를 값 없는 1행으로 뭉쳐 107행이 아니라 104행이다.)
+   정렬은 티어를 접어 '고유 모드' 단위로 build-locales.mjs가 한다.
+   여기서는 수집 상태와 데이터 품질만 보고한다. */
+console.error("\n[수집 결과]");
+for (const lang of langs) {
+  const w = all[lang].waystone.rows.length;
+  const t = all[lang].tablet.rows.length;
+  console.error(`  ${lang.padEnd(3)} 경로석 ${String(w).padStart(3)}행 · 서판 ${String(t).padStart(3)}행`);
 }
-console.error(bad ? `\n실패 ${bad}건` : "\n전부 정렬 OK");
-process.exit(bad ? 1 : 0);
+
+// 품질 신호 — 3단계(조각 생성) 전에 사람이 봐야 하는 것들
+console.error("\n[데이터 품질]");
+const RAW_STAT = /^[a-z_]+( [a-z_+%\[\],0-9-]+)+$/; // 번역 누락 시 원시 스탯 문자열이 그대로 나온다
+for (const lang of langs) {
+  const rows = [...all[lang].waystone.rows, ...all[lang].tablet.rows];
+  const empty = rows.filter((r) => !r.text).length;
+  const noRange = rows.filter((r) => r.text && !numSig(r.text)).length;
+  const raw = rows.filter((r) => r.text && RAW_STAT.test(r.text)).map((r) => r.text);
+  const flags = [];
+  if (empty) flags.push(`빈 행 ${empty}`);
+  if (raw.length) flags.push(`번역 누락 ${raw.length}`);
+  console.error(
+    `  ${lang.padEnd(3)} 범위 없는 행 ${String(noRange).padStart(3)}/${rows.length}` +
+      (flags.length ? `  ⚠ ${flags.join(" · ")}` : "")
+  );
+  for (const t of raw) console.error(`        ↳ ${t}`);
+}
+
+console.error("\n수집 완료 → scripts/out/raw-{lang}.json   (정렬은 build-locales.mjs가 한다)");
