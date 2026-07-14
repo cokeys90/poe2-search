@@ -13,7 +13,7 @@ export default function ResultBar({
   selList,
   onFlip,
   onRemove,
-  onSetMin,
+  onSetValue,
   pinnedOptions = {},
   onTogglePin,
   onTrade,
@@ -116,13 +116,25 @@ export default function ResultBar({
                   {s.frag}
                 </span>
                 {numeric && (
-                  <input
-                    type="number"
-                    placeholder={hint || "≥"}
-                    value={s.min || ""}
-                    onChange={(e) => onSetMin(id, e.target.value)}
-                    className="w-16 rounded-md-xs border border-outline bg-surface-c-lowest px-1.5 py-0.5 text-center font-mono text-label-m text-primary outline-none transition focus:border-primary placeholder:text-on-surface-variant/50"
-                  />
+                  // 최소 ~ 최대. 칩은 칸이 떨어져 있어 선 대신 물결로 잇는다
+                  <span className="flex items-center gap-0.5">
+                    {["min", "max"].map((which, i) => (
+                      <span key={which} className="flex items-center gap-0.5">
+                        {i === 1 && (
+                          <span className="text-label-s text-on-surface-variant/60">~</span>
+                        )}
+                        <input
+                          type="number"
+                          placeholder={
+                            hint && hint.includes("-") ? hint.split("-")[i] : i ? "≤" : "≥"
+                          }
+                          value={s[which] || ""}
+                          onChange={(e) => onSetValue(id, which, e.target.value)}
+                          className="w-11 rounded-md-xs border border-outline bg-surface-c-lowest px-1 py-0.5 text-center font-mono text-label-m text-primary outline-none transition focus:border-primary placeholder:text-on-surface-variant/50"
+                        />
+                      </span>
+                    ))}
+                  </span>
                 )}
                 <PinButton pinned={pinnedOptions[id]} onClick={() => onTogglePin(id)} />
                 <button

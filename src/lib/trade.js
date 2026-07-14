@@ -153,13 +153,16 @@ export function tradeUrl({
   for (const [key, s] of Object.entries(sel || {})) {
     const item = BY_KEY.get(key);
     if (!item) continue; // 데이터에서 사라진 옵션(옛 저장분)
-    const min = num(s.min);
+    // 거래소와 같은 min/max 모델. 둘 다 없으면 "있기만 하면"
+    const v = {};
+    if (num(s.min) != null) v.min = num(s.min);
+    if (num(s.max) != null) v.max = num(s.max);
+    const hasValue = Object.keys(v).length > 0;
 
     // 경로석 상단 6옵션은 스탯이 아니라 엔드게임 필터(map_iir 등)로 들어간다
     if (item.map_filter) {
-      if (s.mode === "inc" && min != null) mapFilters[item.map_filter] = { min };
-      else if (s.mode === "inc") mapFilters[item.map_filter] = { min: 1 }; // 값 없이 "있으면 됨"
-      else skipped.push(item.text); // 거래소 필터엔 제외 개념이 없다
+      if (s.mode !== "inc") skipped.push(item.text); // 거래소 필터엔 제외 개념이 없다
+      else mapFilters[item.map_filter] = hasValue ? v : { min: 1 }; // 값 없이 "있으면 됨"
       continue;
     }
 
@@ -172,7 +175,7 @@ export function tradeUrl({
     if (s.mode === "exc") {
       not.push(f);
     } else {
-      if (min != null) f.value = { min };
+      if (hasValue) f.value = v;
       // 우리 앱의 OR = 거래소의 "숫자(count)" 그룹 (최소 1개 충족)
       (mode === "or" ? count : and).push(f);
     }
@@ -334,13 +337,17 @@ export function queryToState(query) {
   if (category === "map.waystone") tab = "waystone";
   else if (category === "map.tablet") tab = "tablet";
 
-  const take = (id, mode, min) => {
+  // ⚠️ 최소·최대를 **둘 다** 읽는다. 예전엔 min만 읽어서, 거래소에서 "무리 규모 최대 0"
+  //    (= 무리 규모가 없는 것)으로 걸어 온 조건이 값 없이 옵션만 켜진 채로 들어왔다.
+  //    그러면 검색어가 "무리"가 돼 무리 규모가 **있는** 것을 전부 잡는다 — 의미가 뒤집힌다.
+  const str = (v) => (v == null ? "" : String(v));
+  const take = (id, mode, min, max) => {
     // 서판 고정 옵션 — 종류를 알려주는 동시에 잔여 사용 횟수 조건이기도 하다
     const implicitType = BY_IMPLICIT.get(id);
     if (implicitType) {
       tab = "tablet";
       tabletType = implicitType;
-      uses = { on: true, min: min == null ? DEFAULT_USES : String(min) };
+      uses = { on: true, min: min == null ? DEFAULT_USES : String(min), max: str(max) };
       return;
     }
     const hit = BY_STAT.get(id);
@@ -350,17 +357,17 @@ export function queryToState(query) {
     }
     if (!tab) tab = hit.tab; // 카테고리가 없으면 스탯으로 판별
     if (hit.tabletType) tabletType = hit.tabletType; // 고유 옵션이면 서판 종류까지
-    sel[hit.key] = { mode, min: min == null ? "" : String(min) };
+    sel[hit.key] = { mode, min: str(min), max: str(max) };
   };
 
   for (const g of query?.stats || []) {
     if (g.disabled) continue; // 거래소에서 꺼둔 그룹은 무시
     for (const f of g.filters || []) {
       if (f.disabled) continue;
-      if (g.type === "not") take(f.id, "exc", null);
+      if (g.type === "not") take(f.id, "exc", null, null);
       else {
         if (g.type === "count") hasCount = true;
-        take(f.id, "inc", f.value?.min);
+        take(f.id, "inc", f.value?.min, f.value?.max);
       }
     }
   }
@@ -373,7 +380,7 @@ export function queryToState(query) {
       if (t != null) tier = String(t);
       continue;
     }
-    take(key, "inc", v?.min);
+    take(key, "inc", v?.min, v?.max);
   }
 
   const price = { enabled: false, mode: "exact", min: "", max: "", currency: "exalted" };

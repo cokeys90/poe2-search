@@ -5,13 +5,40 @@ import { hasNumeric, rangeHint } from "../lib/regex.js";
 import { IconReorder, IconHide } from "./icons.jsx";
 import { t } from "../i18n/index.js";
 
-export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, onHide, dnd, id }) {
+export default function OptionRow({ item, sel, showTrade, onToggle, onSetValue, onHide, dnd, id }) {
   const s = sel;
   const numeric = item.numeric || hasNumeric(item.text);
   const hint =
     item.rmin != null && item.rmax != null
       ? item.rmin + "-" + item.rmax
       : rangeHint(item.text);
+
+  // 빈칸에 보여줄 힌트 — 그 옵션이 가질 수 있는 값의 범위. 상한 없는 옵션은 부등호로.
+  const [lo, hi] = hint && hint.includes("-") ? hint.split("-") : ["≥", "≤"];
+
+  // 최소·최대 두 칸 — 거래소와 같은 모델이다. 최소만=그 이상 / 최대만=그 이하 / 둘 다=그 사이.
+  // 최대가 있어야 "무리 규모 0" 같은 조건을 표현할 수 있다(거래소에서 가져오면 실제로 온다).
+  const box = (which, placeholder) => (
+    <input
+      type="number"
+      inputMode="numeric"
+      placeholder={numeric ? placeholder : "—"}
+      disabled={!numeric}
+      value={s ? s[which] || "" : ""}
+      onClick={(e) => e.stopPropagation()}
+      onChange={(e) => onSetValue(item, which, e.target.value)}
+      className={[
+        "w-[52px] shrink-0 border-0 bg-surface-c-lowest px-1 text-center font-mono text-body-m text-primary outline-none transition",
+        // 두 칸 사이는 옅은 선으로, 텍스트와의 경계는 진한 선으로 — 한 덩어리로 보이되 칸은 갈린다
+        which === "min"
+          ? "rounded-l-md-m border-r border-outline-variant/40"
+          : "border-r border-outline-variant",
+        "placeholder:text-body-s placeholder:text-on-surface-variant/50",
+        "focus:bg-surface-c-low focus:shadow-[inset_0_0_0_2px_rgb(var(--md-primary))]",
+        "disabled:cursor-not-allowed disabled:text-on-surface-variant/30 disabled:placeholder:text-on-surface-variant/25",
+      ].join(" ")}
+    />
+  );
 
   const mode = s?.mode; // "inc" | "exc" | undefined
   const container =
@@ -41,21 +68,9 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, on
         over ? "border-t-2 border-t-primary" : ""
       } ${dnd.dragId === id ? "opacity-40" : ""}`}
     >
-      <input
-        type="number"
-        inputMode="numeric"
-        placeholder={numeric ? hint || "≥" : "—"}
-        disabled={!numeric}
-        value={s ? s.min || "" : ""}
-        onClick={(e) => e.stopPropagation()}
-        onChange={(e) => onSetMin(item, e.target.value)}
-        className={[
-          "w-[62px] shrink-0 rounded-l-md-m border-0 border-r border-outline-variant bg-surface-c-lowest px-1 text-center font-mono text-body-m text-primary outline-none transition",
-          "placeholder:text-body-s placeholder:text-on-surface-variant/50",
-          "focus:bg-surface-c-low focus:shadow-[inset_0_0_0_2px_rgb(var(--md-primary))]",
-          "disabled:cursor-not-allowed disabled:text-on-surface-variant/30 disabled:placeholder:text-on-surface-variant/25",
-        ].join(" ")}
-      />
+      {/* 빈칸의 힌트는 그 옵션이 실제로 가질 수 있는 값의 범위다 (8—12 → "8" ~ "12") */}
+      {box("min", lo)}
+      {box("max", hi)}
       <button
         onClick={() => onToggle(item)}
         className="flex min-w-0 flex-1 items-center gap-2 px-2.5 py-2 text-left text-body-m text-on-surface"

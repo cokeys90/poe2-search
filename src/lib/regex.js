@@ -214,39 +214,65 @@ function valueAnchor(unit) {
   return "[" + unit + "(]";
 }
 
-// 조각 + 최소값 → 검색 piece.
+const int = (v) => {
+  const s = String(v == null ? "" : v).trim();
+  if (s === "") return null;
+  const n = parseInt(s, 10);
+  return isNaN(n) ? null : n;
+};
+
+
+// 조각 + 최소/최대 → 검색 piece. 거래소와 같은 min/max 모델이다.
+//   둘 다 없음 → 조각만 ("있기만 하면")
+//   최소만    → 그 이상 · 최대만 → 그 이하 · 둘 다 → 그 사이
+//
+// ⚠️ 옵션이 실제로 가질 수 있는 값의 범위(도메인) 안에서만 표현한다 — 그래야 정규식이 짧다.
+//    도메인 전체를 덮으면 수치가 무의미하므로 빼 버린다 (희귀도 8~12에서 "8 이상" = 전부).
+//
 // opts: {openMax, rmin, rmax, noPercent} — 옵션별 수치 처리 방식.
-export function piece(frag, minInput, text, opts) {
+export function piece(frag, minInput, maxInput, text, opts) {
   opts = opts || {};
-  const mn = String(minInput == null ? "" : minInput).trim();
-  if (mn === "") return frag;
-  const v = parseInt(mn, 10);
-  if (isNaN(v)) return frag;
+  const lo = int(minInput);
+  const hi = int(maxInput);
+  if (lo == null && hi == null) return frag;
 
   const join = (num) => (numComesFirst(frag, text) ? num + ".*" + frag : frag + ".*" + num);
 
-  // 명시적 범위(rmin~rmax): 부활 횟수 0~6 — 이산 카운트라 '정확히 N' 매칭.
-  // 아이템에 "부활 횟수: 3"으로 뜨고 범위 표시가 없다 → 앵커 없이 숫자만.
+  // 옵션의 도메인 [dLo, dHi]와 값 뒤에 붙일 것(단위·앵커)
+  let dLo, dHi, suffix;
   if (opts.rmin != null && opts.rmax != null) {
-    const val = Math.min(Math.max(v, opts.rmin), opts.rmax);
-    const rg = rangeRegex(val, val);
-    return rg ? join(rg + (opts.noPercent ? "" : "%")) : frag;
+    // 명시적 범위 — 부활 횟수 0~6. 아이템에 "부활 횟수: 3"으로 뜨고 범위 표시가 없다
+    dLo = opts.rmin;
+    dHi = opts.rmax;
+    suffix = opts.noPercent ? "" : "%";
+  } else if (opts.openMax) {
+    // 상한 없는 옵션(경로석 상단 6종) — 여러 모드의 합산 값이라 범위 표시가 없다
+    dLo = 0;
+    dHi = 999;
+    suffix = opts.noPercent ? "" : "%";
+  } else {
+    // 접사 — 원문의 (8—12) 범위가 곧 도메인이다
+    const rr = text ? rangeMinMax(text) : null;
+    if (rr) {
+      dLo = rr.min;
+      dHi = rr.max;
+      suffix = valueAnchor(rr.unit);
+    } else {
+      dLo = 0;
+      dHi = 999;
+      suffix = "[%(]";
+    }
   }
 
-  // 상한 없는 옵션(경로석 상단 6종): 합산 값이라 범위 표시가 없다 → 단위만 붙인다.
-  if (opts.openMax) {
-    const rg = rangeRegex(v, 999);
-    return rg ? join(rg + (opts.noPercent ? "" : "%")) : frag;
-  }
+  // 요청한 구간 [lo, hi] 과 도메인의 **교집합**을 구한다.
+  // ⚠️ 도메인 안으로 잘라 넣으면(clamp) 안 된다 — "희귀도(8—12) 최대 0"이 "8을 찾아라"로
+  //    둔갑한다. 겹치는 데가 없으면(요구가 도메인 밖) 인게임 정규식으로는 표현할 수 없다 →
+  //    수치를 빼고 조각만 낸다. (거래소 쪽은 조건을 그대로 들고 가므로 손실이 없다)
+  const a = Math.max(lo == null ? dLo : lo, dLo);
+  const b = Math.min(hi == null ? dHi : hi, dHi);
+  if (b < a) return frag; // 교집합 없음 (뒤집힌 입력 포함)
+  if (a <= dLo && b >= dHi) return frag; // 도메인 전체 → 수치가 무의미
 
-  // 접사 — 원문 범위 안에서 "N 이상". 값 뒤에 범위 표시가 붙을 수 있다.
-  const rr = text ? rangeMinMax(text) : null;
-  if (rr) {
-    const lo = Math.min(v, rr.max);
-    const rg = rangeRegex(lo, rr.max);
-    return rg ? join(rg + valueAnchor(rr.unit)) : frag;
-  }
-
-  const rg = rangeRegex(v, 999);
-  return rg ? join(rg + "[%(]") : frag;
+  const rg = rangeRegex(a, b);
+  return rg ? join(rg + suffix) : frag;
 }

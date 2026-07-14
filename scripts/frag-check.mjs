@@ -146,7 +146,7 @@ function numericBreaks(it) {
   if (!vals.length) return null;
   const opts = { openMax: it.openMax, rmin: it.rmin, rmax: it.rmax, noPercent: it.noPercent };
   for (const v of vals) {
-    const pat = piece(it.frag, String(v), it.text, opts);
+    const pat = piece(it.frag, String(v), "", it.text, opts);
     const re = compile(pat);
     if (!re) return { v, pat, why: "정규식으로 컴파일되지 않음" };
     // 그 값이 굴려졌을 때의 게임 표시 — 범위 표시 켬/끔 양쪽, 한 줄 안에서

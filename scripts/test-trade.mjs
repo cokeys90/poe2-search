@@ -60,6 +60,25 @@ const CASES = [
     },
   },
   {
+    // 실제로 겪은 케이스 — 거래소에서 "무리 규모 최대 0"(= 무리 규모가 없는 것)으로 걸어 오면
+    // 예전엔 min만 읽어서 값 없이 옵션만 켜졌다 → 검색어가 "무리"가 돼 **정반대**를 찾았다.
+    name: "경로석 · 최대만(무리 규모 0) · 최소만 · 최소~최대",
+    state: {
+      tab: "waystone",
+      tabletType: null,
+      sel: {
+        "ws.imp.pack_size": { mode: "inc", min: "", max: "0" },
+        "ws.imp.item_rarity": { mode: "inc", min: "55", max: "" },
+        "ws.imp.revives": { mode: "inc", min: "1", max: "3" },
+      },
+      mode: "and",
+      uses: { on: false, min: DEFAULT_USES },
+      price: { enabled: false, mode: "exact", min: "", max: "", currency: "exalted" },
+      corrupt: "any",
+      tier: "15",
+    },
+  },
+  {
     name: "경로석/15등급 · 상단옵션(엔드게임 필터) · 가격범위",
     state: {
       tab: "waystone",

@@ -237,26 +237,29 @@ export default function App() {
   }
 
   // 옵션 클릭 순환: 없음 → 포함 → 제외 → 제거(고정도 해제)
-  // sel은 { [안정키]: {mode, min} }만 담는다 — 옵션 원문은 언어별이라 상태·저장에 넣지 않는다.
+  // sel은 { [안정키]: {mode, min, max} }만 담는다 — 옵션 원문은 언어별이라 상태·저장에 넣지 않는다.
+  // min/max는 거래소와 같은 모델이다. 최대가 있어야 "무리 규모 0"(= 없는 것)을 표현할 수 있다.
   function toggle(item) {
     const cur = sel[item.key];
     if (!cur) {
-      setSel((prev) => ({ ...prev, [item.key]: { mode: "inc", min: "" } }));
+      setSel((prev) => ({ ...prev, [item.key]: { mode: "inc", min: "", max: "" } }));
     } else if (cur.mode === "inc") {
       setSel((prev) => ({ ...prev, [item.key]: { ...prev[item.key], mode: "exc" } }));
     } else {
       removeSel(item.key); // 제거 + 고정 해제 (removeSel이 핀도 정리)
     }
   }
-  function setMin(id, v) {
-    setSel((prev) => ({ ...prev, [id]: { ...prev[id], min: v } }));
+  // 결과 바의 칩에서 수치를 고칠 때 (이미 선택된 옵션)
+  function setSelValue(id, which, v) {
+    setSel((prev) => ({ ...prev, [id]: { ...prev[id], [which]: v } }));
   }
-  function setOptMin(item, v) {
+  // 옵션 목록에서 수치를 넣을 때 — 값을 넣으면 자동으로 선택된다
+  function setOptValue(item, which, v) {
     setSel((prev) => {
       const cur = prev[item.key];
-      if (cur) return { ...prev, [item.key]: { ...cur, min: v } };
+      if (cur) return { ...prev, [item.key]: { ...cur, [which]: v } };
       if (v === "") return prev;
-      return { ...prev, [item.key]: { mode: "inc", min: v } };
+      return { ...prev, [item.key]: { mode: "inc", min: "", max: "", [which]: v } };
     });
   }
   function removeSel(id) {
@@ -473,7 +476,7 @@ export default function App() {
                 selList={selList}
                 onFlip={flipMode}
                 onRemove={removeSel}
-                onSetMin={setMin}
+                onSetValue={setSelValue}
                 pinnedOptions={pinnedOptions}
                 onTogglePin={togglePinOption}
                 onTrade={() => openTrade(snapshot())}
@@ -592,7 +595,7 @@ export default function App() {
                         sel={sel}
                         showTrade={showTrade}
                         onToggle={toggle}
-                        onSetMin={setOptMin}
+                        onSetValue={setOptValue}
                         onReorder={(dragId, targetId) =>
                           optPrefs.reorder(key, g.items, dragId, targetId)
                         }

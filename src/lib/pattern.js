@@ -17,7 +17,7 @@ export function buildPattern({ tab, tabletType, sel, mode, tier, corrupt, price,
   for (const [key, s] of Object.entries(sel || {})) {
     const item = BY_KEY.get(key);
     if (!item) continue; // 데이터에서 사라진 옵션(옛 저장분)은 건너뛴다
-    const p = piece(item.frag, s.min, item.text, {
+    const p = piece(item.frag, s.min, s.max, item.text, {
       openMax: item.openMax,
       rmin: item.rmin,
       rmax: item.rmax,
@@ -38,7 +38,7 @@ export function buildPattern({ tab, tabletType, sel, mode, tier, corrupt, price,
   // 안 쓴 서판(10회)만 찾는 게 거래의 기본이라 화면에서 기본 선택이다.
   if (tab === "tablet" && uses?.on) {
     const it = tabletImplicit(tabletType);
-    if (it) sets.push('"' + piece(it.frag, uses.min, it.text, {}) + '"');
+    if (it) sets.push('"' + piece(it.frag, uses.min, uses.max, it.text, {}) + '"');
   }
 
   // 등급(경로석 전용) · 타락 · 가격 = 독립 검색 세트로 AND 결합

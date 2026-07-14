@@ -15,7 +15,7 @@ export default function OptionGroup({
   sel,
   showTrade,
   onToggle,
-  onSetMin,
+  onSetValue,
   onReorder,
   onHide,
   onUnhide,
@@ -76,7 +76,7 @@ export default function OptionGroup({
               sel={sel[id]}
               showTrade={showTrade}
               onToggle={onToggle}
-              onSetMin={onSetMin}
+              onSetValue={onSetValue}
               onHide={() => onHide(id)}
               dnd={dnd}
             />

@@ -26,21 +26,29 @@ function loadOptions() {
 }
 
 const MINS = ["", "0", "1", "3", "5", "8", "11", "15", "20", "33", "80", "100", "999"];
+// 최소·최대 짝 — 거래소와 같은 모델이라 max만 있는 경우가 실제로 들어온다
+// ("무리 규모 최대 0" = 무리 규모가 없는 것). 그걸 놓치면 검색 의미가 뒤집힌다.
+const PAIRS = [
+  ["", "0"],
+  ["", "1"],
+  ["", "10"],
+  ["", "50"],
+  ["0", "0"],
+  ["1", "3"],
+  ["3", "6"],
+  ["10", "20"],
+  ["20", "10"], // 뒤집힌 입력 — 수치를 빼고 조각만 나와야 한다
+];
 const lines = [];
 const L = (s) => lines.push(s);
 
 // --- 1. 옵션별 piece() 전수
 L("## piece");
 for (const o of loadOptions()) {
-  for (const min of MINS) {
-    const p = piece(o.frag, min, o.text, {
-      openMax: o.openMax,
-      rmin: o.rmin,
-      rmax: o.rmax,
-      noPercent: o.noPercent,
-    });
-    L(`${o.text}\t${min}\t${p}`);
-  }
+  const opts = { openMax: o.openMax, rmin: o.rmin, rmax: o.rmax, noPercent: o.noPercent };
+  for (const min of MINS) L(`${o.text}\t${min}\t${piece(o.frag, min, "", o.text, opts)}`);
+  for (const [min, max] of PAIRS)
+    L(`${o.text}\t${min}~${max}\t${piece(o.frag, min, max, o.text, opts)}`);
 }
 
 // --- 2. 등급

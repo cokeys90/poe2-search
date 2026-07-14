@@ -14,20 +14,27 @@ export default function TabletUses({ item, value, onChange }) {
         on ? "border-tertiary bg-tertiary-container/20" : "border-outline-variant bg-surface-c"
       }`}
     >
-      <input
-        type="number"
-        inputMode="numeric"
-        placeholder="1-10"
-        disabled={!on}
-        value={value.min}
-        onChange={(e) => onChange({ ...value, min: e.target.value })}
-        className={[
-          "w-[62px] shrink-0 rounded-l-md-m border-0 border-r border-outline-variant bg-surface-c-lowest px-1 text-center font-mono text-body-m text-primary outline-none transition",
-          "placeholder:text-body-s placeholder:text-on-surface-variant/50",
-          "focus:bg-surface-c-low focus:shadow-[inset_0_0_0_2px_rgb(var(--md-primary))]",
-          "disabled:cursor-not-allowed disabled:text-on-surface-variant/30",
-        ].join(" ")}
-      />
+      {/* 옵션 행과 같은 최소·최대 두 칸 */}
+      {["min", "max"].map((which) => (
+        <input
+          key={which}
+          type="number"
+          inputMode="numeric"
+          placeholder={which === "min" ? "1" : "10"}
+          disabled={!on}
+          value={value[which] || ""}
+          onChange={(e) => onChange({ ...value, [which]: e.target.value })}
+          className={[
+            "w-[52px] shrink-0 border-0 bg-surface-c-lowest px-1 text-center font-mono text-body-m text-primary outline-none transition",
+            which === "min"
+              ? "rounded-l-md-m border-r border-outline-variant/40"
+              : "border-r border-outline-variant",
+            "placeholder:text-body-s placeholder:text-on-surface-variant/50",
+            "focus:bg-surface-c-low focus:shadow-[inset_0_0_0_2px_rgb(var(--md-primary))]",
+            "disabled:cursor-not-allowed disabled:text-on-surface-variant/30",
+          ].join(" ")}
+        />
+      ))}
       <button
         onClick={() => onChange({ ...value, on: !on })}
         className="flex min-w-0 flex-1 items-center gap-2 px-2.5 py-2 text-left text-body-m text-on-surface"
