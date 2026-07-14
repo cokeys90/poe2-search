@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { buildPattern } from "../lib/pattern.js";
 import { IconEdit, IconTrash, IconSave, IconCheck, IconTrade } from "./icons.jsx";
 import { TabletIcon, WaystoneIcon } from "./GameIcon.jsx";
 import Tooltip from "./Tooltip.jsx";
@@ -21,6 +22,8 @@ export default function FavItem({
   const [name, setName] = useState(fav.name);
   const [flash, setFlash] = useState(false);
   const list = variant === "list";
+  // 저장된 검색어를 쓰지 않고 매번 만든다 — 저장해두면 언어를 바꿔도 옛 언어의 검색어가 남는다
+  const pattern = useMemo(() => buildPattern(fav), [fav]);
   // 저장 당시 고른 서판 종류 / 경로석 등급 그림으로 표시
   const icon =
     fav.tab === "waystone" ? (
@@ -132,9 +135,9 @@ export default function FavItem({
               >
                 {fav.name}
               </button>
-              {showPattern && fav.pattern && (
+              {showPattern && pattern && (
                 <span className="max-w-[45%] shrink truncate font-mono text-label-s text-on-surface-variant group-hover:invisible">
-                  {fav.pattern}
+                  {pattern}
                 </span>
               )}
               <span className="w-[5.5rem] shrink-0" aria-hidden />
@@ -158,12 +161,12 @@ export default function FavItem({
       )}
 
       {/* 카드형 2번째 줄: 패턴 */}
-      {!list && showPattern && fav.pattern && (
+      {!list && showPattern && pattern && (
         <button
           onClick={() => onLoad(fav)}
           className="order-2 block w-full truncate px-2 pb-1.5 text-left font-mono text-label-s text-on-surface-variant"
         >
-          {fav.pattern}
+          {pattern}
         </button>
       )}
     </div>

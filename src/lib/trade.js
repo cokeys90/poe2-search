@@ -1,5 +1,12 @@
-import { DATA, TABLET_META, waystoneBase } from "../data/options.js";
-import { optId } from "./options.js";
+import {
+  DATA,
+  TABLET_META,
+  TABLET_TYPES,
+  BY_KEY,
+  tabletBase,
+  waystoneBase,
+  waystoneBaseRe,
+} from "../data/options.js";
 
 // 공식 거래소(카카오 PoE2) 링크 생성.
 // 검색 조건을 ?q=<JSON>으로 실어 보내면 거래소가 알아서 검색을 실행하고
@@ -17,28 +24,14 @@ export const DEFAULT_LEAGUE = "Runes of Aldur";
 
 const CATEGORY = { waystone: "map.waystone", tablet: "map.tablet" };
 
-// 옵션 원문 → 데이터 원본. 즐겨찾기 스냅샷은 stat_id가 없던 시절에 저장됐을 수 있어
-// 저장값 대신 항상 현재 데이터에서 다시 찾는다.
-const INDEX = (() => {
-  const m = new Map();
-  const add = (list) => list.forEach((it) => m.set(optId(it.text), it));
-  add(DATA.waystone.implicit);
-  add(DATA.waystone.prefix);
-  add(DATA.waystone.suffix);
-  add(DATA.tablet.common_prefix);
-  add(DATA.tablet.common_suffix);
-  Object.values(DATA.tablet.unique).forEach(add);
-  return m;
-})();
-
 const num = (v) => {
   const n = parseInt(String(v ?? "").trim(), 10);
   return isNaN(n) ? null : n;
 };
 
-// 서판 종류를 결정하는 고정 옵션(잔여 사용 횟수) → 종류 (가져오기에서 종류 판별)
+// 서판 종류를 결정하는 고정 옵션(잔여 사용 횟수) → 종류 slug (가져오기에서 종류 판별)
 const BY_IMPLICIT = new Map(
-  Object.entries(TABLET_META).map(([type, m]) => [m.implicit, type])
+  Object.entries(TABLET_META).map(([slug, m]) => [m.implicit, slug])
 );
 
 // 거래소 stat_id / 엔드게임 필터 id → 우리 옵션 (가져오기용 역인덱스)
@@ -52,9 +45,9 @@ const BY_STAT = (() => {
   add(DATA.waystone.implicit, "waystone");
   add(DATA.waystone.prefix, "waystone");
   add(DATA.waystone.suffix, "waystone");
-  add(DATA.tablet.common_prefix, "tablet");
-  add(DATA.tablet.common_suffix, "tablet");
-  for (const [type, list] of Object.entries(DATA.tablet.unique)) add(list, "tablet", type);
+  add(DATA.tablet.prefix, "tablet");
+  add(DATA.tablet.suffix, "tablet");
+  for (const [slug, list] of Object.entries(DATA.tablet.unique)) add(list, "tablet", slug);
   return m;
 })();
 
@@ -76,8 +69,10 @@ export function tradeUrl({
   const mapFilters = {};
   const skipped = [];
 
-  for (const [id, s] of Object.entries(sel || {})) {
-    const item = INDEX.get(id) || s;
+  // sel은 {안정키: {mode, min}} — 옵션 본문은 항상 현재 데이터에서 되살린다
+  for (const [key, s] of Object.entries(sel || {})) {
+    const item = BY_KEY.get(key);
+    if (!item) continue; // 데이터에서 사라진 옵션(옛 저장분)
     const min = num(s.min);
 
     // 경로석 상단 6옵션은 스탯이 아니라 엔드게임 필터(map_iir 등)로 들어간다
@@ -118,11 +113,7 @@ export function tradeUrl({
   };
   // 기본 타입까지 지정하면 종류/등급이 정확히 좁혀진다 (카테고리만 쓰면 서판 8종이 다 섞인다)
   const baseType =
-    tab === "tablet"
-      ? TABLET_META[tabletType]?.base
-      : t != null
-      ? waystoneBase(t)
-      : null;
+    tab === "tablet" ? tabletBase(tabletType) : t != null ? waystoneBase(t) : null;
   if (Object.keys(mapFilters).length) filters.map_filters = { filters: mapFilters };
   if (corrupt === "yes" || corrupt === "no")
     filters.misc_filters = { filters: { corrupted: { option: corrupt === "yes" } } };
@@ -202,15 +193,16 @@ export function queryToState(query) {
   let tabletType = null;
   let tier = "";
 
-  // 기본 타입명이 있으면 그것만으로 종류·등급이 확정된다 ("방사능 노출 서판" / "경로석 (15등급)")
+  // 기본 타입명이 있으면 그것만으로 종류·등급이 확정된다 ("방사능 노출 서판" / "경로석 (15등급)").
+  // 타입명은 거래소(=게임)의 언어로 오므로 현재 로케일의 이름표와 맞춘다.
   const baseType = String(query?.type || "").trim();
   if (baseType) {
-    const hit = Object.entries(TABLET_META).find(([, m]) => m.base === baseType);
+    const hit = TABLET_TYPES.find((slug) => tabletBase(slug) === baseType);
     if (hit) {
       tab = "tablet";
-      tabletType = hit[0];
+      tabletType = hit;
     } else {
-      const wm = baseType.match(/경로석 \((\d+)등급\)/);
+      const wm = baseType.match(waystoneBaseRe);
       if (wm) {
         tab = "waystone";
         tier = wm[1];
@@ -238,7 +230,7 @@ export function queryToState(query) {
     }
     if (!tab) tab = hit.tab; // 카테고리가 없으면 스탯으로 판별
     if (hit.tabletType) tabletType = hit.tabletType; // 고유 옵션이면 서판 종류까지
-    sel[optId(hit.item.text)] = { ...hit.item, mode, min: min == null ? "" : String(min) };
+    sel[hit.item.key] = { mode, min: min == null ? "" : String(min) };
   };
 
   for (const g of query?.stats || []) {

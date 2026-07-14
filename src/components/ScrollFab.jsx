@@ -16,7 +16,9 @@ export default function ScrollFab({ scrollRef, rightInset = 24 }) {
       if (key === "top") {
         el.scrollTo({ top: 0 });
       } else {
-        const sel = key === "prefix" ? "[data-group*='접두']" : "[data-group*='접미']";
+        // data-group은 그룹 id(영문). 접미어 점프는 고유 접미어가 있으면 그쪽이 먼저다(DOM 순서)
+        const sel =
+          key === "prefix" ? "[data-group='prefix']" : "[data-group='unique'],[data-group='suffix']";
         const target = el.querySelector(sel);
         if (target) {
           // sticky 검색어 바 높이 + 여유 간격만큼 보정해 그룹 제목이 바에 붙지 않게

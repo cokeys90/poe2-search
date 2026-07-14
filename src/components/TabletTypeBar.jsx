@@ -1,4 +1,4 @@
-import { TABLET_META, TABLET_TYPES } from "../data/options.js";
+import { TABLET_META, TABLET_TYPES, tabletName } from "../data/options.js";
 import { TabletIcon } from "./GameIcon.jsx";
 
 export default function TabletTypeBar({ value, onChange }) {
@@ -20,7 +20,7 @@ export default function TabletTypeBar({ value, onChange }) {
             style={active ? { background: meta.color, borderColor: meta.color } : undefined}
           >
             <TabletIcon type={t} width={20} />
-            {t}
+            {tabletName(t)}
           </button>
         );
       })}

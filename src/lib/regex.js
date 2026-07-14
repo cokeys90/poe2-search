@@ -1,5 +1,10 @@
 // PoE2 경로석·서판 정규식 생성 로직 (poe2.re 방식)
 // 범위 수치식: . 자리채움 + 첫자리 병합 + \d.. + [89] 압축
+//
+// 수치 계산 자체는 언어 무관하지만, 완성된 검색어에는 게임 내 단어가 그대로 들어간다
+// ("15등급", "(1—2)개"). 그 단어들은 로케일의 tokens에서 가져온다.
+
+import { TOKENS } from "../data/options.js";
 
 /* ---------- 수치 범위 정규식 생성 (poe2.re 방식: . 자리채움) ---------- */
 // [lo,hi] 정수 구간 최소 정규식. [0-9] 자리는 . 로 축약, 인접 첫자리는 [x-y]로 병합.
@@ -83,10 +88,15 @@ export function subPattern(lo, hi, len) {
 export function cls(a, b) { return a === b ? String(a) : "[" + a + "-" + b + "]"; }
 export function dots(n) { return ".".repeat(n); }
 
-// 옵션 원문에서 수치 범위 파싱. 범위 (a—b) 있으면 단위 무관(%,개,마리,초 등) 지원.
+// 옵션 원문에서 수치 범위 파싱. 범위 (a—b) 뒤의 단위는 언어마다 다르다(한국어: % 개 마리 초 …)
+// → 로케일의 tokens.units 문자들만 단위로 인정한다. 파싱된 단위는 piece()에서 정규식에 다시 박힌다.
 // 반환: {min, max, unit} 또는 null. 고정 개수형(범위 없는 "1개")은 null(이상 검색 무의미).
+const RANGE_RE = new RegExp(
+  "\\(([0-9]+)[—\\-–]([0-9]+)\\)\\s*([" + TOKENS.units.replace(/[\]\\^-]/g, "\\$&") + "]*)"
+);
+
 export function parseRange(text) {
-  let m = text.match(/\(([0-9]+)[—\-–]([0-9]+)\)\s*([%개마리초명회배]*)/);
+  let m = text.match(RANGE_RE);
   if (m) return { min: +m[1], max: +m[2], unit: m[3] || "" };
   m = text.match(/(?:^|[^0-9(])([0-9]{1,3})\s*(%)/);
   if (m) return { min: +m[1], max: +m[1], unit: "%" };
@@ -141,7 +151,7 @@ export function pricePiece(price) {
 export function tierPiece(tier) {
   const t = parseInt(String(tier).trim(), 10);
   if (isNaN(t) || t <= 0) return "";
-  return "\\b" + t + "등급";
+  return "\\b" + t + TOKENS.tier;
 }
 
 // 조각 + 최소값 → 검색 piece.

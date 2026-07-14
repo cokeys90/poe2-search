@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { loadOptPrefs, saveOptPrefs } from "../lib/storage.js";
-import { optId } from "../lib/options.js";
 
 // 옵션 목록 개인화 — 그룹 안에서의 정렬 순서와 숨김.
-// 저장은 옵션 id(optId)만 하므로 데이터가 바뀌어도 안전하다(모르는 id는 무시, 새 옵션은 원래 자리).
+// 저장은 옵션의 안정키만 하므로 데이터·언어가 바뀌어도 안전하다(모르는 키는 무시, 새 옵션은 원래 자리).
 export function useOptionPrefs() {
   const [prefs, setPrefs] = useState(loadOptPrefs); // { [groupKey]: {order, hidden} }
 
@@ -28,14 +27,14 @@ export function useOptionPrefs() {
       const rank = new Map(order.map((id, i) => [id, i]));
       // 순서에 없는(=새로 추가된) 옵션은 원래 자리를 유지하도록 뒤로 밀지 않고 원본 인덱스로 비교
       const sorted = [...items].sort((a, b) => {
-        const ra = rank.has(optId(a.text)) ? rank.get(optId(a.text)) : Infinity;
-        const rb = rank.has(optId(b.text)) ? rank.get(optId(b.text)) : Infinity;
+        const ra = rank.has(a.key) ? rank.get(a.key) : Infinity;
+        const rb = rank.has(b.key) ? rank.get(b.key) : Infinity;
         if (ra !== rb) return ra - rb;
         return items.indexOf(a) - items.indexOf(b);
       });
       return {
-        items: sorted.filter((it) => !hiddenIds.has(optId(it.text))),
-        hidden: sorted.filter((it) => hiddenIds.has(optId(it.text))),
+        items: sorted.filter((it) => !hiddenIds.has(it.key)),
+        hidden: sorted.filter((it) => hiddenIds.has(it.key)),
       };
     },
     [prefs]
@@ -94,7 +93,7 @@ export function useOptionPrefs() {
 
 // 저장된 순서 + 아직 순서에 없는 옵션(원래 순서 유지) → 그룹 전체 id 목록
 function orderedIds(order, allItems) {
-  const all = allItems.map((it) => optId(it.text));
+  const all = allItems.map((it) => it.key);
   const known = (order || []).filter((id) => all.includes(id));
   const rest = all.filter((id) => !known.includes(id));
   return [...known, ...rest];

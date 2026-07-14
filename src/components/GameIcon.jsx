@@ -3,8 +3,9 @@ import { TABLET_META, DEFAULT_TABLET_TYPE, DEFAULT_TIER } from "../data/options.
 // 게임 인벤토리 아이콘 (poe2wiki 원본, public/tablet · public/waystone).
 // 서판은 종류별, 경로석은 등급(1~16)별로 그림이 다르다.
 
+// type = 서판 종류 slug (= TABLET_META의 키이자 그림 파일명)
 export function tabletIconSrc(type) {
-  const slug = TABLET_META[type]?.slug ?? TABLET_META[DEFAULT_TABLET_TYPE].slug;
+  const slug = TABLET_META[type] ? type : DEFAULT_TABLET_TYPE;
   return `/tablet/${slug}.png`;
 }
 

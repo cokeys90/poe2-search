@@ -1,6 +1,10 @@
-// 고정(핀) 설정 저장 — localStorage + JSON. 나중에 즐겨찾기도 여기 확장.
+import { LEGACY_ID_MAP, LEGACY_TABLET_MAP, LEGACY_GROUP_MAP } from "../data/legacyIdMap.js";
+
+// 고정(핀) 설정 저장 — localStorage + JSON.
+// v2: 선택 옵션을 { [안정키]: {mode, min} }로 저장한다. v1은 키가 한국어 원문 해시였고
+//     값에 옵션 원문(text/frag/trade)이 통째로 박제돼 있었다 → 언어가 바뀌면 못 쓴다.
 const KEY = "poe2-search:pins";
-const VERSION = 1;
+const VERSION = 2;
 
 export function defaultPins() {
   return {
@@ -10,18 +14,36 @@ export function defaultPins() {
   };
 }
 
+// { [옛 optId]: {…옵션, mode, min} } → { [안정키]: {mode, min} }
+function migrateSel(options) {
+  const out = {};
+  for (const [id, s] of Object.entries(options || {})) {
+    const key = LEGACY_ID_MAP[id];
+    if (!key || !s) continue; // 지금 데이터에 없는 옛 옵션은 버린다
+    out[key] = { mode: s.mode === "exc" ? "exc" : "inc", min: s.min ?? "" };
+  }
+  return out;
+}
+
 export function loadPins() {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return defaultPins();
     const data = JSON.parse(raw);
-    if (data.version !== VERSION) return defaultPins(); // 향후 마이그레이션 지점
+    if (data.version !== VERSION && data.version !== 1) return defaultPins();
+
     const d = defaultPins();
-    return {
+    const pins = {
       common: { ...d.common, ...(data.common || {}) },
       waystone: { ...d.waystone, ...(data.waystone || {}) },
       tablet: { ...d.tablet, ...(data.tablet || {}) },
     };
+    if (data.version === 1) {
+      pins.waystone.options = migrateSel(pins.waystone.options);
+      pins.tablet.options = migrateSel(pins.tablet.options);
+      savePins(pins);
+    }
+    return pins;
   } catch {
     return defaultPins();
   }
@@ -36,12 +58,21 @@ export function savePins(pins) {
 }
 
 // 즐겨찾기 — 그룹(폴더) 안에 검색 조합 스냅샷. 핀과 별도 키.
-// v2 구조: { version:2, groups:[{ id, name, items:[{ id, name, tab, ... }] }] }
+// v3 구조: { version:3, groups:[{ id, name, items:[{ id, name, tab, sel:{키:{mode,min}}, … }] }] }
+// v2는 sel 키가 한국어 원문 해시였고, tabletType이 한국어("방사능"), 완성된 검색어(pattern)까지
+// 저장했다 → 언어를 바꾸면 옛 언어의 검색어가 그대로 남는다. 검색어는 이제 화면에서 매번 만든다.
 const FAV_KEY = "poe2-search:favorites";
-const FAV_VERSION = 2;
+const FAV_VERSION = 3;
 
 function defaultFavData() {
   return { groups: [{ id: "g_default", name: "미분류", items: [] }] };
+}
+
+function migrateFav(it) {
+  const { pattern, ...rest } = it; // 저장된 검색어는 버린다 (렌더할 때 현재 언어로 다시 만든다)
+  const out = { ...rest, sel: migrateSel(it.sel) };
+  if (it.tabletType) out.tabletType = LEGACY_TABLET_MAP[it.tabletType] || it.tabletType;
+  return out;
 }
 
 export function loadFavorites() {
@@ -52,9 +83,21 @@ export function loadFavorites() {
     if (data.version === FAV_VERSION && Array.isArray(data.groups)) {
       return { groups: data.groups };
     }
-    // v1(평면 배열) → v2 마이그레이션: 전부 '미분류' 그룹으로
+    // v2(한국어 키) → v3
+    if (data.version === 2 && Array.isArray(data.groups)) {
+      const migrated = {
+        groups: data.groups.map((g) => ({ ...g, items: (g.items || []).map(migrateFav) })),
+      };
+      saveFavorites(migrated);
+      return migrated;
+    }
+    // v1(평면 배열) → v3: 전부 '미분류' 그룹으로
     if (Array.isArray(data.items)) {
-      return { groups: [{ id: "g_default", name: "미분류", items: data.items }] };
+      const migrated = {
+        groups: [{ id: "g_default", name: "미분류", items: data.items.map(migrateFav) }],
+      };
+      saveFavorites(migrated);
+      return migrated;
     }
     return defaultFavData();
   } catch {
@@ -172,16 +215,13 @@ export function saveLeague(id) {
 }
 
 // 옵션 목록 개인화 — 그룹별 정렬 순서와 숨긴 옵션.
-// { [groupKey]: { order: [optId...], hidden: [optId...] } }
-// groupKey = `${tab}:${그룹명}` (서판 고유 그룹은 이름에 종류가 들어가 종류별로 갈린다)
+// { [groupKey]: { order: [안정키...], hidden: [안정키...] } }
+// groupKey = `${tab}:${그룹id}` (고유 그룹은 `tablet:unique:{종류slug}` — 종류마다 목록이 다르다)
+//
+// v2: 그룹키·옵션id 모두 언어무관. v1은 그룹키가 한국어 그룹명("tablet:방사능 고유 접미어")이고
+//     id가 한국어 원문 해시였다 → 언어를 바꾸면 사용자가 바꿔둔 순서·숨김이 통째로 미아가 된다.
 const OPT_KEY = "poe2-search:optprefs";
-
-// 그룹명이 바뀌면 키도 바뀌어 사용자가 바꿔둔 순서·숨김이 유실된다 → 옛 키를 새 키로 옮긴다.
-// "공통 접두어/접미어" → "접두어/접미어" (서판 그룹명에서 '공통' 제거)
-const OPT_KEY_RENAMES = {
-  "tablet:공통 접두어": "tablet:접두어",
-  "tablet:공통 접미어": "tablet:접미어",
-};
+const OPT_VERSION = 2;
 
 export function loadOptPrefs() {
   try {
@@ -189,17 +229,18 @@ export function loadOptPrefs() {
     if (!raw) return {};
     const data = JSON.parse(raw);
     const groups = data && typeof data === "object" ? data.groups || {} : {};
+    if (data.version === OPT_VERSION) return groups;
 
-    let migrated = false;
-    for (const [oldKey, newKey] of Object.entries(OPT_KEY_RENAMES)) {
-      if (!groups[oldKey]) continue;
-      if (!groups[newKey]) groups[newKey] = groups[oldKey]; // 새 키가 이미 있으면 그쪽을 존중
-      delete groups[oldKey];
-      migrated = true;
+    // v1 → v2: 그룹키(한국어) 와 그 안의 옵션 id(한국어 해시)를 함께 옮긴다
+    const mapIds = (ids) => (ids || []).map((id) => LEGACY_ID_MAP[id]).filter(Boolean);
+    const out = {};
+    for (const [oldKey, g] of Object.entries(groups)) {
+      const newKey = LEGACY_GROUP_MAP[oldKey] || oldKey;
+      if (out[newKey]) continue; // 옛 이름 여럿이 한 키로 모이면 먼저 것을 존중
+      out[newKey] = { order: mapIds(g?.order), hidden: mapIds(g?.hidden) };
     }
-    if (migrated) saveOptPrefs(groups);
-
-    return groups;
+    saveOptPrefs(out);
+    return out;
   } catch {
     return {};
   }
@@ -207,7 +248,7 @@ export function loadOptPrefs() {
 
 export function saveOptPrefs(groups) {
   try {
-    localStorage.setItem(OPT_KEY, JSON.stringify({ version: 1, groups }));
+    localStorage.setItem(OPT_KEY, JSON.stringify({ version: OPT_VERSION, groups }));
   } catch {
     // 저장 실패는 무시
   }

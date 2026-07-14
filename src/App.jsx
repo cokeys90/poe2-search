@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { DATA, DEFAULT_TABLET_TYPE, DEFAULT_TIER } from "./data/options.js";
-import { piece, pricePiece, tierPiece } from "./lib/regex.js";
+import { DEFAULT_TABLET_TYPE, DEFAULT_TIER, hydrateSel, tabletName } from "./data/options.js";
+import { buildPattern } from "./lib/pattern.js";
 import {
   tradeUrl,
   queryToState,
@@ -9,7 +9,7 @@ import {
   DEFAULT_LEAGUE,
 } from "./lib/trade.js";
 import TradeImportDialog from "./components/TradeImportDialog.jsx";
-import { optId, useOptionPool } from "./lib/options.js";
+import { groupPrefKey, useOptionPool } from "./lib/options.js";
 import {
   loadPins,
   savePins,
@@ -199,27 +199,26 @@ export default function App() {
   }
 
   // 옵션 클릭 순환: 없음 → 포함 → 제외 → 제거(고정도 해제)
+  // sel은 { [안정키]: {mode, min} }만 담는다 — 옵션 원문은 언어별이라 상태·저장에 넣지 않는다.
   function toggle(item) {
-    const id = optId(item.text);
-    const cur = sel[id];
+    const cur = sel[item.key];
     if (!cur) {
-      setSel((prev) => ({ ...prev, [id]: { ...item, mode: "inc", min: "" } }));
+      setSel((prev) => ({ ...prev, [item.key]: { mode: "inc", min: "" } }));
     } else if (cur.mode === "inc") {
-      setSel((prev) => ({ ...prev, [id]: { ...prev[id], mode: "exc" } }));
+      setSel((prev) => ({ ...prev, [item.key]: { ...prev[item.key], mode: "exc" } }));
     } else {
-      removeSel(id); // 제거 + 고정 해제 (removeSel이 핀도 정리)
+      removeSel(item.key); // 제거 + 고정 해제 (removeSel이 핀도 정리)
     }
   }
   function setMin(id, v) {
     setSel((prev) => ({ ...prev, [id]: { ...prev[id], min: v } }));
   }
   function setOptMin(item, v) {
-    const id = optId(item.text);
     setSel((prev) => {
-      const cur = prev[id];
-      if (cur) return { ...prev, [id]: { ...cur, min: v } };
+      const cur = prev[item.key];
+      if (cur) return { ...prev, [item.key]: { ...cur, min: v } };
       if (v === "") return prev;
-      return { ...prev, [id]: { ...item, mode: "inc", min: v } };
+      return { ...prev, [item.key]: { mode: "inc", min: v } };
     });
   }
   function removeSel(id) {
@@ -250,39 +249,13 @@ export default function App() {
     if (tab === "waystone") setTier(pins.waystone.tier ?? DEFAULT_TIER);
   }
 
-  // 패턴 생성 (게임 문법: 각 검색 세트를 " "로 감싸고 공백으로 구분)
-  const pattern = useMemo(() => {
-    const inc = [],
-      exc = [];
-    Object.values(sel).forEach((s) => {
-      const p = piece(s.frag, s.min, s.text, {
-        openMax: s.openMax,
-        rmin: s.rmin,
-        rmax: s.rmax,
-        noPercent: s.noPercent,
-      });
-      if (s.mode === "inc") inc.push(p);
-      else exc.push(p);
-    });
-    const sets = [];
-    if (inc.length) {
-      if (mode === "or") sets.push('"' + inc.join("|") + '"');
-      else inc.forEach((p) => sets.push('"' + p + '"'));
-    }
-    exc.forEach((p) => sets.push('"!' + p + '"'));
-    // 등급 (경로석 전용) · 타락 · 가격 = 독립 검색 세트로 AND 결합
-    if (tab === "waystone") {
-      const tp = tierPiece(tier);
-      if (tp) sets.push('"' + tp + '"');
-    }
-    if (corrupt === "yes") sets.push('"타락"');
-    else if (corrupt === "no") sets.push('"!타락"');
-    const pp = pricePiece(price);
-    if (pp) sets.push('"' + pp + '"');
-    return sets.join(" ");
-  }, [sel, mode, price, tier, corrupt, tab]);
+  const pattern = useMemo(
+    () => buildPattern({ tab, sel, mode, tier, corrupt, price }),
+    [sel, mode, price, tier, corrupt, tab]
+  );
 
-  const selList = Object.entries(sel);
+  // 화면(칩·수치입력)은 옵션 원문이 필요하므로 key로 되살려 넘긴다
+  const selList = useMemo(() => Object.entries(hydrateSel(sel)), [sel]);
   const len = pattern.length;
 
   function copy() {
@@ -303,11 +276,12 @@ export default function App() {
   // ── 즐겨찾기 ──
   const selCount = selList.length;
   const defaultFavName =
-    (tab === "tablet" ? `${tabletType} 서판` : "경로석") +
+    (tab === "tablet" ? `${tabletName(tabletType)} 서판` : "경로석") +
     (selCount > 0 ? ` · ${selCount}옵션` : " · 필터");
 
+  // 완성된 검색어는 저장하지 않는다 — 언어가 바뀌면 옛 언어의 검색어가 남는다. 볼 때 다시 만든다.
   function snapshot() {
-    const s = { tab, sel, mode, price, corrupt, pattern };
+    const s = { tab, sel, mode, price, corrupt };
     if (tab === "tablet") s.tabletType = tabletType;
     if (tab === "waystone") s.tier = tier;
     return s;
@@ -526,7 +500,8 @@ export default function App() {
               <section>
                 {tab === "tablet" && pool.noUnique && (
                   <Callout>
-                    <b className="text-primary">{tabletType} 서판</b>은 전용 고유 옵션이 없어요. 아래
+                    <b className="text-primary">{tabletName(tabletType)} 서판</b>은 전용 고유 옵션이
+                    없어요. 아래
                     공통 옵션으로 검색하세요.
                   </Callout>
                 )}
@@ -558,11 +533,12 @@ export default function App() {
 
                 {(() => {
                   const render = (g) => {
-                    const key = `${tab}:${g.title}`;
+                    const key = groupPrefKey(tab, tabletType, g.id);
                     const { items, hidden } = optPrefs.applyTo(key, g.items);
                     return (
                       <OptionGroup
-                        key={g.title}
+                        key={g.id}
+                        groupId={g.id}
                         title={g.title}
                         items={items}
                         hidden={hidden}
@@ -581,10 +557,10 @@ export default function App() {
                   };
                   // poe2db 배치: 경로석의 "옵션"(상단 6종)은 단독 전폭,
                   // 접두어는 왼쪽 열 / 접미어(공통·고유)는 오른쪽 열에 세로로 쌓는다.
-                  const solo = pool.groups.filter((g) => g.title === "옵션");
-                  const rest = pool.groups.filter((g) => g.title !== "옵션");
-                  const left = rest.filter((g) => g.title.includes("접두어"));
-                  const right = rest.filter((g) => !g.title.includes("접두어"));
+                  const solo = pool.groups.filter((g) => g.id === "implicit");
+                  const rest = pool.groups.filter((g) => g.id !== "implicit");
+                  const left = rest.filter((g) => g.id === "prefix");
+                  const right = rest.filter((g) => g.id !== "prefix");
                   return (
                     <>
                       {solo.map(render)}
