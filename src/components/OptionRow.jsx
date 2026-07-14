@@ -70,6 +70,12 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, on
         </span>
         <span className="min-w-0 flex-1 leading-snug">
           <HighlightText text={item.text} />
+          {/* 복합 모드의 부가 옵션 — 이 옵션이 붙으면 딸려오는 효과. 검색 대상은 아니라 다운톤으로. */}
+          {item.extra?.map((line, i) => (
+            <span key={i} className="mt-0.5 block text-body-s text-on-surface-variant/70">
+              + <HighlightText text={line} />
+            </span>
+          ))}
           {/* 거래소명은 개발 빌드에서만 (showTrade가 dev 전용 토글). 옵션 원문 아래 줄에 표시 */}
           {showTrade && item.trade && (
             <span className="mt-1 block truncate font-mono text-label-s text-on-surface-variant">

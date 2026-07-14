@@ -286,7 +286,7 @@
     "tb.pre.pack_size": {
       "text": "지도 내 무리 규모 (5—7)% 증가",
       "frag": "내.무",
-      "overlap": 3,
+      "overlap": 1,
       "trade": "지도 내 무리 규모 #% 증가"
     },
     "tb.pre.magic_monsters": {
@@ -334,7 +334,7 @@
     "tb.suf.quantity_waystones_found": {
       "text": "지도에서 발견하는 경로석 수량 (30—40)% 증가",
       "frag": "견.*경",
-      "overlap": 3,
+      "overlap": 1,
       "trade": "지도에서 발견하는 경로석 수량 #% 증가"
     },
     "tb.suf.contain_shrines": {
@@ -698,14 +698,22 @@
       "trade": "지도 내 바알 등대에서 #% 확률로 수정 1개 추가 획득"
     },
     "tb.suf.waystones_shrine": {
-      "text": "지도 내 무리 규모 % 감소 / 지도에서 발견하는 경로석 수량 % 증가 / 지도에 성소 1개 추가 등장",
+      "text": "지도에 성소 1개 추가 등장",
       "frag": "성소 ",
-      "overlap": 2
+      "overlap": 2,
+      "extra": [
+        "지도 내 무리 규모 % 감소",
+        "지도에서 발견하는 경로석 수량 % 증가"
+      ]
     },
     "tb.suf.waystones_strongbox": {
-      "text": "지도 내 무리 규모 % 감소 / 지도에서 발견하는 경로석 수량 % 증가 / 지도에 금고 1개 추가 등장",
+      "text": "지도에 금고 1개 추가 등장",
       "frag": "금고 ",
-      "overlap": 2
+      "overlap": 2,
+      "extra": [
+        "지도 내 무리 규모 % 감소",
+        "지도에서 발견하는 경로석 수량 % 증가"
+      ]
     },
     "tb.abyss.presence_area": {
       "text": "접근 효과 범위 100% 감소",
@@ -755,17 +763,26 @@
     "tb.pre.contains_essences": {
       "text": "지도에 에센스 1개 추가 등장",
       "frag": "센스 ",
-      "overlap": 2
+      "overlap": 2,
+      "extra": [
+        "지도에서 발견하는 경로석 수량 % 증가"
+      ]
     },
     "tb.pre.contains_azmeri_spirits": {
       "text": "지도에 아즈메리 혼백 1개 추가 등장",
       "frag": "혼백 ",
-      "overlap": 2
+      "overlap": 2,
+      "extra": [
+        "지도에서 발견하는 경로석 수량 % 증가"
+      ]
     },
     "tb.pre.contains_rogue_exiles": {
       "text": "지도에 탈주 유배자 추가 1명이 서식",
       "frag": "명이",
-      "overlap": 1
+      "overlap": 1,
+      "extra": [
+        "지도에서 발견하는 경로석 수량 % 증가"
+      ]
     }
   }
 }
