@@ -20,17 +20,37 @@ export const LANGS = ["kr", "us", "jp", "tw", "ru", "pt", "th", "fr", "de", "sp"
 export const DEFAULT_LANG = "kr";
 
 // 기본 언어만 미리 넣는다. 나머지는 setLang()에서 받아온다.
+//
+// ⚠️ 동적 import에 `with { type: "json" }`을 붙이면 안 된다 — Vite dev가 JSON을 JS 모듈로
+//    변환해 주는데, 속성이 붙으면 브라우저가 JSON MIME을 기대해 로딩이 통째로 실패한다.
+//    (빌드본은 JSON을 번들에 넣으므로 멀쩡해서, dev만 조용히 깨졌다)
+//    노드는 반대로 속성을 요구한다 → 검증 스크립트는 setLocaleLoader로 fs 로더를 끼운다.
 const LOADERS = {
-  us: () => import("./locales/us.json", { with: { type: "json" } }),
-  jp: () => import("./locales/jp.json", { with: { type: "json" } }),
-  tw: () => import("./locales/tw.json", { with: { type: "json" } }),
-  ru: () => import("./locales/ru.json", { with: { type: "json" } }),
-  pt: () => import("./locales/pt.json", { with: { type: "json" } }),
-  th: () => import("./locales/th.json", { with: { type: "json" } }),
-  fr: () => import("./locales/fr.json", { with: { type: "json" } }),
-  de: () => import("./locales/de.json", { with: { type: "json" } }),
-  sp: () => import("./locales/sp.json", { with: { type: "json" } }),
+  us: () => import("./locales/us.json"),
+  jp: () => import("./locales/jp.json"),
+  tw: () => import("./locales/tw.json"),
+  ru: () => import("./locales/ru.json"),
+  pt: () => import("./locales/pt.json"),
+  th: () => import("./locales/th.json"),
+  fr: () => import("./locales/fr.json"),
+  de: () => import("./locales/de.json"),
+  sp: () => import("./locales/sp.json"),
 };
+
+// 로케일 하나를 가져온다. 브라우저는 위의 동적 import, 노드(검증 스크립트)는 fs로 갈아끼운다.
+let loadLocale = async (lang) => (await LOADERS[lang]()).default;
+export const setLocaleLoader = (fn) => {
+  loadLocale = fn;
+};
+
+// 언어를 바꾸기 **전에** 미리 받아 둔다. 여기서 실패하면 아무것도 안 바뀐다 —
+// 데이터만 실패하고 화면 문구는 바뀌면 옵션은 한국어인데 버튼은 영어인 반쪽 화면이 된다.
+const cache = { [DEFAULT_LANG]: kr };
+export async function preloadLang(lang) {
+  if (!LANGS.includes(lang)) throw new Error(`모르는 언어: ${lang}`);
+  if (!cache[lang]) cache[lang] = await loadLocale(lang);
+  return cache[lang];
+}
 
 let L = kr; // 활성 로케일
 
@@ -41,7 +61,7 @@ const basesCache = { kr: kr.bases };
 
 export async function ensureBases(lang) {
   if (basesCache[lang] || !LANGS.includes(lang)) return;
-  basesCache[lang] = (await LOADERS[lang]()).default.bases;
+  basesCache[lang] = (await preloadLang(lang)).bases;
 }
 const basesOf = (lang) => (lang ? basesCache[lang] : null) || L.bases;
 // 어느 언어의 bases가 준비돼 있는지 — 가져오기에서 타입명을 역파싱할 때 훑는다
@@ -101,7 +121,7 @@ export const onLangChange = (fn) => {
 
 export async function setLang(lang) {
   if (lang === LANG || !LANGS.includes(lang)) return;
-  L = lang === DEFAULT_LANG ? kr : (await LOADERS[lang]()).default;
+  L = await preloadLang(lang); // 이미 받아와 있으면 즉시 — 실패는 여기까지 오기 전에 난다
   basesCache[lang] = L.bases;
   LANG = lang;
   DATA = build();

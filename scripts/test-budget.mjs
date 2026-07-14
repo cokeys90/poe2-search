@@ -9,6 +9,7 @@
 //
 // 판정: 실전 조합(경로석 5옵션 / 서판 6옵션)이 250자 안에 들어가야 한다.
 
+import "./fs-locales.mjs";
 import { LANGS, setLang, DATA, DEFAULT_USES } from "../src/data/options.js";
 import { buildPattern } from "../src/lib/pattern.js";
 

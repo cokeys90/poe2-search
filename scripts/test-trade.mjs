@@ -10,6 +10,7 @@
 // 왜 왕복인가 — 내보내기만 보면 "거래소가 알아들었는지"를 알 수 없다. 우리가 만든 JSON을
 // 우리 파서로 되읽어 원래 상태와 맞춰 보면 매핑의 앞뒤가 어긋난 곳이 드러난다.
 
+import "./fs-locales.mjs";
 import { readFileSync } from "node:fs";
 import { tradeUrl, queryToState, TRADE_SITES, siteForLang, importLangs, tradeOrigin } from "../src/lib/trade.js";
 import { ensureBases, setLang, BY_KEY, DEFAULT_USES } from "../src/data/options.js";
