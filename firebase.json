@@ -10,8 +10,8 @@
     ],
     "headers": [
       {
-        "//": "index.html은 항상 새로 받게 한다 — 배포 직후 옛 화면이 뜨는 걸 막는다",
-        "source": "/index.html",
+        "//": "index.html은 항상 새로 받게 한다 — 배포 직후 옛 화면이 뜨는 걸 막는다. 언어별 경로(/en/index.html …)도 함께",
+        "source": "**/index.html",
         "headers": [
           { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
         ]

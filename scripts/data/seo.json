@@ -1,0 +1,128 @@
+{
+  "_why": [
+    "언어별 정적 HTML(dist/{path}/index.html)의 메타. scripts/build-html.mjs가 쓴다.",
+    "크롤러는 JS를 돌리기 전의 <head>를 본다 → 앱 안에서 t()로 바꿔서는 검색에 안 잡힌다.",
+    "path가 URL 접두어다. 한국어는 루트(\"\")이자 x-default.",
+    "htmlLang/ogLocale은 BCP-47과 OG 규격이라 우리 언어코드(kr·us·sp…)와 다르다."
+  ],
+  "kr": {
+    "path": "",
+    "htmlLang": "ko",
+    "ogLocale": "ko_KR",
+    "siteName": "디바인 추룹",
+    "title": "PoE2 경로석·서판 검색기 — 정규식 자동 생성 | 디바인 추룹",
+    "desc": "Path of Exile 2 경로석(웨이스톤)·서판(태블릿) 옵션을 골라 인게임 검색용 정규식을 자동 생성합니다. 아이템 희귀도·무리 규모·경로석 등급·가격·타락 필터를 지원하고, 조합을 즐겨찾기로 저장하거나 공식 거래소에서 바로 열 수 있습니다.",
+    "ogTitle": "PoE2 경로석·서판 검색기 — 정규식 자동 생성",
+    "ogDesc": "경로석·서판 옵션을 고르면 인게임 검색용 정규식이 바로 만들어집니다. 즐겨찾기 저장, 공식 거래소 연동 지원.",
+    "ldName": "PoE2 경로석·서판 검색기",
+    "ldDesc": "Path of Exile 2 경로석·서판 옵션 검색용 정규식 생성기"
+  },
+  "us": {
+    "path": "en",
+    "htmlLang": "en",
+    "ogLocale": "en_US",
+    "siteName": "PoE2 Waystone & Tablet Search",
+    "title": "PoE2 Waystone & Tablet Regex Search — build in-game search strings",
+    "desc": "Pick Path of Exile 2 Waystone and Precursor Tablet modifiers and get the regex to paste into the in-game search. Filters for item rarity, pack size, waystone tier, price and corruption. Save combos as favourites or open them straight in the official trade site.",
+    "ogTitle": "PoE2 Waystone & Tablet Regex Search",
+    "ogDesc": "Pick the modifiers, get the in-game search regex. Favourites and official trade site integration.",
+    "ldName": "PoE2 Waystone & Tablet Search",
+    "ldDesc": "Regex generator for searching Path of Exile 2 Waystone and Tablet modifiers"
+  },
+  "jp": {
+    "path": "ja",
+    "htmlLang": "ja",
+    "ogLocale": "ja_JP",
+    "siteName": "PoE2 ウェイストーン・石板検索",
+    "title": "PoE2 ウェイストーン・石板の正規表現検索 — ゲーム内検索文字列を自動生成",
+    "desc": "Path of Exile 2 のウェイストーン・石板のオプションを選ぶと、ゲーム内検索に貼り付ける正規表現が作れます。アイテムレアリティ・パックサイズ・ティア・価格・コラプトのフィルタに対応。組み合わせはお気に入りに保存でき、公式取引所でそのまま開けます。",
+    "ogTitle": "PoE2 ウェイストーン・石板の正規表現検索",
+    "ogDesc": "オプションを選ぶだけでゲーム内検索の正規表現ができます。お気に入り保存・公式取引所連携。",
+    "ldName": "PoE2 ウェイストーン・石板検索",
+    "ldDesc": "Path of Exile 2 のウェイストーン・石板オプションを検索する正規表現ジェネレーター"
+  },
+  "tw": {
+    "path": "zh-tw",
+    "htmlLang": "zh-Hant-TW",
+    "ogLocale": "zh_TW",
+    "siteName": "PoE2 換界石・碑牌搜尋",
+    "title": "PoE2 換界石・碑牌正規表達式搜尋 — 自動產生遊戲內搜尋字串",
+    "desc": "選好 Path of Exile 2 換界石與碑牌的詞綴，就能得到貼進遊戲內搜尋欄的正規表達式。支援物品稀有度、怪物群大小、換界石階級、價格與汙染篩選。組合可存成收藏，也能直接在官方交易所開啟。",
+    "ogTitle": "PoE2 換界石・碑牌正規表達式搜尋",
+    "ogDesc": "選好詞綴，立刻得到遊戲內搜尋的正規表達式。支援收藏與官方交易所。",
+    "ldName": "PoE2 換界石・碑牌搜尋",
+    "ldDesc": "產生 Path of Exile 2 換界石與碑牌詞綴搜尋用的正規表達式"
+  },
+  "ru": {
+    "path": "ru",
+    "htmlLang": "ru",
+    "ogLocale": "ru_RU",
+    "siteName": "PoE2 Поиск путевых камней и плиток",
+    "title": "PoE2 — поиск путевых камней и плиток по регулярным выражениям",
+    "desc": "Выберите свойства путевых камней и плиток Path of Exile 2 и получите регулярное выражение для поиска в игре. Фильтры по редкости предметов, размеру групп, уровню путевого камня, цене и осквернению. Сохраняйте наборы в избранное и открывайте их на официальной торговой площадке.",
+    "ogTitle": "PoE2 — поиск путевых камней и плиток",
+    "ogDesc": "Выбирайте свойства — получайте строку поиска для игры. Избранное и официальная торговая площадка.",
+    "ldName": "PoE2 Поиск путевых камней и плиток",
+    "ldDesc": "Генератор регулярных выражений для поиска свойств путевых камней и плиток Path of Exile 2"
+  },
+  "pt": {
+    "path": "pt-br",
+    "htmlLang": "pt-BR",
+    "ogLocale": "pt_BR",
+    "siteName": "PoE2 Busca de Pedras-guia e Tábuas",
+    "title": "PoE2 — busca de Pedras-guia e Tábuas por regex",
+    "desc": "Escolha as propriedades das Pedras-guia e Tábuas de Path of Exile 2 e receba a regex para colar na busca do jogo. Filtros de raridade, tamanho de grupo, nível da pedra-guia, preço e corrupção. Salve combinações nos favoritos ou abra direto no mercado oficial.",
+    "ogTitle": "PoE2 — busca de Pedras-guia e Tábuas por regex",
+    "ogDesc": "Escolha as propriedades e receba a regex de busca do jogo. Favoritos e mercado oficial.",
+    "ldName": "PoE2 Busca de Pedras-guia e Tábuas",
+    "ldDesc": "Gerador de regex para buscar propriedades de Pedras-guia e Tábuas em Path of Exile 2"
+  },
+  "th": {
+    "path": "th",
+    "htmlLang": "th",
+    "ogLocale": "th_TH",
+    "siteName": "PoE2 ค้นหาศิลานำทางและแผ่นหิน",
+    "title": "PoE2 ค้นหาศิลานำทาง・แผ่นหิน ด้วย regex — สร้างข้อความค้นหาในเกม",
+    "desc": "เลือกม็อดของศิลานำทางและแผ่นหินใน Path of Exile 2 แล้วรับ regex สำหรับวางในช่องค้นหาในเกม รองรับตัวกรองความหายากของไอเทม ขนาดกลุ่มมอนสเตอร์ ระดับศิลานำทาง ราคา และมลทิน บันทึกชุดที่เลือกเป็นรายการโปรด หรือเปิดบนตลาดทางการได้ทันที",
+    "ogTitle": "PoE2 ค้นหาศิลานำทาง・แผ่นหิน ด้วย regex",
+    "ogDesc": "เลือกม็อด แล้วได้ regex สำหรับค้นหาในเกมทันที รองรับรายการโปรดและตลาดทางการ",
+    "ldName": "PoE2 ค้นหาศิลานำทางและแผ่นหิน",
+    "ldDesc": "ตัวสร้าง regex สำหรับค้นหาม็อดของศิลานำทางและแผ่นหินใน Path of Exile 2"
+  },
+  "fr": {
+    "path": "fr",
+    "htmlLang": "fr",
+    "ogLocale": "fr_FR",
+    "siteName": "PoE2 Recherche de Pierres et Tablettes",
+    "title": "PoE2 — recherche de Pierres de téléportation et Tablettes par regex",
+    "desc": "Choisissez les propriétés des Pierres de téléportation et des Tablettes de Path of Exile 2 et obtenez la regex à coller dans la recherche en jeu. Filtres de rareté, taille des groupes, palier, prix et corruption. Enregistrez vos combinaisons en favoris ou ouvrez-les sur le marché officiel.",
+    "ogTitle": "PoE2 — recherche de Pierres et Tablettes par regex",
+    "ogDesc": "Choisissez les propriétés, obtenez la recherche en jeu. Favoris et marché officiel.",
+    "ldName": "PoE2 Recherche de Pierres et Tablettes",
+    "ldDesc": "Générateur de regex pour rechercher les propriétés des Pierres de téléportation et Tablettes de Path of Exile 2"
+  },
+  "de": {
+    "path": "de",
+    "htmlLang": "de",
+    "ogLocale": "de_DE",
+    "siteName": "PoE2 Wegstein- & Tafel-Suche",
+    "title": "PoE2 Wegstein- & Tafel-Suche per Regex — Suchtext fürs Spiel erzeugen",
+    "desc": "Wähle die Eigenschaften von Wegsteinen und Tafeln in Path of Exile 2 und erhalte den Regex-Suchtext fürs Spiel. Filter für Gegenstandsseltenheit, Gruppengröße, Wegstein-Level, Preis und Verderbtheit. Kombinationen als Favoriten speichern oder direkt im offiziellen Handel öffnen.",
+    "ogTitle": "PoE2 Wegstein- & Tafel-Suche per Regex",
+    "ogDesc": "Eigenschaften wählen, Suchtext fürs Spiel erhalten. Favoriten und offizieller Handel.",
+    "ldName": "PoE2 Wegstein- & Tafel-Suche",
+    "ldDesc": "Regex-Generator für die Suche nach Wegstein- und Tafel-Eigenschaften in Path of Exile 2"
+  },
+  "sp": {
+    "path": "es",
+    "htmlLang": "es",
+    "ogLocale": "es_ES",
+    "siteName": "PoE2 Búsqueda de Piedras guía y Tablillas",
+    "title": "PoE2 — búsqueda de Piedras guía y Tablillas con regex",
+    "desc": "Elige las propiedades de las Piedras guía y Tablillas de Path of Exile 2 y obtén la regex para pegar en la búsqueda del juego. Filtros de rareza, tamaño de grupo, grado de la piedra guía, precio y corrupción. Guarda combinaciones en favoritos o ábrelas en el mercado oficial.",
+    "ogTitle": "PoE2 — búsqueda de Piedras guía y Tablillas con regex",
+    "ogDesc": "Elige las propiedades y obtén la regex de búsqueda del juego. Favoritos y mercado oficial.",
+    "ldName": "PoE2 Búsqueda de Piedras guía y Tablillas",
+    "ldDesc": "Generador de regex para buscar propiedades de Piedras guía y Tablillas en Path of Exile 2"
+  }
+}
