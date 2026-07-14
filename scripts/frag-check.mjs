@@ -16,6 +16,7 @@
 // 따라서 검사도 옵션의 전체 텍스트에 대고 한다.
 
 import { DATA, TABLET_TYPES, tabletName } from "../src/data/options.js";
+import { piece, parseRange } from "../src/lib/regex.js";
 
 const args = process.argv.slice(2);
 const showAll = args.includes("--all");
@@ -40,11 +41,12 @@ function pools() {
   return out;
 }
 
-// 게임 검색 문법 = 정규식. 조각을 그대로 컴파일한다.
-// (게임은 대소문자를 가리지 않는다 → i 플래그. 한국어엔 영향 없고 라틴 문자 언어에 필요하다.)
+// 게임 검색 문법 = 정규식.
+//  i — 게임은 대소문자를 가리지 않는다 (한국어엔 무의미하나 라틴 문자 언어에 필요)
+//  m — "^"는 아이템 전체의 시작이 아니라 '줄'의 시작이다
 function compile(frag) {
   try {
-    return new RegExp(frag, "i");
+    return new RegExp(frag, "im");
   } catch {
     return null;
   }
@@ -53,23 +55,86 @@ function compile(frag) {
 // ⚠️ 데이터의 원문은 "지도에 금고 (1—2)개 추가 등장" 같은 틀이지만,
 // 게임 화면에는 실제로 굴려진 값이 찍힌다: "지도에 금고 1개 추가 등장".
 // 조각의 "."은 글자 수를 세므로 이 차이가 결과를 바꾼다 ("고.개"는 "고 1개"에 안 맞는다 — 사이가 2글자).
-// 그래서 범위를 실제 값으로 바꾼 여러 변형을 만들어 전부에 대고 검사한다.
-// 자릿수가 달라지면 글자 수도 달라지므로 최소·최대를 모두 넣어 본다.
-function renderIngame(text) {
-  const ranges = [...text.matchAll(/\((-?\d+)[—–-](-?\d+)\)/g)];
-  if (!ranges.length) return [text];
-  const pick = (which) =>
-    text.replace(/\((-?\d+)[—–-](-?\d+)\)/g, (_, a, b) => (which === "min" ? a : b));
-  return [...new Set([pick("min"), pick("max")])];
+// 그래서 굴려질 수 있는 값(최소·최대)을 실제로 넣어 본 변형 전부에 대고 검사한다.
+//
+// 경로석 상단 6옵션은 원문이 이름표뿐이고("아이템 희귀도"), 게임에는 "아이템 희귀도: +12%"로 뜬다.
+// 부활 횟수만 % 없이 "부활 횟수: 3".
+function isImplicit(it) {
+  return !!it.map_filter;
+}
+
+// 게임의 "어드밴스드 모드 설명"을 켜면 값이 "28(27-33)%"로, 끄면 "28%"로 뜬다.
+// 어느 쪽으로 켜 두든 검색이 돼야 하므로 두 표시 모두 만들어 검사한다.
+function showValue(v, a, b, advanced) {
+  return advanced ? `${v}(${a}-${b})` : `${v}`;
+}
+
+function renderIngame(it) {
+  const text = it.text;
+  if (isImplicit(it)) {
+    // 상단 6종은 합산 값이라 범위 표시가 없다. 자릿수가 다르면 글자 수도 달라지므로 2·3자리 둘 다.
+    const vals = it.rmin != null ? [it.rmin, it.rmax] : [12, 145];
+    return vals.map((v) => `${text}: +${v}${it.noPercent ? "" : "%"}`);
+  }
+  const RE = /\((-?\d+)[—–-](-?\d+)\)/g;
+  if (!RE.test(text)) return [text];
+  const out = [];
+  for (const advanced of [false, true]) {
+    for (const which of [0, 1]) {
+      out.push(
+        text.replace(/\((-?\d+)[—–-](-?\d+)\)/g, (_, a, b) =>
+          showValue(which === 0 ? a : b, a, b, advanced)
+        )
+      );
+    }
+  }
+  return [...new Set(out)];
+}
+
+// 그 옵션에 값을 넣었을 때 실제로 굴려진 값 (검색어 생성 + 매칭 검사에 같이 쓴다)
+function rolledValues(it) {
+  if (isImplicit(it)) return it.rmin != null ? [it.rmin, it.rmax] : [12, 145];
+  const r = parseRange(it.text);
+  return r ? [...new Set([r.min, r.max])] : [];
 }
 
 // 조각이 그 원문을 잡는가 — 게임에 뜰 수 있는 모든 변형에서 잡혀야 한다.
-// 하나라도 놓치면 그 값이 굴려졌을 때 검색에서 사라진다.
-function matchesAll(re, text) {
-  return renderIngame(text).every((v) => re.test(v));
+// 하나라도 놓치면 그 값이 굴려졌을 때 그 매물은 검색에서 사라진다.
+function matchesAll(re, it) {
+  return renderIngame(it).every((v) => re.test(v));
 }
-function matchesAny(re, text) {
-  return renderIngame(text).some((v) => re.test(v));
+function matchesAny(re, it) {
+  return renderIngame(it).some((v) => re.test(v));
+}
+
+// 수치까지 넣은 '완성된 검색어'가 매칭되는가.
+// piece()는 조각 뒤에 ".*<수치>"를 붙인다. 그래서 조각이 텍스트에서 숫자보다 뒤에 있으면 깨진다:
+//   "센.*개" + 값2 → "센.*개.*2개"  ← "에센스 2개"에는 개 다음에 또 2개가 없다 → 검색 실패
+// 조각은 반드시 숫자보다 앞에서 끝나야 한다.
+function numericBreaks(it) {
+  const vals = rolledValues(it);
+  if (!vals.length) return null;
+  const opts = { openMax: it.openMax, rmin: it.rmin, rmax: it.rmax, noPercent: it.noPercent };
+  for (const v of vals) {
+    const pat = piece(it.frag, String(v), it.text, opts);
+    const re = compile(pat);
+    if (!re) return { v, pat, why: "정규식으로 컴파일되지 않음" };
+    // 그 값이 굴려졌을 때의 게임 표시 — 범위 표시 켬/끔 양쪽
+    for (const advanced of [false, true]) {
+      const shown = isImplicit(it)
+        ? `${it.text}: +${v}${it.noPercent ? "" : "%"}`
+        : it.text.replace(/\((-?\d+)[—–-](-?\d+)\)/g, (_, a, b) => showValue(v, a, b, advanced));
+      if (!re.test(shown)) {
+        return {
+          v,
+          pat,
+          shown,
+          why: `완성된 검색어가 그 값을 못 잡음 (범위 표시 ${advanced ? "켬" : "끔"})`,
+        };
+      }
+    }
+  }
+  return null;
 }
 
 const results = new Map(); // key → { frag, worst: {poolId, hits:[key…]} }
@@ -85,18 +150,28 @@ for (const pool of pools()) {
       continue;
     }
     // 겹침 판정: 다른 옵션을 '어느 값에서든' 잡으면 겹치는 것으로 본다 (보수적)
-    const hits = pool.items.filter((o) => matchesAny(re, o.text));
+    const hits = pool.items.filter((o) => matchesAny(re, o));
 
     // 자기 자신은 '모든 값에서' 잡아야 한다 — 특정 값에서만 놓쳐도 그 매물은 검색에서 사라진다
-    if (!matchesAll(re, it.text)) {
-      const missed = renderIngame(it.text).filter((v) => !re.test(v));
+    if (!matchesAll(re, it)) {
+      const missed = renderIngame(it).filter((v) => !re.test(v));
       broken.set(it.key, {
         frag: it.frag,
         text: it.text,
-        why: matchesAny(re, it.text)
+        why: matchesAny(re, it)
           ? `일부 값에서 매칭 실패 — 예: "${missed[0]}"`
-          : `자기 자신을 매칭하지 못함 — 게임 표시: "${renderIngame(it.text)[0]}"`,
+          : `자기 자신을 매칭하지 못함 — 게임 표시: "${renderIngame(it)[0]}"`,
       });
+    } else {
+      // 수치를 넣은 완성 검색어까지 확인
+      const nb = numericBreaks(it);
+      if (nb) {
+        broken.set(it.key, {
+          frag: it.frag,
+          text: it.text,
+          why: `수치 ${nb.v} 검색 실패 — 검색어 "${nb.pat}" 가 "${nb.shown ?? "?"}" 를 못 잡음`,
+        });
+      }
     }
     const prev = results.get(it.key);
     if (!prev || hits.length > prev.worst.hits.length) {

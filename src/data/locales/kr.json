@@ -82,7 +82,7 @@
     },
     "ws.pre.monster_damage": {
       "text": "몬스터 피해 (5—9)% 증가",
-      "frag": "해.%",
+      "frag": "터 피해 ",
       "overlap": 1,
       "trade": "몬스터 피해 #% 증가"
     },
@@ -94,13 +94,13 @@
     },
     "ws.pre.critical_hit": {
       "text": "몬스터의 치명타 명중 확률 (80—120)% 증가",
-      "frag": "치명타",
+      "frag": "명중 확",
       "overlap": 1,
       "trade": "몬스터의 치명타 명중 확률 #% 증가"
     },
     "ws.pre.monster_life": {
       "text": "몬스터의 생명력 (10—14)% 증폭",
-      "frag": "생명력",
+      "frag": "증폭",
       "overlap": 1,
       "trade": "몬스터의 생명력 #% 증폭"
     },
@@ -148,19 +148,19 @@
     },
     "ws.pre.penetrates_elemental_resistances": {
       "text": "몬스터 피해가 (6—8)%의 원소 저항 관통",
-      "frag": "원소",
+      "frag": "관통",
       "overlap": 1,
       "trade": "몬스터 피해가 #%의 원소 저항 관통"
     },
     "ws.suf.rare_monsters_modifiers": {
       "text": "희귀 몬스터가 속성 부여 1개 추가 보유",
-      "frag": "희귀",
+      "frag": "희귀 몬",
       "overlap": 1,
       "trade": "희귀 몬스터가 속성 부여 #개 추가 보유"
     },
     "ws.suf.monster_elemental_resistances": {
       "text": "몬스터의 원소 저항 +(20—24)%",
-      "frag": "소.저",
+      "frag": "저항 \\+",
       "overlap": 1,
       "trade": "몬스터의 원소 저항 +#%"
     },
@@ -178,7 +178,7 @@
     },
     "ws.suf.gain_maximum_life": {
       "text": "몬스터가 최대 생명력의 (12—25)%를 추가 에너지 보호막 최대치로 획득",
-      "frag": "생.*최",
+      "frag": "막 최",
       "overlap": 1,
       "trade": "몬스터가 최대 생명력의 #%를 추가 에너지 보호막 최대치로 획득"
     },
@@ -261,7 +261,7 @@
     },
     "ws.suf.take_damage_critical": {
       "text": "몬스터가 치명타 명중으로 받는 추가 피해 (15—19)% 감소",
-      "frag": "명중",
+      "frag": "명중으",
       "overlap": 1,
       "trade": "몬스터가 치명타 명중으로 받는 추가 피해 #% 감소"
     },
@@ -273,8 +273,8 @@
     },
     "tb.pre.monsters_effectiveness": {
       "text": "몬스터의 효율 (10—15)% 증가",
-      "frag": "몬.*율",
-      "overlap": 2,
+      "frag": "^몬.*율",
+      "overlap": 1,
       "trade": "몬스터의 효율 #% 증가"
     },
     "tb.pre.rarity_items_found": {
@@ -297,8 +297,8 @@
     },
     "tb.pre.number_rare_monsters": {
       "text": "지도에 희귀 몬스터 수 (25—35)% 증가",
-      "frag": "귀.*수",
-      "overlap": 2,
+      "frag": "귀 몬스터 수",
+      "overlap": 1,
       "trade": "지도에 희귀 몬스터 수 #% 증가"
     },
     "tb.pre.monster_rarity": {
@@ -345,7 +345,7 @@
     },
     "tb.pre.contains_summoning_circles": {
       "text": "지도에 소환의 원 1개 추가 등장",
-      "frag": "원.개",
+      "frag": "원.*개",
       "overlap": 1,
       "trade": "지도에 소환의 원 1개 추가 등장"
     },
@@ -356,13 +356,13 @@
       "trade": "지도에서 발견하는 경로석 수량 #% 증가"
     },
     "tb.suf.contain_shrines": {
-      "text": "지도에 성소가 등장할 확률 #% 증가 (무리 규모 감소, 경로석 수량 증가, 성소 추가)",
+      "text": "지도에 성소가 등장할 확률 (70—100)% 증가",
       "frag": "성.가",
       "overlap": 1,
       "trade": "지도에 성소가 등장할 확률 #% 증가"
     },
     "tb.suf.contain_strongboxes": {
-      "text": "지도에 금고가 등장할 확률 #% 증가 (무리 규모 감소, 경로석 수량 증가, 금고 추가)",
+      "text": "지도에 금고가 등장할 확률 (70—100)% 증가",
       "frag": "금.가",
       "overlap": 1,
       "trade": "지도에 금고가 등장할 확률 #% 증가"
@@ -603,25 +603,25 @@
     },
     "tb.overseer.strongboxes": {
       "text": "지도에 금고 (1—2)개 추가 등장",
-      "frag": "고.개",
+      "frag": "금고 ",
       "overlap": 1,
       "trade": "지도에 금고 #개 추가 등장"
     },
     "tb.overseer.shrines": {
       "text": "지도에 성소 (1—2)개 추가 등장",
-      "frag": "소.개",
+      "frag": "성소 ",
       "overlap": 1,
       "trade": "지도에 성소 1개 추가 등장"
     },
     "tb.overseer.essences": {
       "text": "지도에 에센스 (1—2)개 추가 등장",
-      "frag": "센.*개",
+      "frag": "센스 ",
       "overlap": 2,
       "trade": "지도에 에센스 1개 추가 등장"
     },
     "tb.overseer.azmeri_spirits": {
       "text": "지도에 아즈메리 혼백 (1—2)개 추가 등장",
-      "frag": "리.*개",
+      "frag": "혼백 ",
       "overlap": 2,
       "trade": "지도에 아즈메리 혼백 #개 추가 등장"
     },
@@ -681,7 +681,7 @@
     },
     "tb.abyss.contain_four": {
       "text": "지도에 (20—40)% 확률로 심연 4개 추가 등장",
-      "frag": "에.확",
+      "frag": "확률로 심",
       "overlap": 1,
       "trade": "지도에 #% 확률로 심연 4개 추가 등장"
     },

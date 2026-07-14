@@ -154,39 +154,76 @@ export function tierPiece(tier) {
   return "\\b" + t + TOKENS.tier;
 }
 
+/* ---------- 수치를 조각에 붙이는 위치 ----------
+   수치는 조각 뒤에 붙이면 되는 게 아니다. 원문에서 값이 조각 단어보다 앞에 오는 경우가 많다:
+
+     "몬스터가 피해의 (5—9)%를 추가 화염 피해로 줌"   ← 값이 "화염"보다 앞
+     "지도에서 발견하는 아이템 희귀도 (8—12)% 증가"    ← 값이 "템.희"보다 뒤
+
+   앞 경우에 "화염.*[5-9]%"를 만들면 게임에서 절대 안 잡힌다.
+   그래서 원문에서 값과 조각의 앞뒤를 보고 결합 순서를 정한다. (참조 엔진 poe2.re도 같은 방식이다 —
+   접사는 "<수치>\(.*<조각>", 경로석 상단 스탯은 "m rar.*<수치>")
+
+   값 뒤의 앵커: 게임의 "어드밴스드 모드 설명"을 켜면 값이 "10(8—12)%"로, 끄면 "10%"로 표시된다.
+   숫자 뒤에 단위 또는 "(" 를 허용해 두 표시 방식 모두에서 잡히게 한다 → "1[0-2][%(]"        */
+
+const RANGE_IN_TEXT = /\((-?\d+)[—–-](-?\d+)\)/;
+
+// 조각이 원문에서 값보다 뒤에 오는가 → true면 수치를 조각 앞에 놓아야 한다
+function numComesFirst(frag, text) {
+  if (!text) return false;
+  const m = text.match(RANGE_IN_TEXT);
+  if (!m) return false; // 값 범위가 없는 옵션(경로석 상단 6종)은 이름표가 앞이다
+  // 실제 게임 표시처럼 범위를 값 하나로 바꿔 놓고 위치를 잰다
+  const shown = text.slice(0, m.index) + m[1] + text.slice(m.index + m[0].length);
+  let fm;
+  try {
+    fm = new RegExp(frag).exec(shown);
+  } catch {
+    return false;
+  }
+  return fm ? fm.index > m.index : false;
+}
+
+// 숫자 뒤에 올 수 있는 것: 단위(%,개,마리…) 또는 범위 표시의 "("
+function valueAnchor(unit) {
+  if (!unit) return "\\(?"; // 단위가 없으면 "(" 가 있어도 되고 없어도 된다
+  return "[" + unit + "(]";
+}
+
 // 조각 + 최소값 → 검색 piece.
 // opts: {openMax, rmin, rmax, noPercent} — 옵션별 수치 처리 방식.
 export function piece(frag, minInput, text, opts) {
   opts = opts || {};
-  let t = frag;
   const mn = String(minInput == null ? "" : minInput).trim();
-  if (mn === "") return t;
+  if (mn === "") return frag;
   const v = parseInt(mn, 10);
-  if (isNaN(v)) return t;
-  const pct = opts.noPercent ? "" : "%";
+  if (isNaN(v)) return frag;
+
+  const join = (num) => (numComesFirst(frag, text) ? num + ".*" + frag : frag + ".*" + num);
+
   // 명시적 범위(rmin~rmax): 부활 횟수 0~6 — 이산 카운트라 '정확히 N' 매칭.
-  // (0 이상은 전부라 범위로는 0을 못 고름. 게임 검색은 줄 단위라 그 줄의 N만 매칭됨.)
+  // 아이템에 "부활 횟수: 3"으로 뜨고 범위 표시가 없다 → 앵커 없이 숫자만.
   if (opts.rmin != null && opts.rmax != null) {
     const val = Math.min(Math.max(v, opts.rmin), opts.rmax);
     const rg = rangeRegex(val, val);
-    if (rg) t = t + ".*" + rg + pct;
-    return t;
+    return rg ? join(rg + (opts.noPercent ? "" : "%")) : frag;
   }
-  // 상한 없는 옵션: 입력값 ~ 999 (N 이상)
+
+  // 상한 없는 옵션(경로석 상단 6종): 합산 값이라 범위 표시가 없다 → 단위만 붙인다.
   if (opts.openMax) {
     const rg = rangeRegex(v, 999);
-    if (rg) t = t + ".*" + rg + pct;
-    return t;
+    return rg ? join(rg + (opts.noPercent ? "" : "%")) : frag;
   }
-  // 옵션 원문 범위 (N 이상). 입력값을 넣었으면 최소값 이하여도 반영.
+
+  // 접사 — 원문 범위 안에서 "N 이상". 값 뒤에 범위 표시가 붙을 수 있다.
   const rr = text ? rangeMinMax(text) : null;
   if (rr) {
     const lo = Math.min(v, rr.max);
     const rg = rangeRegex(lo, rr.max);
-    if (rg) t = t + ".*" + rg + (rr.unit || "");
-    return t;
+    return rg ? join(rg + valueAnchor(rr.unit)) : frag;
   }
+
   const rg = rangeRegex(v, 999);
-  if (rg) t = t + ".*" + rg + "%";
-  return t;
+  return rg ? join(rg + "[%(]") : frag;
 }
