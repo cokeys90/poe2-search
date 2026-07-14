@@ -12,5 +12,8 @@ CLAUDE.md
 .claude/
 
 # 개인 메모·데이터 (공개 안 함)
-memo/
-data/
+# 루트 고정(/) — 그냥 data/ 로 두면 src/data/ 까지 무시돼 앱 데이터가 커밋에서 빠진다
+/memo/
+/data/
+# 수집·생성 중간 산출물 (스크립트로 재생성 가능)
+scripts/out/
