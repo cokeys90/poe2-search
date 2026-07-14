@@ -186,8 +186,13 @@ function numComesFirst(frag, text) {
 }
 
 // 숫자 뒤에 올 수 있는 것: 단위(%,개,마리…) 또는 범위 표시의 "("
+//
+// 단위가 없는 경우 — 라틴 문자 언어는 값 뒤에 단어가 온다("10 uses remaining") —
+// 앵커가 없으면 "10"이 "100" 안에서 잡히는 오탐이 난다. 그래서 단어 경계(\b)를 쓴다.
+// (CJK는 단위 글자가 있으므로 그걸 쓴다. \b는 유니코드 처리 방식에 따라 CJK에서 경계가
+//  생기지 않을 수 있어 믿지 않는다.)
 function valueAnchor(unit) {
-  if (!unit) return "\\(?"; // 단위가 없으면 "(" 가 있어도 되고 없어도 된다
+  if (!unit) return "\\b";
   return "[" + unit + "(]";
 }
 
