@@ -29,6 +29,7 @@
   "result.removeTip": "ลบออกจากรายการ",
   "result.importSkipped": "เงื่อนไขจากตลาด {n} รายการไม่มีอยู่ในแอปนี้ จึงนำเข้าไม่ได้",
   "filter.price": "ราคา",
+  "filter.price.tradeOnly": "ใช้กับตลาดเท่านั้น — ราคาจะไม่ถูกใส่ในข้อความค้นหาในเกม",
   "filter.exact": "เท่ากับ",
   "filter.range": "ช่วง",
   "filter.value": "ค่า",
@@ -137,7 +138,9 @@
   "import.s2c": "แอปนี้จะเปิดขึ้นพร้อมเงื่อนไขเดิมทั้งหมด เสร็จ!",
   "import.note": "อ่านเฉพาะค่าที่แสดงอยู่บนหน้าตลาดอยู่แล้ว จึงไม่ส่งคำขอไปยังเซิร์ฟเวอร์ของตลาด ทำงานได้เสมอโดยไม่ติดลิมิต",
   "import.alert": "กรุณากดบนหน้าค้นหาของตลาด",
-  "currency.exalted": "Exalted",
-  "currency.chaos": "Chaos",
-  "currency.divine": "Divine"
+  "currency.equivalent": "เทียบเท่า Exalted Orb",
+  "currency.exalted": "Exalted Orb",
+  "currency.divine": "Divine Orb",
+  "currency.chaos": "Chaos Orb",
+  "currency.exalted_divine": "Exalted Orb และ Divine Orb"
 }

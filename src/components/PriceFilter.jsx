@@ -1,15 +1,10 @@
 import Segmented from "./Segmented.jsx";
 import PinButton from "./PinButton.jsx";
 import { t } from "../i18n/index.js";
+import { CURRENCIES, currency as currencyOf } from "../lib/currency.js";
 
 // 가격 필터 (경로석·서판 공통). 상인 판매가를 정확히/범위로 제한하는 검색 세트 생성.
-export const CURRENCIES = [
-  // 검색어에는 영어 화폐명이 그대로 박힌다(pricePiece). 상인 판매가의 화폐 표기는
-  // 언어와 무관하게 영어다 — key는 번역하지 않고, 화면 라벨(i18n)만 언어를 따라간다.
-  { key: "exalted", i18n: "currency.exalted" },
-  { key: "chaos", i18n: "currency.chaos" },
-  { key: "divine", i18n: "currency.divine" },
-];
+// 화폐 정의는 lib/currency.js — 인게임 검색어와 거래소가 같은 것을 다르게 쓴다.
 
 const INPUT_CLS =
   "w-20 rounded-md-s border border-outline bg-surface-c-lowest px-2 py-1.5 text-center font-mono text-body-m text-primary outline-none transition focus:border-primary placeholder:text-on-surface-variant/50";
@@ -93,6 +88,12 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
           ))}
         </select>
       </div>
+
+      {/* "엑잘티드 오브 상당"은 거래소가 환산해 주는 개념이라 인게임엔 없다 →
+          검색어엔 가격이 안 들어간다. 조용히 빠지면 사용자가 속는다. */}
+      {enabled && currencyOf(currency).tradeOnly && (
+        <span className="text-body-s text-on-surface-variant">{t("filter.price.tradeOnly")}</span>
+      )}
     </div>
   );
 }

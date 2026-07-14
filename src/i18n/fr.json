@@ -29,6 +29,7 @@
   "result.removeTip": "Retirer de la liste",
   "result.importSkipped": "{n} des conditions du marché ne correspondent à aucune propriété de l'appli et n'ont pas été importées.",
   "filter.price": "Prix",
+  "filter.price.tradeOnly": "Marché uniquement — le prix n’entre pas dans la recherche en jeu",
   "filter.exact": "Exact",
   "filter.range": "Plage",
   "filter.value": "Valeur",
@@ -137,7 +138,9 @@
   "import.s2c": "L’appli s’ouvre avec ces conditions déjà appliquées. C’est tout !",
   "import.note": "Il lit les valeurs déjà affichées sur la page du marché — aucune requête n’est envoyée au serveur. Il fonctionne donc toujours, sans limite de requêtes.",
   "import.alert": "Cliquez ici depuis une page de recherche du marché.",
-  "currency.exalted": "Exalted",
-  "currency.chaos": "Chaos",
-  "currency.divine": "Divine"
+  "currency.equivalent": "Équivalent en orbes exaltés",
+  "currency.exalted": "Orbe exalté",
+  "currency.divine": "Orbe divin",
+  "currency.chaos": "Orbe du chaos",
+  "currency.exalted_divine": "Orbe exalté et orbe divin"
 }

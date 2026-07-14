@@ -29,6 +29,7 @@
   "result.removeTip": "從清單移除",
   "result.importSkipped": "交易所條件中有 {n} 個不是本工具的選項，無法匯入。",
   "filter.price": "價格",
+  "filter.price.tradeOnly": "僅套用於交易所 — 遊戲內搜尋不含價格",
   "filter.exact": "精確",
   "filter.range": "範圍",
   "filter.value": "數值",
@@ -137,7 +138,9 @@
   "import.s2c": "本工具會開啟並套用相同條件。完成！",
   "import.note": "只讀取交易所畫面上已顯示的數值，不會向交易所伺服器發出請求，因此不受流量限制、隨時可用。",
   "import.alert": "請在交易所的搜尋頁面點擊。",
-  "currency.exalted": "Exalted",
-  "currency.chaos": "Chaos",
-  "currency.divine": "Divine"
+  "currency.equivalent": "崇高石等值",
+  "currency.exalted": "崇高石",
+  "currency.divine": "神聖石",
+  "currency.chaos": "混沌石",
+  "currency.exalted_divine": "崇高石及神聖石"
 }

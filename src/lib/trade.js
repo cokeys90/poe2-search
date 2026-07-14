@@ -12,6 +12,7 @@ import {
   DEFAULT_USES,
 } from "../data/options.js";
 import { t } from "../i18n/index.js";
+import { currency, currencyFromTrade } from "./currency.js";
 
 /* ── 거래소 ───────────────────────────────────────────────────────
    검색 조건을 ?q=<JSON>으로 실어 보내면 거래소가 알아서 검색을 실행하고
@@ -222,7 +223,9 @@ export function tradeUrl({
     if (lo != null) p.min = lo;
     if (hi != null) p.max = hi;
     if (Object.keys(p).length) {
-      p.option = price.currency;
+      // option을 안 넣으면 거래소가 모든 화폐를 엑잘 환산해 준다 = "엑잘티드 오브 상당 아이템"
+      const opt = currency(price.currency).trade;
+      if (opt) p.option = opt;
       filters.trade_filters = { filters: { price: p } };
     }
   }
@@ -377,7 +380,7 @@ export function queryToState(query) {
   const pf = query?.filters?.trade_filters?.filters?.price;
   if (pf && (pf.min != null || pf.max != null)) {
     price.enabled = true;
-    price.currency = pf.option || price.currency;
+    price.currency = currencyFromTrade(pf.option); // option 없음 = "엑잘티드 오브 상당"
     price.min = pf.min != null ? String(pf.min) : "";
     price.max = pf.max != null ? String(pf.max) : "";
     price.mode = pf.min != null && pf.max != null && pf.min === pf.max ? "exact" : "range";

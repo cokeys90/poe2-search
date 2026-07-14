@@ -29,6 +29,7 @@
   "result.removeTip": "リストから削除",
   "result.importSkipped": "取引所の条件のうち{n}件はこのアプリにないオプションのため取り込めませんでした。",
   "filter.price": "価格",
+  "filter.price.tradeOnly": "取引所のみ — ゲーム内検索には価格が入りません",
   "filter.exact": "ちょうど",
   "filter.range": "範囲",
   "filter.value": "値",
@@ -137,7 +138,9 @@
   "import.s2c": "このアプリが開き、条件がそのまま反映されます。以上！",
   "import.note": "取引所の画面に表示されている値を読むだけなので、取引所サーバーへリクエストを送りません。レート制限なくいつでも動作します。",
   "import.alert": "取引所の検索ページで押してください。",
-  "currency.exalted": "Exalted",
-  "currency.chaos": "Chaos",
-  "currency.divine": "Divine"
+  "currency.equivalent": "高貴なオーブ換算",
+  "currency.exalted": "高貴なオーブ",
+  "currency.divine": "神のオーブ",
+  "currency.chaos": "カオスオーブ",
+  "currency.exalted_divine": "高貴なオーブおよび神のオーブ"
 }

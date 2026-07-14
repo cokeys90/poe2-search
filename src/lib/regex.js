@@ -5,6 +5,7 @@
 // ("15등급", "(1—2)개"). 그 단어들은 로케일의 tokens에서 가져온다.
 
 import { TOKENS } from "../data/options.js";
+import { currency } from "./currency.js";
 
 /* ---------- 수치 범위 정규식 생성 (poe2.re 방식: . 자리채움) ---------- */
 // [lo,hi] 정수 구간 최소 정규식. [0-9] 자리는 . 로 축약, 인접 첫자리는 [x-y]로 병합.
@@ -132,7 +133,10 @@ const PRICE_MAX = 999;
 
 export function pricePiece(price) {
   if (!price || !price.enabled || !price.currency) return "";
-  const cur = price.currency;
+  // 인게임 표기가 없는 화폐("엑잘티드 오브 상당" — 거래소가 환산해 주는 개념)는
+  // 게임 화면에 그런 글자가 안 찍힌다 → 가격 세트를 만들지 않는다. 거래소에만 걸린다.
+  const cur = currency(price.currency).ingame;
+  if (!cur) return "";
   const lo = parseInt(String(price.min).trim(), 10);
   const hi = parseInt(String(price.max).trim(), 10);
 

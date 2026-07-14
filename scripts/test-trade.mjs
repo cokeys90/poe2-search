@@ -14,6 +14,8 @@ import "./fs-locales.mjs";
 import { readFileSync } from "node:fs";
 import { tradeUrl, queryToState, TRADE_SITES, siteForLang, importLangs, tradeOrigin } from "../src/lib/trade.js";
 import { ensureBases, setLang, BY_KEY, DEFAULT_USES } from "../src/data/options.js";
+import { CURRENCIES } from "../src/lib/currency.js";
+import { buildPattern } from "../src/lib/pattern.js";
 
 const LANGS = ["kr", "us", "jp", "tw", "ru", "pt", "th", "fr", "de", "sp"];
 
@@ -194,6 +196,40 @@ for (const lang of LANGS) {
   }
 }
 console.log(`워커 허용 목록 — 앱이 부르는 거래소 ${allowed.size}곳 전부 덮음`);
+
+/* ── 5. 화폐 — 거래소 option 매핑과 인게임 표현 ─────────────────── */
+
+// "엑잘티드 오브 상당"은 거래소가 환산해 주는 개념이다 → query에 option을 **안 넣는 것**이 곧 그것이다.
+// 인게임엔 그런 개념이 없다 → 검색어에서 가격 세트가 빠져야 한다. 엑잘로 둔갑시키면 안 된다.
+for (const c of CURRENCIES) {
+  const state = {
+    tab: "waystone",
+    tier: "15",
+    sel: {},
+    mode: "and",
+    corrupt: "any",
+    price: { enabled: true, mode: "exact", min: "3", max: "", currency: c.key },
+  };
+  const q = parseQ(tradeUrl({ ...state, site: "kakao", lang: "kr" }).url);
+  const opt = q.query.filters?.trade_filters?.filters?.price?.option;
+
+  if (c.trade == null && opt !== undefined)
+    bad(`${c.key}: 거래소 option이 들어갔다("${opt}") — 상당은 option을 빼야 환산된다`);
+  if (c.trade != null && opt !== c.trade) bad(`${c.key}: 거래소 option "${opt}" ≠ "${c.trade}"`);
+
+  // 왕복
+  const back = queryToState(q.query).state.price.currency;
+  if (back !== c.key) bad(`${c.key}: 왕복에서 "${back}"이 됐다`);
+
+  // 인게임 검색어
+  const pat = buildPattern(state);
+  const hasPrice = /\\b3 /.test(pat);
+  if (c.ingame == null && hasPrice)
+    bad(`${c.key}: 인게임 검색어에 가격이 들어갔다 — 게임엔 그런 화폐 표기가 없다`);
+  if (c.ingame != null && !hasPrice) bad(`${c.key}: 인게임 검색어에 가격이 빠졌다`);
+  if (c.ingame != null && !pat.includes(c.ingame)) bad(`${c.key}: 인게임 표기 "${c.ingame}" 없음`);
+}
+console.log(`화폐 ${CURRENCIES.length}종 — 거래소 option · 왕복 · 인게임 표현`);
 
 console.log(fail ? `\n실패 ${fail}건` : "\n전부 통과");
 process.exit(fail ? 1 : 0);

@@ -29,6 +29,7 @@
   "result.removeTip": "목록에서 삭제",
   "result.importSkipped": "거래소 조건 중 {n}개는 이 앱에 없는 옵션이라 못 가져왔어요.",
   "filter.price": "가격",
+  "filter.price.tradeOnly": "거래소에만 적용 — 인게임 검색어엔 가격이 안 들어갑니다",
   "filter.exact": "정확히",
   "filter.range": "범위",
   "filter.value": "값",
@@ -137,7 +138,9 @@
   "import.s2c": "이 앱이 열리면서 그 조건이 그대로 적용돼요. 끝!",
   "import.note": "거래소 화면에 이미 떠 있는 값을 읽는 방식이라, 거래소 서버에 요청을 보내지 않아요. 그래서 요청 제한 없이 항상 동작해요.",
   "import.alert": "거래소 검색 페이지에서 눌러주세요.",
-  "currency.exalted": "엑잘티드",
-  "currency.chaos": "카오스",
-  "currency.divine": "디바인"
+  "currency.equivalent": "엑잘티드 오브 상당",
+  "currency.exalted": "엑잘티드 오브",
+  "currency.divine": "신성한 오브",
+  "currency.chaos": "카오스 오브",
+  "currency.exalted_divine": "엑잘티드 오브 및 신성한 오브"
 }

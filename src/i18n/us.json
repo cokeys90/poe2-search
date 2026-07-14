@@ -29,6 +29,7 @@
   "result.removeTip": "Remove from list",
   "result.importSkipped": "{n} of the trade conditions aren't options in this app, so they weren't imported.",
   "filter.price": "Price",
+  "filter.price.tradeOnly": "Trade site only — price is left out of the in-game search",
   "filter.exact": "Exact",
   "filter.range": "Range",
   "filter.value": "Value",
@@ -137,7 +138,9 @@
   "import.s2c": "This app opens with those conditions already applied. Done!",
   "import.note": "It only reads values already shown on the trade page — no request is sent to the trade server. So it always works, with no rate limits.",
   "import.alert": "Please click this on a trade search page.",
-  "currency.exalted": "Exalted",
-  "currency.chaos": "Chaos",
-  "currency.divine": "Divine"
+  "currency.equivalent": "Exalted Orb Equivalent",
+  "currency.exalted": "Exalted Orb",
+  "currency.divine": "Divine Orb",
+  "currency.chaos": "Chaos Orb",
+  "currency.exalted_divine": "Exalted Orb & Divine Orb"
 }

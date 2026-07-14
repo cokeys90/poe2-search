@@ -29,6 +29,7 @@
   "result.removeTip": "Aus der Liste entfernen",
   "result.importSkipped": "{n} der Handelsbedingungen gibt es in dieser App nicht und wurden nicht übernommen.",
   "filter.price": "Preis",
+  "filter.price.tradeOnly": "Nur im Handel — der Preis kommt nicht in den Suchtext fürs Spiel",
   "filter.exact": "Genau",
   "filter.range": "Bereich",
   "filter.value": "Wert",
@@ -137,7 +138,9 @@
   "import.s2c": "Diese App öffnet sich mit genau diesen Bedingungen. Fertig!",
   "import.note": "Es liest nur Werte, die schon auf der Handelsseite stehen — es geht keine Anfrage an den Server. Deshalb funktioniert es immer, ohne Anfragelimit.",
   "import.alert": "Bitte auf einer Handels-Suchseite anklicken.",
-  "currency.exalted": "Exalted",
-  "currency.chaos": "Chaos",
-  "currency.divine": "Divine"
+  "currency.equivalent": "Erhabene Sphären (Gegenwert)",
+  "currency.exalted": "Erhabene Sphäre",
+  "currency.divine": "Göttliche Sphäre",
+  "currency.chaos": "Chaossphäre",
+  "currency.exalted_divine": "Erhabene Sphäre und Göttliche Sphäre"
 }
