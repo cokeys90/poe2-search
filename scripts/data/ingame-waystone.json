@@ -6,12 +6,7 @@
     "정규식은 게임 화면의 글자를 맞춰야 하므로 인게임 캡처가 유일한 출처다.",
     "cn(简体中文)은 게임이 다른 지역 클라이언트에 제공하지 않아 확인할 수 없었다 → 지원 보류."
   ],
-  "_format": {
-    "implicit": "경로석 상단 6옵션. 게임 표시는 '라벨: +12%' 꼴이라 라벨만 담는다.",
-    "corrupted": "타락 아이템에 찍히는 단어. 검색어에 그대로 들어간다.",
-    "tierSearch": "등급 검색 조각의 틀. {n}이 등급 숫자. 언어마다 어순이 달라 접미사로 못 박는다 (kr '15등급' vs en 'Tier 15').",
-    "waystoneBase": "경로석의 기본 타입명(거래소 query.type). {tier}가 등급. ru·de는 클라이언트가 아이템 이름을 영어로 표시한다."
-  },
+  "_format": "경로석의 기본 타입명(거래소 query.type). {tier}가 등급. ⚠️ 게임 화면이 아니라 그 언어 거래소의 이름이다 — ru·de는 클라이언트가 아이템 이름을 영어로 보여주지만 거래소는 자국어를 쓴다. scripts/check-trade-bases.mjs로 대조할 것.",
   "kr": {
     "implicit": {
       "ws.imp.revives": "부활 횟수",
@@ -64,19 +59,7 @@
     "tierSearch": "階級 {n}",
     "waystoneBase": "換界石（階級 {tier}）"
   },
-  "ru": {
-    "implicit": {
-      "ws.imp.revives": "Доступно возрождений",
-      "ws.imp.item_rarity": "Редкость предметов",
-      "ws.imp.pack_size": "Размер групп монстров",
-      "ws.imp.rare_monsters": "Редкость монстров",
-      "ws.imp.monster_effect": "Эффективность монстров",
-      "ws.imp.waystone_chance": "Шанс выпадения путевого камня"
-    },
-    "corrupted": "Осквернено",
-    "tierSearch": "Tier {n}",
-    "waystoneBase": "Waystone (Tier {tier})"
-  },
+  "ru": "Путевой камень (Ур. {tier})",
   "pt": {
     "implicit": {
       "ws.imp.revives": "Renascimentos Disponíveis",
@@ -116,19 +99,7 @@
     "tierSearch": "Palier {n}",
     "waystoneBase": "Pierre de téléportation (Palier {tier})"
   },
-  "de": {
-    "implicit": {
-      "ws.imp.revives": "Wiederbelebungen verfügbar",
-      "ws.imp.item_rarity": "Gegenstandsseltenheit",
-      "ws.imp.pack_size": "Monstergruppengrösse",
-      "ws.imp.rare_monsters": "Monsterseltenheit",
-      "ws.imp.monster_effect": "Monster-Schlagkraft",
-      "ws.imp.waystone_chance": "Chance auf fallen gelassene Wegsteine"
-    },
-    "corrupted": "Verderbt",
-    "tierSearch": "Tier {n}",
-    "waystoneBase": "Waystone (Tier {tier})"
-  },
+  "de": "Wegstein (Level {tier})",
   "sp": {
     "implicit": {
       "ws.imp.revives": "Resurrecciones disponibles",

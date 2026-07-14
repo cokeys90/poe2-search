@@ -6,6 +6,7 @@ import {
   hydrateSel,
   tabletName,
   tabletImplicit,
+  ensureBases,
 } from "./data/options.js";
 import { buildPattern } from "./lib/pattern.js";
 import {
@@ -13,7 +14,9 @@ import {
   queryToState,
   readHashQuery,
   fetchStatNames,
-  DEFAULT_LEAGUE,
+  tradeSite,
+  siteForLang,
+  importLangs,
 } from "./lib/trade.js";
 import TradeImportDialog from "./components/TradeImportDialog.jsx";
 import { groupPrefKey, useOptionPool } from "./lib/options.js";
@@ -22,8 +25,10 @@ import {
   savePins,
   loadCurrency,
   saveCurrency,
-  loadLeague,
-  saveLeague,
+  loadTradeSite,
+  saveTradeSite,
+  loadLeagues,
+  saveLeagues,
   FAV_WIN_KEY,
   SETTINGS_WIN_KEY,
 } from "./lib/storage.js";
@@ -116,12 +121,31 @@ export default function App() {
   // 옵션 목록 개인화 (그룹 내 순서·숨김)
   const optPrefs = useOptionPrefs();
 
-  // 거래소 링크에 쓸 리그
-  const [league, setLeagueState] = useState(() => loadLeague(DEFAULT_LEAGUE));
-  function setLeague(id) {
-    setLeagueState(id);
-    saveLeague(id);
+  // 어느 거래소로 보낼지 — 언어와 별개 축이다(카카오·글로벌·대만). "auto"면 언어에서 유도한다.
+  const [siteSetting, setSiteSettingState] = useState(loadTradeSite);
+  const site = siteSetting === "auto" ? siteForLang(lang) : siteSetting;
+  function setSiteSetting(id) {
+    setSiteSettingState(id);
+    saveTradeSite(id);
   }
+
+  // 리그는 거래소별로 기억한다 — 리그 id가 서버마다 다르다(대만은 중국어)
+  const [leagues, setLeaguesState] = useState(loadLeagues);
+  const league = leagues[site] ?? tradeSite(site).league;
+  function setLeague(id) {
+    setLeaguesState((m) => {
+      const next = { ...m, [site]: id };
+      saveLeagues(next);
+      return next;
+    });
+  }
+
+  // 거래소 기본 타입명(query.type)은 그 거래소의 언어여야 한다 → 미리 받아 둔다.
+  // 글로벌은 앱 언어(=이미 있다), 카카오는 한국어, 대만은 번체 → 셋만 있으면 된다.
+  const [basesReady, setBasesReady] = useState(0);
+  useEffect(() => {
+    Promise.all(importLangs(lang).map(ensureBases)).then(() => setBasesReady((n) => n + 1));
+  }, [lang]);
 
   const pool = useOptionPool(tab, tabletType);
 
@@ -329,11 +353,12 @@ export default function App() {
 
   // 거래소 — 검색 조건을 ?q=로 실어 새 탭으로 연다 (현재 검색 / 즐겨찾기 스냅샷 공용)
   const currentTrade = useMemo(
-    () => tradeUrl({ tab, tabletType, sel, mode, price, corrupt, tier, uses, league }),
-    [tab, tabletType, sel, mode, price, corrupt, tier, uses, league]
+    () => tradeUrl({ tab, tabletType, sel, mode, price, corrupt, tier, uses, site, lang, league }),
+    // basesReady: 거래소 언어의 타입명이 도착하면 다시 만든다
+    [tab, tabletType, sel, mode, price, corrupt, tier, uses, site, lang, league, basesReady]
   );
   function openTrade(snap) {
-    const { url } = tradeUrl({ ...snap, league });
+    const { url } = tradeUrl({ ...snap, site, lang, league });
     window.open(url, "_blank", "noopener");
   }
 
@@ -341,13 +366,16 @@ export default function App() {
   const [importOpen, setImportOpen] = useState(false);
   const [importSkipped, setImportSkipped] = useState([]);
 
-  // 북마클릿이 넘겨준 조건(#trade=…)을 첫 렌더에 적용
+  // 북마클릿이 넘겨준 조건(#trade=…)을 첫 렌더에 적용.
+  // 타입명 역파싱에 거래소 언어의 이름표가 필요하므로 그것부터 받아 온다.
   useEffect(() => {
     const q = readHashQuery();
     if (!q) return;
     history.replaceState(null, "", location.pathname); // 주소는 깔끔하게 되돌린다
-    const { state, skipped } = queryToState(q);
-    applyImport(state, skipped);
+    Promise.all(importLangs(lang).map(ensureBases)).then(() => {
+      const { state, skipped } = queryToState(q);
+      applyImport(state, skipped);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -637,6 +665,9 @@ export default function App() {
           onResetFavWindow={favWin.resetGeom}
           onResetOptPrefs={optPrefs.reset}
           optPrefsDirty={optPrefs.hasPrefs}
+          siteSetting={siteSetting}
+          onSiteSetting={setSiteSetting}
+          site={site}
           league={league}
           onLeague={setLeague}
           lang={lang}

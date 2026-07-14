@@ -1,7 +1,7 @@
 import FloatingWindow from "./FloatingWindow.jsx";
 import Tooltip from "./Tooltip.jsx";
 import { IconSettings, IconClose, IconReset } from "./icons.jsx";
-import { LEAGUES } from "../lib/trade.js";
+import { TRADE_SITES, tradeSite, siteForLang } from "../lib/trade.js";
 import { t } from "../i18n/index.js";
 
 // 언어 이름은 그 언어로 적는다 — 못 읽는 언어로 적혀 있으면 되돌아올 수가 없다.
@@ -47,12 +47,16 @@ export default function SettingsWindow({
   onResetFavWindow,
   onResetOptPrefs,
   optPrefsDirty,
+  siteSetting,
+  onSiteSetting,
+  site,
   league,
   onLeague,
   lang,
   langs,
   onLang,
 }) {
+  const S = tradeSite(site);
   const header = (
     <div className="flex items-center gap-2 border-b border-outline-variant bg-surface-c-low px-3 py-2.5">
       <IconSettings width={20} className="shrink-0 text-primary" />
@@ -92,7 +96,29 @@ export default function SettingsWindow({
           </select>
         </div>
 
-        {/* 거래소 리그 — 리그 목록 API는 CORS가 없어 조회 불가라 직접 고른다 */}
+        {/* 거래소 서버 — 언어와 별개 축이다(한국어를 쓰면서 글로벌에서 살 수도 있다) */}
+        <div className="flex items-center gap-3 rounded-md-s border border-outline-variant bg-surface-c px-3 py-2.5">
+          <div className="min-w-0 flex-1">
+            <p className="text-label-l text-on-surface">{t("settings.site")}</p>
+            <p className="text-body-s text-on-surface-variant">{t("settings.siteDesc")}</p>
+          </div>
+          <select
+            value={siteSetting}
+            onChange={(e) => onSiteSetting(e.target.value)}
+            className="shrink-0 rounded-md-s border border-outline bg-surface-c-lowest px-2 py-1.5 text-body-m text-on-surface outline-none transition focus:border-primary"
+          >
+            <option value="auto">
+              {t("settings.site.auto", { name: t("site." + siteForLang(lang)) })}
+            </option>
+            {Object.keys(TRADE_SITES).map((id) => (
+              <option key={id} value={id}>
+                {t("site." + id)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* 거래소 리그 — 리그 목록 API는 CORS가 없어 조회 불가라 직접 고른다. id가 거래소마다 다르다 */}
         <div className="flex items-center gap-3 rounded-md-s border border-outline-variant bg-surface-c px-3 py-2.5">
           <div className="min-w-0 flex-1">
             <p className="text-label-l text-on-surface">{t("settings.league")}</p>
@@ -105,7 +131,7 @@ export default function SettingsWindow({
             onChange={(e) => onLeague(e.target.value)}
             className="shrink-0 rounded-md-s border border-outline bg-surface-c-lowest px-2 py-1.5 text-body-m text-on-surface outline-none transition focus:border-primary"
           >
-            {LEAGUES.map((l) => (
+            {S.leagues.map((l) => (
               <option key={l.id} value={l.id}>
                 {l.label}
               </option>

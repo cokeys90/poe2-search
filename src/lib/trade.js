@@ -8,23 +8,90 @@ import {
   tabletImplicit,
   waystoneBase,
   waystoneBaseRe,
+  loadedBaseLangs,
   DEFAULT_USES,
 } from "../data/options.js";
 import { t } from "../i18n/index.js";
 
-// 공식 거래소(카카오 PoE2) 링크 생성.
-// 검색 조건을 ?q=<JSON>으로 실어 보내면 거래소가 알아서 검색을 실행하고
-// URL 끝의 검색 ID(예: /6zWVPLP6sG)도 스스로 발급한다 → 우리가 API를 호출할 필요가 없다.
-const BASE = "https://poe.kakaogames.com/trade2/search/poe2";
+/* ── 거래소 ───────────────────────────────────────────────────────
+   검색 조건을 ?q=<JSON>으로 실어 보내면 거래소가 알아서 검색을 실행하고
+   URL 끝의 검색 ID(예: /6zWVPLP6sG)도 스스로 발급한다 → 우리가 API를 호출할 필요가 없다.
 
-// 리그 목록은 /api/trade2/data/leagues에 있으나 CORS가 없어 브라우저에서 못 부른다 → 코드에 유지.
-export const LEAGUES = [
-  { id: "Runes of Aldur", label: "룬 오브 알두르" },
-  { id: "HC Runes of Aldur", label: "룬 오브 알두르 (하드코어)" },
-  { id: "Standard", label: "스탠다드" },
-  { id: "Hardcore", label: "하드코어" },
+   ⚠️ 거래소(realm)는 언어와 별개 축이다. 셋이고 서로 다른 서버다.
+     global — GGG 본서버. ⚠️ **언어별 서브도메인**이 따로 있다(ru./br./de.…) 그리고
+              기본 타입명(query.type)이 그 서브도메인의 언어로 나온다. 영어 고정이 아니다.
+     kakao  — 한국 서버. 한국어.
+     tw     — 대만 서버. 번체. 리그 id까지 중국어다.
+
+   리그 목록은 /api/trade2/data/leagues에 있으나 CORS가 없어 브라우저에서 못 부른다 → 코드에 유지.
+   (2026-07 확인: 글로벌은 서브도메인이 달라도 리그 id가 영어로 같다. 대만만 중국어) */
+
+// 언어 → 글로벌 거래소 서브도메인. ⚠️ 우리 언어코드와 다른 게 있다: sp→es, pt→br, us→www.
+const GLOBAL_SUB = {
+  us: "www",
+  kr: "kr",
+  jp: "jp",
+  ru: "ru",
+  pt: "br",
+  th: "th",
+  fr: "fr",
+  de: "de",
+  sp: "es",
+  tw: "www", // 번체 서브도메인은 없다 — 대만은 별도 서버(pathofexile.tw)를 쓴다
+};
+
+const EN_LEAGUES = [
+  { id: "Runes of Aldur", label: "Runes of Aldur" },
+  { id: "HC Runes of Aldur", label: "HC Runes of Aldur" },
+  { id: "Standard", label: "Standard" },
+  { id: "Hardcore", label: "Hardcore" },
 ];
-export const DEFAULT_LEAGUE = "Runes of Aldur";
+
+export const TRADE_SITES = {
+  global: {
+    id: "global",
+    // 글로벌은 앱 언어를 그대로 쓴다 — 그 언어 서브도메인으로 보내고 타입명도 그 언어다
+    langFor: (lang) => lang,
+    baseFor: (lang) =>
+      `https://${GLOBAL_SUB[lang] || "www"}.pathofexile.com/trade2/search/poe2`,
+    leagues: EN_LEAGUES,
+    league: "Runes of Aldur",
+  },
+  kakao: {
+    id: "kakao",
+    langFor: () => "kr",
+    baseFor: () => "https://poe.kakaogames.com/trade2/search/poe2",
+    leagues: [
+      { id: "Runes of Aldur", label: "룬 오브 알두르" },
+      { id: "HC Runes of Aldur", label: "룬 오브 알두르 (하드코어)" },
+      { id: "Standard", label: "스탠다드" },
+      { id: "Hardcore", label: "하드코어" },
+    ],
+    league: "Runes of Aldur",
+  },
+  tw: {
+    id: "tw",
+    langFor: () => "tw",
+    baseFor: () => "https://pathofexile.tw/trade2/search/poe2",
+    leagues: [
+      { id: "阿德爾的符文", label: "阿德爾的符文" },
+      { id: "阿德爾的符文 專家模式", label: "阿德爾的符文 專家模式" },
+      { id: "標準模式", label: "標準模式" },
+      { id: "專家模式", label: "專家模式" },
+    ],
+    league: "阿德爾的符文",
+  },
+};
+
+// 언어로 거래소를 고른다 (설정이 "자동"일 때). 한국어=카카오, 번체=대만, 나머지=글로벌.
+export const siteForLang = (lang) =>
+  lang === "kr" ? "kakao" : lang === "tw" ? "tw" : "global";
+
+export const tradeSite = (id) => TRADE_SITES[id] || TRADE_SITES.global;
+
+// 가져오기에서 기본 타입명을 역파싱할 때 훑을 언어들.
+// 글로벌은 사용자의 언어로 오고, 카카오는 한국어, 대만은 번체다. 영어는 안전망.
+export const importLangs = (lang) => [...new Set([lang, "kr", "us", "tw"])];
 
 const CATEGORY = { waystone: "map.waystone", tablet: "map.tablet" };
 
@@ -67,8 +134,12 @@ export function tradeUrl({
   corrupt,
   tier,
   uses,
-  league = DEFAULT_LEAGUE,
+  site = "global",
+  lang = "us",
+  league,
 }) {
+  const S = tradeSite(site);
+  const siteLang = S.langFor(lang); // 그 거래소가 쓰는 언어 (글로벌은 앱 언어를 따라간다)
   const and = [];
   const not = [];
   const count = [];
@@ -129,9 +200,15 @@ export function tradeUrl({
   const filters = {
     type_filters: { filters: { category: { option: CATEGORY[tab] } } },
   };
-  // 기본 타입까지 지정하면 종류/등급이 정확히 좁혀진다 (카테고리만 쓰면 서판 8종이 다 섞인다)
+  // 기본 타입까지 지정하면 종류/등급이 정확히 좁혀진다 (카테고리만 쓰면 서판 8종이 다 섞인다).
+  // ⚠️ 앱 언어가 아니라 그 거래소의 언어로 넣어야 한다. 아직 안 받아온 언어면 생략한다
+  //    (타입 없이도 카테고리·스탯으로 검색은 되지만 종류가 섞인다 → App이 미리 받아 둔다)
   const baseType =
-    tab === "tablet" ? tabletBase(tabletType) : t != null ? waystoneBase(t) : null;
+    tab === "tablet"
+      ? tabletBase(tabletType, siteLang)
+      : t != null
+        ? waystoneBase(t, siteLang)
+        : null;
   if (Object.keys(mapFilters).length) filters.map_filters = { filters: mapFilters };
   if (corrupt === "yes" || corrupt === "no")
     filters.misc_filters = { filters: { corrupted: { option: corrupt === "yes" } } };
@@ -153,7 +230,8 @@ export function tradeUrl({
     sort: { price: "asc" },
   };
 
-  const url = `${BASE}/${encodeURIComponent(league)}?q=${encodeURIComponent(JSON.stringify(q))}`;
+  const lg = S.leagues.some((l) => l.id === league) ? league : S.league;
+  const url = `${S.baseFor(lang)}/${encodeURIComponent(lg)}?q=${encodeURIComponent(JSON.stringify(q))}`;
   return { url, skipped };
 }
 
@@ -214,18 +292,23 @@ export function queryToState(query) {
   let uses = { on: false, min: DEFAULT_USES };
 
   // 기본 타입명이 있으면 그것만으로 종류·등급이 확정된다 ("방사능 노출 서판" / "경로석 (15등급)").
-  // 타입명은 거래소(=게임)의 언어로 오므로 현재 로케일의 이름표와 맞춘다.
+  // ⚠️ 타입명은 그 거래소의 언어로 온다. 어느 거래소에서 왔는지는 모르므로 (북마클릿은 조건만
+  //    넘긴다) 받아와 둔 거래소 언어를 전부 훑는다. App이 가져오기 전에 미리 받아 둔다.
   const baseType = String(query?.type || "").trim();
+  const langs = loadedBaseLangs();
   if (baseType) {
-    const hit = TABLET_TYPES.find((slug) => tabletBase(slug) === baseType);
-    if (hit) {
-      tab = "tablet";
-      tabletType = hit;
-    } else {
-      const wm = baseType.match(waystoneBaseRe());
+    for (const lang of langs) {
+      const hit = TABLET_TYPES.find((slug) => tabletBase(slug, lang) === baseType);
+      if (hit) {
+        tab = "tablet";
+        tabletType = hit;
+        break;
+      }
+      const wm = baseType.match(waystoneBaseRe(lang));
       if (wm) {
         tab = "waystone";
         tier = wm[1];
+        break;
       }
     }
   }

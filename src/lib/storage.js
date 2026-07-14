@@ -197,20 +197,44 @@ export function saveWinState(key, s) {
   }
 }
 
-// 거래소 링크에 쓸 리그 (리그 목록 API는 CORS가 없어 런타임 조회 불가 → 사용자가 설정에서 고른다)
-const LEAGUE_KEY = "poe2-search:league";
+// 어느 거래소로 보낼지 — "auto"(언어에서 유도) 또는 거래소 id(global/kakao/tw)
+const SITE_KEY = "poe2-search:tradeSite";
 
-export function loadLeague(fallback) {
+export function loadTradeSite() {
   try {
-    return localStorage.getItem(LEAGUE_KEY) || fallback;
+    return localStorage.getItem(SITE_KEY) || "auto";
   } catch {
-    return fallback;
+    return "auto";
   }
 }
 
-export function saveLeague(id) {
+export function saveTradeSite(id) {
   try {
-    localStorage.setItem(LEAGUE_KEY, id);
+    localStorage.setItem(SITE_KEY, id);
+  } catch {
+    // 저장 실패는 무시
+  }
+}
+
+// 거래소 링크에 쓸 리그 (리그 목록 API는 CORS가 없어 런타임 조회 불가 → 사용자가 설정에서 고른다).
+// 리그 id가 거래소마다 다르므로(대만은 중국어) 거래소별로 따로 기억한다.
+const LEAGUE_KEY = "poe2-search:league";
+
+export function loadLeagues() {
+  try {
+    const raw = localStorage.getItem(LEAGUE_KEY);
+    if (!raw) return {};
+    // 거래소가 카카오뿐이던 시절엔 리그 id 하나만 문자열로 저장했다 → 카카오 것으로 옮긴다
+    if (!raw.startsWith("{")) return { kakao: raw };
+    return JSON.parse(raw) || {};
+  } catch {
+    return {};
+  }
+}
+
+export function saveLeagues(map) {
+  try {
+    localStorage.setItem(LEAGUE_KEY, JSON.stringify(map));
   } catch {
     // 저장 실패는 무시
   }

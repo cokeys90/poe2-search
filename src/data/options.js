@@ -34,6 +34,19 @@ const LOADERS = {
 
 let L = kr; // 활성 로케일
 
+// 기본 타입명(bases)만은 활성 로케일과 별개로 필요하다 — 거래소는 그 거래소의 언어로 타입명을
+// 받는다(글로벌=영어, 카카오=한국어, 대만=중국어). 앱 언어가 일본어여도 글로벌 거래소로 보낼 땐
+// 영어 타입명을 넣어야 종류·등급이 걸린다. 그래서 언어별 bases를 따로 캐시해 둔다.
+const basesCache = { kr: kr.bases };
+
+export async function ensureBases(lang) {
+  if (basesCache[lang] || !LANGS.includes(lang)) return;
+  basesCache[lang] = (await LOADERS[lang]()).default.bases;
+}
+const basesOf = (lang) => (lang ? basesCache[lang] : null) || L.bases;
+// 어느 언어의 bases가 준비돼 있는지 — 가져오기에서 타입명을 역파싱할 때 훑는다
+export const loadedBaseLangs = () => Object.keys(basesCache);
+
 const merge = (list) => list.map((c) => ({ ...c, ...L.options[c.key] }));
 
 function build() {
@@ -89,6 +102,7 @@ export const onLangChange = (fn) => {
 export async function setLang(lang) {
   if (lang === LANG || !LANGS.includes(lang)) return;
   L = lang === DEFAULT_LANG ? kr : (await LOADERS[lang]()).default;
+  basesCache[lang] = L.bases;
   LANG = lang;
   DATA = build();
   BY_KEY = index(DATA);
@@ -114,15 +128,18 @@ export const tabletImplicit = (slug) => DATA.tablet.implicit[slug]?.[0] ?? null;
 
 export const tabletName = (slug) => L.tablets?.[slug] ?? slug;
 
-// 거래소 기본 타입명 — query.type에 넣으면 그 종류·등급만 검색된다
-export const tabletBase = (slug) => L.bases[slug];
-export const waystoneBase = (tier) => L.bases.waystone.replace("{tier}", tier);
+// 거래소 기본 타입명 — query.type에 넣으면 그 종류·등급만 검색된다.
+// lang을 주면 그 언어의 이름표를 쓴다 (거래소 언어 ≠ 앱 언어일 수 있다). 안 주면 활성 로케일.
+export const tabletBase = (slug, lang) => basesOf(lang)[slug];
+export const waystoneBase = (tier, lang) => basesOf(lang).waystone.replace("{tier}", tier);
 
 // "경로석 ({tier}등급)" → /^경로석 \((\d+)등급\)$/ — 거래소에서 가져올 때 등급 역파싱.
 // ⚠️ 함수다. 로케일이 바뀌면 정규식도 달라지므로 모듈 로드 시점에 만들어 두면 안 된다.
-export const waystoneBaseRe = () =>
+export const waystoneBaseRe = (lang) =>
   new RegExp(
     "^" +
-      L.bases.waystone.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace("\\{tier\\}", "(\\d+)") +
+      basesOf(lang)
+        .waystone.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+        .replace("\\{tier\\}", "(\\d+)") +
       "$"
   );
