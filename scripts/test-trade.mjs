@@ -10,7 +10,8 @@
 // 왜 왕복인가 — 내보내기만 보면 "거래소가 알아들었는지"를 알 수 없다. 우리가 만든 JSON을
 // 우리 파서로 되읽어 원래 상태와 맞춰 보면 매핑의 앞뒤가 어긋난 곳이 드러난다.
 
-import { tradeUrl, queryToState, TRADE_SITES, siteForLang, importLangs } from "../src/lib/trade.js";
+import { readFileSync } from "node:fs";
+import { tradeUrl, queryToState, TRADE_SITES, siteForLang, importLangs, tradeOrigin } from "../src/lib/trade.js";
 import { ensureBases, setLang, BY_KEY, DEFAULT_USES } from "../src/data/options.js";
 
 const LANGS = ["kr", "us", "jp", "tw", "ru", "pt", "th", "fr", "de", "sp"];
@@ -173,6 +174,25 @@ if (noTrade.length) {
   if (!skipped.length) bad(`거래소명 없는 옵션(${one.key})이 skipped에 안 담겼다 — 조용히 사라진다`);
 }
 console.log(`거래소로 못 보내는 옵션 ${noTrade.length}개 — 전부 사용자에게 보고됨`);
+
+/* ── 4. 워커의 허용 목록이 앱이 실제로 부르는 거래소를 다 덮는가 ── */
+
+// 스탯 이름표 프록시(worker/index.js)는 오픈 프록시가 되지 않도록 거래소만 허용한다.
+// 그 목록이 앱의 서브도메인 표와 어긋나면 조회가 조용히 400을 받는다 → 이름표 대신 stat id가 뜬다.
+const worker = readFileSync("worker/index.js", "utf8");
+const subs = worker.match(/const GLOBAL_SUBS = \[([^\]]+)\]/)?.[1] ?? "";
+const allowed = new Set([
+  ...[...subs.matchAll(/"([^"]+)"/g)].map((m) => `https://${m[1]}.pathofexile.com`),
+  ...[...worker.matchAll(/"(https:\/\/(?:pathofexile\.tw|poe\.kakaogames\.com))"/g)].map((m) => m[1]),
+]);
+
+for (const lang of LANGS) {
+  for (const site of Object.keys(TRADE_SITES)) {
+    const o = tradeOrigin(site, lang);
+    if (!allowed.has(o)) bad(`워커가 ${o}를 허용하지 않는다 (${lang} × ${site}) — 이름표 조회가 400`);
+  }
+}
+console.log(`워커 허용 목록 — 앱이 부르는 거래소 ${allowed.size}곳 전부 덮음`);
 
 console.log(fail ? `\n실패 ${fail}건` : "\n전부 통과");
 process.exit(fail ? 1 : 0);

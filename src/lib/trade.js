@@ -27,7 +27,9 @@ import { t } from "../i18n/index.js";
    (2026-07 확인: 글로벌은 서브도메인이 달라도 리그 id가 영어로 같다. 대만만 중국어) */
 
 // 언어 → 글로벌 거래소 서브도메인. ⚠️ 우리 언어코드와 다른 게 있다: sp→es, pt→br, us→www.
-const GLOBAL_SUB = {
+// ⚠️ worker/index.js의 ALLOWED_UPSTREAM과 짝이다 — 어긋나면 스탯 이름표 조회가 400을 받는다.
+//    scripts/test-trade.mjs가 대조한다.
+export const GLOBAL_SUB = {
   us: "www",
   kr: "kr",
   jp: "jp",
@@ -245,18 +247,28 @@ export function tradeUrl({
 const PROXY = import.meta.env?.VITE_TRADE_PROXY || "";
 
 // 못 가져온 옵션의 stat id → 거래소 원문. 필요할 때만(가져오기에서 빠진 게 있을 때만) 받아온다.
-let statNames = null;
-export async function fetchStatNames(ids) {
+//
+// ⚠️ 스탯 이름표도 거래소마다 언어가 다르다 (글로벌은 언어별 서브도메인까지). 어느 거래소를
+//    읽을지 워커에 알려주지 않으면 영어 사용자에게 한국어 이름이 뜬다 — 실제로 그랬다.
+const statNames = new Map(); // 거래소 오리진 → { statId: 이름 }
+
+// 그 거래소의 API 오리진. tradeUrl이 쓰는 baseFor와 같은 도메인이다 (한 곳에서 유도한다)
+export const tradeOrigin = (site, lang) => new URL(tradeSite(site).baseFor(lang)).origin;
+
+export async function fetchStatNames(ids, { site = "global", lang = "us" } = {}) {
   if (!ids?.length) return [];
-  if (!statNames && PROXY) {
+  const origin = tradeOrigin(site, lang);
+
+  if (!statNames.has(origin) && PROXY) {
     try {
-      const res = await fetch(`${PROXY}/stats`);
-      if (res.ok) statNames = await res.json();
+      const res = await fetch(`${PROXY}/stats?origin=${encodeURIComponent(origin)}`);
+      if (res.ok) statNames.set(origin, await res.json());
     } catch {
       // 조회 실패 시엔 id를 그대로 보여준다
     }
   }
-  return ids.map((id) => statNames?.[id] || id);
+  const map = statNames.get(origin);
+  return ids.map((id) => map?.[id] || id);
 }
 
 // 북마클릿 — 거래소 페이지에서 조건(window.tradeOpts.state)을 읽어 우리 앱을 열어준다.

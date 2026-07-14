@@ -7,18 +7,30 @@
 // 검색 ID(rPBBYV9GuQ) → 조건 조회는 제공하지 않는다. 그 API는 IP 단위 레이트리밋이 걸려 있고
 // 워커의 공용 IP를 남과 나눠 쓰므로 구조적으로 불안정하다. 조건 가져오기는 북마클릿이 담당한다.
 //
-// 요청: GET /stats  → { "explicit.stat_123": "지도에서 발견하는 …", ... }
+// 요청: GET /stats?origin=https://fr.pathofexile.com
+//   → { "explicit.stat_123": "…", … }   (그 거래소의 언어로)
+//
+// ⚠️ 스탯 이름표는 거래소마다 언어가 다르다. 글로벌은 언어별 서브도메인까지 다르다
+//    (fr. → 프랑스어, www. → 영어). 예전엔 카카오로 고정돼 있어 영어 사용자에게
+//    한국어 이름이 떴다. origin을 안 주면 예전처럼 카카오로 답한다(이미 배포된 옛 앱 하위호환).
 
-// 대표 도메인은 poe2.cokeys90.dev. 옛 web.app 주소도 남겨둔다
-// (그 주소로 등록해둔 북마클릿이 계속 동작하도록).
 const ALLOWED_ORIGINS = [
   "https://poe2.cokeys90.dev",
   "https://poe2-search.web.app",
   "https://poe2-search.firebaseapp.com",
   "http://localhost:5173",
+  "http://localhost:4173", // vite preview (빌드본 확인용)
 ];
 
-const UPSTREAM_STATS = "https://poe.kakaogames.com/api/trade2/data/stats";
+// ⚠️ 허용 목록이 없으면 아무 URL이나 대신 불러주는 오픈 프록시가 된다. 거래소만 허용한다.
+// 글로벌의 언어별 서브도메인 + 카카오(한국) + 대만. src/lib/trade.js의 GLOBAL_SUB와 짝이다.
+const GLOBAL_SUBS = ["www", "kr", "jp", "ru", "br", "th", "fr", "de", "es"];
+const ALLOWED_UPSTREAM = new Set([
+  ...GLOBAL_SUBS.map((s) => `https://${s}.pathofexile.com`),
+  "https://pathofexile.tw",
+  "https://poe.kakaogames.com",
+]);
+const DEFAULT_UPSTREAM = "https://poe.kakaogames.com"; // origin을 안 넘기는 옛 앱
 
 // GGG 정책이 요구하는 식별 가능한 User-Agent (앱/버전 + 연락처).
 // 연락처는 이메일 대신 저장소 주소 — 공개 저장소라 이메일 노출을 피한다(이슈로 연락 가능).
@@ -50,13 +62,20 @@ export default {
     const url = new URL(request.url);
     if (url.pathname !== "/stats") return json({ error: "경로: /stats" }, 404, origin);
 
-    // 스탯 목록은 거의 바뀌지 않는다 → 하루 캐시 (거래소 부담·레이트리밋 완화)
+    const want = url.searchParams.get("origin") || DEFAULT_UPSTREAM;
+    if (!ALLOWED_UPSTREAM.has(want))
+      return json({ error: "허용하지 않는 거래소", origin: want }, 400, origin);
+
+    // 스탯 목록은 거의 바뀌지 않는다 → 하루 캐시 (거래소 부담·레이트리밋 완화).
+    // ⚠️ 캐시 키에 거래소가 들어가야 한다 — 안 그러면 먼저 온 언어의 이름표가 다른 언어에게도 나간다.
     const cache = caches.default;
-    const key = new Request(url.toString(), { method: "GET" });
+    const key = new Request(`${url.origin}/stats?origin=${encodeURIComponent(want)}`, {
+      method: "GET",
+    });
     const hit = await cache.match(key);
     if (hit) return json(await hit.json(), 200, origin);
 
-    const up = await fetch(UPSTREAM_STATS, {
+    const up = await fetch(`${want}/api/trade2/data/stats`, {
       headers: { Accept: "application/json", "User-Agent": USER_AGENT },
     });
     if (!up.ok) return json({ error: "스탯 목록 조회 실패", status: up.status }, up.status, origin);

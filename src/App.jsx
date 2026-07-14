@@ -380,8 +380,9 @@ export default function App() {
   }, []);
 
   function applyImport(s, skipped) {
-    // 못 가져온 옵션은 stat id뿐이라 이름을 따로 조회해 보여준다
-    fetchStatNames(skipped).then(setImportSkipped);
+    // 못 가져온 옵션은 stat id뿐이라 이름을 따로 조회해 보여준다.
+    // 어느 거래소를 읽을지 알려줘야 한다 — 이름표가 거래소마다 다른 언어다
+    fetchStatNames(skipped, { site, lang }).then(setImportSkipped);
     setTab(s.tab);
     if (s.tab === "tablet" && s.tabletType) setTabletType(s.tabletType);
     setSel(s.sel);

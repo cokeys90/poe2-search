@@ -3,7 +3,7 @@
 > `node scripts/verify-all.mjs --net` 가 만든다. **손으로 고치지 말 것.**
 > 무엇을 검증하는지는 [verification-spec.md](verification-spec.md), 기능 목록은 [feature-spec.md](feature-spec.md).
 
-- 커밋: `a15b9f0 2026-07-14T21:02:33+09:00`
+- 커밋: `97ef393 2026-07-14T21:13:13+09:00`
 - 범위: 오프라인 + 네트워크
 
 | | 검증 | 덮는 기능 | 결과 |
