@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { matches } from "../lib/search.js";
 import OptionRow from "./OptionRow.jsx";
 import HighlightText from "./HighlightText.jsx";
 import { IconExpand, IconUnhide } from "./icons.jsx";
@@ -49,9 +50,10 @@ export default function OptionGroup({
     },
   };
 
-  // 대소문자 무시 - 라틴 문자 언어에서 'fire'로 'Fire'를 찾을 수 있어야 한다
-  const needle = filter.trim().toLowerCase();
-  const shown = needle ? items.filter((it) => it.text.toLowerCase().includes(needle)) : items;
+  // 띄어쓴 낱말을 전부 포함하면 매칭 (순서 무관) — "에센스 추가"로 "지도에 에센스 1개 추가 등장"을 찾는다.
+  // 대소문자는 무시한다 (라틴 문자 언어에서 'fire'로 'Fire'를 찾을 수 있어야 한다)
+  const query = filter.trim();
+  const shown = query ? items.filter((it) => matches(it.text, query)) : items;
   if (!shown.length && !hidden.length) return null;
 
   return (
@@ -77,6 +79,7 @@ export default function OptionGroup({
               showTrade={showTrade}
               onToggle={onToggle}
               onSetValue={onSetValue}
+              query={query}
               onHide={() => onHide(id)}
               dnd={dnd}
             />

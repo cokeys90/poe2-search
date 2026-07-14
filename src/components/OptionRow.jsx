@@ -5,7 +5,7 @@ import { hasNumeric, rangeHint } from "../lib/regex.js";
 import { IconReorder, IconHide } from "./icons.jsx";
 import { t } from "../i18n/index.js";
 
-export default function OptionRow({ item, sel, showTrade, onToggle, onSetValue, onHide, dnd, id }) {
+export default function OptionRow({ item, sel, showTrade, query, onToggle, onSetValue, onHide, dnd, id }) {
   const s = sel;
   const numeric = item.numeric || hasNumeric(item.text);
   const hint =
@@ -85,11 +85,11 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetValue, 
           )}
         </span>
         <span className="min-w-0 flex-1 leading-snug">
-          <HighlightText text={item.text} />
+          <HighlightText text={item.text} query={query} />
           {/* 복합 모드의 부가 옵션 — 이 옵션이 붙으면 딸려오는 효과. 검색 대상은 아니라 다운톤으로. */}
           {item.extra?.map((line, i) => (
             <span key={i} className="mt-0.5 block text-body-s text-on-surface-variant/70">
-              + <HighlightText text={line} />
+              + <HighlightText text={line} query={query} />
             </span>
           ))}
           {/* 거래소명은 개발 빌드에서만 (showTrade가 dev 전용 토글). 옵션 원문 아래 줄에 표시 */}
