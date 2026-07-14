@@ -13,6 +13,7 @@
 // 파일이 실제로 있으므로 Firebase가 그대로 내려준다 (rewrite는 파일이 없을 때만 걸린다).
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { execSync } from "node:child_process";
 import { LANG_PATH } from "../src/lib/langPath.js";
 
 const ORIGIN = "https://poe2.cokeys90.dev";
@@ -82,8 +83,10 @@ ${alternates}
     <meta property="og:url" content="${u}" />
     <meta property="og:title" content="${esc(s.ogTitle)}" />
     <meta property="og:description" content="${esc(s.ogDesc)}" />
-    <meta property="og:image" content="${ORIGIN}/favicon.png" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="${ORIGIN}/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <script type="application/ld+json">
       ${JSON.stringify({
@@ -119,7 +122,9 @@ for (const lang of LANGS) {
   writeFileSync(`${dir}/index.html`, html);
 }
 
-// 사이트맵 — 각 URL이 자기 hreflang 묶음을 들고 있어야 구글이 언어 짝을 인식한다
+// 사이트맵 — 각 URL이 자기 hreflang 묶음을 들고 있어야 구글이 언어 짝을 인식한다.
+// lastmod는 마지막 커밋 날짜다 — 빌드 시각을 쓰면 내용이 그대로여도 매번 바뀌어 크롤러가 헛걸음한다.
+const lastmod = execSync('git log -1 --format="%cs"', { encoding: "utf8" }).trim();
 const sitemap =
   `<?xml version="1.0" encoding="UTF-8"?>\n` +
   `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n` +
@@ -132,6 +137,7 @@ const sitemap =
       .join("\n");
     return (
       `  <url>\n    <loc>${url(SEO[lang].path)}</loc>\n${links}\n` +
+      `    <lastmod>${lastmod}</lastmod>\n` +
       `    <changefreq>weekly</changefreq>\n    <priority>${lang === "kr" ? "1.0" : "0.8"}</priority>\n  </url>`
     );
   }).join("\n") +
