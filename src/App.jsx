@@ -1,5 +1,12 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { DEFAULT_TABLET_TYPE, DEFAULT_TIER, hydrateSel, tabletName } from "./data/options.js";
+import {
+  DEFAULT_TABLET_TYPE,
+  DEFAULT_TIER,
+  DEFAULT_USES,
+  hydrateSel,
+  tabletName,
+  tabletImplicit,
+} from "./data/options.js";
 import { buildPattern } from "./lib/pattern.js";
 import {
   tradeUrl,
@@ -21,6 +28,7 @@ import {
   SETTINGS_WIN_KEY,
 } from "./lib/storage.js";
 import TabletTypeBar from "./components/TabletTypeBar.jsx";
+import TabletUses from "./components/TabletUses.jsx";
 import OptionGroup from "./components/OptionGroup.jsx";
 import ResultBar from "./components/ResultBar.jsx";
 import PriceFilter from "./components/PriceFilter.jsx";
@@ -76,6 +84,8 @@ export default function App() {
   );
   const [tier, setTier] = useState(() => pins.waystone.tier ?? DEFAULT_TIER); // 경로석 등급 (""=무관)
   const [corrupt, setCorrupt] = useState(() => pins.common.corrupt ?? "any"); // any | yes | no
+  // 서판 고정 옵션(잔여 사용 횟수). 안 쓴 서판만 찾는 게 거래의 기본이라 기본으로 켜 둔다.
+  const [uses, setUses] = useState({ on: true, min: DEFAULT_USES });
   const [filter, setFilter] = useState("");
   const [showTrade, setShowTrade] = useState(false); // 거래소명 표시 = 개발 빌드에서만 켤 수 있다
   const [copied, setCopied] = useState(false);
@@ -250,8 +260,8 @@ export default function App() {
   }
 
   const pattern = useMemo(
-    () => buildPattern({ tab, sel, mode, tier, corrupt, price }),
-    [sel, mode, price, tier, corrupt, tab]
+    () => buildPattern({ tab, tabletType, sel, mode, tier, corrupt, price, uses }),
+    [sel, mode, price, tier, corrupt, tab, tabletType, uses]
   );
 
   // 화면(칩·수치입력)은 옵션 원문이 필요하므로 key로 되살려 넘긴다
@@ -282,7 +292,10 @@ export default function App() {
   // 완성된 검색어는 저장하지 않는다 — 언어가 바뀌면 옛 언어의 검색어가 남는다. 볼 때 다시 만든다.
   function snapshot() {
     const s = { tab, sel, mode, price, corrupt };
-    if (tab === "tablet") s.tabletType = tabletType;
+    if (tab === "tablet") {
+      s.tabletType = tabletType;
+      s.uses = uses;
+    }
     if (tab === "waystone") s.tier = tier;
     return s;
   }
@@ -298,6 +311,7 @@ export default function App() {
     setPrice(fav.price ?? DEFAULT_PRICE);
     setCorrupt(fav.corrupt ?? "any");
     setTier(fav.tab === "waystone" ? fav.tier ?? "" : "");
+    setUses(fav.uses ?? { on: true, min: DEFAULT_USES });
     setFilter("");
     setPendingLoad(null);
   }
@@ -309,8 +323,8 @@ export default function App() {
 
   // 거래소 — 검색 조건을 ?q=로 실어 새 탭으로 연다 (현재 검색 / 즐겨찾기 스냅샷 공용)
   const currentTrade = useMemo(
-    () => tradeUrl({ tab, tabletType, sel, mode, price, corrupt, tier, league }),
-    [tab, tabletType, sel, mode, price, corrupt, tier, league]
+    () => tradeUrl({ tab, tabletType, sel, mode, price, corrupt, tier, uses, league }),
+    [tab, tabletType, sel, mode, price, corrupt, tier, uses, league]
   );
   function openTrade(snap) {
     const { url } = tradeUrl({ ...snap, league });
@@ -341,6 +355,7 @@ export default function App() {
     setPrice(s.price);
     setCorrupt(s.corrupt);
     setTier(s.tab === "waystone" ? s.tier : "");
+    if (s.uses) setUses(s.uses);
     setFilter("");
     setImportSkipped(skipped);
     setImportOpen(false);
@@ -493,6 +508,8 @@ export default function App() {
               {tab === "tablet" && (
                 <div className="mb-4">
                   <TabletTypeBar value={tabletType} onChange={setTabletType} />
+                  {/* 종류마다 늘 붙어 있는 고정 옵션 — 종류를 고르면 따라 바뀐다 */}
+                  <TabletUses item={tabletImplicit(tabletType)} value={uses} onChange={setUses} />
                 </div>
               )}
 

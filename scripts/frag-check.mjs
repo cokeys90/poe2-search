@@ -38,7 +38,13 @@ function pools() {
     out.push({
       id: `tablet:${t}`,
       label: `서판 · ${tabletName(t)}`,
-      items: [...DATA.tablet.prefix, ...DATA.tablet.suffix, ...(DATA.tablet.unique[t] || [])],
+      // 고정 옵션(잔여 사용 횟수)도 아이템에 늘 적혀 있다 → 다른 조각이 그 줄을 잘못 잡을 수 있으니 함께 본다
+      items: [
+        ...(DATA.tablet.implicit[t] || []),
+        ...DATA.tablet.prefix,
+        ...DATA.tablet.suffix,
+        ...(DATA.tablet.unique[t] || []),
+      ],
     });
   }
   return out;

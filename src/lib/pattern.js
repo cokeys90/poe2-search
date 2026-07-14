@@ -5,11 +5,12 @@
 //
 // 게임 문법: 각 검색 세트를 " "로 감싸고 공백으로 구분 (공백 = AND)
 
-import { BY_KEY, TOKENS } from "../data/options.js";
+import { BY_KEY, TOKENS, tabletImplicit } from "../data/options.js";
 import { piece, pricePiece, tierPiece } from "./regex.js";
 
 // sel: { [key]: {mode:"inc"|"exc", min} } — 옵션 본문은 key로 데이터에서 되살린다
-export function buildPattern({ tab, sel, mode, tier, corrupt, price }) {
+// uses: { on, min } — 서판 고정 옵션(잔여 사용 횟수). 서판 탭에서만 쓴다.
+export function buildPattern({ tab, tabletType, sel, mode, tier, corrupt, price, uses }) {
   const inc = [];
   const exc = [];
 
@@ -32,6 +33,13 @@ export function buildPattern({ tab, sel, mode, tier, corrupt, price }) {
     else inc.forEach((p) => sets.push('"' + p + '"'));
   }
   exc.forEach((p) => sets.push('"!' + p + '"'));
+
+  // 서판 고정 옵션 — 종류마다 늘 붙어 있는 "지도에 … 추가 / 잔여 사용 횟수 N회".
+  // 안 쓴 서판(10회)만 찾는 게 거래의 기본이라 화면에서 기본 선택이다.
+  if (tab === "tablet" && uses?.on) {
+    const it = tabletImplicit(tabletType);
+    if (it) sets.push('"' + piece(it.frag, uses.min, it.text, {}) + '"');
+  }
 
   // 등급(경로석 전용) · 타락 · 가격 = 독립 검색 세트로 AND 결합
   if (tab === "waystone") {

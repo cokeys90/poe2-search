@@ -6,11 +6,11 @@
 // 지금은 한국어 하나뿐이라 모듈 로드 시점에 한 번 조립한다.
 // 언어 전환이 붙으면(4단계) 활성 로케일을 갈아끼우는 곳이 여기가 된다.
 
-import { CORE, TABLET_META, TABLET_TYPES, DEFAULT_TABLET_TYPE, DEFAULT_TIER } from "./core.js";
+import { CORE, TABLET_META, TABLET_TYPES, DEFAULT_TABLET_TYPE, DEFAULT_TIER, DEFAULT_USES } from "./core.js";
 // import 속성(with type) — Vite는 없어도 되지만 Node(검증 스크립트)는 요구한다
 import kr from "./locales/kr.json" with { type: "json" };
 
-export { TABLET_META, TABLET_TYPES, DEFAULT_TABLET_TYPE, DEFAULT_TIER };
+export { TABLET_META, TABLET_TYPES, DEFAULT_TABLET_TYPE, DEFAULT_TIER, DEFAULT_USES };
 
 const L = kr; // 활성 로케일
 
@@ -23,6 +23,10 @@ export const DATA = {
     suffix: merge(CORE.waystone.suffix),
   },
   tablet: {
+    // 종류마다 붙는 고정 옵션 ("지도에 … 추가 / 잔여 사용 횟수 N회"). 종류당 1개.
+    implicit: Object.fromEntries(
+      Object.entries(CORE.tablet.implicit).map(([slug, list]) => [slug, merge(list)])
+    ),
     prefix: merge(CORE.tablet.prefix),
     suffix: merge(CORE.tablet.suffix),
     unique: Object.fromEntries(
@@ -30,6 +34,9 @@ export const DATA = {
     ),
   },
 };
+
+// 그 서판 종류의 고정 옵션 (없을 수 없다)
+export const tabletImplicit = (slug) => DATA.tablet.implicit[slug]?.[0] ?? null;
 
 // key → 옵션. 저장된 key(핀·즐겨찾기·거래소 가져오기)를 실제 옵션으로 되살릴 때 쓴다.
 export const BY_KEY = new Map();
@@ -39,6 +46,7 @@ for (const list of [
   DATA.waystone.suffix,
   DATA.tablet.prefix,
   DATA.tablet.suffix,
+  ...Object.values(DATA.tablet.implicit),
   ...Object.values(DATA.tablet.unique),
 ]) {
   for (const it of list) BY_KEY.set(it.key, it);

@@ -4,8 +4,10 @@ import {
   TABLET_TYPES,
   BY_KEY,
   tabletBase,
+  tabletImplicit,
   waystoneBase,
   waystoneBaseRe,
+  DEFAULT_USES,
 } from "../data/options.js";
 
 // 공식 거래소(카카오 PoE2) 링크 생성.
@@ -61,6 +63,7 @@ export function tradeUrl({
   price,
   corrupt,
   tier,
+  uses,
   league = DEFAULT_LEAGUE,
 }) {
   const and = [];
@@ -95,6 +98,18 @@ export function tradeUrl({
       if (min != null) f.value = { min };
       // 우리 앱의 OR = 거래소의 "숫자(count)" 그룹 (최소 1개 충족)
       (mode === "or" ? count : and).push(f);
+    }
+  }
+
+  // 서판 고정 옵션(잔여 사용 횟수) — 늘 붙어 있는 옵션이라 항상 AND로 넣는다.
+  // OR 묶음에 섞으면 "다른 조건 없이 이것만 맞아도 통과"가 돼 검색이 무의미해진다.
+  if (tab === "tablet" && uses?.on) {
+    const it = tabletImplicit(tabletType);
+    const min = num(uses.min);
+    if (it?.stat_id) {
+      const f = { id: it.stat_id, disabled: false };
+      if (min != null) f.value = { min };
+      and.push(f);
     }
   }
 
@@ -184,7 +199,7 @@ export function readHashQuery() {
 }
 
 // 거래소 조건 JSON → 우리 앱 상태.
-// 반환: { state: {tab, tabletType, tier, sel, mode, price, corrupt}, skipped: [거래소 원문…] }
+// 반환: { state: {tab, tabletType, tier, sel, mode, price, corrupt, uses}, skipped: [거래소 원문…] }
 export function queryToState(query) {
   const skipped = [];
   const sel = {};
@@ -192,6 +207,7 @@ export function queryToState(query) {
   let tab = null;
   let tabletType = null;
   let tier = "";
+  let uses = { on: false, min: DEFAULT_USES };
 
   // 기본 타입명이 있으면 그것만으로 종류·등급이 확정된다 ("방사능 노출 서판" / "경로석 (15등급)").
   // 타입명은 거래소(=게임)의 언어로 오므로 현재 로케일의 이름표와 맞춘다.
@@ -216,11 +232,12 @@ export function queryToState(query) {
   else if (category === "map.tablet") tab = "tablet";
 
   const take = (id, mode, min) => {
-    // 서판 종류를 결정하는 고정 옵션 — 우리 옵션 목록엔 없지만 "못 가져온 조건"이 아니라 종류 정보다
+    // 서판 고정 옵션 — 종류를 알려주는 동시에 잔여 사용 횟수 조건이기도 하다
     const implicitType = BY_IMPLICIT.get(id);
     if (implicitType) {
       tab = "tablet";
       tabletType = implicitType;
+      uses = { on: true, min: min == null ? DEFAULT_USES : String(min) };
       return;
     }
     const hit = BY_STAT.get(id);
@@ -279,6 +296,7 @@ export function queryToState(query) {
       mode: hasCount ? "or" : "and",
       price,
       corrupt,
+      uses,
     },
     skipped,
   };

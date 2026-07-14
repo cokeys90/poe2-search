@@ -1,7 +1,8 @@
 // PoE2 경로석·서판 옵션 — 언어무관 코어 (poe2db 검증, 0.5.x)
 // 표시 텍스트·검색조각·거래소명은 언어별로 src/data/locales/{lang}.json 에 있다. key로 잇는다.
 // 경로석: 옵션(상단 6종) / 접두(15) / 접미(20)
-// 서판: 공통 접두(13) + 공통 접미(11) + 종류별 고유. 방사능(irradiated)은 고유 옵션이 없다.
+// 서판: 고정(종류마다 1개) + 공통 접두(13) + 공통 접미(11) + 종류별 고유.
+//       방사능(irradiated)은 고유 옵션이 없다.
 
 export const CORE = {
   "waystone": {
@@ -457,15 +458,15 @@ export const CORE = {
         "stat_id": "explicit.stat_231864447"
       },
       {
-        "key": "tb.pre.waystones_essences",
+        "key": "tb.pre.contains_essences",
         "stat_id": "explicit.stat_2777224821"
       },
       {
-        "key": "tb.pre.waystones_azmeri_spirits",
+        "key": "tb.pre.contains_azmeri_spirits",
         "stat_id": "explicit.stat_2777224821"
       },
       {
-        "key": "tb.pre.waystones_rogue_exiles",
+        "key": "tb.pre.contains_rogue_exiles",
         "stat_id": "explicit.stat_2777224821"
       },
       {
@@ -516,12 +517,62 @@ export const CORE = {
       {
         "key": "tb.suf.waystones_strongbox"
       }
-    ]
+    ],
+    "implicit": {
+      "irradiated": [
+        {
+          "key": "tb.impl.irradiated",
+          "stat_id": "implicit.stat_4041853756"
+        }
+      ],
+      "breach": [
+        {
+          "key": "tb.impl.breach",
+          "stat_id": "implicit.stat_2219129443"
+        }
+      ],
+      "expedition": [
+        {
+          "key": "tb.impl.expedition",
+          "stat_id": "implicit.stat_1714888636"
+        }
+      ],
+      "delirium": [
+        {
+          "key": "tb.impl.delirium",
+          "stat_id": "implicit.stat_3879011313"
+        }
+      ],
+      "ritual": [
+        {
+          "key": "tb.impl.ritual",
+          "stat_id": "implicit.stat_3166002380"
+        }
+      ],
+      "overseer": [
+        {
+          "key": "tb.impl.overseer",
+          "stat_id": "implicit.stat_3376302538"
+        }
+      ],
+      "abyss": [
+        {
+          "key": "tb.impl.abyss",
+          "stat_id": "implicit.stat_2369421690"
+        }
+      ],
+      "temple": [
+        {
+          "key": "tb.impl.temple",
+          "stat_id": "implicit.stat_3035440454"
+        }
+      ]
+    }
   }
 };
 
 // color·glow: 종류색 / 아이콘은 public/tablet/{slug}.png (slug = 이 객체의 키)
-// implicit: 종류를 결정하는 고정 옵션 stat id ("… 추가, 잔여 사용 횟수 #회")
+// implicit: 종류를 결정하는 고정 옵션의 거래소 stat id
 export const TABLET_META = {
   "breach": {
     "color": "#b061d6",
@@ -569,3 +620,4 @@ export const TABLET_META = {
 export const TABLET_TYPES = ["irradiated","breach","expedition","delirium","ritual","overseer","abyss","temple"];
 export const DEFAULT_TABLET_TYPE = "irradiated";
 export const DEFAULT_TIER = "15"; // 경로석 기본 등급
+export const DEFAULT_USES = "10"; // 서판 잔여 사용 횟수 기본 검색값 (안 쓴 서판)

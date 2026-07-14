@@ -303,7 +303,7 @@
     },
     "tb.pre.monster_rarity": {
       "text": "지도의 몬스터 희귀도 (15—20)% 증가",
-      "frag": "지.의",
+      "frag": "터 희",
       "overlap": 1,
       "trade": "지도의 몬스터 희귀도 #% 증가"
     },
@@ -325,24 +325,6 @@
       "overlap": 1,
       "trade": "지도에 희귀 상자 1개 추가 등장"
     },
-    "tb.pre.waystones_essences": {
-      "text": "지도에 에센스 1개 추가 등장 / 지도에서 발견하는 경로석 수량 % 증가",
-      "frag": "센스 ",
-      "overlap": 2,
-      "trade": "지도에서 발견하는 경로석 수량 #% 증가"
-    },
-    "tb.pre.waystones_azmeri_spirits": {
-      "text": "지도에서 발견하는 경로석 수량 % 증가 / 지도에 아즈메리 혼백 1개 추가 등장",
-      "frag": "혼백 ",
-      "overlap": 2,
-      "trade": "지도에서 발견하는 경로석 수량 #% 증가"
-    },
-    "tb.pre.waystones_rogue_exiles": {
-      "text": "지도에서 발견하는 경로석 수량 % 증가 / 지도에 탈주 유배자 추가 1명이 서식",
-      "frag": "명이",
-      "overlap": 1,
-      "trade": "지도에서 발견하는 경로석 수량 #% 증가"
-    },
     "tb.pre.contains_summoning_circles": {
       "text": "지도에 소환의 원 1개 추가 등장",
       "frag": "원.*개",
@@ -352,7 +334,7 @@
     "tb.suf.quantity_waystones_found": {
       "text": "지도에서 발견하는 경로석 수량 (30—40)% 증가",
       "frag": "견.*경",
-      "overlap": 6,
+      "overlap": 3,
       "trade": "지도에서 발견하는 경로석 수량 #% 증가"
     },
     "tb.suf.contain_shrines": {
@@ -669,7 +651,7 @@
     },
     "tb.abyss.contains_abyss": {
       "text": "지도에 심연 1개 추가 등장",
-      "frag": "에.심",
+      "frag": "심연 1",
       "overlap": 1,
       "trade": "지도에 심연 1개 추가 등장"
     },
@@ -728,6 +710,61 @@
     "tb.abyss.presence_area": {
       "text": "접근 효과 범위 100% 감소",
       "frag": "접근",
+      "overlap": 1
+    },
+    "tb.impl.irradiated": {
+      "text": "지도에 방사능 노출 추가, 잔여 사용 횟수 (1—10)회",
+      "frag": "횟수 ",
+      "overlap": 1
+    },
+    "tb.impl.breach": {
+      "text": "지도에 저세상 균열 1개 추가 / 잔여 사용 횟수 (1—10)회",
+      "frag": "횟수 ",
+      "overlap": 1
+    },
+    "tb.impl.expedition": {
+      "text": "지도에 칼구르 탐험 1개 추가 / 잔여 사용 횟수 (1—10)회",
+      "frag": "횟수 ",
+      "overlap": 1
+    },
+    "tb.impl.delirium": {
+      "text": "지도에 환영의 거울 1개 추가 / 잔여 사용 횟수 (1—10)회",
+      "frag": "횟수 ",
+      "overlap": 1
+    },
+    "tb.impl.ritual": {
+      "text": "지도에 의식 제단 추가 / 잔여 사용 횟수 (1—10)회",
+      "frag": "횟수 ",
+      "overlap": 1
+    },
+    "tb.impl.overseer": {
+      "text": "지도의 지도 보스 강화 / 잔여 사용 횟수 (1—10)회",
+      "frag": "횟수 ",
+      "overlap": 1
+    },
+    "tb.impl.abyss": {
+      "text": "지도에 심연 추가 / 잔여 사용 횟수 (1—10)회",
+      "frag": "횟수 ",
+      "overlap": 1
+    },
+    "tb.impl.temple": {
+      "text": "지도에 바알 등대 추가 / 잔여 사용 횟수 (1—10)회",
+      "frag": "횟수 ",
+      "overlap": 1
+    },
+    "tb.pre.contains_essences": {
+      "text": "지도에 에센스 1개 추가 등장",
+      "frag": "센스 ",
+      "overlap": 2
+    },
+    "tb.pre.contains_azmeri_spirits": {
+      "text": "지도에 아즈메리 혼백 1개 추가 등장",
+      "frag": "혼백 ",
+      "overlap": 2
+    },
+    "tb.pre.contains_rogue_exiles": {
+      "text": "지도에 탈주 유배자 추가 1명이 서식",
+      "frag": "명이",
       "overlap": 1
     }
   }
