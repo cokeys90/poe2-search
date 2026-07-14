@@ -12,6 +12,7 @@ import {
   IconViewList,
   IconViewCard,
 } from "./icons.jsx";
+import { t } from "../i18n/index.js";
 
 /* ── 그룹(폴더) 섹션 ── */
 function GroupSection({
@@ -73,7 +74,7 @@ function GroupSection({
             </span>
             <span className="text-label-s text-on-secondary-container/70">{group.items.length}</span>
             <div className="flex gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
-              <Tooltip label="그룹 이름 변경">
+              <Tooltip label={t("favs.renameGroup")}>
                 <button
                   onClick={() => setEditing(true)}
                   className="rounded-full p-1 text-on-secondary-container/80 hover:bg-black/10 hover:text-on-secondary-container"
@@ -81,7 +82,7 @@ function GroupSection({
                   <IconEdit width={15} />
                 </button>
               </Tooltip>
-              <Tooltip label="그룹 삭제">
+              <Tooltip label={t("favs.deleteGroup")}>
                 <button
                   onClick={() => onDeleteGroup(group)}
                   className="rounded-full p-1 text-on-secondary-container/80 hover:bg-black/10 hover:text-error"
@@ -118,7 +119,7 @@ function GroupSection({
               view === "list" ? "mt-1 py-1" : "py-1.5"
             }`}
           >
-            <IconAdd width={16} /> 여기에 현재 검색 추가
+            <IconAdd width={16} /> {t("favs.addHere")}
           </button>
         </div>
       )}
@@ -198,11 +199,11 @@ export default function FavoritesWindow({
   const header = (
     <div className="flex items-center gap-1 border-b border-outline-variant bg-surface-c-low px-3 py-2.5">
       <IconStar width={20} className="shrink-0 text-primary" />
-      <span className="mr-auto truncate text-title-s text-on-surface">즐겨찾기</span>
+      <span className="mr-auto truncate text-title-s text-on-surface">{t("favs.title")}</span>
       <div className="flex rounded-md-s border border-outline p-0.5">
         {[
-          { v: "list", Icon: IconViewList, title: "리스트형" },
-          { v: "card", Icon: IconViewCard, title: "카드형" },
+          { v: "list", Icon: IconViewList, title: t("favs.viewList") },
+          { v: "card", Icon: IconViewCard, title: t("favs.viewCard") },
         ].map(({ v, Icon, title }) => (
           <Tooltip key={v} label={title}>
             <button
@@ -218,7 +219,7 @@ export default function FavoritesWindow({
           </Tooltip>
         ))}
       </div>
-      <Tooltip label="새 그룹">
+      <Tooltip label={t("favs.newGroup")}>
         <button
           onClick={onCreateGroup}
           className="rounded-full p-1 text-on-surface-variant transition hover:bg-surface-c-high hover:text-primary"
@@ -226,7 +227,7 @@ export default function FavoritesWindow({
           <IconAdd width={20} />
         </button>
       </Tooltip>
-      <Tooltip label="닫기 (Esc)">
+      <Tooltip label={t("favs.close")}>
         <button
           onClick={onClose}
           className="rounded-full p-1 text-on-surface-variant transition hover:bg-surface-c-high hover:text-on-surface"
@@ -248,11 +249,7 @@ export default function FavoritesWindow({
       {groups.length === 0 ? (
         <div className="flex flex-col items-center gap-3 px-6 py-16 text-center">
           <IconStar width={40} className="text-outline" />
-          <p className="text-body-s text-on-surface-variant">
-            <b className="text-on-surface">＋</b> 로 그룹을 만들고
-            <br />
-            검색 조합을 저장하세요
-          </p>
+          <p className="text-body-s text-on-surface-variant">{t("favs.emptyAll")}</p>
         </div>
       ) : (
         <div className="flex flex-col gap-1.5 p-1.5">
@@ -277,7 +274,7 @@ export default function FavoritesWindow({
           ))}
           {total === 0 && (
             <p className="px-4 py-3 text-center text-body-s text-on-surface-variant">
-              그룹의 <b className="text-on-surface">+ 추가</b>로 현재 검색을 저장하세요
+              {t("favs.emptyGroup")}
             </p>
           )}
         </div>

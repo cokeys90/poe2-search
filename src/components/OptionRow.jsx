@@ -3,6 +3,7 @@ import HighlightText from "./HighlightText.jsx";
 import Tooltip from "./Tooltip.jsx";
 import { hasNumeric, rangeHint } from "../lib/regex.js";
 import { IconReorder, IconHide } from "./icons.jsx";
+import { t } from "../i18n/index.js";
 
 export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, onHide, dnd, id }) {
   const s = sel;
@@ -87,7 +88,7 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, on
 
       {/* 순서 드래그 핸들 · 숨기기 */}
       <div className="flex shrink-0 items-center gap-0.5 border-l border-outline-variant pl-0.5 pr-1">
-        <Tooltip label="끌어서 순서 변경">
+        <Tooltip label={t("option.reorder")}>
           <span
             onPointerDown={() => setHandleHeld(true)}
             onPointerUp={() => setHandleHeld(false)}
@@ -96,7 +97,7 @@ export default function OptionRow({ item, sel, showTrade, onToggle, onSetMin, on
             <IconReorder width={20} />
           </span>
         </Tooltip>
-        <Tooltip label="숨기기">
+        <Tooltip label={t("option.hide")}>
           <button
             onClick={onHide}
             className="flex h-7 w-7 items-center justify-center rounded-full text-on-surface-variant/50 transition hover:bg-error-container/30 hover:text-error"

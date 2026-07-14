@@ -1,11 +1,14 @@
 import Segmented from "./Segmented.jsx";
 import PinButton from "./PinButton.jsx";
+import { t } from "../i18n/index.js";
 
 // 가격 필터 (경로석·서판 공통). 상인 판매가를 정확히/범위로 제한하는 검색 세트 생성.
 export const CURRENCIES = [
-  { key: "exalted", label: "엑잘티드" },
-  { key: "chaos", label: "카오스" },
-  { key: "divine", label: "디바인" },
+  // ⚠️ 검색어에는 영어 화폐명이 그대로 박힌다(pricePiece) — 게임이 상인 판매가를 영어로
+  //    표시한다는 전제다. 다른 언어 클라이언트에서도 그런지는 확인이 필요하다.
+  { key: "exalted", i18n: "currency.exalted" },
+  { key: "chaos", i18n: "currency.chaos" },
+  { key: "divine", i18n: "currency.divine" },
 ];
 
 const INPUT_CLS =
@@ -27,7 +30,7 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
           onChange={(e) => set({ enabled: e.target.checked })}
           className="accent-primary"
         />
-        가격
+        {t("filter.price")}
       </label>
 
       {enabled && <PinButton pinned={pinned} onClick={onTogglePin} />}
@@ -44,8 +47,8 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
           value={mode}
           onChange={(m) => set({ mode: m })}
           options={[
-            { value: "exact", label: "정확히" },
-            { value: "range", label: "범위" },
+            { value: "exact", label: t("filter.exact") },
+            { value: "range", label: t("filter.range") },
           ]}
         />
 
@@ -55,7 +58,7 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
             type="number"
             min="0"
             disabled={!enabled}
-            placeholder={mode === "range" ? "최소" : "값"}
+            placeholder={mode === "range" ? t("filter.min") : t("filter.value")}
             value={min}
             onChange={(e) => set({ min: e.target.value })}
             className={INPUT_CLS}
@@ -67,7 +70,7 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
                 type="number"
                 min="0"
                 disabled={!enabled}
-                placeholder="최대"
+                placeholder={t("filter.max")}
                 value={max}
                 onChange={(e) => set({ max: e.target.value })}
                 className={INPUT_CLS}
@@ -85,7 +88,7 @@ export default function PriceFilter({ value, onChange, pinned, onTogglePin }) {
         >
           {CURRENCIES.map((c) => (
             <option key={c.key} value={c.key}>
-              {c.label}
+              {t(c.i18n)}
             </option>
           ))}
         </select>

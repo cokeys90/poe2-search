@@ -2,6 +2,7 @@ import FloatingWindow from "./FloatingWindow.jsx";
 import Tooltip from "./Tooltip.jsx";
 import { IconSettings, IconClose, IconReset } from "./icons.jsx";
 import { LEAGUES } from "../lib/trade.js";
+import { t } from "../i18n/index.js";
 
 // 언어 이름은 그 언어로 적는다 — 못 읽는 언어로 적혀 있으면 되돌아올 수가 없다.
 const LANG_LABELS = [
@@ -55,8 +56,8 @@ export default function SettingsWindow({
   const header = (
     <div className="flex items-center gap-2 border-b border-outline-variant bg-surface-c-low px-3 py-2.5">
       <IconSettings width={20} className="shrink-0 text-primary" />
-      <span className="mr-auto truncate text-title-s text-on-surface">설정</span>
-      <Tooltip label="닫기 (Esc)">
+      <span className="mr-auto truncate text-title-s text-on-surface">{t("settings.title")}</span>
+      <Tooltip label={t("favs.close")}>
         <button
           onClick={onClose}
           className="rounded-full p-1 text-on-surface-variant transition hover:bg-surface-c-high hover:text-on-surface"
@@ -73,9 +74,9 @@ export default function SettingsWindow({
         {/* 언어 — 게임 클라이언트의 언어와 맞춰야 인게임 검색어가 통한다 */}
         <div className="flex items-center gap-3 rounded-md-s border border-outline-variant bg-surface-c px-3 py-2.5">
           <div className="min-w-0 flex-1">
-            <p className="text-label-l text-on-surface">언어</p>
+            <p className="text-label-l text-on-surface">{t("settings.lang")}</p>
             <p className="text-body-s text-on-surface-variant">
-              게임 클라이언트와 같은 언어로 맞추세요
+              {t("settings.langDesc")}
             </p>
           </div>
           <select
@@ -94,9 +95,9 @@ export default function SettingsWindow({
         {/* 거래소 리그 — 리그 목록 API는 CORS가 없어 조회 불가라 직접 고른다 */}
         <div className="flex items-center gap-3 rounded-md-s border border-outline-variant bg-surface-c px-3 py-2.5">
           <div className="min-w-0 flex-1">
-            <p className="text-label-l text-on-surface">거래소 리그</p>
+            <p className="text-label-l text-on-surface">{t("settings.league")}</p>
             <p className="text-body-s text-on-surface-variant">
-              "거래소" 버튼으로 열릴 리그
+              {t("settings.leagueDesc")}
             </p>
           </div>
           <select
@@ -112,15 +113,15 @@ export default function SettingsWindow({
           </select>
         </div>
         <Row
-          title="즐겨찾기 창 크기·위치 초기화"
-          desc="창을 기본 크기(480×840)로, 우하단 기본 위치로 되돌린다"
-          actionLabel="초기화"
+          title={t("settings.resetFavWin")}
+          desc={t("settings.resetFavWinDesc")}
+          actionLabel={t("settings.reset")}
           onAction={onResetFavWindow}
         />
         <Row
-          title="옵션 순서·숨김 초기화"
-          desc="직접 바꾼 옵션 순서와 숨긴 옵션을 모두 원래대로"
-          actionLabel="초기화"
+          title={t("settings.resetOptPrefs")}
+          desc={t("settings.resetOptPrefsDesc")}
+          actionLabel={t("settings.reset")}
           onAction={onResetOptPrefs}
           disabled={!optPrefsDirty}
         />

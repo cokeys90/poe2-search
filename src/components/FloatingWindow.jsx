@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { clampGeom } from "../hooks/useFloatingWindow.js";
+import { t } from "../i18n/index.js";
 
 // 앱 화면 위에 뜨는 non-modal 창 셸. 헤더 드래그로 이동, 우하단 코너로 리사이즈.
 // 스크림 없음 · 바깥 클릭해도 닫히지 않음 (창을 띄운 채 옵션을 고르는 동선이 핵심).
@@ -68,7 +69,7 @@ export default function FloatingWindow({ geom, onCommit, fullscreen, onClose, he
     <div
       ref={winRef}
       role="dialog"
-      aria-label="즐겨찾기"
+      aria-label={t("favs.title")}
       style={{ left: geom.x, top: geom.y, width: geom.w, height: geom.h }}
       className="fixed z-40 flex flex-col overflow-hidden rounded-md-l border border-outline-variant bg-surface-c-low shadow-2xl"
     >
@@ -90,7 +91,7 @@ export default function FloatingWindow({ geom, onCommit, fullscreen, onClose, he
         onPointerMove={move}
         onPointerUp={end}
         onPointerCancel={end}
-        title="드래그해서 크기 조절"
+        title={t("window.resize")}
         className="group/rs absolute bottom-0 right-0 h-6 w-6 cursor-nwse-resize"
       >
         <div className="absolute inset-0 rounded-br-md-l bg-secondary-container/70 transition group-hover/rs:bg-secondary-container [clip-path:polygon(100%_0,100%_100%,0_100%)]" />

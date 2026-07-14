@@ -1,13 +1,14 @@
 import { IconInfo, IconChevronLeft, IconClose } from "./icons.jsx";
 import { TabletIcon, WaystoneIcon } from "./GameIcon.jsx";
+import { t } from "../i18n/index.js";
 
 // 메뉴 아이콘은 대표 아이템 그림 — 서판=방사능, 경로석=15등급.
 // 경로석은 아래로 갈수록 가늘어지는 원형이라 같은 크기에서 라벨과의 간격이 떠 보인다 → 광학 보정(살짝 크게 + 1px 내림).
 const NAV_ITEMS = [
-  { key: "tablet", label: "서판", Icon: (p) => <TabletIcon {...p} /> },
+  { key: "tablet", i18n: "nav.tablet", Icon: (p) => <TabletIcon {...p} /> },
   {
     key: "waystone",
-    label: "경로석",
+    i18n: "nav.waystone",
     Icon: ({ width = 22, ...p }) => (
       <WaystoneIcon width={width + 2} className="translate-y-px" {...p} />
     ),
@@ -80,7 +81,7 @@ export default function NavRail({
           <NavItem
             key={it.key}
             Icon={it.Icon}
-            label={it.label}
+            label={t(it.i18n)}
             active={tab === it.key}
             collapsed={collapsed && !drawer}
             onClick={() => {
@@ -95,7 +96,7 @@ export default function NavRail({
         {/* 정보 · 문의 (문의는 GitHub Issues 링크로) */}
         <NavItem
           Icon={IconInfo}
-          label="정보·문의"
+          label={t("nav.credits")}
           active={false}
           collapsed={collapsed && !drawer}
           onClick={() => {
@@ -107,7 +108,7 @@ export default function NavRail({
         {showCollapseToggle && !drawer && (
           <button
             onClick={onToggleCollapse}
-            title={collapsed ? "메뉴 펴기" : "메뉴 접기"}
+            title={collapsed ? t("nav.expand") : t("nav.collapse")}
             className={`flex items-center gap-3 rounded-full px-4 py-2.5 text-label-l text-on-surface-variant transition hover:bg-surface-c-high ${
               collapsed ? "justify-center" : ""
             }`}
@@ -117,7 +118,7 @@ export default function NavRail({
               height={22}
               className={`transition-transform ${collapsed ? "rotate-180" : ""}`}
             />
-            {!collapsed && <span>접기</span>}
+            {!collapsed && <span>{t("nav.collapseShort")}</span>}
           </button>
         )}
       </div>

@@ -1,4 +1,5 @@
 import { LEGACY_ID_MAP, LEGACY_TABLET_MAP, LEGACY_GROUP_MAP } from "../data/legacyIdMap.js";
+import { t } from "../i18n/index.js";
 
 // 고정(핀) 설정 저장 — localStorage + JSON.
 // v2: 선택 옵션을 { [안정키]: {mode, min} }로 저장한다. v1은 키가 한국어 원문 해시였고
@@ -65,7 +66,8 @@ const FAV_KEY = "poe2-search:favorites";
 const FAV_VERSION = 3;
 
 function defaultFavData() {
-  return { groups: [{ id: "g_default", name: "미분류", items: [] }] };
+  // 기본 그룹 이름은 만든 시점의 언어로 저장된다 — 사용자가 바꿀 수 있으니 나중에 안 갈아엎는다.
+  return { groups: [{ id: "g_default", name: t("favs.defaultGroup"), items: [] }] };
 }
 
 function migrateFav(it) {
@@ -94,7 +96,7 @@ export function loadFavorites() {
     // v1(평면 배열) → v3: 전부 '미분류' 그룹으로
     if (Array.isArray(data.items)) {
       const migrated = {
-        groups: [{ id: "g_default", name: "미분류", items: data.items.map(migrateFav) }],
+        groups: [{ id: "g_default", name: t("favs.defaultGroup"), items: data.items.map(migrateFav) }],
       };
       saveFavorites(migrated);
       return migrated;

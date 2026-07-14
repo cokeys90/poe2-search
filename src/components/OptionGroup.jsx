@@ -2,6 +2,7 @@ import { useState } from "react";
 import OptionRow from "./OptionRow.jsx";
 import HighlightText from "./HighlightText.jsx";
 import { IconExpand, IconUnhide } from "./icons.jsx";
+import { t } from "../i18n/index.js";
 
 // 옵션 그룹 하나 (옵션 / 접두어 / 접미어 …).
 // 보이는 목록 아래에 "숨긴 옵션" 접힘 섹션을 둔다 — 숨기면 여기로 들어가고, 해제하면 다시 위로.
@@ -94,7 +95,7 @@ export default function OptionGroup({
               width={18}
               className={`transition-transform ${openHidden ? "" : "-rotate-90"}`}
             />
-            숨긴 옵션 {hidden.length}개
+            {t("option.hidden", { n: hidden.length })}
           </button>
 
           {openHidden && (
@@ -106,7 +107,7 @@ export default function OptionGroup({
                 >
                   <button
                     onClick={() => onUnhide(it.key)}
-                    title="숨기기 해제"
+                    title={t("option.unhide")}
                     className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-on-surface-variant/60 transition hover:bg-tertiary-container/40 hover:text-tertiary"
                   >
                     <IconUnhide width={19} />

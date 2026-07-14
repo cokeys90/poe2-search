@@ -10,6 +10,7 @@ import {
   waystoneBaseRe,
   DEFAULT_USES,
 } from "../data/options.js";
+import { t } from "../i18n/index.js";
 
 // 공식 거래소(카카오 PoE2) 링크 생성.
 // 검색 조건을 ?q=<JSON>으로 실어 보내면 거래소가 알아서 검색을 실행하고
@@ -181,10 +182,11 @@ export async function fetchStatNames(ids) {
 
 // 북마클릿 — 거래소 페이지에서 조건(window.tradeOpts.state)을 읽어 우리 앱을 열어준다.
 // 거래소 API를 호출하지 않으므로(이미 열린 페이지의 값을 읽을 뿐) 레이트리밋·CORS와 무관하다.
+// 안내문은 만드는 시점의 언어로 박힌다 — 즐겨찾기에 저장되는 코드라 나중에 못 바꾼다.
 export function bookmarkletCode(appOrigin = location.origin) {
   return (
     "javascript:(function(){var o=window.tradeOpts;" +
-    "if(!o||!o.state){alert('거래소 검색 페이지에서 눌러주세요.');return;}" +
+    `if(!o||!o.state){alert(${JSON.stringify(t("import.alert"))});return;}` +
     `location.href='${appOrigin}/#trade='+encodeURIComponent(JSON.stringify(o.state));})()`
   );
 }

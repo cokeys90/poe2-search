@@ -1,4 +1,5 @@
 import HighlightText from "./HighlightText.jsx";
+import { t } from "../i18n/index.js";
 
 // 서판 고정 옵션 — 종류마다 늘 붙어 있는 "지도에 … 추가 / 잔여 사용 횟수 N회".
 // 안 쓴 서판(10회)만 찾는 게 거래의 기본이라 기본으로 켜져 있고, 끌 수도 있다.
@@ -38,7 +39,7 @@ export default function TabletUses({ item, value, onChange }) {
           <HighlightText text={item.text} />
         </span>
         <span className="shrink-0 rounded-md-xs border border-outline-variant px-1.5 py-0.5 text-label-s text-on-surface-variant">
-          고정
+          {t("option.fixed")}
         </span>
       </button>
     </div>

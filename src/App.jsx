@@ -55,6 +55,7 @@ import { useFloatingWindow } from "./hooks/useFloatingWindow.js";
 import { useOptionPrefs } from "./hooks/useOptionPrefs.js";
 import { useTheme } from "./hooks/useTheme.js";
 import { useLang } from "./hooks/useLang.js";
+import { useT } from "./i18n/index.js";
 
 const DEFAULT_PRICE = {
   enabled: false,
@@ -97,6 +98,7 @@ export default function App() {
   const [pendingLoad, setPendingLoad] = useState(null); // 즐겨찾기 덮어쓰기 확인 대기
   const { theme, toggle: toggleTheme } = useTheme();
   const { lang, langs, setLang } = useLang();
+  const t = useT(); // 언어가 바뀌면 앱 전체가 다시 그려진다
 
   // 반응형: lg(1024) 미만 → 좌측 드로어, xl(1280) 미만 → 레일 강제 아이콘화
   const isMidUp = useMediaQuery("(min-width: 1024px)");
@@ -275,21 +277,23 @@ export default function App() {
     setCopied(true);
     setTimeout(() => setCopied(false), 1400);
   }
-  function switchTab(t) {
-    setTab(t);
-    setSel({ ...pins[t].options }); // 새 탭의 핀된 옵션 복원
+  // 파라미터를 t 로 두면 번역 함수 t 를 가린다 → next
+  function switchTab(next) {
+    setTab(next);
+    setSel({ ...pins[next].options }); // 새 탭의 핀된 옵션 복원
     // 서판/경로석은 독립 — 상황별 가격·타락 필터는 넘기지 않고 초기화(핀·탭별 화폐만 유지)
-    setPrice(basePrice(pins, lastCurrency, t));
+    setPrice(basePrice(pins, lastCurrency, next));
     setCorrupt(pins.common.corrupt ?? "any");
     setFilter("");
-    if (t === "waystone") setTier(pins.waystone.tier ?? DEFAULT_TIER);
+    if (next === "waystone") setTier(pins.waystone.tier ?? DEFAULT_TIER);
   }
 
   // ── 즐겨찾기 ──
   const selCount = selList.length;
   const defaultFavName =
-    (tab === "tablet" ? `${tabletName(tabletType)} 서판` : "경로석") +
-    (selCount > 0 ? ` · ${selCount}옵션` : " · 필터");
+    (tab === "tablet" ? tabletName(tabletType) : t("nav.waystone")) +
+    " · " +
+    (selCount > 0 ? t("favs.nameOptions", { n: selCount }) : t("favs.nameFilter"));
 
   // 완성된 검색어는 저장하지 않는다 — 언어가 바뀌면 옛 언어의 검색어가 남는다. 볼 때 다시 만든다.
   function snapshot() {
@@ -386,7 +390,7 @@ export default function App() {
             <button
               onClick={() => setNavOpen(true)}
               className="rounded-full p-2 text-on-surface-variant transition hover:bg-surface-c-high"
-              title="메뉴 열기"
+              title={t("nav.menu")}
             >
               <IconMenu width={22} height={22} />
             </button>
@@ -397,14 +401,14 @@ export default function App() {
           <div className="flex items-center gap-1">
             <button
               onClick={toggleTheme}
-              title={theme === "dark" ? "라이트 모드로" : "다크 모드로"}
+              title={theme === "dark" ? t("theme.toLight") : t("theme.toDark")}
               className="rounded-full p-2 text-on-surface-variant transition hover:bg-surface-c-high"
             >
               {theme === "dark" ? <IconLightMode width={22} /> : <IconDarkMode width={22} />}
             </button>
             <button
               onClick={favWin.toggleOpen}
-              title={favWin.open ? "즐겨찾기 닫기" : "즐겨찾기 열기"}
+              title={favWin.open ? t("fav.close") : t("fav.open")}
               className={`rounded-full p-2 transition hover:bg-surface-c-high ${
                 favWin.open ? "text-primary" : "text-on-surface-variant"
               }`}
@@ -413,7 +417,7 @@ export default function App() {
             </button>
             <button
               onClick={settingsWin.toggleOpen}
-              title={settingsWin.open ? "설정 닫기" : "설정 열기"}
+              title={settingsWin.open ? t("settings.close") : t("settings.open")}
               className={`rounded-full p-2 transition hover:bg-surface-c-high ${
                 settingsWin.open ? "text-primary" : "text-on-surface-variant"
               }`}
@@ -428,9 +432,7 @@ export default function App() {
           <main ref={mainRef} className="min-w-0 flex-1 overflow-y-auto">
             <div className="mx-auto max-w-[1080px] px-[clamp(18px,4vw,40px)] pb-16">
               {/* 검색엔진용 제목 — 화면에는 보이지 않는다 */}
-              <h1 className="sr-only">
-                PoE2 경로석·서판 검색기 — 옵션을 고르면 인게임 검색용 정규식이 만들어집니다
-              </h1>
+              <h1 className="sr-only">{t("app.title")}</h1>
 
               {/* 결과 바 */}
               <ResultBar
@@ -453,9 +455,7 @@ export default function App() {
               {importSkipped.length > 0 && (
                 <Callout>
                   <span className="block">
-                    거래소 조건 중{" "}
-                    <b className="text-primary">{importSkipped.length}개</b>는 이 앱에 없는 옵션이라
-                    못 가져왔어요.
+                    {t("result.importSkipped", { n: importSkipped.length })}
                   </span>
                   <ul className="mt-1 list-disc pl-4 text-body-s text-on-surface-variant">
                     {importSkipped.map((s, i) => (
@@ -483,13 +483,13 @@ export default function App() {
                   />
 
                   <div className="flex items-center gap-2">
-                    <span className="w-12 shrink-0 text-label-l text-on-surface">결합</span>
+                    <span className="w-12 shrink-0 text-label-l text-on-surface">{t("filter.mode")}</span>
                     <Segmented
                       value={mode}
                       onChange={setMode}
                       options={[
-                        { value: "or", label: "OR (아무거나)", title: "선택 옵션 중 하나라도" },
-                        { value: "and", label: "AND (모두)", title: "선택 옵션 모두" },
+                        { value: "or", label: t("filter.mode.or"), title: t("filter.mode.or.tip") },
+                        { value: "and", label: t("filter.mode.and"), title: t("filter.mode.and.tip") },
                       ]}
                     />
                   </div>
@@ -519,16 +519,14 @@ export default function App() {
               <section>
                 {tab === "tablet" && pool.noUnique && (
                   <Callout>
-                    <b className="text-primary">{tabletName(tabletType)} 서판</b>은 전용 고유 옵션이
-                    없어요. 아래
-                    공통 옵션으로 검색하세요.
+                    {t("group.noUnique", { type: tabletName(tabletType) })}
                   </Callout>
                 )}
 
                 {/* 찾기 — 옵션 목록 전용 입력이라 필터 카드와 분리해 목록 바로 위에 둔다 */}
                 <div className="mb-4 flex flex-wrap items-center gap-3">
                   <input
-                    placeholder="옵션 찾기"
+                    placeholder={t("option.find")}
                     value={filter}
                     onChange={(e) => setFilter(e.target.value)}
                     className="min-w-[220px] flex-1 rounded-md-s border border-outline bg-surface-c px-4 py-2 text-body-l text-on-surface outline-none transition focus:border-primary placeholder:text-on-surface-variant/60"
@@ -545,7 +543,7 @@ export default function App() {
                         onChange={(e) => setShowTrade(e.target.checked)}
                         className="accent-primary"
                       />
-                      거래소명 보기
+                      {t("option.showTrade")}
                     </label>
                   )}
                 </div>
@@ -593,8 +591,7 @@ export default function App() {
               </section>
 
               <footer className="mt-10 border-t border-outline-variant pt-[18px] text-center text-body-s leading-[1.8] text-on-surface-variant">
-                데이터 출처 <b className="text-on-surface">poe2db.tw/kr</b> · 검색 문법: 공백=AND ·{" "}
-                <b>|</b>=OR · <b>!</b>=제외 · <b>.</b>=아무 글자 · 최대 250자
+                {t("footer.source")} <b className="text-on-surface">poe2db.tw</b> · {t("footer.syntax")}
               </footer>
             </div>
           </main>
@@ -656,9 +653,9 @@ export default function App() {
 
       {pendingLoad && (
         <ConfirmDialog
-          title="즐겨찾기 불러오기"
-          message="현재 선택을 덮어쓰고 불러올까요?"
-          confirmLabel="불러오기"
+          title={t("load.title")}
+          message={t("load.message")}
+          confirmLabel={t("load.confirm")}
           onConfirm={() => applyFavorite(pendingLoad)}
           onCancel={() => setPendingLoad(null)}
         />
@@ -666,9 +663,12 @@ export default function App() {
 
       {favs.pendingGroupDelete && (
         <ConfirmDialog
-          title="그룹 삭제"
-          message={`'${favs.pendingGroupDelete.name}' 그룹과 안의 즐겨찾기 ${favs.pendingGroupDelete.items.length}개를 삭제할까요?`}
-          confirmLabel="삭제"
+          title={t("deleteGroup.title")}
+          message={t("deleteGroup.message", {
+            name: favs.pendingGroupDelete.name,
+            n: favs.pendingGroupDelete.items.length,
+          })}
+          confirmLabel={t("deleteGroup.confirm")}
           onConfirm={() => favs.deleteGroup(favs.pendingGroupDelete.id)}
           onCancel={() => favs.setPendingGroupDelete(null)}
         />

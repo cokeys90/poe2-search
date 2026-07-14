@@ -1,11 +1,12 @@
 import Modal from "./Modal.jsx";
+import { t } from "../i18n/index.js";
 
 // 범용 확인 다이얼로그.
 export default function ConfirmDialog({
   title,
   message,
-  confirmLabel = "확인",
-  cancelLabel = "취소",
+  confirmLabel,
+  cancelLabel,
   onConfirm,
   onCancel,
 }) {
@@ -18,13 +19,13 @@ export default function ConfirmDialog({
           onClick={onCancel}
           className="rounded-md-s px-4 py-2 text-label-l text-on-surface-variant transition hover:bg-surface-c-highest"
         >
-          {cancelLabel}
+          {cancelLabel ?? t("common.cancel")}
         </button>
         <button
           onClick={onConfirm}
           className="rounded-md-s bg-primary-container px-4 py-2 text-label-l text-on-primary-container transition hover:brightness-110"
         >
-          {confirmLabel}
+          {confirmLabel ?? t("common.confirm")}
         </button>
       </div>
     </Modal>

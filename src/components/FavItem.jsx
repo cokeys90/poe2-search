@@ -3,6 +3,7 @@ import { buildPattern } from "../lib/pattern.js";
 import { IconEdit, IconTrash, IconSave, IconCheck, IconTrade } from "./icons.jsx";
 import { TabletIcon, WaystoneIcon } from "./GameIcon.jsx";
 import Tooltip from "./Tooltip.jsx";
+import { t } from "../i18n/index.js";
 
 // 즐겨찾기 항목 한 개. variant로 카드형(2줄)·리스트형(1줄) 두 모양을 낸다.
 // 두 모양 모두 드래그 앤 드롭(그룹 간 이동·정렬)을 지원한다.
@@ -86,7 +87,7 @@ export default function FavItem({
             : "order-1 flex shrink-0 gap-0.5"
         }
       >
-        <Tooltip label="거래소에서 열기">
+        <Tooltip label={t("favs.openTrade")}>
           <button
             onClick={() => onTrade(fav)}
             className="rounded-full p-1 text-on-surface-variant hover:bg-surface-c-highest hover:text-primary"
@@ -94,7 +95,7 @@ export default function FavItem({
             <IconTrade width={15} />
           </button>
         </Tooltip>
-        <Tooltip label="현재 검색으로 덮어쓰기">
+        <Tooltip label={t("favs.overwrite")}>
           <button
             onClick={overwrite}
             className={`rounded-full p-1 hover:bg-surface-c-highest ${
@@ -104,7 +105,7 @@ export default function FavItem({
             {flash ? <IconCheck width={15} /> : <IconSave width={15} />}
           </button>
         </Tooltip>
-        <Tooltip label="이름 변경">
+        <Tooltip label={t("favs.rename")}>
           <button
             onClick={() => setEditing(true)}
             className="rounded-full p-1 text-on-surface-variant hover:bg-surface-c-highest hover:text-primary"
@@ -112,7 +113,7 @@ export default function FavItem({
             <IconEdit width={15} />
           </button>
         </Tooltip>
-        <Tooltip label="삭제">
+        <Tooltip label={t("favs.delete")}>
           <button
             onClick={() => onDelete(fav.id)}
             className="rounded-full p-1 text-on-surface-variant hover:bg-surface-c-highest hover:text-error"

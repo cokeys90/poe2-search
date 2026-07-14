@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { loadFavorites, saveFavorites } from "../lib/storage.js";
+import { t } from "../i18n/index.js";
 
 const uid = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 
@@ -28,7 +29,7 @@ export function useFavorites({ makeSnapshot, makeName }) {
   }
 
   function createGroup() {
-    const g = { id: uid("g_"), name: "새 그룹", items: [] };
+    const g = { id: uid("g_"), name: t("favs.newGroupName"), items: [] };
     setFavData((prev) => ({ groups: [...prev.groups, g] }));
     setAutoEditGroupId(g.id);
   }

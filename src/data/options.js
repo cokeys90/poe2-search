@@ -114,16 +114,6 @@ export const tabletImplicit = (slug) => DATA.tablet.implicit[slug]?.[0] ?? null;
 
 export const tabletName = (slug) => L.tablets?.[slug] ?? slug;
 
-// 그룹 이름. 고유 접미어 그룹만 서판 종류가 들어간다.
-// ⚠️ groups는 화면 문구라 UI 번역(우선순위 3)에서 채운다. 아직 없는 언어는 키를 그대로 보여준다.
-export const groupName = (groupId, tabletType) => {
-  const g = L.groups;
-  if (!g) return groupId;
-  return groupId === "unique"
-    ? g.unique.replace("{type}", tabletName(tabletType))
-    : g[groupId] ?? groupId;
-};
-
 // 거래소 기본 타입명 — query.type에 넣으면 그 종류·등급만 검색된다
 export const tabletBase = (slug) => L.bases[slug];
 export const waystoneBase = (tier) => L.bases.waystone.replace("{tier}", tier);
