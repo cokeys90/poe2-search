@@ -41,7 +41,8 @@ export default {
       },
       fontFamily: {
         cinzel: ["Cinzel", "serif"],
-        mono: ['"JetBrains Mono"', '"Consolas"', "monospace"],
+        // 검색어에 게임 원문(태국어·한자 등)이 그대로 들어간다 → 언어 폰트를 폴백에 끼운다
+        mono: ['"JetBrains Mono"', '"Consolas"', "var(--font-lang, monospace)", "monospace"],
       },
       // Material 3 타입 스케일 — [size, { lineHeight, letterSpacing, fontWeight }]
       fontSize: {

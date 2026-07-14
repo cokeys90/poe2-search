@@ -4,8 +4,8 @@ import { t } from "../i18n/index.js";
 
 // 가격 필터 (경로석·서판 공통). 상인 판매가를 정확히/범위로 제한하는 검색 세트 생성.
 export const CURRENCIES = [
-  // ⚠️ 검색어에는 영어 화폐명이 그대로 박힌다(pricePiece) — 게임이 상인 판매가를 영어로
-  //    표시한다는 전제다. 다른 언어 클라이언트에서도 그런지는 확인이 필요하다.
+  // 검색어에는 영어 화폐명이 그대로 박힌다(pricePiece). 상인 판매가의 화폐 표기는
+  // 언어와 무관하게 영어다 — key는 번역하지 않고, 화면 라벨(i18n)만 언어를 따라간다.
   { key: "exalted", i18n: "currency.exalted" },
   { key: "chaos", i18n: "currency.chaos" },
   { key: "divine", i18n: "currency.divine" },

@@ -2,10 +2,12 @@ import { useSyncExternalStore, useCallback } from "react";
 import { LANG, LANGS, DEFAULT_LANG, setLang, onLangChange } from "../data/options.js";
 import { loadUi } from "../i18n/index.js";
 import { loadLang, saveLang } from "../lib/storage.js";
+import { applyFont } from "../lib/font.js";
 
 // 게임 데이터와 화면 문구를 '둘 다' 받아온 뒤에 알린다.
 // 하나만 먼저 바꾸면 옵션은 영어인데 버튼은 한국어인 반쪽 화면이 한 프레임 보인다.
 async function apply(lang) {
+  applyFont(lang); // 폰트는 먼저 걸어둔다 — 글자가 그려질 때 이미 요청이 나가 있게
   await loadUi(lang);
   await setLang(lang); // 여기서 구독자에게 알림이 간다
 }

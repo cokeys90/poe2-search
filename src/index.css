@@ -94,8 +94,10 @@
     margin: 0;
     background: rgb(var(--md-surface));
     color: rgb(var(--md-on-surface));
-    font-family: "Pretendard Variable", Pretendard, system-ui, -apple-system,
-      "Segoe UI", "Malgun Gothic", sans-serif;
+    /* --font-lang: 언어별 보조 폰트 (lib/font.js가 넣는다). Pretendard가 못 덮는 글자만
+       여기로 떨어진다 — 폴백이 글자 단위라 라틴·한글은 그대로 Pretendard가 그린다. */
+    font-family: "Pretendard Variable", Pretendard, var(--font-lang, system-ui), system-ui,
+      -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   /* 다크: 상단에 살짝 푸르스름한 그라데이션 */
