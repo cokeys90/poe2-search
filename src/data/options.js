@@ -21,15 +21,15 @@ export const DEFAULT_LANG = "kr";
 
 // 기본 언어만 미리 넣는다. 나머지는 setLang()에서 받아온다.
 const LOADERS = {
-  us: () => import("./locales/us.json"),
-  jp: () => import("./locales/jp.json"),
-  tw: () => import("./locales/tw.json"),
-  ru: () => import("./locales/ru.json"),
-  pt: () => import("./locales/pt.json"),
-  th: () => import("./locales/th.json"),
-  fr: () => import("./locales/fr.json"),
-  de: () => import("./locales/de.json"),
-  sp: () => import("./locales/sp.json"),
+  us: () => import("./locales/us.json", { with: { type: "json" } }),
+  jp: () => import("./locales/jp.json", { with: { type: "json" } }),
+  tw: () => import("./locales/tw.json", { with: { type: "json" } }),
+  ru: () => import("./locales/ru.json", { with: { type: "json" } }),
+  pt: () => import("./locales/pt.json", { with: { type: "json" } }),
+  th: () => import("./locales/th.json", { with: { type: "json" } }),
+  fr: () => import("./locales/fr.json", { with: { type: "json" } }),
+  de: () => import("./locales/de.json", { with: { type: "json" } }),
+  sp: () => import("./locales/sp.json", { with: { type: "json" } }),
 };
 
 let L = kr; // 활성 로케일

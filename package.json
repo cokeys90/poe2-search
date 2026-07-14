@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build && node scripts/build-html.mjs",
     "preview": "vite preview",
-    "deploy": "npm run build && firebase deploy --only hosting"
+    "deploy": "npm run build && firebase deploy --only hosting",
+    "verify": "node scripts/verify-all.mjs",
+    "verify:net": "node scripts/verify-all.mjs --net"
   },
   "dependencies": {
     "firebase": "^12.16.0",

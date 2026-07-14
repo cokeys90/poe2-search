@@ -23,7 +23,8 @@
 import { readFileSync } from "node:fs";
 import { DATA } from "../src/data/options.js";
 
-const types = JSON.parse(readFileSync("scripts/out/tablet-types-kr.json", "utf8"));
+// scrape-tablet-types.mjs가 { implicits, bases, names, mods } 를 준다 — 모드는 mods 아래에 있다
+const types = JSON.parse(readFileSync("scripts/out/tablet-types-kr.json", "utf8")).mods;
 
 // 수치를 '완전히' 지운다. 자리표시자(#)로 남기면 안 된다 —
 // poe2db는 같은 줄을 어떤 데선 "(30—40)% 증가", 어떤 데선 값 없이 "% 증가"로 준다.

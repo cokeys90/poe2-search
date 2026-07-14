@@ -241,7 +241,8 @@ export function tradeUrl({
    (공용 IP를 남과 나눠 쓰므로 구조적으로 불안정) → 링크로 가져오는 경로는 두지 않는다.
    대신 북마클릿이 거래소 페이지 안에서 조건을 읽어 이 앱을 열어준다 (API 호출 0회). */
 
-const PROXY = import.meta.env.VITE_TRADE_PROXY || "";
+// ?. — 검증 스크립트가 노드에서 이 모듈을 그대로 import한다 (노드엔 import.meta.env가 없다)
+const PROXY = import.meta.env?.VITE_TRADE_PROXY || "";
 
 // 못 가져온 옵션의 stat id → 거래소 원문. 필요할 때만(가져오기에서 빠진 게 있을 때만) 받아온다.
 let statNames = null;
