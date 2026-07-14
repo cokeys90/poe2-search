@@ -59,7 +59,19 @@
     "tierSearch": "階級 {n}",
     "waystoneBase": "換界石（階級 {tier}）"
   },
-  "ru": "Путевой камень (Ур. {tier})",
+  "ru": {
+    "implicit": {
+      "ws.imp.revives": "Доступно возрождений",
+      "ws.imp.item_rarity": "Редкость предметов",
+      "ws.imp.pack_size": "Размер групп монстров",
+      "ws.imp.rare_monsters": "Редкость монстров",
+      "ws.imp.monster_effect": "Эффективность монстров",
+      "ws.imp.waystone_chance": "Шанс выпадения путевого камня"
+    },
+    "corrupted": "Осквернено",
+    "tierSearch": "Tier {n}",
+    "waystoneBase": "Путевой камень (Ур. {tier})"
+  },
   "pt": {
     "implicit": {
       "ws.imp.revives": "Renascimentos Disponíveis",
@@ -99,7 +111,19 @@
     "tierSearch": "Palier {n}",
     "waystoneBase": "Pierre de téléportation (Palier {tier})"
   },
-  "de": "Wegstein (Level {tier})",
+  "de": {
+    "implicit": {
+      "ws.imp.revives": "Wiederbelebungen verfügbar",
+      "ws.imp.item_rarity": "Gegenstandsseltenheit",
+      "ws.imp.pack_size": "Monstergruppengrösse",
+      "ws.imp.rare_monsters": "Monsterseltenheit",
+      "ws.imp.monster_effect": "Monster-Schlagkraft",
+      "ws.imp.waystone_chance": "Chance auf fallen gelassene Wegsteine"
+    },
+    "corrupted": "Verderbt",
+    "tierSearch": "Tier {n}",
+    "waystoneBase": "Wegstein (Level {tier})"
+  },
   "sp": {
     "implicit": {
       "ws.imp.revives": "Resurrecciones disponibles",

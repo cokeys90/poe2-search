@@ -15,6 +15,21 @@ import { LANGS } from "./langs.mjs";
 const texts = JSON.parse(readFileSync("scripts/out/texts.json", "utf8"));
 const extras = JSON.parse(readFileSync("scripts/out/extras.json", "utf8"));
 const ingame = JSON.parse(readFileSync("scripts/data/ingame-waystone.json", "utf8"));
+// 영어권 종류명 — 다른 언어의 제목이 이것과 같으면 "번역이 안 된 것"으로 본다
+const usNames = JSON.parse(readFileSync("scripts/out/tablet-types-us.json", "utf8")).names;
+
+// 기본 타입명에서 종류명만 뽑는다 ("Tablette d'Expédition" → "Expédition").
+// 종류명은 화면의 종류 칩과 그룹 제목("Sufijos de {type}")에 들어간다 → **홀로 서는 명사**여야 한다.
+// 연결어를 달고 오면 그룹 제목이 "Sufijos de del capataz"처럼 겹친다.
+const CONNECTOR = /^(d'|de la |de |du |des |del |de |da |do |di )/i;
+const fromBase = (base, stripWord) =>
+  base
+    .replace(stripWord, "")
+    .replace(/\s+/g, " ")
+    // 붙임표로 잇는 언어(독일어 "Aufseher-Tafel")는 떼어내면 하이픈이 남는다
+    .replace(/^[\s\-–—]+|[\s\-–—]+$/g, "")
+    .replace(CONNECTOR, "")
+    .trim();
 
 const forceKr = process.argv.includes("--force-kr");
 
@@ -99,9 +114,15 @@ for (const lang of LANGS) {
   const stripWord = new RegExp(tabletWord.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
   for (const slug of TABLET_TYPES) {
     bases[slug] = types.bases[slug];
+
+    // ⚠️ poe2db 종류별 페이지의 제목(names)은 언어에 따라 영어가 그대로 남아 있다
+    //    (th·fr·sp·pt의 Expedition·Delirium·Ritual). 영어권 제목과 똑같으면 번역 안 된 것으로
+    //    보고 기본 타입명(bases)에서 유도한다 — bases는 거래소 API와 대조해 검증된 값이다
+    //    (scripts/check-trade-bases.mjs). 독일어처럼 진짜로 영어와 같은 단어면 유도해도 같다.
+    const name = types.names[slug];
+    const untranslated = lang !== "us" && name != null && name === usNames[slug];
     tablets[slug] =
-      types.names[slug] ??
-      types.bases[slug].replace(stripWord, "").replace(/\s+/g, " ").trim();
+      name != null && !untranslated ? name : fromBase(types.bases[slug], stripWord);
   }
   bases.waystone = ig.waystoneBase;
 

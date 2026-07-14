@@ -48,7 +48,7 @@
   "group.implicit": "Propriétés",
   "group.prefix": "Préfixe",
   "group.suffix": "Suffixe",
-  "group.unique": "Suffixes {type}",
+  "group.unique": "Suffixes : {type}",
   "group.noUnique": "Les Tablettes {type} n'ont pas de propriétés exclusives. Utilisez les propriétés communes ci-dessous.",
   "option.find": "Chercher une propriété",
   "option.reorder": "Glisser pour réordonner",

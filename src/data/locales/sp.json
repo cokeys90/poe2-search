@@ -2,12 +2,12 @@
   "tablets": {
     "irradiated": "irradiada",
     "breach": "Fisura",
-    "expedition": "Expedition",
-    "delirium": "Delirium",
-    "ritual": "Ritual",
-    "overseer": "del capataz",
+    "expedition": "expedición",
+    "delirium": "delirio",
+    "ritual": "ritual",
+    "overseer": "capataz",
     "abyss": "Abismo",
-    "temple": "de templo"
+    "temple": "templo"
   },
   "bases": {
     "irradiated": "Tablilla irradiada",
