@@ -1,3 +1,4 @@
+import { CORE } from "../data/core.js";
 import {
   DATA,
   TABLET_META,
@@ -36,20 +37,21 @@ const BY_IMPLICIT = new Map(
   Object.entries(TABLET_META).map(([slug, m]) => [m.implicit, slug])
 );
 
-// 거래소 stat_id / 엔드게임 필터 id → 우리 옵션 (가져오기용 역인덱스)
+// 거래소 stat_id / 엔드게임 필터 id → 우리 옵션 key (가져오기용 역인덱스).
+// 언어무관 코어에서만 만든다 — 언어가 바뀌어도 그대로다. 원문이 필요하면 BY_KEY로 되살린다.
 const BY_STAT = (() => {
   const m = new Map();
   const add = (list, tab, tabletType) =>
-    list.forEach((it) => {
-      if (it.stat_id) m.set(it.stat_id, { item: it, tab, tabletType });
-      if (it.map_filter) m.set(it.map_filter, { item: it, tab, tabletType });
+    list.forEach((c) => {
+      if (c.stat_id) m.set(c.stat_id, { key: c.key, tab, tabletType });
+      if (c.map_filter) m.set(c.map_filter, { key: c.key, tab, tabletType });
     });
-  add(DATA.waystone.implicit, "waystone");
-  add(DATA.waystone.prefix, "waystone");
-  add(DATA.waystone.suffix, "waystone");
-  add(DATA.tablet.prefix, "tablet");
-  add(DATA.tablet.suffix, "tablet");
-  for (const [slug, list] of Object.entries(DATA.tablet.unique)) add(list, "tablet", slug);
+  add(CORE.waystone.implicit, "waystone");
+  add(CORE.waystone.prefix, "waystone");
+  add(CORE.waystone.suffix, "waystone");
+  add(CORE.tablet.prefix, "tablet");
+  add(CORE.tablet.suffix, "tablet");
+  for (const [slug, list] of Object.entries(CORE.tablet.unique)) add(list, "tablet", slug);
   return m;
 })();
 
@@ -218,7 +220,7 @@ export function queryToState(query) {
       tab = "tablet";
       tabletType = hit;
     } else {
-      const wm = baseType.match(waystoneBaseRe);
+      const wm = baseType.match(waystoneBaseRe());
       if (wm) {
         tab = "waystone";
         tier = wm[1];
@@ -247,7 +249,7 @@ export function queryToState(query) {
     }
     if (!tab) tab = hit.tab; // 카테고리가 없으면 스탯으로 판별
     if (hit.tabletType) tabletType = hit.tabletType; // 고유 옵션이면 서판 종류까지
-    sel[hit.item.key] = { mode, min: min == null ? "" : String(min) };
+    sel[hit.key] = { mode, min: min == null ? "" : String(min) };
   };
 
   for (const g of query?.stats || []) {

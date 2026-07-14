@@ -3,6 +3,20 @@ import Tooltip from "./Tooltip.jsx";
 import { IconSettings, IconClose, IconReset } from "./icons.jsx";
 import { LEAGUES } from "../lib/trade.js";
 
+// 언어 이름은 그 언어로 적는다 — 못 읽는 언어로 적혀 있으면 되돌아올 수가 없다.
+const LANG_LABELS = [
+  ["kr", "한국어"],
+  ["us", "English"],
+  ["tw", "繁體中文"],
+  ["jp", "日本語"],
+  ["ru", "Русский"],
+  ["pt", "Português"],
+  ["th", "ภาษาไทย"],
+  ["fr", "Français"],
+  ["de", "Deutsch"],
+  ["sp", "Español"],
+];
+
 // 설정 항목 한 줄: 설명 + 실행 버튼
 function Row({ title, desc, actionLabel, onAction, disabled }) {
   return (
@@ -34,6 +48,9 @@ export default function SettingsWindow({
   optPrefsDirty,
   league,
   onLeague,
+  lang,
+  langs,
+  onLang,
 }) {
   const header = (
     <div className="flex items-center gap-2 border-b border-outline-variant bg-surface-c-low px-3 py-2.5">
@@ -53,6 +70,27 @@ export default function SettingsWindow({
   return (
     <FloatingWindow geom={geom} onCommit={onGeom} fullscreen={fullscreen} onClose={onClose} header={header}>
       <div className="flex flex-col gap-2 p-3">
+        {/* 언어 — 게임 클라이언트의 언어와 맞춰야 인게임 검색어가 통한다 */}
+        <div className="flex items-center gap-3 rounded-md-s border border-outline-variant bg-surface-c px-3 py-2.5">
+          <div className="min-w-0 flex-1">
+            <p className="text-label-l text-on-surface">언어</p>
+            <p className="text-body-s text-on-surface-variant">
+              게임 클라이언트와 같은 언어로 맞추세요
+            </p>
+          </div>
+          <select
+            value={lang}
+            onChange={(e) => onLang(e.target.value)}
+            className="shrink-0 rounded-md-s border border-outline bg-surface-c-lowest px-2 py-1.5 text-body-m text-on-surface outline-none transition focus:border-primary"
+          >
+            {LANG_LABELS.filter(([id]) => langs.includes(id)).map(([id, label]) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* 거래소 리그 — 리그 목록 API는 CORS가 없어 조회 불가라 직접 고른다 */}
         <div className="flex items-center gap-3 rounded-md-s border border-outline-variant bg-surface-c px-3 py-2.5">
           <div className="min-w-0 flex-1">

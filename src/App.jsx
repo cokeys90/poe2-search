@@ -54,6 +54,7 @@ import { useFavorites } from "./hooks/useFavorites.js";
 import { useFloatingWindow } from "./hooks/useFloatingWindow.js";
 import { useOptionPrefs } from "./hooks/useOptionPrefs.js";
 import { useTheme } from "./hooks/useTheme.js";
+import { useLang } from "./hooks/useLang.js";
 
 const DEFAULT_PRICE = {
   enabled: false,
@@ -95,6 +96,7 @@ export default function App() {
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [pendingLoad, setPendingLoad] = useState(null); // 즐겨찾기 덮어쓰기 확인 대기
   const { theme, toggle: toggleTheme } = useTheme();
+  const { lang, langs, setLang } = useLang();
 
   // 반응형: lg(1024) 미만 → 좌측 드로어, xl(1280) 미만 → 레일 강제 아이콘화
   const isMidUp = useMediaQuery("(min-width: 1024px)");
@@ -640,6 +642,9 @@ export default function App() {
           optPrefsDirty={optPrefs.hasPrefs}
           league={league}
           onLeague={setLeague}
+          lang={lang}
+          langs={langs}
+          onLang={setLang}
         />
       )}
 

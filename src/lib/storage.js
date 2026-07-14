@@ -253,3 +253,22 @@ export function saveOptPrefs(groups) {
     // 저장 실패는 무시
   }
 }
+
+// 화면 언어. 옵션 원문·검색조각이 통째로 갈리므로 첫 렌더 전에 복원해야 한다(main.jsx).
+const LANG_KEY = "poe2-search:lang";
+
+export function loadLang(fallback) {
+  try {
+    return localStorage.getItem(LANG_KEY) || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+export function saveLang(lang) {
+  try {
+    localStorage.setItem(LANG_KEY, lang);
+  } catch {
+    // 저장 실패는 무시
+  }
+}

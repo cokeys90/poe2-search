@@ -91,12 +91,23 @@ export function dots(n) { return ".".repeat(n); }
 // 옵션 원문에서 수치 범위 파싱. 범위 (a—b) 뒤의 단위는 언어마다 다르다(한국어: % 개 마리 초 …)
 // → 로케일의 tokens.units 문자들만 단위로 인정한다. 파싱된 단위는 piece()에서 정규식에 다시 박힌다.
 // 반환: {min, max, unit} 또는 null. 고정 개수형(범위 없는 "1개")은 null(이상 검색 무의미).
-const RANGE_RE = new RegExp(
-  "\\(([0-9]+)[—\\-–]([0-9]+)\\)\\s*([" + TOKENS.units.replace(/[\]\\^-]/g, "\\$&") + "]*)"
-);
+// ⚠️ 모듈 로드 시점에 만들어 두면 안 된다 — 언어가 바뀌면 단위 글자가 달라진다
+// (kr "%개마리초…" / jp "%個回体秒" / 라틴은 "%"뿐). 언어별로 한 번씩만 만들어 재사용한다.
+let rangeReCache = { units: null, re: null };
+function rangeRe() {
+  if (rangeReCache.units !== TOKENS.units) {
+    rangeReCache = {
+      units: TOKENS.units,
+      re: new RegExp(
+        "\\(([0-9]+)[—\\-–]([0-9]+)\\)\\s*([" + TOKENS.units.replace(/[\]\\^-]/g, "\\$&") + "]*)"
+      ),
+    };
+  }
+  return rangeReCache.re;
+}
 
 export function parseRange(text) {
-  let m = text.match(RANGE_RE);
+  let m = text.match(rangeRe());
   if (m) return { min: +m[1], max: +m[2], unit: m[3] || "" };
   m = text.match(/(?:^|[^0-9(])([0-9]{1,3})\s*(%)/);
   if (m) return { min: +m[1], max: +m[1], unit: "%" };
@@ -146,12 +157,15 @@ export function pricePiece(price) {
   return "\\b" + lo + " " + cur;
 }
 
-// 경로석 등급 검색 세트. \bN등급 → "5등급"이 "15등급"에 오매칭되지 않게 단어 경계 사용.
-// tier: 숫자 또는 ""/null(무관)  → 반환: "\b15등급" 등, 없으면 ""
+// 경로석 등급 검색 세트.
+// ⚠️ 어순이 언어마다 다르다 — 한국어 "15등급"(뒤) vs 영어 "Tier 15"(앞) vs 프랑스어 "Palier 15".
+// 그래서 접미사가 아니라 틀({n})로 다룬다. 로케일의 tokens.tier가 그 틀이다.
+// \b: "5등급"이 "15등급"에 오매칭되지 않게 하는 단어 경계 (인게임 확인).
+// tier: 숫자 또는 ""/null(무관)  → 반환: "\b15등급" / "\bTier 15", 없으면 ""
 export function tierPiece(tier) {
   const t = parseInt(String(tier).trim(), 10);
   if (isNaN(t) || t <= 0) return "";
-  return "\\b" + t + TOKENS.tier;
+  return "\\b" + TOKENS.tier.replace("{n}", String(t));
 }
 
 /* ---------- 수치를 조각에 붙이는 위치 ----------

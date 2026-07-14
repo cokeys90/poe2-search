@@ -27,7 +27,7 @@
     "waystone": "경로석 ({tier}등급)"
   },
   "tokens": {
-    "tier": "등급",
+    "tier": "{n}등급",
     "corrupted": "타락",
     "units": "%개마리초명회배"
   },
