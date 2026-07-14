@@ -20,6 +20,7 @@ function loadOptions() {
   push("ws.suffix", DATA.waystone.suffix);
   push("tb.prefix", DATA.tablet.prefix);
   push("tb.suffix", DATA.tablet.suffix);
+  for (const [type, items] of Object.entries(DATA.tablet.implicit)) push("tb.impl." + type, items);
   for (const [type, items] of Object.entries(DATA.tablet.unique)) push("tb.uniq." + type, items);
   return out;
 }

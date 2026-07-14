@@ -53,13 +53,21 @@ function pools() {
 // 게임 검색 문법 = 정규식.
 //  i — 게임은 대소문자를 가리지 않는다 (한국어엔 무의미하나 라틴 문자 언어에 필요)
 //  m — "^"는 아이템 전체의 시작이 아니라 '줄'의 시작이다
+//
+// ⚠️ 게임은 검색 세트 끝의 공백을 잘라낸다 (인게임 확인).
+//    "금고 "로 검색하면 "금고"가 돼서 "금고가 등장할 확률"까지 잡힌다.
+//    중간 공백은 리터럴로 살아 있다 ("터 피해"는 "터 피해가"를 안 잡는다).
+//    → 끝에 공백이 필요하면 "\s"를 써야 한다. 여기서도 게임과 똑같이 잘라내고 검사한다.
 function compile(frag) {
   try {
-    return new RegExp(frag, "im");
+    return new RegExp(frag.replace(/[ \t]+$/, ""), "im");
   } catch {
     return null;
   }
 }
+
+// 끝 공백은 게임이 잘라내므로 조각에 쓰면 안 된다 → "\s"로 쓸 것
+const hasTrailingSpace = (frag) => /[ \t]$/.test(frag);
 
 // ⚠️ 데이터의 원문은 "지도에 금고 (1—2)개 추가 등장" 같은 틀이지만,
 // 게임 화면에는 실제로 굴려진 값이 찍힌다: "지도에 금고 1개 추가 등장".
@@ -174,6 +182,13 @@ for (const pool of pools()) {
     if (!re) {
       broken.set(it.key, { frag: it.frag, text: it.text, why: "정규식으로 컴파일되지 않음" });
       continue;
+    }
+    if (hasTrailingSpace(it.frag)) {
+      broken.set(it.key, {
+        frag: it.frag,
+        text: it.text,
+        why: '조각이 공백으로 끝난다 — 게임이 잘라내므로 무의미하다. "\\s"를 쓸 것',
+      });
     }
     // 겹침 판정: 다른 옵션을 '어느 값에서든' 잡으면 겹치는 것으로 본다 (보수적)
     const hits = pool.items.filter((o) => matchesAny(re, o));

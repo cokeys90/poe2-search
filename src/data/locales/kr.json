@@ -63,26 +63,26 @@
       "overlap": 1
     },
     "ws.pre.deal_extra_fire": {
-      "text": "몬스터가 피해의 (5—9)%를 추가 화염 피해로 줌",
+      "text": "몬스터가 피해의 (5—24)%를 추가 화염 피해로 줌",
       "frag": "화염",
       "overlap": 1,
       "trade": "몬스터가 피해의 #%를 추가 화염 피해로 줌"
     },
     "ws.pre.deal_extra_cold": {
-      "text": "몬스터가 피해의 (5—9)%를 추가 냉기 피해로 줌",
+      "text": "몬스터가 피해의 (5—24)%를 추가 냉기 피해로 줌",
       "frag": "냉기",
       "overlap": 1,
       "trade": "몬스터가 피해의 #%를 추가 냉기 피해로 줌"
     },
     "ws.pre.deal_extra_lightning": {
-      "text": "몬스터가 피해의 (5—9)%를 추가 번개 피해로 줌",
+      "text": "몬스터가 피해의 (5—24)%를 추가 번개 피해로 줌",
       "frag": "번개",
       "overlap": 1,
       "trade": "몬스터가 피해의 #%를 추가 번개 피해로 줌"
     },
     "ws.pre.monster_damage": {
-      "text": "몬스터 피해 (5—9)% 증가",
-      "frag": "터 피해 ",
+      "text": "몬스터 피해 (5—24)% 증가",
+      "frag": "터 피해\\s",
       "overlap": 1,
       "trade": "몬스터 피해 #% 증가"
     },
@@ -93,49 +93,49 @@
       "trade": "몬스터의 공격, 시전 및 이동 속도 #% 증가"
     },
     "ws.pre.critical_hit": {
-      "text": "몬스터의 치명타 명중 확률 (80—120)% 증가",
+      "text": "몬스터의 치명타 명중 확률 (80—300)% 증가",
       "frag": "명중 확",
       "overlap": 1,
       "trade": "몬스터의 치명타 명중 확률 #% 증가"
     },
     "ws.pre.monster_life": {
-      "text": "몬스터의 생명력 (10—14)% 증폭",
+      "text": "몬스터의 생명력 (10—30)% 증폭",
       "frag": "증폭",
       "overlap": 1,
       "trade": "몬스터의 생명력 #% 증폭"
     },
     "ws.pre.poison_hit": {
-      "text": "몬스터가 명중 시 (13—19)%의 확률로 중독 유발",
+      "text": "몬스터가 명중 시 (13—40)%의 확률로 중독 유발",
       "frag": "중독",
       "overlap": 1,
       "trade": "몬스터가 명중 시 #%의 확률로 중독 유발"
     },
     "ws.pre.inflict_bleeding_hit": {
-      "text": "몬스터가 명중 시 (5—10)%의 확률로 출혈 유발",
+      "text": "몬스터가 명중 시 (5—25)%의 확률로 출혈 유발",
       "frag": "출혈",
       "overlap": 1,
       "trade": "몬스터가 명중 시 #%의 확률로 출혈 유발"
     },
     "ws.pre.break_armour_equal": {
-      "text": "몬스터가 준 물리 피해의 (15—20)%와 동일한 방어구 파괴",
+      "text": "몬스터가 준 물리 피해의 (15—45)%와 동일한 방어구 파괴",
       "frag": "물리",
       "overlap": 1,
       "trade": "몬스터가 준 물리 피해의 #%와 동일한 방어구 파괴"
     },
     "ws.pre.accuracy_rating": {
-      "text": "몬스터의 정확도 (10—20)% 증가",
+      "text": "몬스터의 정확도 (10—50)% 증가",
       "frag": "정확",
       "overlap": 1,
       "trade": "몬스터의 정확도 #% 증가"
     },
     "ws.pre.deal_extra_chaos": {
-      "text": "몬스터가 피해의 (5—9)%를 추가 카오스 피해로 줌",
+      "text": "몬스터가 피해의 (5—24)%를 추가 카오스 피해로 줌",
       "frag": "카오스",
       "overlap": 1,
       "trade": "몬스터가 피해의 #%를 추가 카오스 피해로 줌"
     },
     "ws.pre.stun_buildup": {
-      "text": "몬스터의 기절 축적 (50—60)% 증가",
+      "text": "몬스터의 기절 축적 (50—110)% 증가",
       "frag": "기절",
       "overlap": 1,
       "trade": "몬스터의 기절 축적 #% 증가"
@@ -147,7 +147,7 @@
       "trade": "몬스터가 투사체 #개 추가 발사"
     },
     "ws.pre.penetrates_elemental_resistances": {
-      "text": "몬스터 피해가 (6—8)%의 원소 저항 관통",
+      "text": "몬스터 피해가 (6—16)%의 원소 저항 관통",
       "frag": "관통",
       "overlap": 1,
       "trade": "몬스터 피해가 #%의 원소 저항 관통"
@@ -159,7 +159,7 @@
       "trade": "희귀 몬스터가 속성 부여 #개 추가 보유"
     },
     "ws.suf.monster_elemental_resistances": {
-      "text": "몬스터의 원소 저항 +(20—24)%",
+      "text": "몬스터의 원소 저항 +(20—40)%",
       "frag": "저항 \\+",
       "overlap": 1,
       "trade": "몬스터의 원소 저항 +#%"
@@ -183,13 +183,13 @@
       "trade": "몬스터가 최대 생명력의 #%를 추가 에너지 보호막 최대치로 획득"
     },
     "ws.suf.monsters_ailment_threshold": {
-      "text": "몬스터의 상태 이상 한계치 (30—39)% 증가",
+      "text": "몬스터의 상태 이상 한계치 (30—79)% 증가",
       "frag": "한계치",
       "overlap": 1,
       "trade": "몬스터의 상태 이상 한계치 #% 증가"
     },
     "ws.suf.monster_ailment_application": {
-      "text": "몬스터의 원소 상태 이상 적용 (60—79)% 증가",
+      "text": "몬스터의 원소 상태 이상 적용 (60—130)% 증가",
       "frag": "원.*이",
       "overlap": 1,
       "trade": "몬스터의 원소 상태 이상 적용 #% 증가"
@@ -237,36 +237,36 @@
       "trade": "지역에 감전 지대 존재"
     },
     "ws.suf.maximum_resistances": {
-      "text": "플레이어 저항 최대치 (-4—-3)%",
+      "text": "플레이어 저항 최대치 (-10—-3)%",
       "frag": "저.*최",
       "overlap": 1,
       "trade": "플레이어 저항 최대치 #%"
     },
     "ws.suf.gain_flask_charges": {
-      "text": "플레이어의 플라스크 충전량 (20—24)% 감소",
+      "text": "플레이어의 플라스크 충전량 (20—35)% 감소",
       "frag": "충전량",
       "overlap": 1,
       "trade": "플레이어의 플라스크 충전량 #% 감소"
     },
     "ws.suf.recovery_rate_life": {
-      "text": "플레이어의 생명력 및 에너지 보호막 회복 속도 (20—29)% 감폭",
+      "text": "플레이어의 생명력 및 에너지 보호막 회복 속도 (20—40)% 감폭",
       "frag": "생.*회",
       "overlap": 1,
       "trade": "플레이어의 생명력 및 에너지 보호막 회복 속도 #% 감폭"
     },
     "ws.suf.cooldown_recovery_rate": {
-      "text": "플레이어의 재사용 대기시간 회복 속도 (15—20)% 감폭",
+      "text": "플레이어의 재사용 대기시간 회복 속도 (15—30)% 감폭",
       "frag": "재사용",
       "overlap": 1
     },
     "ws.suf.take_damage_critical": {
-      "text": "몬스터가 치명타 명중으로 받는 추가 피해 (15—19)% 감소",
+      "text": "몬스터가 치명타 명중으로 받는 추가 피해 (15—30)% 감소",
       "frag": "명중으",
       "overlap": 1,
       "trade": "몬스터가 치명타 명중으로 받는 추가 피해 #% 감소"
     },
     "ws.suf.less_effect_curses": {
-      "text": "몬스터에게 적용되는 저주 효과 (20—30)% 감폭",
+      "text": "몬스터에게 적용되는 저주 효과 (20—50)% 감폭",
       "frag": "저.*효",
       "overlap": 1,
       "trade": "몬스터에게 적용되는 저주 효과 #% 감폭"
@@ -585,25 +585,25 @@
     },
     "tb.overseer.strongboxes": {
       "text": "지도에 금고 (1—2)개 추가 등장",
-      "frag": "금고 ",
+      "frag": "금고\\s",
       "overlap": 2,
       "trade": "지도에 금고 #개 추가 등장"
     },
     "tb.overseer.shrines": {
       "text": "지도에 성소 (1—2)개 추가 등장",
-      "frag": "성소 ",
+      "frag": "성소\\s",
       "overlap": 2,
       "trade": "지도에 성소 1개 추가 등장"
     },
     "tb.overseer.essences": {
       "text": "지도에 에센스 (1—2)개 추가 등장",
-      "frag": "센스 ",
+      "frag": "센스\\s",
       "overlap": 2,
       "trade": "지도에 에센스 1개 추가 등장"
     },
     "tb.overseer.azmeri_spirits": {
       "text": "지도에 아즈메리 혼백 (1—2)개 추가 등장",
-      "frag": "혼백 ",
+      "frag": "혼백\\s",
       "overlap": 2,
       "trade": "지도에 아즈메리 혼백 #개 추가 등장"
     },
@@ -699,7 +699,7 @@
     },
     "tb.suf.waystones_shrine": {
       "text": "지도에 성소 1개 추가 등장",
-      "frag": "성소 ",
+      "frag": "성소\\s",
       "overlap": 2,
       "extra": [
         "지도 내 무리 규모 % 감소",
@@ -708,7 +708,7 @@
     },
     "tb.suf.waystones_strongbox": {
       "text": "지도에 금고 1개 추가 등장",
-      "frag": "금고 ",
+      "frag": "금고\\s",
       "overlap": 2,
       "extra": [
         "지도 내 무리 규모 % 감소",
@@ -722,47 +722,47 @@
     },
     "tb.impl.irradiated": {
       "text": "지도에 방사능 노출 추가, 잔여 사용 횟수 (1—10)회",
-      "frag": "횟수 ",
+      "frag": "횟수\\s",
       "overlap": 1
     },
     "tb.impl.breach": {
       "text": "지도에 저세상 균열 1개 추가 / 잔여 사용 횟수 (1—10)회",
-      "frag": "횟수 ",
+      "frag": "횟수\\s",
       "overlap": 1
     },
     "tb.impl.expedition": {
       "text": "지도에 칼구르 탐험 1개 추가 / 잔여 사용 횟수 (1—10)회",
-      "frag": "횟수 ",
+      "frag": "횟수\\s",
       "overlap": 1
     },
     "tb.impl.delirium": {
       "text": "지도에 환영의 거울 1개 추가 / 잔여 사용 횟수 (1—10)회",
-      "frag": "횟수 ",
+      "frag": "횟수\\s",
       "overlap": 1
     },
     "tb.impl.ritual": {
       "text": "지도에 의식 제단 추가 / 잔여 사용 횟수 (1—10)회",
-      "frag": "횟수 ",
+      "frag": "횟수\\s",
       "overlap": 1
     },
     "tb.impl.overseer": {
       "text": "지도의 지도 보스 강화 / 잔여 사용 횟수 (1—10)회",
-      "frag": "횟수 ",
+      "frag": "횟수\\s",
       "overlap": 1
     },
     "tb.impl.abyss": {
       "text": "지도에 심연 추가 / 잔여 사용 횟수 (1—10)회",
-      "frag": "횟수 ",
+      "frag": "횟수\\s",
       "overlap": 1
     },
     "tb.impl.temple": {
       "text": "지도에 바알 등대 추가 / 잔여 사용 횟수 (1—10)회",
-      "frag": "횟수 ",
+      "frag": "횟수\\s",
       "overlap": 1
     },
     "tb.pre.contains_essences": {
       "text": "지도에 에센스 1개 추가 등장",
-      "frag": "센스 ",
+      "frag": "센스\\s",
       "overlap": 2,
       "extra": [
         "지도에서 발견하는 경로석 수량 % 증가"
@@ -770,7 +770,7 @@
     },
     "tb.pre.contains_azmeri_spirits": {
       "text": "지도에 아즈메리 혼백 1개 추가 등장",
-      "frag": "혼백 ",
+      "frag": "혼백\\s",
       "overlap": 2,
       "extra": [
         "지도에서 발견하는 경로석 수량 % 증가"
