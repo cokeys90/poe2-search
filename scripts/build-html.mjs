@@ -41,7 +41,11 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, 
    네이버·빙·SNS 미리보기는 아예 JS를 안 돌린다 → 10개 언어가 전부 빈 껍데기로 색인된다.
 
    #root 안에 넣는다 — React가 마운트하면서 통째로 갈아치운다(앱 셸 폴백).
-   숨기지 않는다. 숨기면 클로킹이고, 실제로 화면에 그 앱이 뜨므로 숨길 이유도 없다.
+   sr-only(화면 밖) 인라인 스타일로 시각적으로만 가린다. 클로킹이 아니다 — React가
+   똑같은 내용의 실제 앱으로 갈아치우므로 크롤러·사용자가 보는 게 결국 같다. 크롤러·
+   스크린리더는 DOM의 이 텍스트를 그대로 읽는다. 가리는 건 마운트 전 잠깐 보이던
+   맨 텍스트 깜빡임뿐. ⚠️ CSS 클래스가 아니라 인라인이어야 한다 — 외부 CSS 로드 전
+   순간에도 먹어야 깜빡임이 안 남는다.
 
    내용은 **우리가 이미 가진 데이터**에서만 뽑는다: 그 언어의 서판 종류명·아이템 이름(poe2db 원문).
    지어내면 그 언어 사용자가 검색해서 들어왔을 때 화면과 다른 말이 적혀 있게 된다. */
@@ -52,7 +56,7 @@ const shell = (lang) => {
   const waystone = loc.bases.waystone.split(/[(（]/)[0].trim();
 
   return `<div id="root">
-      <main>
+      <main style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">
         <h1>${esc(s.ldName)}</h1>
         <p>${esc(s.desc)}</p>
         <h2>${esc(waystone)}</h2>
