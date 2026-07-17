@@ -547,8 +547,9 @@ export default function App() {
                 </div>
               )}
 
-              {/* 옵션 목록 */}
-              <section>
+              {/* 옵션 목록 — data-nosnippet: 구글이 옵션 이름들을 긁어 검색 스니펫으로
+                  쓰지 못하게 막는다(설명글로 되돌아가게). 색인·랭킹엔 영향 없다 */}
+              <section data-nosnippet>
                 {tab === "tablet" && pool.noUnique && (
                   <Callout>
                     {t("group.noUnique", { type: tabletName(tabletType) })}
