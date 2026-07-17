@@ -45,10 +45,10 @@ function cors(origin) {
   };
 }
 
-const json = (body, status, origin) =>
+const json = (body, status, origin, extra) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json; charset=utf-8", ...cors(origin) },
+    headers: { "Content-Type": "application/json; charset=utf-8", ...cors(origin), ...extra },
   });
 
 export default {
@@ -58,6 +58,15 @@ export default {
     if (request.method === "OPTIONS")
       return new Response(null, { status: 204, headers: cors(origin) });
     if (request.method !== "GET") return json({ error: "GET만 허용" }, 405, origin);
+
+    // 레이트리밋 (wrangler.toml의 [[ratelimits]]) — IP당 분당 20회. 정상 사용자는
+    // "가져오기" 한 번에 몇 호출뿐이라 안 걸리고, curl 루프 같은 남용만 막는다.
+    // OPTIONS(프리플라이트)는 위에서 이미 빠졌다. 캐시·업스트림보다 앞에 둬서 남용
+    // 트래픽이 그 뒤 작업에 도달하지 못하게 한다. period를 바꾸면 Retry-After도 맞출 것.
+    const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+    const { success } = await env.STATS_LIMITER.limit({ key: ip });
+    if (!success)
+      return json({ error: "요청이 너무 잦습니다" }, 429, origin, { "Retry-After": "60" });
 
     const url = new URL(request.url);
     if (url.pathname !== "/stats") return json({ error: "경로: /stats" }, 404, origin);

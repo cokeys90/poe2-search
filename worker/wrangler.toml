@@ -2,6 +2,17 @@ name = "poe2-search-proxy"
 main = "index.js"
 compatibility_date = "2026-07-01"
 
+# 레이트리밋 — 워커 주소가 클라이언트 번들에 공개돼 있고(VITE_ 빌드 타임 주입), CORS는
+# 브라우저 정책이라 curl로 우회된다 → 인증 없는 무제한 호출을 막을 게 이것뿐이다.
+# IP당 period초에 limit회. period는 10 또는 60만 가능. index.js가 env.STATS_LIMITER로 쓴다.
+# ⚠️ period를 바꾸면 index.js의 Retry-After 값도 맞출 것.
+[[ratelimits]]
+name = "STATS_LIMITER"
+namespace_id = "1001"
+[ratelimits.simple]
+limit = 20
+period = 60
+
 # 거래소 스탯 이름표(GET /stats) 전용 프록시. 검색 ID → 조건 조회는 제공하지 않는다
 # (IP 레이트리밋 때문 — index.js 상단 주석 참고).
 #
