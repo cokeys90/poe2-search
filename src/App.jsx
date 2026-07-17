@@ -60,7 +60,7 @@ import { useFloatingWindow } from "./hooks/useFloatingWindow.js";
 import { useOptionPrefs } from "./hooks/useOptionPrefs.js";
 import { useTheme } from "./hooks/useTheme.js";
 import { useLang } from "./hooks/useLang.js";
-import { pageFromPath, syncPath } from "./lib/langPath.js";
+import { pageFromPath, syncPath, PAGES } from "./lib/langPath.js";
 import { useT } from "./i18n/index.js";
 
 const DEFAULT_PRICE = {
@@ -349,6 +349,9 @@ export default function App() {
   const favs = useFavorites({ makeSnapshot: snapshot, makeName: () => defaultFavName });
 
   function applyFavorite(fav) {
+    // 손상된 localStorage(마이그레이션 버그·devtools 실수)로 fav.tab이 엉뚱한 값이면
+    // 아래 pins[tab].options가 undefined.options로 앱 전체를 크래시시킨다 → 조용히 무시한다
+    if (!PAGES.includes(fav.tab)) return;
     goTab(fav.tab);
     if (fav.tab === "tablet") setTabletType(fav.tabletType || tabletType);
     setSel({ ...fav.sel });

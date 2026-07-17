@@ -10,6 +10,19 @@
     ],
     "headers": [
       {
+        "//": "보안 헤더 — 모든 응답에. XSS 싱크(dangerouslySetInnerHTML·eval 등)는 현재 0개라 CSP는 심층방어다(나중에 싱크가 생겨도 안전망이 남게). CSP를 고칠 땐 반드시 배포본을 브라우저 콘솔로 확인할 것 — 외부 호스트 하나를 빠뜨리면 폰트·Analytics가 조용히 깨진다. 아래 호스트의 근거: style/font=Pretendard(jsdelivr)+Google Fonts, script/connect=Firebase Analytics(gtag), connect=거래소 프록시 워커.",
+        "source": "**",
+        "headers": [
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data:; connect-src 'self' https://poe2-search-proxy.cokeys90.workers.dev https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+          },
+          { "key": "X-Frame-Options", "value": "DENY" },
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        ]
+      },
+      {
         "//": "⚠️ Firebase의 headers는 **요청 경로**로 매칭한다 — 실제로 서빙되는 파일이 아니다. 그래서 '**/index.html'만으로는 '/'나 '/en/' 요청에 안 걸린다(기본 max-age=3600이 붙어 배포 후 1시간 동안 옛 앱이 뜬다). 디렉터리 경로를 따로 적어야 한다.",
         "source": "/",
         "headers": [
