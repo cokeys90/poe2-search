@@ -60,6 +60,7 @@ import { useFloatingWindow } from "./hooks/useFloatingWindow.js";
 import { useOptionPrefs } from "./hooks/useOptionPrefs.js";
 import { useTheme } from "./hooks/useTheme.js";
 import { useLang } from "./hooks/useLang.js";
+import { pageFromPath, syncPath } from "./lib/langPath.js";
 import { useT } from "./i18n/index.js";
 
 const DEFAULT_PRICE = {
@@ -69,7 +70,10 @@ const DEFAULT_PRICE = {
   max: "",
   currency: "exalted",
 };
-const INITIAL_TAB = "tablet";
+// 주소가 탭을 정한다 — /waystone/으로 들어온 사람은 경로석을 봐야 한다.
+// (그 경로의 정적 HTML도 경로석 메타를 달고 있다. 둘이 어긋나면 안 된다)
+// 접두어가 없는 허브(/ · /en/)로 오면 서판으로 연다.
+const INITIAL_TAB = pageFromPath() ?? "tablet";
 
 // 탭 전환·초기화 시의 가격 기본값. 핀돼 있으면 핀 값(화폐 포함)이 우선,
 // 아니면 그 탭에서 마지막에 고른 화폐를 유지한다.
@@ -304,9 +308,17 @@ export default function App() {
     setCopied(true);
     setTimeout(() => setCopied(false), 1400);
   }
+  // 탭을 고르면 주소를 맞춘다 — 그 상태로 링크를 복사해 공유할 수 있어야 하고, 새로고침해도
+  // 같은 화면이 떠야 한다. 허브(/ · /en/)는 아직 안 고른 상태라 첫 화면에서는 건드리지 않는다.
+  // (언어만 바꿀 때는 useLang이 지금 페이지를 유지한 채 주소를 맞춘다)
+  const goTab = (next) => {
+    setTab(next);
+    syncPath(lang, next);
+  };
+
   // 파라미터를 t 로 두면 번역 함수 t 를 가린다 → next
   function switchTab(next) {
-    setTab(next);
+    goTab(next);
     setSel({ ...pins[next].options }); // 새 탭의 핀된 옵션 복원
     // 서판/경로석은 독립 — 상황별 가격·타락 필터는 넘기지 않고 초기화(핀·탭별 화폐만 유지)
     setPrice(basePrice(pins, lastCurrency, next));
@@ -337,7 +349,7 @@ export default function App() {
   const favs = useFavorites({ makeSnapshot: snapshot, makeName: () => defaultFavName });
 
   function applyFavorite(fav) {
-    setTab(fav.tab);
+    goTab(fav.tab);
     if (fav.tab === "tablet") setTabletType(fav.tabletType || tabletType);
     setSel({ ...fav.sel });
     setMode(fav.mode ?? "or");
@@ -386,7 +398,7 @@ export default function App() {
     // 못 가져온 옵션은 stat id뿐이라 이름을 따로 조회해 보여준다.
     // 어느 거래소를 읽을지 알려줘야 한다 — 이름표가 거래소마다 다른 언어다
     fetchStatNames(skipped, { site, lang }).then(setImportSkipped);
-    setTab(s.tab);
+    goTab(s.tab);
     if (s.tab === "tablet" && s.tabletType) setTabletType(s.tabletType);
     setSel(s.sel);
     setMode(s.mode);
