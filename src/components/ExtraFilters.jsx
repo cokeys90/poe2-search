@@ -22,7 +22,11 @@ export function CorruptFilter({ corrupt, onCorrupt, pinned, onTogglePin }) {
   return (
     <div className="flex items-center gap-2">
       <span className="w-12 shrink-0 text-label-l text-on-surface">{t("filter.corrupt")}</span>
-      <Segmented value={corrupt} onChange={onCorrupt} options={CORRUPT_OPTS} />
+      <Segmented
+        value={corrupt}
+        onChange={onCorrupt}
+        options={CORRUPT_OPTS.map((o) => ({ value: o.value, label: t(o.i18n) }))}
+      />
       {corrupt !== "any" && <PinButton pinned={pinned} onClick={onTogglePin} />}
     </div>
   );
