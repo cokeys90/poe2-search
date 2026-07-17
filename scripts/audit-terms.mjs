@@ -11,6 +11,7 @@
 //   서판/경로석    — 기본 타입명에서 유도 (로케일의 bases, 이미 거래소 API로 검증됨)
 
 import { readFileSync } from "node:fs";
+import { itemWords } from "./lib/item-words.mjs";
 
 const LANGS = ["kr", "us", "jp", "tw", "ru", "pt", "th", "fr", "de", "sp"];
 const UA = "Mozilla/5.0 (poe2-search audit; https://github.com/cokeys90/poe2-search)";
@@ -28,32 +29,6 @@ async function affixLabels(lang) {
   const top = [...count.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2);
   // 개수로 가른다 — 접두 67 / 접미 59 (poe2db의 경로석 모드 수)
   return { prefix: top[0]?.[0], suffix: top[1]?.[0], counts: top.map(([, n]) => n) };
-}
-
-// 기본 타입명에서 아이템 이름을 뽑는다.
-//   "균열 서판"/"방사능 노출 서판" → 공통 부분이 "서판"
-//   "경로석 (15등급)"              → 괄호 앞이 "경로석"
-//
-// 대소문자를 무시하고 비교한다 — 러시아어는 위치에 따라 첫 글자가 갈린다
-// ("Плитка Разлома" vs "Заражённая плитка"). 그대로 비교하면 "литка"로 잘린다.
-function itemWords(locale) {
-  const b = locale.bases;
-  const all = ["breach", "irradiated", "abyss", "temple"].map((k) => b[k]);
-  const [a, ...rest] = all;
-  const lower = rest.map((s) => s.toLowerCase());
-
-  let tablet = "";
-  for (let i = 0; i < a.length; i++)
-    for (let j = i + 1; j <= a.length; j++) {
-      const s = a.slice(i, j);
-      const t = s.toLowerCase();
-      if (lower.every((r) => r.includes(t)) && s.trim().length > tablet.trim().length) tablet = s;
-    }
-
-  // 이름을 잇는 조사·연결어가 딸려 온다 (일본어 "の石板", 독일어 "-Tafel")
-  tablet = tablet.trim().replace(/^(の|·|-|–|—|\s)+|(-|–|—|\s)+$/g, "");
-
-  return { tablet, waystone: b.waystone.split(/[(（]/)[0].trim() };
 }
 
 // 같은 낱말인가 — 복수형·격변화는 통과시킨다 (내비게이션은 복수형이 자연스럽다:
