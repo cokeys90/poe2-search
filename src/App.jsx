@@ -38,7 +38,6 @@ import OptionGroup from "./components/OptionGroup.jsx";
 import ResultBar from "./components/ResultBar.jsx";
 import PriceFilter from "./components/PriceFilter.jsx";
 import { CorruptFilter, TierGrid } from "./components/ExtraFilters.jsx";
-import Segmented from "./components/Segmented.jsx";
 import ScrollFab from "./components/ScrollFab.jsx";
 import FarmingScene from "./components/FarmingScene.jsx";
 import NavRail from "./components/NavRail.jsx";
@@ -280,11 +279,14 @@ export default function App() {
       return { ...p, [tab]: { ...p[tab], options: opts } };
     });
   }
-  function flipMode(id) {
-    setSel((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], mode: prev[id].mode === "inc" ? "exc" : "inc" },
-    }));
+  // 결과 바의 드롭존 이동: 필수(req) / 선택(opt) / 제외(exc)
+  function setSelGroup(id, group) {
+    setSel((prev) => {
+      const cur = prev[id];
+      if (!cur) return prev;
+      if (group === "exc") return { ...prev, [id]: { ...cur, mode: "exc", req: false } };
+      return { ...prev, [id]: { ...cur, mode: "inc", req: group === "req" } };
+    });
   }
   // 초기화: 핀된 것만 남기고 상황별 선택은 지움
   function clearAll() {
@@ -489,7 +491,8 @@ export default function App() {
                 onCopy={copy}
                 onClear={clearAll}
                 selList={selList}
-                onFlip={flipMode}
+                mode={mode}
+                onSetGroup={setSelGroup}
                 onRemove={removeSel}
                 onSetValue={setSelValue}
                 pinnedOptions={pinnedOptions}
@@ -528,19 +531,6 @@ export default function App() {
                     pinned={corruptPinned}
                     onTogglePin={togglePinCorrupt}
                   />
-
-                  <div className="flex items-center gap-2">
-                    <span className="w-12 shrink-0 text-label-l text-on-surface">{t("filter.mode")}</span>
-                    <Segmented
-                      value={mode}
-                      onChange={setMode}
-                      options={[
-                        { value: "or", label: t("filter.mode.or"), title: t("filter.mode.or.tip") },
-                        { value: "and", label: t("filter.mode.and"), title: t("filter.mode.and.tip") },
-                      ]}
-                    />
-                  </div>
-
                 </div>
 
                 {tab === "waystone" && (

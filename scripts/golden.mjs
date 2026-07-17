@@ -96,9 +96,19 @@ const absent = [
   { ...pick("ws.implicit", 0), mode: "inc", min: "", max: "0" }, // 부활 횟수 → "부활.*0"
   { ...pick("ws.implicit", 1), mode: "inc", min: "55", max: "" },
 ];
-// sel은 이제 {안정키: {mode, min, max}} — 옵션 본문은 buildPattern이 데이터에서 되살린다
+// 옵션별 필수/선택 혼합 — req가 전역 mode를 이긴다(필수는 각자 세트=AND, 선택은 |로 한 세트=OR)
+const mixed = [
+  { ...pick("tb.prefix", 0), mode: "inc", min: "", req: true },    // 필수
+  { ...pick("tb.suffix", 0), mode: "inc", min: "20", req: false }, // 선택
+  { ...pick("tb.suffix", 1), mode: "inc", min: "", req: false },   // 선택 → 위와 | 로 묶임
+  { ...pick("tb.prefix", 2), mode: "exc", min: "" },               // 제외
+];
+// sel은 이제 {안정키: {mode, min, max, req?}} — 옵션 본문은 buildPattern이 데이터에서 되살린다.
+// req는 있을 때만 넣는다 → req 없는 기존 케이스는 예전과 바이트 동일하다
 const asSel = (arr) =>
-  Object.fromEntries(arr.map((o) => [o.key, { mode: o.mode, min: o.min, max: o.max ?? "" }]));
+  Object.fromEntries(
+    arr.map((o) => [o.key, { mode: o.mode, min: o.min, max: o.max ?? "", ...(o.req != null ? { req: o.req } : {}) }])
+  );
 
 const CASES = [];
 for (const [name, arr, tab] of [
@@ -120,6 +130,10 @@ for (const [name, arr, tab] of [
       }
     }
   }
+}
+// 옵션별 필수/선택 혼합 — 전역 mode를 바꿔도 req가 그룹을 정해 결과가 같아야 한다
+for (const mode of ["and", "or"]) {
+  CASES.push([`mixed/${mode}`, { sel: asSel(mixed), mode, tab: "tablet", tier: "", corrupt: "any", price: { enabled: false } }]);
 }
 // 빈 선택
 CASES.push(["empty/waystone", { sel: {}, mode: "and", tab: "waystone", tier: "", corrupt: "any", price: { enabled: false } }]);

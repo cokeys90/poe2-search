@@ -8,10 +8,15 @@
 import { BY_KEY, TOKENS, tabletImplicit } from "../data/options.js";
 import { piece, pricePiece, tierPiece, meansAbsent } from "./regex.js";
 
+// 포함 옵션이 필수(AND)인가 선택(OR)인가. 옵션별 req가 우선, 없으면 전역 mode로 폴백.
+// (옛 저장분·golden/test 스크립트는 req 없이 mode만 넘기므로 이 폴백으로 동작이 보존된다)
+const req_ = (s, mode) => s.req ?? mode === "and";
+
 // sel: { [key]: {mode:"inc"|"exc", min} } — 옵션 본문은 key로 데이터에서 되살린다
 // uses: { on, min } — 서판 고정 옵션(잔여 사용 횟수). 서판 탭에서만 쓴다.
 export function buildPattern({ tab, tabletType, sel, mode, tier, corrupt, price, uses }) {
-  const inc = [];
+  const req = []; // 필수 — 각자 한 세트로 AND 결합
+  const opt = []; // 선택 — 한 세트 안에서 | 로 묶어 "하나라도" (OR)
   const exc = [];
 
   for (const [key, s] of Object.entries(sel || {})) {
@@ -29,15 +34,15 @@ export function buildPattern({ tab, tabletType, sel, mode, tier, corrupt, price,
     //    0%인 무리 규모는 줄이 아예 안 뜨므로 "무리.*0%"는 영원히 안 잡힌다 → "!무리"가 맞다.
     //    (거래소는 max:0을 그대로 이해하므로 내보내기는 손대지 않는다)
     const absent = meansAbsent(s.min, s.max, item.text, opts);
-    if (s.mode === "inc" && !absent) inc.push(p);
-    else exc.push(p);
+    if (s.mode === "inc" && !absent) {
+      // 옵션별 필수/선택이 우선. 없으면 전역 mode로 폴백(옛 저장분·스크립트 호환).
+      (req_(s, mode) ? req : opt).push(p);
+    } else exc.push(p);
   }
 
   const sets = [];
-  if (inc.length) {
-    if (mode === "or") sets.push('"' + inc.join("|") + '"');
-    else inc.forEach((p) => sets.push('"' + p + '"'));
-  }
+  req.forEach((p) => sets.push('"' + p + '"'));
+  if (opt.length) sets.push('"' + opt.join("|") + '"'); // 하나뿐이면 join이 그 조각만 낸다
   exc.forEach((p) => sets.push('"!' + p + '"'));
 
   // 서판 고정 옵션 — 종류마다 늘 붙어 있는 "지도에 … 추가 / 잔여 사용 횟수 N회".

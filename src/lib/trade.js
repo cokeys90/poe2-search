@@ -195,8 +195,9 @@ export function tradeUrl({
       not.push(f);
     } else {
       if (hasValue) f.value = v;
-      // 우리 앱의 OR = 거래소의 "숫자(count)" 그룹 (최소 1개 충족)
-      (mode === "or" ? count : and).push(f);
+      // 필수 → 거래소 "능력치 필터"(and) / 선택 → "숫자"(count, 최소 1개 충족).
+      // 옵션별 req가 우선, 없으면 전역 mode로 폴백(옛 저장분 호환).
+      ((s.req ?? mode === "and") ? and : count).push(f);
     }
   }
 
@@ -360,7 +361,9 @@ export function queryToState(query) {
   //    (= 무리 규모가 없는 것)으로 걸어 온 조건이 값 없이 옵션만 켜진 채로 들어왔다.
   //    그러면 검색어가 "무리"가 돼 무리 규모가 **있는** 것을 전부 잡는다 — 의미가 뒤집힌다.
   const str = (v) => (v == null ? "" : String(v));
-  const take = (id, mode, min, max) => {
+  // req: 필수(and 그룹)면 true, 선택(count 그룹)이면 false. 제외·엔드게임필터는 무관해 undefined.
+  const take = (id, mode, min, max, req) => {
+    const withReq = (o) => (req == null ? o : { ...o, req });
     // 서판 고정 옵션 — 종류를 알려주는 동시에 잔여 사용 횟수 조건이기도 하다
     const implicitType = BY_IMPLICIT.get(id);
     if (implicitType) {
@@ -389,10 +392,10 @@ export function queryToState(query) {
     if (hit.negated) {
       const a = min == null ? null : -min;
       const b = max == null ? null : -max;
-      sel[hit.key] = { mode, min: str(b), max: str(a) }; // 부호를 뒤집으면 최소·최대도 뒤바뀐다
+      sel[hit.key] = withReq({ mode, min: str(b), max: str(a) }); // 부호를 뒤집으면 최소·최대도 뒤바뀐다
       return;
     }
-    sel[hit.key] = { mode, min: str(min), max: str(max) };
+    sel[hit.key] = withReq({ mode, min: str(min), max: str(max) });
   };
 
   for (const g of query?.stats || []) {
@@ -401,8 +404,10 @@ export function queryToState(query) {
       if (f.disabled) continue;
       if (g.type === "not") take(f.id, "exc", null, null);
       else {
-        if (g.type === "count") hasCount = true;
-        take(f.id, "inc", f.value?.min, f.value?.max);
+        // 능력치 필터(and) → 필수 / 숫자(count) → 선택. 옵션별 req로 왕복 보존.
+        const isCount = g.type === "count";
+        if (isCount) hasCount = true;
+        take(f.id, "inc", f.value?.min, f.value?.max, !isCount);
       }
     }
   }
