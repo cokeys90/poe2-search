@@ -17,8 +17,15 @@
         ]
       },
       {
-        "//": "언어별 경로 (/en/ /ja/ /zh-tw/ …). *는 /를 넘지 않으므로 한 단계만 매칭된다",
+        "//": "한 단계 경로 — 언어별(/en/ /ja/ /zh-tw/ …)과 한국어 탭별(/waystone/ /tablet/). *는 /를 넘지 않으므로 한 단계만 매칭된다",
         "source": "/*/",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
+        "//": "언어+탭 (/en/waystone/ /ja/tablet/ …). 위의 '/*/'는 /를 안 넘으므로 여기까지 못 온다 — 빠뜨리면 이 30개 중 20개가 1시간 동안 옛 앱을 띄운다",
+        "source": "/*/*/",
         "headers": [
           { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
         ]
