@@ -1,5 +1,6 @@
 import Modal from "./Modal.jsx";
 import { IconClose, IconInfo } from "./icons.jsx";
+import { t } from "../i18n/index.js";
 
 // 출처·라이선스 안내 다이얼로그.
 const REPO_URL = "https://github.com/cokeys90/poe2-search";
