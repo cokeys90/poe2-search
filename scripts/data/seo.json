@@ -1,21 +1,48 @@
 {
   "_why": [
-    "언어별 정적 HTML(dist/{path}/index.html)의 메타. scripts/build-html.mjs가 쓴다.",
+    "언어별·페이지별 정적 HTML(dist/{path}/{page}/index.html)의 메타. scripts/build-html.mjs가 쓴다.",
     "크롤러는 JS를 돌리기 전의 <head>를 본다 → 앱 안에서 t()로 바꿔서는 검색에 안 잡힌다.",
     "path가 URL 접두어다. 한국어는 루트(\"\")이자 x-default.",
-    "htmlLang/ogLocale은 BCP-47과 OG 규격이라 우리 언어코드(kr·us·sp…)와 다르다."
+    "htmlLang/ogLocale은 BCP-47과 OG 규격이라 우리 언어코드(kr·us·sp…)와 다르다.",
+    "",
+    "pages = 탭별 랜딩(/waystone/ · /tablet/). 루트는 둘을 아우르는 허브다.",
+    "왜 나누는가 — '경로석 검색기'와 '서판 검색'은 구글에게 다른 질문이다. URL 하나로 둘 다",
+    "받으면 어느 쪽으로도 정확히 대응하지 못한다. 페이지마다 title·본문이 실제로 달라야 뜻이 있다.",
+    "",
+    "⚠️ 게임 용어는 여기 적지 말 것. {waystone} {tablet} {types}로 두면 빌드가 로케일에서",
+    "   채운다(경로석·서판 이름은 bases에서 유도 — 거래소 API로 검증된 값, 종류명은 tablets).",
+    "   여기 손으로 박으면 게임 표기가 바뀔 때 조용히 어긋난다. CLAUDE.md §6-0.",
+    "   감싸는 문장은 화면 문구라 우리가 쓴다 — 게임 용어가 아니다."
   ],
   "kr": {
     "path": "",
     "htmlLang": "ko",
     "ogLocale": "ko_KR",
     "siteName": "디바인 추룹",
-    "title": "PoE2 경로석·서판 검색기 — 정규식 자동 생성 | 디바인 추룹",
+    "title": "PoE2 경로석·서판 검색기 — 정규식 자동 생성",
     "desc": "Path of Exile 2 경로석(웨이스톤)·서판(태블릿) 옵션을 골라 인게임 검색용 정규식을 자동 생성합니다. 아이템 희귀도·무리 규모·경로석 등급·가격·타락 필터를 지원하고, 조합을 즐겨찾기로 저장하거나 공식 거래소에서 바로 열 수 있습니다.",
     "ogTitle": "PoE2 경로석·서판 검색기 — 정규식 자동 생성",
     "ogDesc": "경로석·서판 옵션을 고르면 인게임 검색용 정규식이 바로 만들어집니다. 즐겨찾기 저장, 공식 거래소 연동 지원.",
     "ldName": "PoE2 경로석·서판 검색기",
-    "ldDesc": "Path of Exile 2 경로석·서판 옵션 검색용 정규식 생성기"
+    "ldDesc": "Path of Exile 2 경로석·서판 옵션 검색용 정규식 생성기",
+    "pages": {
+      "waystone": {
+        "title": "POE2 {waystone} 검색기 — 정규식 생성 도구",
+        "desc": "Path of Exile 2 {waystone} 옵션을 골라 인게임 검색용 정규식을 만듭니다. 아이템 희귀도·무리 규모·몬스터 희귀도·부활 횟수 같은 상단 옵션과 접두어·접미어를 모두 지원하고, 등급·가격·타락으로 걸러 공식 거래소에서 바로 열 수 있습니다.",
+        "ogTitle": "POE2 {waystone} 검색기 — 정규식 생성 도구",
+        "ogDesc": "{waystone} 옵션을 고르면 인게임 검색용 정규식이 바로 만들어집니다.",
+        "ldName": "POE2 {waystone} 검색기",
+        "ldDesc": "Path of Exile 2 {waystone} 옵션 검색용 정규식 생성기"
+      },
+      "tablet": {
+        "title": "POE2 {tablet} 검색 — 정규식 생성 도구",
+        "desc": "Path of Exile 2 {tablet} 옵션을 골라 인게임 검색용 정규식을 만듭니다. {types} 8종의 고유 옵션과 공통 접두어·접미어, 잔여 사용 횟수를 지원하고, 고른 조합을 공식 거래소로 바로 보낼 수 있습니다.",
+        "ogTitle": "POE2 {tablet} 검색 — 정규식 생성 도구",
+        "ogDesc": "{tablet} 옵션을 고르면 인게임 검색용 정규식이 바로 만들어집니다.",
+        "ldName": "POE2 {tablet} 검색",
+        "ldDesc": "Path of Exile 2 {tablet} 옵션 검색용 정규식 생성기"
+      }
+    }
   },
   "us": {
     "path": "en",
@@ -27,7 +54,25 @@
     "ogTitle": "PoE2 Waystone & Tablet Regex Search",
     "ogDesc": "Pick the modifiers, get the in-game search regex. Favourites and official trade site integration.",
     "ldName": "PoE2 Waystone & Tablet Search",
-    "ldDesc": "Regex generator for searching Path of Exile 2 Waystone and Tablet modifiers"
+    "ldDesc": "Regex generator for searching Path of Exile 2 Waystone and Tablet modifiers",
+    "pages": {
+      "waystone": {
+        "title": "PoE2 {waystone} Regex Search — build in-game search strings",
+        "desc": "Pick Path of Exile 2 {waystone} modifiers and get the regex to paste into the in-game search. Covers item rarity, pack size, monster rarity and revives as well as the full prefix and suffix pool, with filters for tier, price and corruption.",
+        "ogTitle": "PoE2 {waystone} Regex Search",
+        "ogDesc": "Pick the {waystone} modifiers, get the in-game search regex.",
+        "ldName": "PoE2 {waystone} Search",
+        "ldDesc": "Regex generator for searching Path of Exile 2 {waystone} modifiers"
+      },
+      "tablet": {
+        "title": "PoE2 {tablet} Regex Search — build in-game search strings",
+        "desc": "Pick Path of Exile 2 {tablet} modifiers and get the regex to paste into the in-game search. Covers all eight types ({types}) with their unique suffixes, the shared prefix and suffix pool, and remaining uses. Open any combo straight in the official trade site.",
+        "ogTitle": "PoE2 {tablet} Regex Search",
+        "ogDesc": "Pick the {tablet} modifiers, get the in-game search regex.",
+        "ldName": "PoE2 {tablet} Search",
+        "ldDesc": "Regex generator for searching Path of Exile 2 {tablet} modifiers"
+      }
+    }
   },
   "jp": {
     "path": "ja",
@@ -39,7 +84,25 @@
     "ogTitle": "PoE2 ウェイストーン・石板の正規表現検索",
     "ogDesc": "オプションを選ぶだけでゲーム内検索の正規表現ができます。お気に入り保存・公式取引所連携。",
     "ldName": "PoE2 ウェイストーン・石板検索",
-    "ldDesc": "Path of Exile 2 のウェイストーン・石板オプションを検索する正規表現ジェネレーター"
+    "ldDesc": "Path of Exile 2 のウェイストーン・石板オプションを検索する正規表現ジェネレーター",
+    "pages": {
+      "waystone": {
+        "title": "PoE2 {waystone}検索 — 正規表現ジェネレーター",
+        "desc": "Path of Exile 2 の{waystone}のオプションを選ぶと、ゲーム内検索に貼り付ける正規表現が作れます。アイテムレアリティ・パックサイズ・モンスターレアリティ・復活回数などの上部オプションと、接頭辞・接尾辞のすべてに対応。ティア・価格・コラプトで絞り込めます。",
+        "ogTitle": "PoE2 {waystone}検索 — 正規表現ジェネレーター",
+        "ogDesc": "{waystone}のオプションを選ぶだけでゲーム内検索の正規表現ができます。",
+        "ldName": "PoE2 {waystone}検索",
+        "ldDesc": "Path of Exile 2 の{waystone}オプションを検索する正規表現ジェネレーター"
+      },
+      "tablet": {
+        "title": "PoE2 {tablet}検索 — 正規表現ジェネレーター",
+        "desc": "Path of Exile 2 の{tablet}のオプションを選ぶと、ゲーム内検索に貼り付ける正規表現が作れます。{types}の8種類それぞれの固有オプションと、共通の接頭辞・接尾辞、残り使用回数に対応。選んだ組み合わせは公式取引所でそのまま開けます。",
+        "ogTitle": "PoE2 {tablet}検索 — 正規表現ジェネレーター",
+        "ogDesc": "{tablet}のオプションを選ぶだけでゲーム内検索の正規表現ができます。",
+        "ldName": "PoE2 {tablet}検索",
+        "ldDesc": "Path of Exile 2 の{tablet}オプションを検索する正規表現ジェネレーター"
+      }
+    }
   },
   "tw": {
     "path": "zh-tw",
@@ -51,7 +114,25 @@
     "ogTitle": "PoE2 換界石・碑牌正規表達式搜尋",
     "ogDesc": "選好詞綴，立刻得到遊戲內搜尋的正規表達式。支援收藏與官方交易所。",
     "ldName": "PoE2 換界石・碑牌搜尋",
-    "ldDesc": "產生 Path of Exile 2 換界石與碑牌詞綴搜尋用的正規表達式"
+    "ldDesc": "產生 Path of Exile 2 換界石與碑牌詞綴搜尋用的正規表達式",
+    "pages": {
+      "waystone": {
+        "title": "PoE2 {waystone}搜尋 — 正規表達式產生器",
+        "desc": "選好 Path of Exile 2 {waystone}的詞綴，就能得到貼進遊戲內搜尋欄的正規表達式。支援物品稀有度、怪物群大小、怪物稀有度、復活次數等上方選項，以及所有前綴與後綴，並可用階級、價格與汙染篩選。",
+        "ogTitle": "PoE2 {waystone}搜尋 — 正規表達式產生器",
+        "ogDesc": "選好{waystone}詞綴，立刻得到遊戲內搜尋的正規表達式。",
+        "ldName": "PoE2 {waystone}搜尋",
+        "ldDesc": "產生 Path of Exile 2 {waystone}詞綴搜尋用的正規表達式"
+      },
+      "tablet": {
+        "title": "PoE2 {tablet}搜尋 — 正規表達式產生器",
+        "desc": "選好 Path of Exile 2 {tablet}的詞綴，就能得到貼進遊戲內搜尋欄的正規表達式。支援{types}八種各自的專屬詞綴、共通前綴與後綴，以及剩餘使用次數。選好的組合可直接在官方交易所開啟。",
+        "ogTitle": "PoE2 {tablet}搜尋 — 正規表達式產生器",
+        "ogDesc": "選好{tablet}詞綴，立刻得到遊戲內搜尋的正規表達式。",
+        "ldName": "PoE2 {tablet}搜尋",
+        "ldDesc": "產生 Path of Exile 2 {tablet}詞綴搜尋用的正規表達式"
+      }
+    }
   },
   "ru": {
     "path": "ru",
@@ -63,7 +144,25 @@
     "ogTitle": "PoE2 — поиск путевых камней и плиток",
     "ogDesc": "Выбирайте свойства — получайте строку поиска для игры. Избранное и официальная торговая площадка.",
     "ldName": "PoE2 Поиск путевых камней и плиток",
-    "ldDesc": "Генератор регулярных выражений для поиска свойств путевых камней и плиток Path of Exile 2"
+    "ldDesc": "Генератор регулярных выражений для поиска свойств путевых камней и плиток Path of Exile 2",
+    "pages": {
+      "waystone": {
+        "title": "PoE2 — поиск: {waystone}. Генератор регулярных выражений",
+        "desc": "Выберите свойства предмета «{waystone}» в Path of Exile 2 и получите регулярное выражение для поиска в игре. Поддерживаются редкость предметов, размер групп, редкость монстров и число воскрешений, а также все префиксы и суффиксы. Фильтры по уровню, цене и осквернению.",
+        "ogTitle": "PoE2 — поиск: {waystone}",
+        "ogDesc": "Выбирайте свойства — получайте строку поиска для игры.",
+        "ldName": "PoE2 Поиск: {waystone}",
+        "ldDesc": "Генератор регулярных выражений для поиска свойств предмета «{waystone}» в Path of Exile 2"
+      },
+      "tablet": {
+        "title": "PoE2 — поиск: {tablet}. Генератор регулярных выражений",
+        "desc": "Выберите свойства предмета «{tablet}» в Path of Exile 2 и получите регулярное выражение для поиска в игре. Поддерживаются все восемь видов ({types}) с их уникальными суффиксами, общие префиксы и суффиксы, а также остаток использований. Наборы открываются на официальной торговой площадке.",
+        "ogTitle": "PoE2 — поиск: {tablet}",
+        "ogDesc": "Выбирайте свойства — получайте строку поиска для игры.",
+        "ldName": "PoE2 Поиск: {tablet}",
+        "ldDesc": "Генератор регулярных выражений для поиска свойств предмета «{tablet}» в Path of Exile 2"
+      }
+    }
   },
   "pt": {
     "path": "pt-br",
@@ -75,7 +174,25 @@
     "ogTitle": "PoE2 — busca de Pedras-guia e Tábuas por regex",
     "ogDesc": "Escolha as propriedades e receba a regex de busca do jogo. Favoritos e mercado oficial.",
     "ldName": "PoE2 Busca de Pedras-guia e Tábuas",
-    "ldDesc": "Gerador de regex para buscar propriedades de Pedras-guia e Tábuas em Path of Exile 2"
+    "ldDesc": "Gerador de regex para buscar propriedades de Pedras-guia e Tábuas em Path of Exile 2",
+    "pages": {
+      "waystone": {
+        "title": "PoE2 — busca de {waystone} por regex | gerador de regex",
+        "desc": "Escolha as propriedades de {waystone} em Path of Exile 2 e receba a regex para colar na busca do jogo. Suporta raridade de itens, tamanho de grupo, raridade de monstros e ressurreições, além de todos os prefixos e sufixos. Filtros de nível, preço e corrupção.",
+        "ogTitle": "PoE2 — busca de {waystone} por regex",
+        "ogDesc": "Escolha as propriedades e receba a regex de busca do jogo.",
+        "ldName": "PoE2 Busca de {waystone}",
+        "ldDesc": "Gerador de regex para buscar propriedades de {waystone} em Path of Exile 2"
+      },
+      "tablet": {
+        "title": "PoE2 — busca de {tablet} por regex | gerador de regex",
+        "desc": "Escolha as propriedades de {tablet} em Path of Exile 2 e receba a regex para colar na busca do jogo. Suporta os oito tipos ({types}) com seus sufixos exclusivos, os prefixos e sufixos comuns e os usos restantes. Abra as combinações direto no mercado oficial.",
+        "ogTitle": "PoE2 — busca de {tablet} por regex",
+        "ogDesc": "Escolha as propriedades e receba a regex de busca do jogo.",
+        "ldName": "PoE2 Busca de {tablet}",
+        "ldDesc": "Gerador de regex para buscar propriedades de {tablet} em Path of Exile 2"
+      }
+    }
   },
   "th": {
     "path": "th",
@@ -87,7 +204,25 @@
     "ogTitle": "PoE2 ค้นหาศิลานำทาง・แผ่นหิน ด้วย regex",
     "ogDesc": "เลือกม็อด แล้วได้ regex สำหรับค้นหาในเกมทันที รองรับรายการโปรดและตลาดทางการ",
     "ldName": "PoE2 ค้นหาศิลานำทางและแผ่นหิน",
-    "ldDesc": "ตัวสร้าง regex สำหรับค้นหาม็อดของศิลานำทางและแผ่นหินใน Path of Exile 2"
+    "ldDesc": "ตัวสร้าง regex สำหรับค้นหาม็อดของศิลานำทางและแผ่นหินใน Path of Exile 2",
+    "pages": {
+      "waystone": {
+        "title": "PoE2 ค้นหา{waystone} ด้วย regex — ตัวสร้างข้อความค้นหาในเกม",
+        "desc": "เลือกม็อดของ{waystone}ใน Path of Exile 2 แล้วรับ regex สำหรับวางในช่องค้นหาในเกม รองรับความหายากของไอเทม ขนาดกลุ่มมอนสเตอร์ ความหายากของมอนสเตอร์ และจำนวนการเกิดใหม่ รวมถึงพรีฟิกซ์และซัฟฟิกซ์ทั้งหมด กรองด้วยระดับ ราคา และมลทินได้",
+        "ogTitle": "PoE2 ค้นหา{waystone} ด้วย regex",
+        "ogDesc": "เลือกม็อดของ{waystone} แล้วได้ regex สำหรับค้นหาในเกมทันที",
+        "ldName": "PoE2 ค้นหา{waystone}",
+        "ldDesc": "ตัวสร้าง regex สำหรับค้นหาม็อดของ{waystone}ใน Path of Exile 2"
+      },
+      "tablet": {
+        "title": "PoE2 ค้นหา{tablet} ด้วย regex — ตัวสร้างข้อความค้นหาในเกม",
+        "desc": "เลือกม็อดของ{tablet}ใน Path of Exile 2 แล้วรับ regex สำหรับวางในช่องค้นหาในเกม รองรับทั้ง 8 ชนิด ({types}) พร้อมซัฟฟิกซ์เฉพาะของแต่ละชนิด พรีฟิกซ์และซัฟฟิกซ์ร่วม และจำนวนครั้งที่เหลือ เปิดชุดที่เลือกบนตลาดทางการได้ทันที",
+        "ogTitle": "PoE2 ค้นหา{tablet} ด้วย regex",
+        "ogDesc": "เลือกม็อดของ{tablet} แล้วได้ regex สำหรับค้นหาในเกมทันที",
+        "ldName": "PoE2 ค้นหา{tablet}",
+        "ldDesc": "ตัวสร้าง regex สำหรับค้นหาม็อดของ{tablet}ใน Path of Exile 2"
+      }
+    }
   },
   "fr": {
     "path": "fr",
@@ -99,7 +234,25 @@
     "ogTitle": "PoE2 — recherche de Pierres et Tablettes par regex",
     "ogDesc": "Choisissez les propriétés, obtenez la recherche en jeu. Favoris et marché officiel.",
     "ldName": "PoE2 Recherche de Pierres et Tablettes",
-    "ldDesc": "Générateur de regex pour rechercher les propriétés des Pierres de téléportation et Tablettes de Path of Exile 2"
+    "ldDesc": "Générateur de regex pour rechercher les propriétés des Pierres de téléportation et Tablettes de Path of Exile 2",
+    "pages": {
+      "waystone": {
+        "title": "PoE2 — recherche de {waystone} par regex | générateur de regex",
+        "desc": "Choisissez les propriétés des {waystone} de Path of Exile 2 et obtenez la regex à coller dans la recherche en jeu. Prend en charge la rareté des objets, la taille des groupes, la rareté des monstres et les résurrections, ainsi que tous les préfixes et suffixes. Filtres de palier, prix et corruption.",
+        "ogTitle": "PoE2 — recherche de {waystone} par regex",
+        "ogDesc": "Choisissez les propriétés, obtenez la recherche en jeu.",
+        "ldName": "PoE2 Recherche de {waystone}",
+        "ldDesc": "Générateur de regex pour rechercher les propriétés des {waystone} de Path of Exile 2"
+      },
+      "tablet": {
+        "title": "PoE2 — recherche de {tablet} par regex | générateur de regex",
+        "desc": "Choisissez les propriétés des {tablet} de Path of Exile 2 et obtenez la regex à coller dans la recherche en jeu. Prend en charge les huit types ({types}) avec leurs suffixes exclusifs, les préfixes et suffixes communs et les utilisations restantes. Ouvrez vos combinaisons sur le marché officiel.",
+        "ogTitle": "PoE2 — recherche de {tablet} par regex",
+        "ogDesc": "Choisissez les propriétés, obtenez la recherche en jeu.",
+        "ldName": "PoE2 Recherche de {tablet}",
+        "ldDesc": "Générateur de regex pour rechercher les propriétés des {tablet} de Path of Exile 2"
+      }
+    }
   },
   "de": {
     "path": "de",
@@ -111,7 +264,25 @@
     "ogTitle": "PoE2 Wegstein- & Tafel-Suche per Regex",
     "ogDesc": "Eigenschaften wählen, Suchtext fürs Spiel erhalten. Favoriten und offizieller Handel.",
     "ldName": "PoE2 Wegstein- & Tafel-Suche",
-    "ldDesc": "Regex-Generator für die Suche nach Wegstein- und Tafel-Eigenschaften in Path of Exile 2"
+    "ldDesc": "Regex-Generator für die Suche nach Wegstein- und Tafel-Eigenschaften in Path of Exile 2",
+    "pages": {
+      "waystone": {
+        "title": "PoE2 {waystone}-Suche per Regex — Regex-Generator",
+        "desc": "Wähle die Eigenschaften von {waystone} in Path of Exile 2 und erhalte den Regex-Suchtext fürs Spiel. Unterstützt Gegenstandsseltenheit, Gruppengröße, Monsterseltenheit und Wiederbelebungen sowie alle Präfixe und Suffixe. Filter für Level, Preis und Verderbtheit.",
+        "ogTitle": "PoE2 {waystone}-Suche per Regex",
+        "ogDesc": "Eigenschaften wählen, Suchtext fürs Spiel erhalten.",
+        "ldName": "PoE2 {waystone}-Suche",
+        "ldDesc": "Regex-Generator für die Suche nach {waystone}-Eigenschaften in Path of Exile 2"
+      },
+      "tablet": {
+        "title": "PoE2 {tablet}-Suche per Regex — Regex-Generator",
+        "desc": "Wähle die Eigenschaften von {tablet} in Path of Exile 2 und erhalte den Regex-Suchtext fürs Spiel. Unterstützt alle acht Arten ({types}) mit ihren eigenen Suffixen, die gemeinsamen Präfixe und Suffixe sowie die verbleibenden Nutzungen. Kombinationen direkt im offiziellen Handel öffnen.",
+        "ogTitle": "PoE2 {tablet}-Suche per Regex",
+        "ogDesc": "Eigenschaften wählen, Suchtext fürs Spiel erhalten.",
+        "ldName": "PoE2 {tablet}-Suche",
+        "ldDesc": "Regex-Generator für die Suche nach {tablet}-Eigenschaften in Path of Exile 2"
+      }
+    }
   },
   "sp": {
     "path": "es",
@@ -123,6 +294,24 @@
     "ogTitle": "PoE2 — búsqueda de Piedras guía y Tablillas con regex",
     "ogDesc": "Elige las propiedades y obtén la regex de búsqueda del juego. Favoritos y mercado oficial.",
     "ldName": "PoE2 Búsqueda de Piedras guía y Tablillas",
-    "ldDesc": "Generador de regex para buscar propiedades de Piedras guía y Tablillas en Path of Exile 2"
+    "ldDesc": "Generador de regex para buscar propiedades de Piedras guía y Tablillas en Path of Exile 2",
+    "pages": {
+      "waystone": {
+        "title": "PoE2 — búsqueda de {waystone} con regex | generador de regex",
+        "desc": "Elige las propiedades de {waystone} en Path of Exile 2 y obtén la regex para pegar en la búsqueda del juego. Admite rareza de objetos, tamaño de grupo, rareza de monstruos y resurrecciones, además de todos los prefijos y sufijos. Filtros de grado, precio y corrupción.",
+        "ogTitle": "PoE2 — búsqueda de {waystone} con regex",
+        "ogDesc": "Elige las propiedades y obtén la regex de búsqueda del juego.",
+        "ldName": "PoE2 Búsqueda de {waystone}",
+        "ldDesc": "Generador de regex para buscar propiedades de {waystone} en Path of Exile 2"
+      },
+      "tablet": {
+        "title": "PoE2 — búsqueda de {tablet} con regex | generador de regex",
+        "desc": "Elige las propiedades de {tablet} en Path of Exile 2 y obtén la regex para pegar en la búsqueda del juego. Admite los ocho tipos ({types}) con sus sufijos exclusivos, los prefijos y sufijos comunes y los usos restantes. Abre las combinaciones en el mercado oficial.",
+        "ogTitle": "PoE2 — búsqueda de {tablet} con regex",
+        "ogDesc": "Elige las propiedades y obtén la regex de búsqueda del juego.",
+        "ldName": "PoE2 Búsqueda de {tablet}",
+        "ldDesc": "Generador de regex para buscar propiedades de {tablet} en Path of Exile 2"
+      }
+    }
   }
 }
